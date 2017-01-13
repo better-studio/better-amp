@@ -195,6 +195,8 @@ class Better_AMP {
 		add_filter( 'init', array( $this, 'add_rewrite' ) );
 		add_filter( 'init', array( $this, 'append_index_rewrite_rule' ) );
 
+		add_filter( 'template_redirect', array( $this, 'plugins_compatibility' ) );
+
 		// Initialize AMP components
 		add_filter( 'init', array( $this, 'include_components' ) );
 
@@ -929,6 +931,7 @@ class Better_AMP {
 
 	/**
 	 * Fix to chnage first menu name!
+	 * @since 1.0.0
 	 */
 	public function fix_admin_sub_menu() {
 
@@ -943,6 +946,7 @@ class Better_AMP {
 	 *
 	 * @param $q
 	 *
+	 * @since 1.0.0
 	 * @return mixed
 	 */
 	public function fix_search_page_queries( $q ) {
@@ -953,5 +957,51 @@ class Better_AMP {
 		}
 
 		return $q;
+	}
+
+
+	/**
+	 * Change most poplular cache plugins in amp version to compaibile with it
+	 *
+	 * @since 1.0.0
+	 */
+	public function plugins_compatibility() {
+
+		/**
+		 * W3 total cache
+		 */
+		add_filter( 'w3tc_minify_js_enable', array( $this, '_return_false_in_amp' ) );
+		add_filter( 'w3tc_minify_css_enable', array( $this, '_return_false_in_amp' ) );
+
+
+		/**
+		 * WP Rocket
+		 */
+		if ( is_better_amp() ) {
+
+			if ( ! defined( 'DONOTMINIFYCSS' ) ) {
+				define( 'DONOTMINIFYCSS', TRUE );
+			}
+
+			if ( ! defined( 'DONOTMINIFYJS' ) ) {
+				define( 'DONOTMINIFYJS', TRUE );
+			}
+		}
+	}
+
+	/**
+	 * Just return false in amp version
+	 *
+	 * @param bool $current
+	 *
+	 * @return bool
+	 */
+	public function _return_false_in_amp( $current ) {
+
+		if ( is_better_amp() ) {
+			return FALSE;
+		}
+
+		return $current;
 	}
 }
