@@ -51,6 +51,9 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 
 == Changelog ==
 
+= 1.0.1 =
+* Fix: Menu item is not showing. 
+
 = 1.0 =
 * Public release
 
