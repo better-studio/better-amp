@@ -676,7 +676,7 @@ function better_amp_customize_register( $wp_customizer ) {
 
 }
 
-add_action( 'admin_menu', 'better_amp_add_customizer_admin_link', 99 );
+add_action( 'admin_menu', 'better_amp_add_customizer_admin_link', 999 );
 
 function better_amp_add_customizer_admin_link() {
 
@@ -690,7 +690,7 @@ function better_amp_add_customizer_admin_link() {
 		'better-amp-translation',
 		_x( 'Customize AMP Theme', 'better-amp' ),
 		_x( 'Customize AMP', 'better-amp' ),
-		'edit_themes',
+		'manage_options',
 		$customize_url
 	);
 

@@ -13,15 +13,16 @@ if ( ! function_exists( 'better_amp_panels_setup' ) ) {
 	function better_amp_panels_setup() {
 
 		$args = array(
-			'opt_name'        => 'better-amp-translation',
-			'display_name'    => __( 'Better AMP', 'better-amp' ),
-			'display_version' => Better_AMP::VERSION,
-			'menu_type'       => 'menu',
-			'allow_sub_menu'  => FALSE,
-
+			'opt_name'           => 'better-amp-translation',
+			'display_name'       => __( 'Better AMP', 'better-amp' ),
+			'display_version'    => Better_AMP::VERSION,
+			'menu_type'          => 'menu',
+			'allow_sub_menu'     => TRUE,
+			//
 			'menu_title'         => '<strong>Better</strong> AMP',
 			'page_title'         => __( 'Better AMP', 'better-amp' ),
 			'global_variable'    => '',
+			'admin_bar'          => FALSE,
 			'dev_mode'           => FALSE,
 			'update_notice'      => FALSE,
 			'customizer'         => FALSE,
