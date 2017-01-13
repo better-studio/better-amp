@@ -1,21 +1,25 @@
 === Better AMP ===
 Contributors: betterstudio
 Donate link: http://betterstudio.com/
-Tags: amp,accelerated mobile pages
+Tags: amp,accelerated mobile pages, mobile theme, google amp
 Requires at least: 3.0
 Tested up to: 4.7
 Stable tag: 4.7
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Better AMP solution for WordPress. It's Full WP AMP soloution.
+Complete AMP solution for WordPress. It supports everything in WP.
 
 == Description ==
 
-This plugin create most complete AMP ( Google Accelerated Mobile Pages) support to WordPress.
+This plugin is most complete AMP ( Google Accelerated Mobile Pages) support for WordPress with supporting everything and created in speed mater and will load faster than all other AMP plugins.
+
+[Online Demo](http://demo.betterstudio.com/publisher/amp-demo/) | [Support](https://github.com/better-studio/better-amp/)
 
 All pages, posts, categories, tags, author page, search... are supported in BetterAMP and there is a lot of more options that you can use them in customizer with live preview.
 
+
+Also BetterAMP supports RTL languages completely.
 
 == Installation ==
 
@@ -39,12 +43,16 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 
 
 == Screenshots ==
---
+1. Homepage + Slider + Off-Canvas Navigation + Contact Info + Social Links
+2. Post (Supports all post types) + Social Share + Share Count + Comments
+3. Category Archive + Tag Archive + 2 type of listings
+4. Search Result + Author Archive
+5. Page (Contact page) + 404 page
 
 == Changelog ==
 
 = 1.0 =
-* Public relese
+* Public release
 
 == Upgrade Notice ==
 
