@@ -12,6 +12,4 @@ better_amp_get_header();
 	</header>
 <?php
 
-better_amp_set_global( 'footer-custom-class', 'sticky-footer' );
-
 better_amp_get_footer();
