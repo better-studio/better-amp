@@ -1122,10 +1122,10 @@ body.sticky-nav{
     font-size: 16px;
     padding: 0 0 18px;
     border-bottom: 1px solid #efefef;
-    margin: 20px 0 6px;
+    margin: 0 0 6px;
 }
 body.search-results .search-form.empty {
-    padding: 25px 0;
+    padding: 35px 0;
     border-bottom: none;
 }
 .search-form label {
@@ -1173,7 +1173,8 @@ body.search-results .search-form.empty {
  * -> Post single page
  */
 .single-post{
-    margin: 18px 0 15px;
+    margin: 0 0 15px;
+    padding-top: 18px;
 }
 .single-post .post-thumbnail{
     margin-bottom: 15px;
