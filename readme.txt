@@ -51,6 +51,9 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 
 == Changelog ==
 
+= 1.0.3 =
+* Fix: The undefined index warning in admin.
+
 = 1.0.2 =
 * Fix: Search page issue
 * Improvement: Style improved.
@@ -65,4 +68,3 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 
 = 1.0 =
 Nothing
-
