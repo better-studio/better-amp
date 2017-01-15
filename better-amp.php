@@ -936,7 +936,12 @@ class Better_AMP {
 	public function fix_admin_sub_menu() {
 
 		global $submenu;
-		$submenu['better-amp-translation'][0][0] = __( 'Translation', 'better-amp' );
+
+		if ( isset( $submenu['better-amp-translation'][0] ) ) {
+			$submenu['better-amp-translation'][0][0] = __( 'Translation', 'better-amp' );
+		} elseif ( isset( $submenu['better-amp-translation'][1] ) ) {
+			$submenu['better-amp-translation'][1][0] = __( 'Translation', 'better-amp' );
+		}
 
 	}
 
