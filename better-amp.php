@@ -355,7 +355,8 @@ class Better_AMP {
 
 		global $better_amp_isolate_pre_get_posts;
 
-		if ( is_better_amp() && ! is_admin() && $wp_query->is_main_query() ) {
+
+		if ( is_better_amp( $wp_query ) && ! is_admin() && $wp_query->is_main_query() ) {
 			$better_amp_isolate_pre_get_posts = $wp_query->query_vars;
 		}
 
@@ -375,7 +376,7 @@ class Better_AMP {
 
 		global $better_amp_isolate_pre_get_posts;
 
-		if ( is_better_amp() && ! is_admin() && $wp_query->is_main_query() ) {
+		if ( is_better_amp( $wp_query ) && ! is_admin() && $wp_query->is_main_query() ) {
 			if ( $better_amp_isolate_pre_get_posts ) {
 				$wp_query->query_vars = $better_amp_isolate_pre_get_posts;
 				unset( $better_amp_isolate_pre_get_posts );

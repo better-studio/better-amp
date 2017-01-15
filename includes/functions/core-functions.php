@@ -7,15 +7,35 @@
  * @copyright  Copyright (c) 2016, BetterStudio
  */
 
-/**
- * Detect is the query for an AMP page?
- *
- * @since 1.0.0
- *
- * @return bool true when amp page requested
- */
-function is_better_amp() {
-	return ! is_null( get_query_var( Better_AMP::STARTPOINT, NULL ) );
+if ( ! function_exists( 'is_better_amp' ) ) {
+	/**
+	 * Detect is the query for an AMP page?
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param null $wp_query
+	 * @param bool $default
+	 *
+	 * @return bool true when amp page requested
+	 */
+	function is_better_amp( $wp_query = NULL, $default = FALSE ) {
+
+		// $wp_query will passed in pre_get_posts or other filters
+		if ( ! is_null( $wp_query ) ) {
+			return $wp_query->get( Better_AMP::STARTPOINT, $default );
+		} else {
+
+			global $wp_query;
+
+			// check the $wp_query
+			if ( is_null( $wp_query ) ) {
+				return FALSE;
+			} else {
+				return $wp_query->get( Better_AMP::STARTPOINT, $default );
+			}
+		}
+
+	}
 }
 
 
