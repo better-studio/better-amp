@@ -51,6 +51,9 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 
 == Changelog ==
 
+= 1.0.4 =
+* Fix: Fatal error in creating new post.
+
 = 1.0.3 =
 * Fix: The undefined index warning in admin.
 
