@@ -201,7 +201,7 @@ class Better_AMP {
 		add_filter( 'init', array( $this, 'include_components' ) );
 
 		// Changes page template file with AMP template file
-		add_action( 'template_include', array( $this, 'include_template_file' ) );
+		add_action( 'template_include', array( $this, 'include_template_file' ), 9999 );
 
 		// Initialize AMP theme and it's functionality
 		add_action( 'after_setup_theme', array( $this, 'include_template_functions_php' ), 1 );
