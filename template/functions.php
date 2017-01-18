@@ -114,7 +114,7 @@ function better_amp_get_default_theme_setting( $setting_id, $setting_index = '' 
 		'better-amp-email'                   => '#',
 		'better-amp-sidebar-footer-text'     => '',
 		//
-		'better-amp-footer-copyright-text'   => 'Powered by BetterAMP',
+		'better-amp-footer-copyright-text'   => 'Powered by <a href="https://wordpress.org/plugins/better-amp/" target="_blank">BetterAMP</a>',
 		'better-amp-footer-main-link'        => TRUE,
 		//
 		'better-amp-archive-listing'         => 'listing-1',
