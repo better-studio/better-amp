@@ -61,6 +61,8 @@ function better_amp_custom_styles() {
 
 
 	better_amp_add_inline_style( ob_get_clean() );
+	better_amp_add_inline_style( better_amp_get_theme_mod( 'better-amp-additional-css', FALSE ) );
+
 }
 
 /**
@@ -148,6 +150,7 @@ function better_amp_get_default_theme_setting( $setting_id, $setting_index = '' 
 		'better-amp-color-text'              => '#363636',
 		//
 		'better-amp-footer-analytics'        => '',
+		'better-amp-additional-css'          => '',
 	);
 
 	if ( $setting_index ) {

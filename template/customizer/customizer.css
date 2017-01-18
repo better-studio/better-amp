@@ -1,0 +1,7 @@
+textarea.better-amp-code {
+    border-right: 0;
+    border-left: 0;
+    height: -webkit-calc( 100vh - 185px );
+    height: calc( 100vh - 185px );
+    resize: none;
+}

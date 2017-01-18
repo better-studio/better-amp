@@ -39,6 +39,10 @@ function better_amp_add_customizer_script() {
 		better_amp_plugin_url( 'template/customizer/customizer.js' ),
 		array( 'jquery' )
 	);
+	wp_enqueue_style(
+		'better-amp-customizer-style',
+		better_amp_plugin_url( 'template/customizer/customizer.css' )
+	);
 
 
 	$sql    = 'SELECT term_id FROM ' . $wpdb->term_taxonomy . ' WHERE taxonomy=\'category\' ORDER BY count DESC LIMIT 1';
@@ -674,6 +678,31 @@ function better_amp_customize_register( $wp_customizer ) {
 	) );
 
 
+	/**
+	 * 9. Additional CSS
+	 */
+	$wp_customizer->add_section( 'better-amp-css-section', array(
+		'title'    => __( 'Additional CSS', 'better-amp' ),
+		'priority' => 15,
+		'panel'    => 'better-amp-panel'
+	) );
+
+
+	/**
+	 * 9.1 Additional CSS
+	 */
+	$wp_customizer->add_setting( 'better-amp-additional-css', array(
+		'sanitize_callback' => 'better_amp_css_sanitizer'
+	) );
+
+	$wp_customizer->add_control( 'better-amp-additional-css', array(
+		'section'     => 'better-amp-css-section',
+		'priority'    => 26,
+		'type'        => 'textarea',
+		'input_attrs' => array(
+			'class' => 'better-amp-code',
+		),
+	) );
 }
 
 add_action( 'admin_menu', 'better_amp_add_customizer_admin_link', 999 );

@@ -436,3 +436,32 @@ if ( ! function_exists( 'better_amp_translation_echo' ) ) {
 	}
 }
 
+
+/**
+ * Sanitize and prepare css for amp version
+ *
+ * @param string $css
+ *
+ * @since 1.1
+ * @return string
+ */
+function better_amp_css_sanitizer( $css ) {
+
+	# -- Remove !important qualifier. --
+	$css = preg_replace( '/\s*!\s*important/im', '', $css );
+
+	# -- Remove invalid properties. --
+	$invalid_properties = array(
+		'behavior',
+		'-moz-binding',
+		'filter',
+		'animation',
+		'transition',
+	);
+
+	$pattern = '/((?:' . implode( '|', $invalid_properties ) . ')\s* :[^;]+ ;? \n*\t* )+/xs';
+	$func    = create_function( '$var', 'return substr( $var[1], - 1 ) === \'}\' ? \'}\' : \'\';' );
+	$css     = preg_replace_callback( $pattern, $func, $css );
+
+	return $css;
+}
