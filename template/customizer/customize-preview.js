@@ -170,7 +170,8 @@ document.addEventListener("DOMContentLoaded", function () {
                         $currentItem = $(".social-item." + net, $context);
 
                         if ($currentItem.length) {
-                            $currentItem[ networks[ net ] !== '0' ? 'show' : 'hide' ]();
+
+                            $currentItem[ networks[ net ] != '0' ? 'show' : 'hide' ]();
 
                             if ($currentItem.get(0) !== $items.get(pos)) {
 
