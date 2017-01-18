@@ -52,6 +52,20 @@ jQuery(function ($) {
             window.postMessage(JSON.stringify(message), obj.origin());
         }
 
+
+        var currentUrl;
+        window.addEventListener('message', function (event) {
+            var data = JSON.parse(event.data);
+
+            if (data.id === 'url') {
+                currentUrl = data.data;
+                var m      = currentUrl.match(/(.*?)\/?\?.+$/);
+                if (m && m[ 1 ]) {
+                    currentUrl = m[ 1 ];
+                }
+            }
+        });
+
         wp.customize.bind('ready', function () {
 
             /**
@@ -81,7 +95,7 @@ jQuery(function ($) {
                  */
 
                 $("#accordion-section-better-amp-archive-section>h3").on('click', function () {
-                    var crrUrl      = parsedParams.url.replace(/\/+$/, ''),
+                    var crrUrl      = currentUrl ? currentUrl : parsedParams.url.replace(/\/+$/, ''),
                         redirectUrl = better_amp_customizer.archive_url.replace(/\/+$/, '');
 
                     if (redirectUrl !== crrUrl) {
@@ -90,7 +104,7 @@ jQuery(function ($) {
                 });
 
                 $("#accordion-section-better-amp-post-section>h3").on('click', function () {
-                    var crrUrl      = parsedParams.url.replace(/\/+$/, ''),
+                    var crrUrl      = currentUrl ? currentUrl : parsedParams.url.replace(/\/+$/, ''),
                         redirectUrl = better_amp_customizer.post_url.replace(/\/+$/, '');
 
                     if (redirectUrl !== crrUrl) {
