@@ -9,7 +9,7 @@
 <body <?php better_amp_body_class( 'sticky-nav body' ) ?>>
 <?php
 
-if ( better_amp_get_default_theme_mod( 'better-amp-sidebar-show' ) ) {
+if ( better_amp_get_theme_mod( 'better-amp-sidebar-show' ) ) {
 	better_amp_get_sidebar();
 }
 
@@ -18,7 +18,7 @@ if ( better_amp_get_default_theme_mod( 'better-amp-sidebar-show' ) ) {
 	<header itemscope itemtype="https://schema.org/WPHeader" class="site-header">
 		<?php
 
-		if ( better_amp_get_default_theme_mod( 'better-amp-sidebar-show' ) ) {
+		if ( better_amp_get_theme_mod( 'better-amp-sidebar-show' ) ) {
 			?>
 			<button class="fa fa-bars navbar-toggle" on="tap:better-ampSidebar.toggle"
 				<?php better_amp_customizer_hidden_attr( 'better-amp-sidebar-show' ); ?>></button>
@@ -27,7 +27,7 @@ if ( better_amp_get_default_theme_mod( 'better-amp-sidebar-show' ) ) {
 
 		echo better_amp_default_theme_logo();
 
-		if ( better_amp_get_default_theme_mod( 'better-amp-header-show-search' ) ) {
+		if ( better_amp_get_theme_mod( 'better-amp-header-show-search' ) ) {
 			?>
 			<a href="<?php echo better_amp_get_search_page_url() ?>"
 			   class="navbar-search" <?php better_amp_customizer_hidden_attr( 'better-amp-header-show-search' ) ?>><i

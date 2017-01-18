@@ -1874,7 +1874,7 @@ if ( ! function_exists( 'better_amp_get_option' ) ) {
 }
 
 
-if ( ! function_exists( 'better_amp_get_default_theme_mod' ) ) {
+if ( ! function_exists( 'better_amp_get_theme_mod' ) ) {
 	/**
 	 * Returns saved value of option or default from config
 	 *
@@ -1885,7 +1885,7 @@ if ( ! function_exists( 'better_amp_get_default_theme_mod' ) ) {
 	 *
 	 * @return bool|string
 	 */
-	function better_amp_get_default_theme_mod( $name, $check_customize_preview = TRUE ) {
+	function better_amp_get_theme_mod( $name, $check_customize_preview = TRUE ) {
 
 		$result = get_theme_mod( $name, better_amp_get_default_theme_setting( $name ) );
 
@@ -2600,7 +2600,7 @@ if ( ! function_exists( 'better_amp_customizer_hidden_attr' ) ) {
 	 * @param $theme_mod
 	 */
 	function better_amp_customizer_hidden_attr( $theme_mod ) {
-		if ( better_amp_is_customize_preview() && ! better_amp_get_default_theme_mod( $theme_mod, FALSE ) ) {
+		if ( better_amp_is_customize_preview() && ! better_amp_get_theme_mod( $theme_mod, FALSE ) ) {
 			echo ' style="display:none"';
 		}
 	}

@@ -6,7 +6,7 @@
 
 			$theme_mod = 'better-amp-' . $k;
 
-			$value = better_amp_get_default_theme_mod( $theme_mod );
+			$value     = better_amp_get_theme_mod( $theme_mod );
 
 			if ( ! $value ) {
 				continue;
@@ -23,7 +23,7 @@
 
 		endforeach;
 
-		if ( $email = better_amp_get_default_theme_mod( 'better-amp-email' ) ) :
+		if ( $email = better_amp_get_theme_mod( 'better-amp-email' ) ) :
 			?>
 			<li class="social-item email" <?php better_amp_customizer_hidden_attr( $theme_mod ) ?>>
 				<a href="mailto:<?php echo esc_attr( $email ) ?>"

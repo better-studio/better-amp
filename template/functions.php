@@ -13,9 +13,9 @@ add_action( 'better-amp/template/enqueue-scripts', 'better_amp_custom_styles', 2
 
 function better_amp_custom_styles() {
 
-	$theme_color = better_amp_get_default_theme_mod( 'better-amp-color-theme', FALSE );
+	$theme_color = better_amp_get_theme_mod( 'better-amp-color-theme', FALSE );
 
-	$text_color = better_amp_get_default_theme_mod( 'better-amp-color-text', FALSE );
+	$text_color = better_amp_get_theme_mod( 'better-amp-color-text', FALSE );
 
 	ob_start();
 
@@ -44,17 +44,17 @@ function better_amp_custom_styles() {
 	* => Other Colors
 	*/
 	body.body {
-	background:<?php echo better_amp_get_default_theme_mod( 'better-amp-color-bg', FALSE ) ?>;
+	background:<?php echo better_amp_get_theme_mod( 'better-amp-color-bg', FALSE ) ?>;
 	}
 	.better-amp-wrapper {
-	background:<?php echo better_amp_get_default_theme_mod( 'better-amp-color-content-bg', FALSE ) ?>;
+	background:<?php echo better_amp_get_theme_mod( 'better-amp-color-content-bg', FALSE ) ?>;
 	color: <?php echo $text_color ?>;
 	}
 	.better-amp-footer {
-	background:<?php echo better_amp_get_default_theme_mod( 'better-amp-color-footer-bg', FALSE ) ?>;
+	background:<?php echo better_amp_get_theme_mod( 'better-amp-color-footer-bg', FALSE ) ?>;
 	}
 	.better-amp-footer-nav {
-	background:<?php echo better_amp_get_default_theme_mod( 'better-amp-color-footer-nav-bg', FALSE ) ?>;
+	background:<?php echo better_amp_get_theme_mod( 'better-amp-color-footer-nav-bg', FALSE ) ?>;
 	}
 
 	<?php
@@ -77,7 +77,7 @@ function better_amp_enqueue_static() {
 	better_amp_enqueue_script( 'amp-sidebar', 'https://cdn.ampproject.org/v0/amp-sidebar-0.1.js' );
 	better_amp_enqueue_script( 'amp-sidebar', 'https://cdn.ampproject.org/v0/amp-accordion-0.1.js' );
 
-	if ( better_amp_get_default_theme_mod( 'better-amp-footer-analytics' ) ) {
+	if ( better_amp_get_theme_mod( 'better-amp-footer-analytics' ) ) {
 
 		better_amp_enqueue_script( 'amp-analytics', 'https://cdn.ampproject.org/v0/amp-analytics-0.1.js' );
 	}
@@ -224,11 +224,11 @@ if ( ! function_exists( 'better_amp_page_listing' ) ) {
 		$listing = 'default';
 
 		if ( is_home() ) {
-			$listing = better_amp_get_default_theme_mod( 'better-amp-home-listing' );
+			$listing = better_amp_get_theme_mod( 'better-amp-home-listing' );
 		}
 
 		if ( empty( $listing ) || $listing === 'default' ) {
-			$listing = better_amp_get_default_theme_mod( 'better-amp-archive-listing' );
+			$listing = better_amp_get_theme_mod( 'better-amp-archive-listing' );
 		}
 
 		return $listing;

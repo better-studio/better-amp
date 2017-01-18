@@ -63,7 +63,7 @@ $site_branding = better_amp_get_branding_info( 'sidebar' );
 		<div class="sidebar-footer">
 			<?php
 
-			$text = better_amp_get_default_theme_mod( 'better-amp-sidebar-footer-text', FALSE );
+			$text = better_amp_get_theme_mod( 'better-amp-sidebar-footer-text', FALSE );
 
 			if ( $text ) { ?>
 				<p class="sidebar-footer-text">

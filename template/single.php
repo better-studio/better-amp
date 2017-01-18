@@ -13,7 +13,7 @@ better_amp_the_post();
 
 		<?php better_amp_post_subtitle(); ?>
 
-		<?php if ( better_amp_get_default_theme_mod( 'better-amp-post-show-thumbnail' ) && has_post_thumbnail() ): ?>
+		<?php if ( better_amp_get_theme_mod( 'better-amp-post-show-thumbnail' ) && has_post_thumbnail() ): ?>
 			<div class="post-thumbnail" <?php better_amp_customizer_hidden_attr( 'better-amp-post-show-thumbnail' ) ?>>
 				<?php the_post_thumbnail( 'better-amp-large' ); ?>
 			</div>
@@ -81,7 +81,7 @@ better_amp_the_post();
 
 better_amp_template_part( 'social-share' );
 
-if ( better_amp_get_default_theme_mod( 'better-amp-post-show-comment' ) && ( comments_open() || get_comments_number() ) ) { ?>
+if ( better_amp_get_theme_mod( 'better-amp-post-show-comment' ) && ( comments_open() || get_comments_number() ) ) { ?>
 	<div class="comments-wrapper"<?php better_amp_customizer_hidden_attr( 'better-amp-post-show-comment' ) ?>>
 
 		<div class="comments-label strong-label">

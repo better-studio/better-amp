@@ -13,7 +13,7 @@
 	<div class="better-amp-copyright">
 		<?php
 
-		if ( better_amp_get_default_theme_mod( 'better-amp-footer-main-link' ) ) :
+		if ( better_amp_get_theme_mod( 'better-amp-footer-main-link' ) ) :
 			?>
 			<div
 				class="better-amp-main-link" <?php better_amp_customizer_hidden_attr( 'better-amp-footer-main-link' ) ?>>
@@ -24,14 +24,14 @@
 			<?php
 		endif;
 
-		echo better_amp_get_default_theme_mod( 'better-amp-footer-copyright-text' );
+		echo better_amp_get_theme_mod( 'better-amp-footer-copyright-text' );
 
 		?>
 	</div>
 	<?php better_amp_footer() ?>
 
 	<?php
-	if ( $ga_code = better_amp_get_default_theme_mod( 'better-amp-footer-analytics' ) ) :
+	if ( $ga_code = better_amp_get_theme_mod( 'better-amp-footer-analytics' ) ) :
 		?>
 		<amp-analytics type="googleanalytics">
 			<script type="application/json">
