@@ -1881,7 +1881,8 @@ if ( ! function_exists( 'better_amp_get_theme_mod' ) ) {
 	 * @param      $name
 	 * @param bool $check_customize_preview
 	 *
-	 * @since 1.0.0
+	 * @todo remove this function and use better_amp_get_option instead
+	 * @since 1.0.
 	 *
 	 * @return bool|string
 	 */
