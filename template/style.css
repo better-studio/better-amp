@@ -1395,6 +1395,19 @@ body.search-results .search-form.empty {
 }
 
 
+
+
+/**
+* => Pagination
+*/
+.pagination .newer {
+    float: right;
+}
+.pagination .older {
+    float: left;
+}
+
+
 /**
 * => Attachment
 */
