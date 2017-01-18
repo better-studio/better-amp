@@ -488,14 +488,13 @@ if ( ! function_exists( 'better_amp_translation_stds' ) ) {
 	/**
 	 * Prepares translation default values
 	 *
-	 * @param array $fields
+	 * @param array $std
 	 *
 	 * @since 1.0.0
 	 *
 	 * @return array
 	 */
-	function better_amp_translation_stds( $fields = array() ) {
-
+	function better_amp_translation_stds( $std = array() ) {
 		$std['prev']                     = 'Previous';
 		$std['next']                     = 'Next';
 		$std['page']                     = 'Page';
@@ -534,7 +533,8 @@ if ( ! function_exists( 'better_amp_translation_stds' ) ) {
 		$std['audio']     = 'Audio';
 		$std['chats']     = 'Chats';
 
-		return $fields;
+
+		return $std;
 
 	} // better_amp_translation_stds
 }
