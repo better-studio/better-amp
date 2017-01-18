@@ -203,6 +203,9 @@ class Better_AMP {
 		// Changes page template file with AMP template file
 		add_action( 'template_include', array( $this, 'include_template_file' ), 9999 );
 
+		// override template file
+		add_filter( 'comments_template', array( $this, 'override_comments_template' ), 9999 );
+
 		// Initialize AMP theme and it's functionality
 		add_action( 'after_setup_theme', array( $this, 'include_template_functions_php' ), 1 );
 
@@ -441,6 +444,29 @@ class Better_AMP {
 		}
 
 		return $template_file_path;
+	}
+
+	/**
+	 * Replace amp comment file with theme file
+	 *
+	 * @param string $file
+	 *
+	 * @todo
+	 *
+	 * @since 1.1
+	 * @return string
+	 */
+	public function override_comments_template( $file ) {
+
+		if ( is_better_amp() ) {
+
+			if ( $path = better_amp_locate_template( basename( $file ) ) ) {
+
+				return $path;
+			}
+		}
+
+		return $file;
 	}
 
 
