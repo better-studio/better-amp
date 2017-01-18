@@ -20,6 +20,28 @@ class Better_AMP_Rewrite_Rules {
 
 
 	/**
+	 *
+	 * Store list of permastructs keys
+	 *
+	 * @see   register_extra_permastruct_hooks
+	 * @since 1.1
+	 *
+	 * @var array
+	 */
+	protected $exclude_extra_permastructs = array(
+		'category'          => TRUE,
+		'post_tag'          => TRUE,
+		'post_format'       => TRUE,
+
+		# Woocommerce
+		'product_variation' => TRUE,
+		'shop_order_refund' => TRUE,
+
+		# Visual Composer
+		'vc_grid_item'      => TRUE,
+	);
+
+	/**
 	 * Better_AMP_Rewrite_Rules constructor.
 	 */
 	public function __construct() {
@@ -50,6 +72,79 @@ class Better_AMP_Rewrite_Rules {
 			add_filter( $hook, array( $this, 'generate_rewrite_rules' ) );
 		}
 
+		add_action( 'root_rewrite_rules', array( $this, 'register_extra_permastruct_hooks' ) );
+	}
+
+	/**
+	 * Register "{$permastructname}_rewrite_rules" Filters
+	 *
+	 * @param      array  $rules      Root rewrite rules
+	 *
+	 * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
+	 * @since 1.1
+	 *
+	 * @return array
+	 */
+	public function register_extra_permastruct_hooks( $rules ) {
+		global $wp_rewrite;
+
+		// Remove exluced items from extra_permastructs
+		$extra_permastruct = array_diff_key( $wp_rewrite->extra_permastructs, $this->get_exclude_extra_permastructs() );
+
+		foreach ( $extra_permastruct as $permastructname => $struct ) {
+
+			if ( empty( $struct['walk_dirs'] ) ) {
+				continue;
+			}
+
+			if ( ! has_filter( "{$permastructname}_rewrite_rules", array( $this, 'generate_rewrite_rules' ) ) ) {
+
+				add_filter( "{$permastructname}_rewrite_rules", array( $this, 'generate_rewrite_rules' ) );
+			}
+		}
+
+		return $rules;
+	}
+
+	/**
+	 * Get list of extra_permastructs to skip append startpoint
+	 * @see   exclude_extra_permastructs
+	 *
+	 * @since 1.1
+	 * @return array
+	 */
+	public function get_exclude_extra_permastructs() {
+		return $this->exclude_extra_permastructs;
+	}
+
+
+	/**
+	 * Set list of extra_permastructs to skip append startpoint
+	 *
+	 * @since 1.1
+	 *
+	 * @param string|array $permastructname
+	 */
+	public function set_exclude_extra_permastructs( $permastructname ) {
+
+		foreach ( (array) $permastructname as $name ) {
+			$this->exclude_extra_permastructs[ $name ] = TRUE;
+		}
+	}
+
+
+	/**
+	 * Flush exclude permastructs storage
+	 *
+	 * @since 1.1
+	 *
+	 * @return bool always true
+	 */
+	public function flush_exclude_extra_permastructs() {
+
+		$this->exclude_extra_permastructs = array();
+
+		return TRUE;
 	}
 
 
@@ -59,13 +154,17 @@ class Better_AMP_Rewrite_Rules {
 	 * todo: add support for EP_DAY,EP_MONTH,EP_YEAR
 	 * todo: detect EP_ATTACHMENT
 	 *
+	 * @global WP_Rewrite $wp_rewrite WordPress Rewrite Component.
 	 * @since 1.0.0
 	 *
 	 * @return int
 	 */
 	protected function get_current_sp_mask() {
+		global $wp_rewrite;
 
-		switch ( current_filter() ) {
+		$current_filter = current_filter();
+
+		switch ( $current_filter ) {
 
 			case 'post_rewrite_rules':
 				$ep_mask = EP_PERMALINK;
@@ -104,7 +203,19 @@ class Better_AMP_Rewrite_Rules {
 				break;
 
 			default:
+
 				$ep_mask = EP_NONE;
+
+				if ( preg_match( '/(.+)_rewrite_rules$/', $current_filter, $matched ) ) {
+
+					if ( isset( $wp_rewrite->extra_permastructs[ $matched[1] ]['ep_mask'] ) ) {
+
+						$ep_mask = max(
+							$wp_rewrite->extra_permastructs[ $matched[1] ]['ep_mask'],
+							1
+						);
+					}
+				}
 		}
 
 
