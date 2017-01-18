@@ -476,6 +476,51 @@ if ( ! function_exists( 'better_amp_translation_fields' ) ) {
 			'default' => 'Chats',
 		);
 
+		$fields['attachment-return-to']     = array(
+			'id'      => 'attachment-return-to',
+			'type'    => 'text',
+			'title'   => 'Return to post',
+			'default' => 'Return to "%s"',
+		);
+		$fields['click-here']               = array(
+			'id'      => 'click-here',
+			'type'    => 'text',
+			'title'   => 'Click here',
+			'default' => 'Click here',
+		);
+		$fields['attachment-play-video']    = array(
+			'id'      => 'attachment-play-video',
+			'type'    => 'text',
+			'title'   => 'Play Video',
+			'default' => '%s to play video',
+		);
+		$fields['attachment-play-audio']    = array(
+			'id'      => 'attachment-play-audio',
+			'type'    => 'text',
+			'title'   => 'Play Audio',
+			'default' => '%s to play audio',
+		);
+		$fields['attachment-download-file'] = array(
+			'id'      => 'attachment-download-file',
+			'type'    => 'text',
+			'title'   => 'Download File',
+			'default' => '%s to Download File',
+		);
+
+		$fields['attachment-next'] = array(
+			'id'      => 'attachment-next',
+			'type'    => 'text',
+			'title'   => 'Next  Attachment',
+			'default' => 'Next',
+		);
+
+		$fields['attachment-prev'] = array(
+			'id'      => 'attachment-prev',
+			'type'    => 'text',
+			'title'   => 'Previous  Attachment',
+			'default' => 'Previous',
+		);
+
 		return $fields;
 
 	} // better_amp_translation_fields
@@ -533,6 +578,13 @@ if ( ! function_exists( 'better_amp_translation_stds' ) ) {
 		$std['audio']     = 'Audio';
 		$std['chats']     = 'Chats';
 
+		$std['attachment-return-to']     = 'Return to "%s"';
+		$std['click-here']               = 'Click here';
+		$std['attachment-play-video']    = '%s to play video';
+		$std['attachment-play-audio']    = '%s to play audio';
+		$std['attachment-download-file'] = '%s to Download File';
+		$std['attachment-prev']          = 'Previous';
+		$std['attachment-next']          = 'Next';
 
 		return $std;
 

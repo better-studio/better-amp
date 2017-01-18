@@ -2628,3 +2628,39 @@ if ( ! function_exists( 'better_amp_language_attributes' ) ) {
 		echo $output;
 	}
 }
+
+if ( ! function_exists( 'better_amp_get_post_parent' ) ) {
+	/**
+	 * Get post parent
+	 *
+	 * @param int $attachment_id
+	 *
+	 * @since 1.1
+	 * @return bool|WP_Post WP_Post on success or false on failure
+	 */
+	function better_amp_get_post_parent( $attachment_id = NULL ) {
+
+		if ( empty( $attachment_id ) && isset( $GLOBALS['post'] ) ) {
+			$attachment = $GLOBALS['post'];
+		} else {
+			$attachment = get_post( $attachment_id );
+		}
+
+		// Validate attachment
+		if ( ! $attachment || is_wp_error( $attachment ) ) {
+			return FALSE;
+		}
+
+		$parent = FALSE;
+
+		if ( ! empty( $attachment->post_parent ) ) {
+			$parent = get_post( $attachment->post_parent );
+			if ( ! $parent || is_wp_error( $parent ) ) {
+				$parent = FALSE;
+			}
+		}
+
+		return $parent;
+	}
+}
+

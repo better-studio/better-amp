@@ -93,7 +93,7 @@ blockquote:before {
     left: 12px;
     top: 17px;
 }
-.button {
+.button,.pagination a {
     padding: 7px 9px;
     border: 1px solid #d7d7d7;
     background: #faf9f9;
@@ -112,6 +112,7 @@ blockquote:before {
     display: inline-block;
     float: left;
     margin-right: 15px;
+    margin-bottom: 15px;
     background-repeat: no-repeat;
     background-position: center center;
     -webkit-background-size: cover;
@@ -1391,4 +1392,23 @@ body.search-results .search-form.empty {
 }
 .bs-shortcode .section-heading .other-link{
     display: none;
+}
+
+
+/**
+* => Attachment
+*/
+.return-to .button {
+    margin-bottom: 15px;
+    margin-top: 0;
+}
+.listing-attachment-siblings {
+    list-style: none;
+}
+.listing-attachment-siblings .listing-item {
+    float: left;
+}
+a.current-attachment {
+    pointer-events: none;
+    border: 2px solid #0379c4;
 }
