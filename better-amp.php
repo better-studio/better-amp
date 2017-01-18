@@ -237,10 +237,28 @@ class Better_AMP {
 		register_activation_hook( __FILE__, array( $this, 'install' ) );
 
 		add_action( 'template_redirect', array( $this, 'redirect_amp_endpoint_url' ) );
+		add_filter( 'redirect_canonical', array( $this, '_fix_prevent_extra_redirect_single_pagination' ) );
 
 		add_action( 'request', array( $this, 'fix_search_page_queries' ) );
 	} // apply_hooks
 
+
+	/**
+	 * Prevent redirect pages within single post
+	 *
+	 * @param $redirect
+	 *
+	 * @since 1.1
+	 * @return bool
+	 */
+	public function _fix_prevent_extra_redirect_single_pagination( $redirect ) {
+
+		if ( $redirect && is_better_amp() && get_query_var( 'page' ) > 1 ) {
+			return FALSE;
+		}
+
+		return $redirect;
+	}
 
 	public function admin_hooks() {
 		if ( ! is_admin() ) {
