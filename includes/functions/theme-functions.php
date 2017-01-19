@@ -2087,7 +2087,7 @@ if ( ! function_exists( 'better_amp_post_classes' ) ) {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $append
+	 * @param string|array $append One or more classes to add to the class list.
 	 */
 	function better_amp_post_classes( $append = '' ) {
 
