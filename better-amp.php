@@ -55,6 +55,14 @@ class Better_AMP {
 
 
 	/**
+	 * pre_get_posts hook priority
+	 *
+	 * @since 1.1
+	 */
+	const ISOLATE_QUERY_HOOK_PRIORITY = 100;
+
+
+	/**
 	 * Store better_amp_head action callbacks
 	 *
 	 * @see   collect_and_remove_better_amp_head_actions
@@ -63,6 +71,22 @@ class Better_AMP {
 	 * @since 1.0.0
 	 */
 	private $_head_actions;
+
+
+	/**
+	 * Store array of posts id to exlucde transform permalinks to amp
+	 *
+	 * Array structure: array {
+	 *      'post id' => dont care,
+	 *      ...
+	 * }
+	 *
+	 * @see   transform_post_link_to_amp
+	 *
+	 * @since 1.1
+	 * @var array
+	 */
+	public $excluded_posts_id = array();
 
 
 	/**
@@ -202,6 +226,9 @@ class Better_AMP {
 
 		// Changes page template file with AMP template file
 		add_action( 'template_include', array( $this, 'include_template_file' ), 9999 );
+		// Override WooCommerce template files
+		add_action( 'wc_get_template', array( $this, 'include_wc_template_file' ), 9999, 2 );
+
 
 		// override template file
 		add_filter( 'comments_template', array( $this, 'override_comments_template' ), 9999 );
@@ -232,7 +259,10 @@ class Better_AMP {
 		// Collect and rollback all main query posts to disable thirdparty codes to change main query!
 		// action after 1000 priority can work
 		add_action( 'pre_get_posts', array( $this, 'isolate_pre_get_posts_start' ), 1 );
-		add_action( 'pre_get_posts', array( $this, 'isolate_pre_get_posts_end' ), 1000 );
+		add_action( 'pre_get_posts', array( $this, 'isolate_pre_get_posts_end' ), self::ISOLATE_QUERY_HOOK_PRIORITY );
+
+		add_action( 'pre_get_posts', array( $this, 'compatible_plugins' ), 0 );
+
 
 		register_activation_hook( __FILE__, array( $this, 'install' ) );
 
@@ -348,7 +378,11 @@ class Better_AMP {
 		if ( is_singular() ) {
 			$post_id = get_queried_object_id();
 
-			if ( get_post_meta( $post_id, 'disable-better-amp', TRUE ) ) {
+			if (
+				get_post_meta( $post_id, 'disable-better-amp', TRUE )
+				||
+				isset( $this->excluded_posts_id[ $post_id ] )
+			) {
 
 				if ( preg_match( "#^$path/*$amp_qv/+(.*?)/*$#", $_SERVER['REQUEST_URI'], $matched ) ) {
 
@@ -357,6 +391,25 @@ class Better_AMP {
 				}
 			}
 		}
+	}
+
+
+	/**
+	 * Check AMP version of the posts exists
+	 *
+	 * @since 1.1
+	 * @return bool of exists
+	 */
+	public static function amp_version_exists() {
+
+		$exits = TRUE;
+
+		if ( is_singular() ) {
+			$post_id = get_queried_object_id();
+			$exits   = ! get_post_meta( $post_id, 'disable-better-amp', TRUE );
+		}
+
+		return $exits;
 	}
 
 
@@ -462,6 +515,26 @@ class Better_AMP {
 		}
 
 		return $template_file_path;
+	}
+
+
+	/**
+	 * Include WooCommerce AMP templates in AMP pages
+	 *
+	 * @param string $located
+	 * @param string $template_name
+	 *
+	 * @since 1.1
+	 * @return string
+	 */
+	public function include_wc_template_file( $located, $template_name ) {
+		$template_name = 'woocommerce/' . ltrim( $template_name, '/' );
+
+		if ( $new_path = better_amp_locate_template( $template_name, FALSE, FALSE ) ) {
+			return $new_path;
+		}
+
+		return $located;
 	}
 
 	/**
@@ -811,8 +884,9 @@ class Better_AMP {
 
 		add_filter( 'author_link', array( 'Better_AMP_Content_Sanitizer', 'transform_to_amp_url' ) );
 		add_filter( 'term_link', array( 'Better_AMP_Content_Sanitizer', 'transform_to_amp_url' ) );
-		add_filter( 'post_link', array( 'Better_AMP_Content_Sanitizer', 'transform_to_amp_url' ) );
-		add_filter( 'page_link', array( 'Better_AMP_Content_Sanitizer', 'transform_to_amp_url' ) );
+
+		add_filter( 'post_link', array( $this, 'transform_post_link_to_amp' ), 20, 2 );
+		add_filter( 'page_link', array( $this, 'transform_post_link_to_amp' ), 20, 2 );
 		add_filter( 'attachment_link', array( 'Better_AMP_Content_Sanitizer', 'transform_to_amp_url' ) );
 		add_filter( 'post_type_link', array( 'Better_AMP_Content_Sanitizer', 'transform_to_amp_url' ) );
 
@@ -1044,6 +1118,7 @@ class Better_AMP {
 	 *
 	 * @param bool $current
 	 *
+	 * @since 1.0.0
 	 * @return bool
 	 */
 	public function _return_false_in_amp( $current ) {
@@ -1054,4 +1129,26 @@ class Better_AMP {
 
 		return $current;
 	}
+
+
+	/**
+	 * Transform allowed posts url to amp
+	 *
+	 * @param string      $url  The post's permalink.
+	 * @param WP_Post|int $post The post object/id  of the post.
+	 *
+	 * @since 1.1
+	 * @return string
+	 */
+	public function transform_post_link_to_amp( $url, $post ) {
+
+		$post_id = isset( $post->ID ) ? $post->ID : $post;
+
+		if ( isset( $this->excluded_posts_id[ $post_id ] ) ) {
+			return $url;
+		}
+
+		return Better_AMP_Content_Sanitizer::transform_to_amp_url( $url );
+	}
+
 }

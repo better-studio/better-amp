@@ -476,6 +476,18 @@ if ( ! function_exists( 'better_amp_translation_fields' ) ) {
 			'default' => 'Chats',
 		);
 
+		$fields['product-desc']             = array(
+			'id'      => 'product-desc',
+			'type'    => 'text',
+			'title'   => 'Product Description',
+			'default' => 'Description',
+		);
+		$fields['product-reviews']          = array(
+			'id'      => 'product-reviews',
+			'type'    => 'text',
+			'title'   => 'Product Reviews',
+			'default' => 'Reviews(%s)',
+		);
 		$fields['attachment-return-to']     = array(
 			'id'      => 'attachment-return-to',
 			'type'    => 'text',
@@ -577,6 +589,9 @@ if ( ! function_exists( 'better_amp_translation_stds' ) ) {
 		$std['statuses']  = 'Statuses';
 		$std['audio']     = 'Audio';
 		$std['chats']     = 'Chats';
+
+		$std['product-desc']    = 'Description';
+		$std['product-reviews'] = 'Reviews(%s)';
 
 		$std['attachment-return-to']     = 'Return to "%s"';
 		$std['click-here']               = 'Click here';
