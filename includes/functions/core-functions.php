@@ -346,8 +346,20 @@ function better_amp_guess_none_amp_url() {
 		}
 	}
 
-
 	$amp_qv = Better_AMP::STARTPOINT;
+
+	/**
+	 * Fix For Multisite Installation
+	 */
+	if ( is_multisite() && ! is_main_site() ) {
+		$current_site_url = get_site_url();
+		$append_path      = str_replace( get_site_url( get_current_site()->blog_id ), '', $current_site_url );
+
+		if ( $append_path !== $current_site_url ) {
+			$path .= $append_path;
+		}
+	}
+
 	if ( preg_match( "#^$path/*$amp_qv/+(.*?)$#", $_SERVER['REQUEST_URI'], $matched ) ) {
 
 		return site_url( $matched[1] );
