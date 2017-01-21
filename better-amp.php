@@ -461,6 +461,36 @@ class Better_AMP {
 
 
 	/**
+	 * Register missed hooks for supported plugins to bypass isolation
+	 *
+	 * @see   isolate_pre_get_posts_start
+	 * @see   isolate_pre_get_posts_end
+	 *
+	 * @since 1.1
+	 */
+	public function compatible_plugins() {
+
+		if ( ! is_better_amp() ) {
+			return;
+		}
+
+		$priority = self::ISOLATE_QUERY_HOOK_PRIORITY + 1;
+
+		// WooCommerce compatibility
+		if ( class_exists( 'WooCommerce' ) ) {
+
+			$callback = array( WooCommerce::instance()->query, 'pre_get_posts' );
+
+			if ( is_callable( $callback ) ) {
+				add_action( 'pre_get_posts', $callback, $priority );
+			}
+
+			$this->excluded_posts_id[ wc_get_page_id( 'checkout' ) ] = TRUE;
+		}
+	}
+
+
+	/**
 	 * Callback: Add rewrite rules
 	 * Action: init
 	 *
