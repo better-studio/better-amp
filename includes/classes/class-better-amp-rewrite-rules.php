@@ -69,7 +69,7 @@ class Better_AMP_Rewrite_Rules {
 				'post_tag_rewrite_rules',
 			) as $hook
 		) {
-			add_filter( $hook, array( $this, 'generate_rewrite_rules' ) );
+			add_filter( $hook, array( $this, 'generate_rewrite_rules' ), 9999 );
 		}
 
 		add_action( 'root_rewrite_rules', array( $this, 'register_extra_permastruct_hooks' ) );
@@ -99,7 +99,7 @@ class Better_AMP_Rewrite_Rules {
 
 			if ( ! has_filter( "{$permastructname}_rewrite_rules", array( $this, 'generate_rewrite_rules' ) ) ) {
 
-				add_filter( "{$permastructname}_rewrite_rules", array( $this, 'generate_rewrite_rules' ) );
+				add_filter( "{$permastructname}_rewrite_rules", array( $this, 'generate_rewrite_rules' ), 9999 );
 			}
 		}
 
