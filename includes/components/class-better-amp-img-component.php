@@ -7,8 +7,6 @@
  */
 class Better_AMP_IMG_Component extends Better_AMP_Component_Base implements Better_AMP_Component_Interface {
 
-	public $enqueue_anim_script = FALSE;
-
 	/**
 	 * Better_AMP_IMG_Component constructor.
 	 *
@@ -31,16 +29,12 @@ class Better_AMP_IMG_Component extends Better_AMP_Component_Base implements Bett
 	 */
 	public function config() {
 
-		if ( $this->enqueue_anim_script ) {
+		return array(
+			'scripts' => array(
+				'amp-anim' => 'https://cdn.ampproject.org/v0/amp-anim-0.1.js'
+			)
+		);
 
-			return array(
-				'scripts' => array(
-					'amp-anim' => 'https://cdn.ampproject.org/v0/amp-anim-0.1.js'
-				)
-			);
-		}
-
-		return array();
 	} // config
 
 
@@ -62,11 +56,19 @@ class Better_AMP_IMG_Component extends Better_AMP_Component_Base implements Bett
 		 * @var DOMElement $element
 		 */
 		if ( $nodes_count = $elements->length ) {
-			$this->enable_enqueue_scripts = TRUE;
 
 			for ( $i = $nodes_count - 1; $i >= 0; $i -- ) {
-				$element  = $elements->item( $i );
-				$tag_name = $this->is_animated_image_element( $element ) ? 'amp-anim' : 'amp-img';
+				$element = $elements->item( $i );
+
+				if ( $this->is_animated_image_element( $element ) ) {
+
+					$this->enable_enqueue_scripts = TRUE;
+
+					$tag_name = 'amp-anim';
+				} else {
+
+					$tag_name = 'amp-img';
+				}
 
 				$attributes = $instance->filter_attributes( $instance->get_node_attributes( $element ) );
 				$attributes = $this->modify_attributes( $attributes );
@@ -440,10 +442,14 @@ class Better_AMP_IMG_Component extends Better_AMP_Component_Base implements Bett
 		$is_anim = $this->is_animated_image_url( $image['src'] );
 
 		if ( $is_anim ) {
-			$this->enqueue_anim_script = TRUE;
-		}
 
-		$tag_name = $is_anim ? 'amp-anim' : 'amp-img';
+			$this->enable_enqueue_scripts = TRUE;
+
+			$tag_name = 'amp-anim';
+		} else {
+
+			$tag_name = 'amp-img';
+		}
 
 		$instance = new Better_AMP_HTML_Util();
 
