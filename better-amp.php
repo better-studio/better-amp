@@ -261,7 +261,7 @@ class Better_AMP {
 		add_action( 'pre_get_posts', array( $this, 'isolate_pre_get_posts_start' ), 1 );
 		add_action( 'pre_get_posts', array( $this, 'isolate_pre_get_posts_end' ), self::ISOLATE_QUERY_HOOK_PRIORITY );
 
-		add_action( 'pre_get_posts', array( $this, 'compatible_plugins' ), 0 );
+		add_action( 'pre_get_posts', array( $this, 'compatible_plugins_themes' ), 0 );
 
 
 		register_activation_hook( __FILE__, array( $this, 'install' ) );
@@ -461,14 +461,14 @@ class Better_AMP {
 
 
 	/**
-	 * Register missed hooks for supported plugins to bypass isolation
+	 * Register missed hooks for supported plugins/themes to bypass isolation
 	 *
 	 * @see   isolate_pre_get_posts_start
 	 * @see   isolate_pre_get_posts_end
 	 *
 	 * @since 1.1
 	 */
-	public function compatible_plugins() {
+	public function compatible_plugins_themes() {
 
 		if ( ! is_better_amp() ) {
 			return;
@@ -487,6 +487,24 @@ class Better_AMP {
 
 			$this->excluded_posts_id[ wc_get_page_id( 'checkout' ) ] = TRUE;
 		}
+
+		// BetterStudio themes compatibility
+		add_action( 'better-framework/menu/walker/init', array( $this, 'disable_bf_mega_menu' ) );
+	}
+
+
+	/**
+	 * Disable BetterStudio themes mega menu in AMP pages
+	 *
+	 * @param BF_Menu_Walker $walker
+	 *
+	 * @since 1.1
+	 */
+	public function disable_bf_mega_menu( &$walker ) {
+		$fields = $walker->get_mega_menu_fields_id();
+
+		unset( $fields['mega_menu'] );
+		$walker->set_mega_menu_fields_id( $fields );
 	}
 
 
