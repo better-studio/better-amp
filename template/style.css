@@ -1327,6 +1327,7 @@ body.search-results .search-form.empty {
  */
 .amp-slider{
     background: #eee;
+    direction: ltr;
 }
 .amp-slider a{
     text-decoration: none;
