@@ -1097,7 +1097,7 @@ class Better_AMP {
 
 
 	/**
-	 * Fix to chnage first menu name!
+	 * Fix to change first menu name!
 	 * @since 1.0.0
 	 */
 	public function fix_admin_sub_menu() {
