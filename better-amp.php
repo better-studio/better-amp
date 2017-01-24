@@ -680,9 +680,9 @@ class Better_AMP {
 	 */
 	public function include_components() {
 
-		include BETTER_AMP_INC . '/components/class-better-amp-img-component.php';
-		include BETTER_AMP_INC . '/components/class-better-amp-iframe-component.php';
-		include BETTER_AMP_INC . '/components/class-better-amp-carousel-component.php';
+		include BETTER_AMP_INC . 'components/class-better-amp-img-component.php';
+		include BETTER_AMP_INC . 'components/class-better-amp-iframe-component.php';
+		include BETTER_AMP_INC . 'components/class-better-amp-carousel-component.php';
 
 	}
 
