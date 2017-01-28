@@ -28,7 +28,6 @@
 
 		?>
 	</div>
-	<?php better_amp_footer() ?>
 
 	<?php
 	if ( $ga_code = better_amp_get_theme_mod( 'better-amp-footer-analytics' ) ) :
@@ -50,7 +49,10 @@
 		</amp-analytics>
 
 	<?php endif ?>
+
 </footer>
 </div>
+
+<?php better_amp_footer() ?>
 </body>
 </html>
