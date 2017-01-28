@@ -590,8 +590,6 @@ class Better_AMP {
 	 *
 	 * @param string $file
 	 *
-	 * @todo
-	 *
 	 * @since 1.1
 	 * @return string
 	 */
@@ -803,16 +801,18 @@ class Better_AMP {
 	 *
 	 * @param string $method_name component method
 	 *
-	 * @since 1.0.0
+	 * @param mixed  $param
 	 *
 	 * @return mixed
+	 * @since 1.0.0
+	 *
 	 */
-	public function call_components_method( $method_name ) {
+	public function call_components_method( $method_name, $param = NULL ) {
 
 		global $better_amp_registered_components;
 
 		if ( ! $better_amp_registered_components ) {
-			return;
+			return $param;
 		}
 
 		// collect and prepare method arguments
