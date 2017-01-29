@@ -2347,20 +2347,14 @@ if ( ! function_exists( 'better_amp_social_shares_count' ) ) {
 		}
 
 		if ( $update_cache ) { // Update cache storage if needed
-			$current_page = better_amp_social_share_guss_current_page();
-			$page_url     = $current_page['page_permalink'];
-			$page_url2    = $current_page['page_permalink2'];
+			$current_page = bf_social_share_guss_current_page();
 
 			foreach ( $sites as $site_id => $is_active ) {
-
 				if ( ! $is_active ) {
 					continue;
 				}
 
-				$count_number = better_amp_social_share_fetch_count( $site_id, $page_url );
-				if ( $count_number !== '' && $page_url2 ) {
-					$count_number += better_amp_social_share_fetch_count( $site_id, $page_url2 );
-				}
+				$count_number = bf_social_share_fetch_count( $site_id, $current_page['page_permalink'] );
 
 				update_post_meta( $post_id, 'bs_social_share_' . $site_id, $count_number );
 
@@ -2372,13 +2366,13 @@ if ( ! function_exists( 'better_amp_social_shares_count' ) ) {
 			 * This filter can be used to change share count time.
 			 *
 			 */
-			$cache_time = apply_filters( 'better-amp/social-share/cache-time', MINUTE_IN_SECONDS * 15, $post_id );
+			$cache_time = apply_filters( 'bs-social-share/cache-time', MINUTE_IN_SECONDS * 120, $post_id );
 
 			update_post_meta( $post_id, 'bs_social_share_interval', time() + $cache_time );
 		}
 
-		return apply_filters( 'better-amp/social-share/shares-count', $results );
-	}
+		return apply_filters( 'bs-social-share/shares-count', $results );
+	} // better_amp_social_shares_count
 }
 
 
@@ -2397,10 +2391,10 @@ if ( ! function_exists( 'better_amp_social_share_guss_current_page' ) ) {
 			$page_permalink = get_home_url();
 		} elseif ( is_single( get_the_ID() ) && ! ( is_front_page() ) ) {
 			$page_title     = get_the_title();
-			$page_permalink = home_url( '/?p=' . get_the_ID() );
+			$page_permalink = get_the_permalink();
 		} elseif ( is_page() && ! themename_is_main_query() ) {
 			$page_title     = get_the_title();
-			$page_permalink = home_url( '/?p=' . get_the_ID() );
+			$page_permalink = get_the_permalink();
 		} elseif ( is_category() || is_tag() || is_tax() ) {
 			global $wp_query;
 			$page_title     = single_term_title( '', FALSE );
@@ -2410,14 +2404,7 @@ if ( ! function_exists( 'better_amp_social_share_guss_current_page' ) ) {
 			$page_permalink = get_home_url();
 		}
 
-		$page_permalink2 = is_singular() ? get_permalink() : '';
-		if ( $page_permalink === $page_permalink2 ) {
-			$page_permalink2 = '';
-		}
-
-		$page_permalink2 = str_replace( '/amp/', '/', $page_permalink2 );
-
-		return compact( 'page_title', 'page_permalink', 'page_permalink2' );
+		return compact( 'page_title', 'page_permalink' );
 	}
 }
 
