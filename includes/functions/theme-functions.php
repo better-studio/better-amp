@@ -1885,7 +1885,7 @@ if ( ! function_exists( 'better_amp_get_theme_mod' ) ) {
 	 * @param      $name
 	 * @param bool $check_customize_preview
 	 *
-	 * @todo remove this function and use better_amp_get_option instead
+	 * @todo  remove this function and use better_amp_get_option instead
 	 * @since 1.0.
 	 *
 	 * @return bool|string
@@ -1912,6 +1912,8 @@ if ( ! function_exists( 'better_amp_get_server_ip_address' ) ) {
 	 */
 	function better_amp_get_server_ip_address() {
 
+		// This function is fork of "bf_get_server_ip_address" function and it's better to use
+		// the main function if that was available. (IF BetterFramework was available)
 		if ( function_exists( 'bf_get_server_ip_address' ) ) {
 			return bf_get_server_ip_address();
 		}
@@ -1942,6 +1944,8 @@ if ( ! function_exists( 'better_amp_is_localhost' ) ) {
 	 */
 	function better_amp_is_localhost() {
 
+		// This function is fork of "bf_is_localhost" function and it's better to use
+		// the main function if that was available. (IF BetterFramework was available)
 		if ( function_exists( 'bf_is_localhost' ) ) {
 			return bf_is_localhost();
 		}
@@ -2145,6 +2149,12 @@ if ( ! function_exists( 'better_amp_social_share_fetch_count' ) ) {
 	 */
 	function better_amp_social_share_fetch_count( $site_id, $url ) {
 
+		// This function is fork of "bf_social_share_fetch_count" function and it's better to use
+		// the main function if that was available. (IF BetterFramework was available)
+		if ( function_exists( 'bf_social_share_fetch_count' ) ) {
+			return bf_social_share_fetch_count( $site_id, $url );
+		}
+
 		$count       = 0;
 		$remote_args = array(
 			'sslverify' => FALSE
@@ -2287,7 +2297,7 @@ if ( ! function_exists( 'better_amp_social_share_fetch_count' ) ) {
 		}
 
 		return $count;
-	}
+	} // better_amp_social_share_fetch_count
 }
 
 
@@ -2302,6 +2312,12 @@ if ( ! function_exists( 'better_amp_social_shares_count' ) ) {
 	 * @return array|mixed|void
 	 */
 	function better_amp_social_shares_count( $sites ) {
+
+		// This function is fork of "bf_social_shares_count" function and it's better to use
+		// the main function if that was available. (IF BetterFramework was available)
+		if ( function_exists( 'bf_social_share_fetch_count' ) ) {
+			return bf_social_shares_count( $sites );
+		}
 
 		$sites = array_intersect_key( $sites, array( // Valid sites
 			'facebook'    => '',
@@ -2385,6 +2401,12 @@ if ( ! function_exists( 'better_amp_social_share_guss_current_page' ) ) {
 	 * @return array
 	 */
 	function better_amp_social_share_guss_current_page() {
+
+		// This function is fork of "bf_social_shares_count" function and it's better to use
+		// the main function if that was available. (IF BetterFramework was available)
+		if ( function_exists( 'bf_social_share_fetch_count' ) ) {
+			return bf_social_share_guss_current_page();
+		}
 
 		if ( is_home() || is_front_page() ) {
 			$page_title     = get_bloginfo( 'name' );
