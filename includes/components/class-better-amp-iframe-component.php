@@ -36,15 +36,15 @@ class Better_AMP_iFrame_Component implements Better_AMP_Component_Interface {
 	/**
 	 * Transform <img> tags to the <amp-img> or <img-anim> tags
 	 *
-	 * @param string $content
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return string
+	 * @param Better_AMP_HTML_Util $instance
+	 *
+	 * @return Better_AMP_HTML_Util
 	 */
-	public function transform( $content ) {
+	public function transform( Better_AMP_HTML_Util $instance ) {
 
-		$instance = new Better_AMP_HTML_Util( $content );
 		$elements = $instance->getElementsByTagName( 'iframe' );
 
 		/**
@@ -63,7 +63,7 @@ class Better_AMP_iFrame_Component implements Better_AMP_Component_Interface {
 			}
 		}
 
-		return $instance->get_content();
+		return $instance;
 	}
 
 

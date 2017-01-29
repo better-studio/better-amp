@@ -16,10 +16,64 @@ class Better_AMP_Content_Sanitizer {
 	 */
 	public static $enable_url_transform = TRUE;
 
+
+	/**
+	 * Store Better_AMP_HTML_Util dom object
+	 *
+	 * @var Better_AMP_HTML_Util
+	 *
+	 * @since 1.1
+	 */
+	public $dom;
+
+
+	/**
+	 * Store list of attributes which is allow for any tag
+	 *
+	 * @var array
+	 *
+	 * @since 1.1
+	 */
+	public $general_attrs = array(
+		'class'  => TRUE,
+		'on'     => TRUE,
+		'id'     => TRUE,
+		'layout' => TRUE,
+		'width'  => TRUE,
+		'height' => TRUE,
+		'sizes'  => TRUE,
+	);
+
+
+	/**
+	 * Store tabindex number
+	 *
+	 * @var int
+	 *
+	 * @since 1.1
+	 */
+	public $tabindex = 10;
+
+
+	/**
+	 * Store html tags list
+	 *
+	 * @var array
+	 *
+	 * @since 1.1
+	 */
+	public $tags = array();
+
+
 	/**
 	 * @since 1.0.0
 	 */
 	const PATTERN_REL_WP_ATTACHMENT = '#wp-att-([\d]+)#';
+
+	public function __construct( Better_AMP_HTML_Util $dom ) {
+		$this->dom = $dom;
+	}
+
 
 	/**
 	 * Prepare html content for amp version it removes:
@@ -27,93 +81,21 @@ class Better_AMP_Content_Sanitizer {
 	 * 2) invalid attributes
 	 * 3) invalid url protocols
 	 *
-	 *
-	 * @param string $content html content
-	 *
 	 * @since 1.0.0
-	 *
-	 * @return string
 	 */
-	public function sanitize( $content ) {
+	public function sanitize() {
 
-		$blacklisted_tags       = $this->get_blacklisted_tags();
 		$blacklisted_attributes = $this->get_blacklisted_attributes();
-		$blacklisted_protocols  = $this->get_blacklisted_protocols();
 
-		$html = new Better_AMP_HTML_Util( $content );
-		$node = $html->get_body_node();
+		$this->sanitize_document();
 
-		$this->strip_tags( $node, $blacklisted_tags );
-		$this->strip_attributes_recursive( $node, $blacklisted_attributes, $blacklisted_protocols );
+		$tags = array();
+		include BETTER_AMP_INC . 'tags-list.php';
+		$this->tags = $tags;
 
-		return $html->get_content();
+		$this->strip_attributes_recursive( $this->dom->get_body_node(), $blacklisted_attributes );
+		$this->tags = array();
 	}
-
-
-	/**
-	 * Strips tags from node
-	 *
-	 * @param $node
-	 * @param $tag_names
-	 *
-	 * @since 1.0.0
-	 */
-	private function strip_tags( $node, $tag_names ) {
-
-		foreach ( $tag_names as $tag_name ) {
-
-			$elements = $node->getElementsByTagName( $tag_name );
-			$length   = $elements->length;
-
-			if ( 0 === $length ) {
-				continue;
-			}
-
-			for ( $i = $length - 1; $i >= 0; $i -- ) {
-				$element     = $elements->item( $i );
-				$parent_node = $element->parentNode;
-				$parent_node->removeChild( $element );
-
-				if ( 'body' !== $parent_node->nodeName && Better_AMP_HTML_Util::is_node_empty( $parent_node ) ) {
-					$parent_node->parentNode->removeChild( $parent_node );
-				}
-			}
-		}
-
-	}
-
-
-	/**
-	 * List of AMP blacklisted tags
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return array
-	 */
-	private function get_blacklisted_tags() {
-		return array(
-			'script',
-			'noscript',
-			'style',
-			'frame',
-			'frameset',
-			'object',
-			'param',
-			'applet',
-			'form',
-			'label',
-			'input',
-			'textarea',
-			'select',
-			'option',
-			'link',
-			'picture',
-
-			'embed',
-			'embedvideo',
-		);
-	}
-
 
 	/**
 	 * List of blacklisted attributes
@@ -129,33 +111,23 @@ class Better_AMP_Content_Sanitizer {
 		);
 	}
 
-
-	/**
-	 * List of blacklisted protocols
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return array
-	 */
-	private function get_blacklisted_protocols() {
-		return array(
-			'javascript',
-		);
-	}
-
-
 	/**
 	 * Stripes attributes on nodes and childs
 	 *
 	 * @param DOMElement $node
 	 * @param array      $bad_attributes
-	 * @param array      $bad_protocols
 	 *
 	 * @since 1.0.0
 	 */
-	private function strip_attributes_recursive( $node, $bad_attributes, $bad_protocols ) {
+	private function strip_attributes_recursive( $node, $bad_attributes ) {
 
-		if ( $node->nodeType !== XML_ELEMENT_NODE ) {
+		if ( ! isset( $node->nodeType ) || $node->nodeType !== XML_ELEMENT_NODE ) {
+			return;
+		}
+
+		if ( ! isset( $this->tags[ $node->tagName ] ) ) { // remove invalid tag
+			self::remove_element( $node );
+
 			return;
 		}
 
@@ -173,6 +145,11 @@ class Better_AMP_Content_Sanitizer {
 				$attribute = $node->attributes->item( $i );
 
 				$attribute_name = strtolower( $attribute->name );
+
+				if ( $attribute_name === 'style' ) {
+					$this->save_element_style( $node, $attribute );
+				}
+
 				if ( in_array( $attribute_name, $bad_attributes ) ) {
 					$node->removeAttribute( $attribute_name );
 
@@ -185,8 +162,6 @@ class Better_AMP_Content_Sanitizer {
 					$node->removeAttribute( $attribute_name );
 
 					continue;
-				} elseif ( 'a' === $node_name ) {
-					$this->sanitize_a_attribute( $node, $attribute );
 				}
 			}
 		}
@@ -196,106 +171,12 @@ class Better_AMP_Content_Sanitizer {
 		for ( $i = $length - 1; $i >= 0; $i -- ) {
 			$child_node = $node->childNodes->item( $i );
 
-			$this->strip_attributes_recursive( $child_node, $bad_attributes, $bad_protocols );
+			$this->strip_attributes_recursive( $child_node, $bad_attributes );
 		}
 
 		if ( 'font' === $node_name ) {
 			$this->replace_node_with_children( $node );
-		} elseif ( 'a' === $node_name && FALSE === $this->validate_a_node( $node ) ) {
-			$this->replace_node_with_children( $node );
 		}
-	}
-
-
-	/**
-	 * Sanitize a tags attributes
-	 *
-	 * @param $node
-	 * @param $attribute
-	 *
-	 * @since 1.0.0
-	 */
-	private function sanitize_a_attribute( $node, $attribute ) {
-
-		$attribute_name = strtolower( $attribute->name );
-
-		if ( 'rel' === $attribute_name ) {
-
-			$old_value = $attribute->value;
-			$new_value = trim( preg_replace( self::PATTERN_REL_WP_ATTACHMENT, '', $old_value ) );
-
-			if ( empty( $new_value ) ) {
-				$node->removeAttribute( $attribute_name );
-			} elseif ( $old_value !== $new_value ) {
-				$node->setAttribute( $attribute_name, $new_value );
-			}
-
-		} elseif ( 'rev' === $attribute_name ) {
-
-			// rev removed from HTML5 spec, which was used by Jetpack Markdown.
-			$node->removeAttribute( $attribute_name );
-
-		} elseif ( 'target' === $attribute_name ) {
-
-			// _blank is the only allowed value and it must be lowercase.
-			// replace _new with _blank and others should simply be removed.
-			$old_value = strtolower( $attribute->value );
-
-			if ( '_blank' === $old_value || '_new' === $old_value ) {
-				// _new is not allowed; swap with _blank
-				$node->setAttribute( $attribute_name, '_blank' );
-			} else {
-				// only _blank is allowed
-				$node->removeAttribute( $attribute_name );
-			}
-		}
-	}
-
-
-	/**
-	 * Validates 'a' tag
-	 *
-	 * @param $node
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return bool
-	 */
-	private function validate_a_node( $node ) {
-
-		// Get the href attribute
-		$href = $node->getAttribute( 'href' );
-
-		// If no href is set and this isn't an anchor, it's invalid
-		if ( empty( $href ) ) {
-			$name_attr = $node->getAttribute( 'name' );
-			if ( ! empty( $name_attr ) ) {
-				// No further validation is required
-				return TRUE;
-			} else {
-				return FALSE;
-			}
-		}
-
-		// If this is an anchor link, just return true
-		if ( 0 === strpos( $href, '#' ) ) {
-			return TRUE;
-		}
-
-		// If the href starts with a '/', append the home_url to it for validation purposes.
-		if ( 0 === stripos( $href, '/' ) ) {
-			$href = untrailingslashit( get_home_url() ) . $href;
-		}
-
-		$valid_protocols = array( 'http', 'https', 'mailto', 'sms', 'tel', 'viber', 'whatsapp' );
-		$protocol        = strtok( $href, ':' );
-		if ( FALSE === filter_var( $href, FILTER_VALIDATE_URL )
-		     || ! in_array( $protocol, $valid_protocols )
-		) {
-			return FALSE;
-		}
-
-		return TRUE;
 	}
 
 
@@ -563,4 +444,698 @@ class Better_AMP_Content_Sanitizer {
 
 		return preg_replace_callback( $pattern, array( __CLASS__, '_preg_replace_link_callback' ), $content );
 	}
+
+
+	/**
+	 * @param $element
+	 *
+	 * @since 1.1
+	 */
+	public static function remove_element( $element ) {
+		$element->parentNode->removeChild( $element );
+	}
+
+
+	/**
+	 * @param array      $element_atts
+	 * @param DOMElement $element
+	 *
+	 * @since 1.1
+	 * @return array
+	 */
+	public function get_invalid_attrs( $element_atts, $element ) {
+
+		$invalid_attrs = array();
+
+		switch ( $element->tagName ) {
+
+			case 'amp-img':
+
+				if ( isset( $element_atts['width'] ) && $element_atts['width'] === 'auto' ) {
+					$invalid_attrs[] = 'width';
+				}
+				break;
+		}
+
+		return $invalid_attrs;
+	}
+
+	/**
+	 * @since 1.1
+	 */
+	public function sanitize_document() {
+
+		$prev_tag_name = FALSE;
+
+		$rules = array();
+
+		include BETTER_AMP_INC . 'sanitizer-rules.php';
+
+		foreach ( $rules as $rule ) {
+
+			if ( $prev_tag_name !== $rule['tag_name'] ) {
+				$elements      = $this->dom->getElementsByTagName( $rule['tag_name'] );
+				$prev_tag_name = $rule['tag_name'];
+			}
+
+			if ( $nodes_count = $elements->length ) {
+
+				foreach ( $rule['attrs'] as $atts ) {
+
+					if ( empty( $atts['name'] ) ) {
+						continue;
+					}
+
+					for ( $i = $nodes_count - 1; $i >= 0; $i -- ) {
+
+						$element = $elements->item( $i );
+
+						if ( ! $element ) { // if element was deleted
+							break 2;
+						}
+
+						$element_atts = self::get_node_attributes( $element );
+						$atts2remove  = $this->get_invalid_attrs( $element_atts, $element );
+						$new_atts     = array();
+						$mandatory    = FALSE;
+
+						foreach ( $atts2remove as $attr ) {
+							unset( $element_atts[ $attr ] );
+						}
+
+						/**
+						 * STEP 1) remove height=auto images
+						 */
+
+						if ( $rule['tag_name'] === 'amp-img' && isset( $element_atts['height'] ) && $element_atts['height'] === 'auto' ) {
+							self::remove_element( $element ); // Remove invalid element
+							continue;
+						}
+
+
+						/**
+						 * STEP 2) Sanitize layout attribute
+						 */
+
+
+						if ( ! empty( $rule['layouts']['supported_layouts'] ) ) {
+
+							if ( ! empty( $element_atts['layout'] ) ) {
+
+								$layout = strtoupper( $element_atts['layout'] );
+
+
+								if ( in_array( $layout, $rule['layouts']['supported_layouts'] ) ) { //
+
+									$this->sanitize_layout_attribute( $layout, $element, $element_atts );
+								} else { // invalid layout attribute value
+
+
+									if ( ! empty( $element_atts['width'] ) && ! empty( $element_atts['height'] ) ) {
+
+										$new_atts['layout'] = 'responsive';
+									} else {
+
+										$new_atts['layout'] = 'fill';
+									}
+								}
+							} else {
+
+								if ( isset( $element_atts['width'] ) && $element_atts['width'] === 'auto' && ! empty( $element_atts['height'] ) ) {
+									// default layout is fixed_height
+									if ( ! in_array( 'FIXED_HEIGHT', $rule['layouts']['supported_layouts'] ) ) {
+
+										$atts2remove[] = 'width';
+									}
+								}
+							}
+						}
+
+
+						/**
+						 * STEP 3) search for single required attributes
+						 */
+						if ( ! empty( $atts['mandatory'] ) ) { // if attribute is required
+
+							if ( ! isset( $element_atts[ $atts['name'] ] ) ) {
+
+								self::remove_element( $element ); // Remove invalid element
+
+								continue;
+							}
+
+							$mandatory = TRUE;
+						}
+
+						/**
+						 * STEP 4) search for alternative required attributes
+						 */
+						if ( ! empty( $atts['mandatory_oneof'] ) ) {
+
+							if ( ! array_intersect_key( $element_atts, $atts['mandatory_oneof'] ) ) { // no required attribute was found
+								if ( empty( $atts['value'] ) ) {
+
+									self::remove_element( $element ); // Remove invalid element
+
+									continue;
+
+								} else { // add required attribute to element if attribute value exists
+
+									$new_atts[ $atts['name'] ] = $atts['value'];
+								}
+							} else {
+								$mandatory = TRUE;
+							}
+						}
+
+						/**
+						 * STEP 5) Sanitize attribute value
+						 */
+						if ( ! empty( $element_atts[ $atts['name'] ] ) ) {
+
+							$remove_element = FALSE;
+							foreach ( array( 'value_regex', 'value_regex_case' ) as $regex_field ) {
+
+								if ( ! empty( $atts[ $regex_field ] ) ) {
+
+									$modifier = 'value_regex_case' === $regex_field ? 'i' : '';
+
+									if ( ! preg_match( '#^' . $atts[ $regex_field ] . '$#' . $modifier, $element_atts[ $atts['name'] ] ) ) {
+
+
+										if ( $mandatory ) {
+											$remove_element = TRUE;
+										} else {
+
+											$atts2remove[] = $atts['name'];
+											break;
+										}
+									}
+								}
+							}
+
+							if ( $remove_element ) {
+
+								self::remove_element( $element ); // Remove invalid element
+								continue;
+							}
+
+							if ( ! empty( $atts['blacklisted_value_regex'] ) ) { // Check blacklist
+
+								if ( ! preg_match( '/' . $atts['blacklisted_value_regex'] . '/', $element_atts[ $atts['name'] ] ) ) {
+
+									$atts2remove[] = $atts['name'];
+								}
+							}
+						}
+
+						/**
+						 * STEP 6) Sanitize url value
+						 *
+						 */
+
+						if ( ! empty( $atts['value_url'] ) ) {
+
+							$val    = isset( $element_atts[ $atts['name'] ] ) ? $element_atts[ $atts['name'] ] : NULL;
+							$parsed = $val ? parse_url( $val ) : array();
+
+
+							// check empty url value
+							if ( isset( $atts['value_url']['allow_empty'] ) && ! $atts['value_url']['allow_empty'] ) {
+								// empty url is not allowed
+
+								if ( empty( $element_atts[ $atts['name'] ] ) ) { // is url relative ?
+									if ( $mandatory ) {
+										$remove_element = TRUE;
+									} else {
+
+										$atts2remove[] = $atts['name'];
+									}
+								}
+							}
+
+
+							// check url protocol
+							if ( ! empty( $atts['value_url']['allowed_protocol'] ) ) {
+
+								if ( isset( $parsed['scheme'] ) ) {
+
+									if ( ! in_array( $parsed['scheme'], $atts['value_url']['allowed_protocol'] ) ) { // invalid url protocol
+
+										if ( $mandatory ) {
+											$remove_element = TRUE;
+										} else {
+
+											$atts2remove[] = $atts['name'];
+										}
+									}
+								}
+							}
+
+							if ( isset( $atts['value_url']['allow_relative'] ) && ! $atts['value_url']['allow_relative'] ) {
+								// relative url is not allowed
+
+								if ( empty( $parsed['host'] ) ) { // is url relative ?
+									if ( $mandatory ) {
+										$remove_element = TRUE;
+									} else {
+
+										$atts2remove[] = $atts['name'];
+									}
+								}
+							}
+
+							if ( ! empty( $remove_element ) ) {
+
+								self::remove_element( $element ); // Remove invalid element
+								continue;
+							}
+						}
+
+
+						/**
+						 * STEP 7) Sanitize attribute with fixed value
+						 */
+						if ( ! empty( $atts['value'] ) && isset( $element_atts[ $atts['name'] ] ) ) {
+
+							if ( $element_atts[ $atts['name'] ] !== $atts['value'] ) { // is current value invalid?
+								$new_atts[ $atts['name'] ] = $atts['value']; // set valid value
+							}
+						}
+
+
+						/**
+						 * STEP 8) Filter attributes list
+						 */
+
+						if ( sizeof( $atts ) === 1 ) { // check is attribute boolean
+
+
+							if ( $element_atts ) {
+								$el_atts = $this->_get_rule_attrs_list( $rule );
+
+								$atts2remove = array_diff_key( $element_atts, $this->general_attrs ); // keep global allowed attrs
+								$atts2remove = array_diff_key( $atts2remove, $el_atts ); // Filter extra attrs
+								$atts2remove = array_keys( $atts2remove );
+							}
+						}
+
+						/**
+						 * STEP 9) Sanitize elements with on attribute
+						 */
+
+						if ( ! empty( $element_atts['on'] ) ) {
+
+							if ( substr( $element_atts['on'], 0, 4 ) === 'tap:' ) { // now role & tabindex attribute is required
+
+								if ( empty( $element_atts['tabindex'] ) ) {
+									$new_atts['tabindex'] = $this->tabindex ++;
+								}
+
+								if ( empty( $element_atts['role'] ) ) {
+									$new_atts['role'] = $rule['tag_name'];
+								}
+							}
+						}
+
+						/**
+						 * STEP 10) Sanitize percentage  with
+						 */
+						if ( isset( $element_atts['width'] ) && stristr( $element_atts['width'], '%' ) ) {
+
+							$new_atts['width'] = self::sanitize_dimension( $element_atts['width'], 'width' );
+						}
+
+						if ( $atts2remove ) {
+							$this->dom->remove_attributes( $element, $atts2remove ); // Remove invalid attributes
+						}
+
+						if ( $new_atts ) {
+							$this->dom->add_attributes( $element, $new_atts ); // add/ update element attribute
+						}
+					}
+				}
+			}
+		}
+
+		$body = $this->dom->get_body_node();
+
+		if ( $body ) {
+
+
+			/**
+			 * Remove all extra tags
+			 */
+
+			$extra_tags = array(
+				'script',
+				'svg',
+			);
+
+			foreach ( $extra_tags as $tag_name ) {
+
+				$elements = $body->getElementsByTagName( $tag_name );
+
+				if ( $elements->length ) {
+
+					for ( $i = $elements->length - 1; $i >= 0; $i -- ) {
+						$element = $elements->item( $i );
+
+						self::remove_element( $element );
+					}
+				}
+			}
+
+			/**
+			 * Remove extra style tags and collect their contents
+			 */
+			$elements = $body->getElementsByTagName( 'style' );
+
+			if ( $elements->length ) {
+
+				for ( $i = $elements->length - 1; $i >= 0; $i -- ) {
+					$element = $elements->item( $i );
+
+					$style = preg_replace( '/\s*!\s*important/', '', $element->nodeValue ); // Remove !important
+					better_amp_add_inline_style( $style );
+
+					self::remove_element( $element );
+				}
+			}
+
+			/**
+			 * Sanitize Form Tag
+			 */
+
+			$elements = $body->getElementsByTagName( 'form' );
+
+			if ( $elements->length ) {
+
+				better_amp_enqueue_script( 'amp-form', 'https://cdn.ampproject.org/v0/amp-form-0.1.js"' );
+
+				$valid_target_values = array(
+					'_blank' => TRUE,
+					'_top'   => TRUE,
+				);
+
+				for ( $i = $elements->length - 1; $i >= 0; $i -- ) {
+
+					$action  = '';
+					$element = $elements->item( $i );
+
+					$element_atts = self::get_node_attributes( $element );
+
+					if ( ! empty( $element_atts['action'] ) ) {
+
+						$element->removeAttribute( 'action' );
+						$action = $element_atts['action'];
+					}
+
+					if ( ! empty( $element_atts['action-xhr'] ) ) {
+
+						$action = $element_atts['action-xhr'];
+					}
+
+					$action_xhr = '';
+
+					if ( $action ) {
+
+						$parsed_action = parse_url( $action );
+						if ( ! isset( $parsed_action['schema'] ) && ! empty( $parsed_action['path'] ) ) {
+
+							$action_xhr = $parsed_action['path'];
+						} else if ( isset( $parsed_action['schema'] ) && $parsed_action['schema'] === 'https' ) {
+
+							$action_xhr = $action_xhr;
+						} else if ( $_parsed = self::parse_internal_url( $action ) ) {
+
+
+							$action_xhr = empty( $_parsed['path'] ) ? '/' : $_parsed['path'];
+						} else { // invalid element - cannot detect action
+
+							self::remove_element( $element );
+							continue;
+						}
+
+					} else {
+
+						$action_xhr = add_query_arg( FALSE, FALSE ); // relative path to current page
+					}
+
+					$action_attr_name = 'action-xhr';
+					if ( ! isset( $element_atts['method'] ) || strtolower( $element_atts['method'] ) === 'get' ) {
+						// Swap action-xr with action on get methods
+
+						$action_attr_name = 'action';
+					}
+
+					$element->setAttribute( $action_attr_name, $action_xhr );
+
+					/**
+					 * Sanitize target attribute
+					 */
+					if (
+						( isset( $element_atts['target'] ) && ! isset( $valid_target_values[ $element_atts['target'] ] ) )
+						||
+						! isset( $element_atts['target'] )
+					) {
+
+						$element->setAttribute( 'target', '_top' );
+					}
+
+					//@todo sanitize input elements
+				}
+			}
+
+
+			/**
+			 * Replace audio/video tag with amp-audio/video
+			 */
+
+			$replaceTags = array(
+
+				'audio' => array(
+					'amp-audio',
+					'https://cdn.ampproject.org/v0/amp-audio-0.1.js'
+				),
+				'video' => array(
+					'amp-video',
+					'https://cdn.ampproject.org/v0/amp-video-0.1.js'
+				)
+
+			);
+			foreach ( $replaceTags as $tag_name => $tag_info ) {
+				$elements = $body->getElementsByTagName( $tag_name );
+
+				if ( $elements->length ) {
+
+					$enqueue = TRUE;
+
+					/**
+					 * @var DOMElement $element
+					 */
+					for ( $i = $elements->length - 1; $i >= 0; $i -- ) {
+
+						$element = $elements->item( $i );
+
+						if ( $element->parentNode->tagName !== 'noscript' ) {
+
+							$source = Better_AMP_HTML_Util::child( $element, 'source', array( 'src' ) );
+
+							if ( empty( $source->attributes['src'] ) ) {
+
+								self::remove_element( $element );
+								continue;
+							}
+
+							$src = $source->attributes['src']->value;
+
+							if ( ! preg_match( '#^\s*https://#', $src ) ) {
+
+								self::remove_element( $element );
+								continue;
+							}
+
+							$element->setAttribute( 'src', $src );
+							Better_AMP_HTML_Util::renameElement( $element, $tag_info[0] );
+
+							if ( $enqueue ) {
+
+								better_amp_enqueue_script( $tag_info[0], $tag_info[1] );
+								$enqueue = FALSE;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+
+	/**
+	 * parse url if given url was an internal url
+	 *
+	 * @param string $url
+	 *
+	 * @todo  check subdirectory
+	 *
+	 * @since 1.1
+	 * @return array
+	 */
+	public static function parse_internal_url( $url ) {
+
+		static $current_url_parsed;
+
+		if ( ! $current_url_parsed ) {
+			$current_url_parsed = parse_url( site_url() );
+		}
+
+		$parsed_url = parse_url( $url );
+
+		if ( ! isset( $parsed_url['host'] ) || $parsed_url['host'] === $current_url_parsed['host'] ) {
+
+			return $parsed_url;
+		}
+
+		return array();
+	}
+
+	/**
+	 *
+	 * Get attributes of the element
+	 *
+	 * @param DOMElement $node
+	 *
+	 * @since 1.1
+	 *
+	 * @return array key-value paired attributes
+	 */
+	public static function get_node_attributes( $node ) {
+
+		$attributes = array();
+
+		foreach ( $node->attributes as $attribute ) {
+			$attributes[ $attribute->nodeName ] = $attribute->nodeValue;
+		}
+
+		return $attributes;
+	}
+
+
+	/**
+	 * Sanitize element attribute value
+	 *
+	 * @see   https://github.com/ampproject/amphtml/blob/master/spec/amp-html-layout.md
+	 *
+	 * @param string     $layout
+	 * @param DOMElement $element
+	 * @param array      $element_atts
+	 *
+	 * @since 1.1
+	 */
+	protected function sanitize_layout_attribute( $layout, $element, $element_atts ) {
+
+		$atts2remove = array();
+
+
+		$required_atts = array(
+			'width'  => FALSE,
+			'height' => FALSE,
+		);
+
+		switch ( strtoupper( $layout ) ) {
+
+			case 'FIXED_HEIGHT':
+
+				// The height attribute must be present. The width attribute must not be present or must be equal to auto.
+				$required_atts['height'] = TRUE;
+				break;
+
+			case 'FIXED':
+			case 'RESPONSIVE':
+
+				// The width and height attributes must be present
+				$required_atts['width']  = TRUE;
+				$required_atts['height'] = TRUE;
+				break;
+
+
+			case 'FILL':
+			case 'CONTAINER':
+			case 'FLEX_ITEM':
+			case 'NODISPLAY':
+				//  No validation required!
+				break;
+		}
+
+
+		if (
+			$required_atts['width'] &&
+			( empty( $element_atts['width'] ) || $element_atts['width'] === 'auto' )
+		) {
+			$atts2remove[] = 'layout';
+		}
+
+		if (
+			$required_atts['height'] &&
+			( empty( $element_atts['height'] ) || $element_atts['height'] === 'auto' )
+		) {
+			$atts2remove[] = 'layout';
+		}
+
+
+		if ( $atts2remove ) {
+			$this->dom->remove_attributes( $element, $atts2remove ); // Remove invalid attributes
+		}
+	}
+
+
+	/**
+	 * Collect inline element style and print it out in <style amp-custom> tag
+	 *
+	 * @param DOMElement $node
+	 *
+	 * @since 1.1
+	 */
+	public function save_element_style( $node ) {
+		$attributes = self::get_node_attributes( $node );
+
+		if ( ! empty( $attributes['style'] ) ) {
+
+			if ( ! empty( $attributes['id'] ) ) {
+
+				$selector = '#' . $attributes['id'];
+			} else {
+
+				$class = isset( $attributes['class'] ) ? $attributes['class'] . ' ' : '';
+				$class .= 'e_' . mt_rand();
+				$node->setAttribute( 'class', $class );
+
+				$selector = '.' . $class;
+			}
+
+			better_amp_add_inline_style( sprintf( '%s{%s}', $selector, $attributes['style'] ) );
+		}
+	}
+
+	/**
+	 * @param array $rule
+	 *
+	 * @since 1.1
+	 * @return array
+	 */
+	protected function _get_rule_attrs_list( $rule ) {
+
+		$results = array();
+
+		foreach ( $rule['attrs'] as $d ) {
+
+			if ( isset( $d['name'] ) ) {
+				$results[ $d['name'] ] = TRUE;
+			}
+		}
+
+		return $results;
+	}
+
 }

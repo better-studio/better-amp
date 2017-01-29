@@ -12,14 +12,15 @@ class Better_AMP_Carousel_Component extends Better_AMP_Component_Base implements
 	/**
 	 * Just Implement contact
 	 *
-	 * @param string $content
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return string
+	 * @param Better_AMP_HTML_Util $instance
+	 *
+	 * @return Better_AMP_HTML_Util
 	 */
-	public function transform( $content ) {
-		return $content;
+	public function transform( Better_AMP_HTML_Util $instance ) {
+		return $instance;
 	}
 
 	/**

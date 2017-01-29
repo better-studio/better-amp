@@ -22,7 +22,9 @@ class Better_AMP_HTML_Util extends DOMDocument {
 
 		parent::__construct( $version, $encoding );
 
-		$this->loadHTML( $html );
+		if ( $html ) {
+			$this->loadHTML( $html );
+		}
 	}
 
 	/**
@@ -37,6 +39,23 @@ class Better_AMP_HTML_Util extends DOMDocument {
 
 		foreach ( $attributes as $name => $value ) {
 			$node->setAttribute( $name, $value );
+		}
+
+	}
+
+
+	/**
+	 * Add attributes to the node
+	 *
+	 * @param DOMElement $node
+	 * @param array      $attributes key-value paired attributes
+	 *
+	 * @since 1.1
+	 */
+	public function remove_attributes( &$node, $attributes ) {
+
+		foreach ( $attributes as $name ) {
+			$node->removeAttribute( $name );
 		}
 
 	}
@@ -77,19 +96,23 @@ class Better_AMP_HTML_Util extends DOMDocument {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @param bool $body_element return just body elements
+	 *
 	 * @return string body tag inner HTML
 	 */
-	public function get_content() {
+	public function get_content( $body_element = TRUE ) {
 
-		$HTML = '';
+		if ( $body_element ) {
 
-		$body = $this->get_body_node();
+			if ( preg_match( '#<\s*body[^>]*>(.+)<\s*/\s*body\s*>#isx', $this->saveHTML(), $match ) ) {
 
-		foreach ( $body->childNodes as $node ) {
-			$HTML .= $this->saveXML( $node, LIBXML_NOEMPTYTAG );
+				return $match[1];
+			}
+
+			return '';
 		}
 
-		return $HTML;
+		return $this->saveHTML();
 	}
 
 
@@ -161,18 +184,37 @@ class Better_AMP_HTML_Util extends DOMDocument {
 	 * Load HTML from a string
 	 * @link  http://php.net/manual/domdocument.loadhtml.ph
 	 *
-	 * @param string $html    The HTML string
-	 * @param null   $options - nothing! just for prevent trigger PHP Strict warning!
-	 *
-	 * @since 1.0.0
+	 * @param string   $html          The HTML string
+	 * @param null|int $options       - nothing! just for prevent trigger PHP Strict warning!
+	 * @param bool     $wrap_body_tag wrap content into html>body tag
 	 *
 	 * @return bool true on success or false on failure.
+	 * @since 1.0.0
+	 *
 	 */
-	public function loadHTML( $html, $options = NULL ) {
+	public function loadHTML( $html, $options = NULL, $wrap_body_tag = TRUE ) {
 
 		$prev = libxml_use_internal_errors( TRUE );
 
-		parent::loadHTML( '<!DOCTYPE html><html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"></head><body>' . $html . '</body></html>' );
+		if ( $wrap_body_tag ) {
+			parent::loadHTML( '<!DOCTYPE html><html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"></head><body>' . $html . '</body></html>' );
+		} else {
+			$options = 0;
+
+			if ( defined( 'LIBXML_HTML_NODEFDTD' ) ) { // Libxml >= 2.7.8
+				$options |= LIBXML_HTML_NODEFDTD;
+			}
+
+			if ( defined( 'LIBXML_HTML_NOIMPLIED' ) ) { // Libxml >= 2.7.7
+				$options |= LIBXML_HTML_NOIMPLIED;
+			}
+
+			if ( $options ) {
+				parent::loadHTML( $html, $options );
+			} else { // support for old php version
+				parent::loadHTML( $html );
+			}
+		}
 
 		libxml_use_internal_errors( $prev );
 		libxml_clear_errors();
@@ -189,5 +231,80 @@ class Better_AMP_HTML_Util extends DOMDocument {
 	 */
 	public static function is_node_empty( $node ) {
 		return 0 === $node->childNodes->length && empty( $node->textContent );
+	}
+
+
+	/**
+	 * Get Single Children Element
+	 *
+	 * @param DOMElement $node
+	 * @param string     $tag_name HTML Tag Name
+	 * @param array      $required_atts
+	 *
+	 * @return bool|DOMElement DOMElement on success or false on failure
+	 * @since 1.1
+	 */
+	public static function child( $node, $tag_name, $required_atts = array() ) {
+
+		if ( empty( $node->childNodes ) ) {
+			return FALSE;
+		}
+
+		$tag_name = strtolower( $tag_name );
+
+		/**
+		 * @var DOMElement $child_node
+		 */
+		foreach ( $node->childNodes as $child_node ) {
+
+			if ( $tag_name === $child_node->tagName ) {
+
+				foreach ( $required_atts as $attr ) {
+
+					if ( ! $child_node->hasAttribute( $attr ) ) {
+						continue 2;
+					}
+				}
+
+				return $child_node;
+			}
+		}
+
+		return FALSE;
+	}
+
+
+	/**
+	 * Rename element tag name
+	 *
+	 * @param DOMElement $element
+	 * @param string     $newName
+	 *
+	 * @see   http://stackoverflow.com/questions/12463550/rename-an-xml-node-using-php
+	 *
+	 * @since 1.1
+	 */
+	public static function renameElement( $element, $newName ) {
+		$newElement    = $element->ownerDocument->createElement( $newName );
+		$parentElement = $element->parentNode;
+		$parentElement->insertBefore( $newElement, $element );
+
+		$childNodes = $element->childNodes;
+		while ( $childNodes->length > 0 ) {
+			$newElement->appendChild( $childNodes->item( 0 ) );
+		}
+
+		$attributes = $element->attributes;
+		while ( $attributes->length > 0 ) {
+			$attribute = $attributes->item( 0 );
+			if ( ! is_null( $attribute->namespaceURI ) ) {
+				$newElement->setAttributeNS( 'http://www.w3.org/2000/xmlns/',
+					'xmlns:' . $attribute->prefix,
+					$attribute->namespaceURI );
+			}
+			$newElement->setAttributeNode( $attribute );
+		}
+
+		$parentElement->removeChild( $element );
 	}
 }

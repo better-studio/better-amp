@@ -11,13 +11,14 @@ interface Better_AMP_Component_Interface {
 	/**
 	 * Prepare HTML content before printing
 	 *
-	 * @param string $content post_content html
+	 * @param Better_AMP_HTML_Util $instance
 	 *
-	 * @since 1.0.0
+	 * @internal param string $content post_content html
 	 *
-	 * @return string
+	 * @since    1.0.0
+	 *
 	 */
-	public function transform( $content );
+	public function transform( Better_AMP_HTML_Util $instance );
 
 
 	/**

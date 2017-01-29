@@ -239,9 +239,6 @@ class Better_AMP {
 		// Register the AMP special shortcode ports
 		add_filter( 'the_content', array( $this, 'register_components_shortcodes' ), 1 );
 
-		// Convert post content to AMP validated content
-		add_filter( 'the_content', array( $this, 'convert_content_to_amp' ), 9999 );
-
 		// Replace all links inside contents to AMP version.
 		// Stops user to go outside of AMP version.
 		add_filter( 'better-amp/template/include', array( $this, 'replace_internal_links_with_amp_version' ) );
@@ -689,22 +686,19 @@ class Better_AMP {
 	 *
 	 * todo: Add file caching
 	 *
-	 * @param string $content         html string
+	 * @param Better_AMP_HTML_Util $instance
+	 * @param boolean              $sanitize
 	 *
-	 * @global array $better_amp_registered_components
-	 *                                better-amp components information array
 	 * @since 1.0.0
-	 *
-	 * @return  bool|string converted html to AMP on success or false on error
 	 */
-	public function render_content( $content ) {
+	public function render_content( Better_AMP_HTML_Util $instance, $sanitize = FALSE ) {
 
-		$sanitizer = new Better_AMP_Content_Sanitizer();
+		$this->call_components_method( 'render', $instance );
 
-		$content = $this->call_components_method( 'render', $content );
-		$content = $sanitizer->sanitize( $content );
-
-		return $content;
+		if ( $sanitize ) {
+			$sanitizer = new Better_AMP_Content_Sanitizer( $instance );
+			$sanitizer->sanitize();
+		}
 
 	} // render_content
 
@@ -988,13 +982,27 @@ class Better_AMP {
 	public function buffer_better_amp_head_end() {
 
 		$content = ob_get_clean();
+		$prepend = '';
+
+		/**
+		 * Convert output to valid amp html
+		 */
+		$instance = new Better_AMP_HTML_Util();
+		$instance->loadHTML( '<!DOCTYPE html><html><head><meta http-equiv="content-type" content="text/html; charset=utf-8">' . $content . '</body></html>', NULL, FALSE );
+
+		preg_match( '#(<\s*body[^>]*>)#isx', $content, $match );
+		$prepend .= isset( $match[1] ) ? $match[1] : '<body>'; // open body tag
+
+		$this->render_content( $instance, TRUE ); // Convert HTML top amp html
+		$content = $instance->get_content( TRUE );
+		// End convert output to valid amp html
 
 		$GLOBALS['wp_filter']['better-amp/template/head'] = $this->_head_actions;
 		$this->_head_actions                              = array();
 
 		do_action( 'better-amp/template/head' );
 
-		echo $content;
+		echo $prepend , $content;
 	}
 
 	/**

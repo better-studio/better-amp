@@ -14,8 +14,8 @@ class Better_AMP_IMG_Component extends Better_AMP_Component_Base implements Bett
 	 */
 	public function head() {
 		if ( ! better_amp_is_customize_preview() ) {
-			add_filter( 'post_thumbnail_html', array( $this, 'transform_image_thumbnail_to_amp' ) );
-			add_filter( 'get_avatar', array( $this, 'transform_image_thumbnail_to_amp' ) );
+			add_filter( 'post_thumbnail_html', array( $this, 'transform_image_tag_to_amp' ) );
+			add_filter( 'get_avatar', array( $this, 'transform_image_tag_to_amp' ) );
 		}
 	}
 
@@ -41,15 +41,14 @@ class Better_AMP_IMG_Component extends Better_AMP_Component_Base implements Bett
 	/**
 	 * Transform <img> tags to the <amp-img> or <img-anim> tags
 	 *
-	 * @param string $content
+	 * @param Better_AMP_HTML_Util $instance
 	 *
+	 * @return Better_AMP_HTML_Util
 	 * @since 1.0.0
 	 *
-	 * @return string
 	 */
-	public function transform( $content ) {
+	public function transform( Better_AMP_HTML_Util $instance ) {
 
-		$instance = new Better_AMP_HTML_Util( $content );
 		$elements = $instance->getElementsByTagName( 'img' ); // get all img tags
 
 		/**
@@ -79,7 +78,7 @@ class Better_AMP_IMG_Component extends Better_AMP_Component_Base implements Bett
 		}
 
 
-		return $instance->get_content();
+		return $instance;
 	}
 
 	/**
@@ -99,9 +98,13 @@ class Better_AMP_IMG_Component extends Better_AMP_Component_Base implements Bett
 		$attributes['class'] .= ' amp-image-tag';
 
 		if ( ! isset( $attributes['width'] ) || ! isset( $attributes['height'] ) ) {
-			if ( $dim = $this->get_image_dimension( $attributes['src'] ) ) {
-				$attributes['width']  = $dim[0];
-				$attributes['height'] = $dim[1];
+
+			if ( isset( $attributes['src'] ) ) {
+
+				if ( $dim = $this->get_image_dimension( $attributes['src'] ) ) {
+					$attributes['width']  = $dim[0];
+					$attributes['height'] = $dim[1];
+				}
 			}
 		}
 
@@ -414,13 +417,12 @@ class Better_AMP_IMG_Component extends Better_AMP_Component_Base implements Bett
 	}
 
 	/**
-	 * Callback: Change <img> tag in the_post_thumbnail() to <amp-img> and filter attributes.
-	 * Filter  : post_thumbnail_html
+	 * Change <img> tag to <amp-img>
 	 *
 	 * @since 1.0.0
 	 */
-	public function transform_image_thumbnail_to_amp( $html ) {
-		return $this->transform( $html );
+	public function transform_image_tag_to_amp( $html ) {
+		return preg_replace( '/<\s*img\s+/i', '<amp-img ', $html );
 	}
 
 
