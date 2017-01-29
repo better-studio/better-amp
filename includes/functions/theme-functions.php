@@ -1034,6 +1034,10 @@ if ( ! function_exists( 'better_amp_print_rel_amphtml' ) ) {
 	 */
 	function better_amp_print_rel_amphtml() {
 
+		if ( ! Better_AMP::amp_version_exists() ) {
+			return;
+		}
+
 		$canonical = Better_AMP_Content_Sanitizer::transform_to_amp_url(
 			better_amp_get_canonical_url()
 		);
