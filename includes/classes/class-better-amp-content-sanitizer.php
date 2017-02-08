@@ -734,7 +734,16 @@ class Better_AMP_Content_Sanitizer {
 							if ( $element_atts ) {
 								$el_atts = $this->_get_rule_attrs_list( $rule );
 
-								$atts2remove = array_diff_key( $element_atts, $this->general_attrs ); // keep global allowed attrs
+								foreach ( $element_atts as $k => $v ) {
+
+									if ( isset( $this->general_attrs[ $k ] ) ) {
+										continue;
+									}
+
+									if ( substr( $k, 0, 5 ) !== 'data-' ) {
+										$atts2remove[ $k ] = $v;
+									}
+								}
 								$atts2remove = array_diff_key( $atts2remove, $el_atts ); // Filter extra attrs
 								$atts2remove = array_keys( $atts2remove );
 							}
