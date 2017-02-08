@@ -2060,7 +2060,7 @@ if ( ! function_exists( 'better_amp_get_archive_title_fields' ) ) {
 			} elseif ( is_tax( 'post_format', 'post-format-audio' ) ) {
 				$icon      = '<i class="fa fa-music"></i>';
 				$pre_title = better_amp_translation_get( 'browsing_archive' );
-				$title     = themename_translation_get( 'audio' );
+				$title     = better_amp_translation_get( 'audio' );
 			} elseif ( is_tax( 'post_format', 'post-format-chat' ) ) {
 				$icon      = '<i class="fa fa-coffee"></i>';
 				$pre_title = better_amp_translation_get( 'browsing_archive' );
@@ -2414,7 +2414,7 @@ if ( ! function_exists( 'better_amp_social_share_guss_current_page' ) ) {
 		} elseif ( is_single( get_the_ID() ) && ! ( is_front_page() ) ) {
 			$page_title     = get_the_title();
 			$page_permalink = get_the_permalink();
-		} elseif ( is_page() && ! themename_is_main_query() ) {
+		} elseif ( is_page() ) {
 			$page_title     = get_the_title();
 			$page_permalink = get_the_permalink();
 		} elseif ( is_category() || is_tag() || is_tax() ) {
