@@ -2457,8 +2457,8 @@ if ( ! function_exists( 'better_amp_social_share_get_li' ) ) {
 
 		if ( is_null( $initialized ) ) {
 			$cur_page       = better_amp_social_share_guss_current_page();
-			$page_title     = $cur_page['page_title'];
-			$page_permalink = $cur_page['page_permalink'];
+			$page_title     = esc_attr( $cur_page['page_title'] );
+			$page_permalink = urlencode( $cur_page['page_permalink'] );
 			$initialized    = TRUE;
 		}
 
