@@ -2530,7 +2530,7 @@ if ( ! function_exists( 'better_amp_social_share_get_li' ) ) {
 				break;
 
 			case 'whatsapp':
-				$link  = 'whatsapp://send?text=' . esc_attr( $page_title . "  \n\n" . $page_permalink );
+				$link  = 'whatsapp://send?text=' . $page_title . "  \n\n" . $page_permalink;
 				$title = __( 'WhatsApp', 'better-amp' );
 				$icon  = '<i class="fa fa-whatsapp"></i>';
 				break;
