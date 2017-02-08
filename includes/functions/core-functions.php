@@ -270,22 +270,20 @@ function better_amp_add_inline_style( $data, $handle = '' ) {
  *
  * @see   wp_add_inline_style for more information
  *
- * @param string $handle    Name of the stylesheet to add the extra styles to.
- * @param string $file_path css file path
+ * @param string $handle Name of the stylesheet to add the extra styles to.
+ * @param string $file   css file path
  *
  * @since 1.0.0
  *
  * @return bool True on success, false on failure.
  */
-function better_amp_enqueue_inline_style( $file_path, $handle = '' ) {
+function better_amp_enqueue_inline_style( $file, $handle = '' ) {
 
-	if ( file_exists( $file_path ) ) {
-		$data = file_get_contents( $file_path );
+	ob_start();
 
-		return better_amp_add_inline_style( $data, $handle );
-	}
+	better_amp_locate_template( $file, TRUE );
 
-	return FALSE;
+	return better_amp_add_inline_style( ob_get_clean(), $handle );
 }
 
 
