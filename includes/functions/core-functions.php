@@ -213,6 +213,21 @@ function better_amp_enqueue_style( $handle, $src = '', $deps = array(), $ver = F
 
 
 /**
+ * Check whether a style has been added to the queue.
+ *
+ * @param string $handle
+ * @param string $list
+ *
+ * @since 1.1.0
+ *
+ * @return bool
+ */
+function better_amp_style_is( $handle, $list = 'enqueued' ) {
+	return (bool) better_amp_styles()->query( $handle, $list );
+}
+
+
+/**
  * Callback: Generate and echo stylesheet HTML tags
  * action  : better-amp/template/head
  *
