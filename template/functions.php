@@ -1,5 +1,10 @@
 <?php
 
+// Add Ads into BetterAds panel if that was available
+if ( better_amp_is_ad_plugin_active() ) {
+	better_amp_template_part( 'includes/ads' );
+}
+
 add_image_size( 'better-amp-small', 100, 100, array( 'center', 'center' ) );  // Main Post Image In Full Width
 add_image_size( 'better-amp-large', 450, 300, array( 'center', 'center' ) );  // Main Post Image In Full Width
 

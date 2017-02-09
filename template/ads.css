@@ -1,0 +1,151 @@
+/*
+
+BetterAMP ads style for BetterAds
+
+    1. =>Base & Helpers
+    2. =>Ads Container
+    3. =>Ad Container
+    4. =>Columns
+    5. =>Ad Locations
+
+*/
+
+/**
+ * 1. =>Base & Helpers
+ **************************************************************/
+.betteradscontainer .betterad-container{
+    overflow: hidden;
+}
+.betterads-clearfix:before,
+.betterads-clearfix:after{
+    content: "";
+    display: table;
+}
+.betterads-clearfix:after{
+    clear: both;
+}
+.betterads-clearfix{
+    zoom: 1;
+}
+.betterad-caption {
+    display: block;
+    color: #bbbbbb;
+    font-size: 12px;
+    line-height: 24px;
+}
+.betterad-container.betterad-container a{
+    text-decoration: none;
+}
+.betterad-type-code br{
+    display: none;
+}
+.better-ads-post-top {
+    margin-bottom: 20px;
+}
+.better-ads-post-bottom {
+    margin-top: 20px;
+    margin-bottom: 0;
+}
+.betterads-empty-note{
+    display: none;
+}
+
+
+/**
+ * 2. =>Ads Container
+ **************************************************************/
+.betteradscontainer.betteradscontainer .betterad-type-image amp-img{
+    display: inline-block;
+}
+.betteradscontainer.betterads-align-center{
+    text-align: center;
+}
+.betteradscontainer.betterads-align-right{
+    text-align: right;
+}
+.betteradscontainer.betterads-align-left{
+    text-align: left;
+}
+.betteradscontainer.betterads-float-left{
+    float: left;
+    margin-right: 20px;
+}
+.betteradscontainer.betterads-float-right{
+    float: right;
+    margin-left: 20px;
+}
+
+
+/**
+ * 3. =>Ad Container
+ **************************************************************/
+.betteradscontainer .betterad-container{
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+}
+.betteradscontainer .betterad-container.betterad-type-code object,
+.betteradscontainer .betterad-container.betterad-type-code embed,
+.betteradscontainer .betterad-container.betterad-type-image img{
+    max-width: 100%;
+}
+.betteradscontainer .betterad-container.betterad-type-image .ad-caption{
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: inline-block;
+    width: 100%;
+    font-size: 12px;
+}
+
+
+/**
+ * 4. =>Columns
+ **************************************************************/
+
+/* 2 column */
+.betteradscontainer.betterad-column-2 .betterad-container{
+    float: left;
+    width: 50%;
+}
+.betteradscontainer.betterad-column-2 .betterad-container:nth-of-type(odd){
+    padding-right: 5px;
+    clear: left;
+}
+.betteradscontainer.betterad-column-2 .betterad-container:nth-of-type(even){
+    padding-left: 5px;
+}
+
+/* 3 column */
+.betteradscontainer.betterad-column-3 .betterad-container{
+    float: left;
+    width: 33.3333%;
+}
+.betteradscontainer.betterad-column-3 .betterad-container:nth-child( 3n-1 ){
+    padding: 0 3px;
+}
+.betteradscontainer.betterad-column-3 .betterad-container:nth-child( 3n-2 ){
+    padding-right: 6px;
+    clear: left;
+}
+.betteradscontainer.betterad-column-3 .betterad-container:nth-child( 3n+3  ){
+    padding-left: 6px;
+}
+
+
+/**
+ * 5. =>Ad Locations
+ **************************************************************/
+.betteradscontainer.location-amp_header_after{
+    padding-top: 20px;
+    margin-bottom: -15px;
+}
+.posts-listing.posts-listing-2 .betteradscontainer.location-amp_archive_after_x,
+.posts-listing.posts-listing-1 .betteradscontainer.location-amp_archive_after_x {
+    padding-top: 20px;
+}
+.posts-listing.posts-listing-2 .betteradscontainer.location-amp_archive_after_x + .listing-2-item,
+.posts-listing.posts-listing-1 .betteradscontainer.location-amp_archive_after_x + .listing-1-item{
+    border-top: 1px solid #e6e6e6;
+}

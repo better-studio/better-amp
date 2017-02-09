@@ -1,3 +1,8 @@
+<?php
+
+better_amp_show_ad_location( 'amp_footer_before' );
+
+?>
 </div> <!-- /wrap -->
 
 <footer class="better-amp-footer <?php echo better_amp_get_global( 'footer-custom-class', '' ); ?>">

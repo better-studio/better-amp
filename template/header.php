@@ -39,4 +39,12 @@ if ( better_amp_get_theme_mod( 'better-amp-sidebar-show' ) ) {
 		?>
 	</header><!-- End Main Nav -->
 
+	<?php
+
+	better_amp_show_ad_location( 'amp_header_after', NULL, array(
+		'container-class' => 'amp-ad-after-header'
+	) );
+
+	?>
+
 	<div class="wrap">

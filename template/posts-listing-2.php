@@ -1,5 +1,14 @@
 <div class="posts-listing posts-listing-2">
-	<?php while( better_amp_have_posts() ) {
+	<?php
+
+	if ( better_amp_is_ad_plugin_active() ) {
+		$ad_after_each = (int) Better_Ads_Manager::get_option( 'amp_archive_after_x_number' );
+		$counter       = 1;
+	} else {
+		$ad_after_each = FALSE;
+	}
+
+	while( better_amp_have_posts() ) {
 		better_amp_the_post() ?>
 		<article <?php better_amp_post_classes( 'listing-item listing-2-item clearfix' ) ?>>
 
@@ -37,5 +46,18 @@
 			</div>
 
 		</article>
-	<?php } ?>
+		<?php
+
+		// should be active and also there was another post after this post
+		if ( $ad_after_each && better_amp_have_posts() ) {
+			if ( $counter === $ad_after_each ) {
+				better_amp_show_ad_location( 'amp_archive_after_x' );
+				$counter = 1; // reset counter
+			} else {
+				$counter ++;
+			}
+		}
+
+
+	} ?>
 </div>

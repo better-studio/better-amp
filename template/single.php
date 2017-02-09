@@ -7,11 +7,23 @@ better_amp_the_post();
 ?>
 	<div <?php better_amp_post_classes( 'single-post clearfix' ) ?>>
 
+		<?php
+
+		better_amp_show_ad_location( 'amp_post_title_before' );
+
+		?>
+
 		<h3 class="post-title">
 			<?php the_title() ?>
 		</h3>
 
 		<?php better_amp_post_subtitle(); ?>
+
+		<?php
+
+		better_amp_show_ad_location( 'amp_post_title_after' );
+
+		?>
 
 		<?php if ( better_amp_get_theme_mod( 'better-amp-post-show-thumbnail' ) && has_post_thumbnail() ): ?>
 			<div class="post-thumbnail" <?php better_amp_customizer_hidden_attr( 'better-amp-post-show-thumbnail' ) ?>>
@@ -109,5 +121,7 @@ if ( better_amp_get_theme_mod( 'better-amp-post-show-comment' ) && ( comments_op
 	<?php
 
 }
+
+better_amp_show_ad_location( 'amp_post_comment_after' );
 
 better_amp_get_footer();

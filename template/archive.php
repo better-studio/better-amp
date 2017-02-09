@@ -30,6 +30,7 @@ if ( ! empty( $title['pre_title'] ) ) {
 	</header>
 <?php
 
+better_amp_show_ad_location( 'amp_archive_title_after' );
 
 better_amp_template_part( 'posts-' . better_amp_page_listing() );
 
