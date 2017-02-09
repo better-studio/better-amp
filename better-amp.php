@@ -8,6 +8,24 @@ Version: 1.0.4
 Author URI: http://betterstudio.com
 */
 
+/***
+ *  BetterAMP is BetterStudio solution for implementing Google AMP completely in WordPress.
+ *
+ *  ______      _   _             ___ ___  ________
+ *  | ___ \    | | | |           / _ \|  \/  | ___ \
+ *  | |_/ / ___| |_| |_ ___ _ __/ /_\ \ .  . | |_/ /
+ *  | ___ \/ _ \ __| __/ _ \ '__|  _  | |\/| |  __/
+ *  | |_/ /  __/ |_| ||  __/ |  | | | | |  | | |
+ *  \____/ \___|\__|\__\___|_|  \_| |_|_|  |_|_|
+ *
+ *  Copyright © 2017 Better Studio
+ *
+ *
+ *  Our portfolio is here: http://themeforest.net/user/Better-Studio/portfolio
+ *
+ *  \--> BetterStudio, 2017 <--/
+ */
+
 // Fire up!
 Better_AMP::get_instance();
 
