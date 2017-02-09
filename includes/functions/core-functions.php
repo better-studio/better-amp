@@ -279,11 +279,21 @@ function better_amp_add_inline_style( $data, $handle = '' ) {
  */
 function better_amp_enqueue_inline_style( $file, $handle = '' ) {
 
+	static $printed_files;
+
+	if ( is_null( $printed_files ) ) {
+		$printed_files = array();
+	}
+
+	if ( isset( $printed_files[ $file ] ) ) {
+		return TRUE;
+	}
+
 	ob_start();
 
 	better_amp_locate_template( $file, TRUE );
 
-	return better_amp_add_inline_style( ob_get_clean(), $handle );
+	return $printed_files[ $file ] = better_amp_add_inline_style( ob_get_clean(), $handle );
 }
 
 

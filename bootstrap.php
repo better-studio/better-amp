@@ -6,6 +6,8 @@ require_once BETTER_AMP_INC . 'functions/theme-functions.php';
 
 require_once BETTER_AMP_INC . 'functions/utility-function.php';
 
+require_once BETTER_AMP_INC . 'functions/ad-function.php';
+
 require_once BETTER_AMP_INC . 'classes/class-better-amp-rewrite-rules.php';
 
 require_once BETTER_AMP_INC . 'default-filters.php';
