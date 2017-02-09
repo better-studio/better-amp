@@ -1,4 +1,11 @@
 <?php
+/***
+ *  BetterAMP Rules for validating final page codes.
+ *  All rights reserved to BetterStudio, The creator of BetterAMP
+ *
+ * \--> BetterStudio, 2017 <--/
+ */
+
 
 $rules = array(
 	0  =>
