@@ -289,7 +289,7 @@ function better_amp_add_inline_style( $data, $handle = '' ) {
 		$data = trim( preg_replace( '#<style[^>]*>(.*)</style>#is', '$1', $data ) );
 	}
 
-	return better_amp_styles()->add_inline_style( $handle, $data );
+	better_amp_styles()->add_inline_style( $handle, $data );
 }
 
 
@@ -321,7 +321,9 @@ function better_amp_enqueue_inline_style( $file, $handle = '' ) {
 
 	better_amp_locate_template( $file, TRUE );
 
-	return $printed_files[ $file ] = better_amp_add_inline_style( ob_get_clean(), $handle );
+	better_amp_add_inline_style( ob_get_clean(), $handle );
+
+	return $printed_files[ $file ] = TRUE;
 }
 
 
