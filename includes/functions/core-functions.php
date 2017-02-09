@@ -142,6 +142,7 @@ function better_amp_script_is( $handle, $list = 'enqueued' ) {
 	return (bool) better_amp_scripts()->query( $handle, $list );
 }
 
+
 /**
  * Callback: Generate and echo scripts HTML tags
  * action  : better-amp/template/head
@@ -224,6 +225,33 @@ function better_amp_enqueue_style( $handle, $src = '', $deps = array(), $ver = F
  */
 function better_amp_style_is( $handle, $list = 'enqueued' ) {
 	return (bool) better_amp_styles()->query( $handle, $list );
+}
+
+
+/**
+ * Handy function used to enqueue style and scripts of ads
+ *
+ * @since 1.1.0
+ *
+ * @param string $ad_type Ad type, needed to know the js should be printed or not
+ *
+ * @return void
+ */
+function better_amp_enqueue_ad( $ad_type = 'adsense' ) {
+
+	if ( empty( $ad_type ) ) {
+		return;
+	}
+
+	better_amp_enqueue_inline_style( 'ads.css', 'amp-ad' );
+
+	if ( is_rtl() ) {
+		better_amp_enqueue_inline_style( 'ads-rtl.css', 'amp-ad-rtl' );
+	}
+
+	if ( $ad_type !== 'custom_code' || $ad_type !== 'image' ) {
+		better_amp_enqueue_script( 'amp-ad', 'https://cdn.ampproject.org/v0/amp-ad-0.1.js' );
+	}
 }
 
 
