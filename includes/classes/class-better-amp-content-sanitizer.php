@@ -562,8 +562,8 @@ class Better_AMP_Content_Sanitizer {
 							} else {
 
 								if ( isset( $element_atts['width'] ) && $element_atts['width'] === 'auto' && ! empty( $element_atts['height'] ) ) {
-									// default layout is fixed_height
-									if ( ! in_array( 'FIXED_HEIGHT', $rule['layouts']['supported_layouts'] ) ) {
+									// default layout is FIXED-HEIGHT
+									if ( ! in_array( 'FIXED-HEIGHT', $rule['layouts']['supported_layouts'] ) ) {
 
 										$atts2remove[] = 'width';
 									}
@@ -1054,7 +1054,7 @@ class Better_AMP_Content_Sanitizer {
 
 		switch ( strtoupper( $layout ) ) {
 
-			case 'FIXED_HEIGHT':
+			case 'FIXED-HEIGHT':
 
 				// The height attribute must be present. The width attribute must not be present or must be equal to auto.
 				$required_atts['height'] = TRUE;
@@ -1071,7 +1071,7 @@ class Better_AMP_Content_Sanitizer {
 
 			case 'FILL':
 			case 'CONTAINER':
-			case 'FLEX_ITEM':
+			case 'FLEX-ITEM':
 			case 'NODISPLAY':
 				//  No validation required!
 				break;

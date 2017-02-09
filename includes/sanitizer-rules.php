@@ -678,12 +678,12 @@ $rules = array(
 				),
 			'layouts'  =>
 				array(
-					'supported_layouts'      =>
+					'supported_layouts' =>
 						array(
 							0 => 'FILL',
 							1 => 'FIXED',
-							2 => 'FIXED_HEIGHT',
-							3 => 'FLEX_ITEM',
+							2 => 'FIXED-HEIGHT',
+							3 => 'FLEX-ITEM',
 							4 => 'NODISPLAY',
 							5 => 'RESPONSIVE',
 						),
@@ -730,12 +730,12 @@ $rules = array(
 				),
 			'layouts'  =>
 				array(
-					'supported_layouts'      =>
+					'supported_layouts' =>
 						array(
 							0 => 'FILL',
 							1 => 'FIXED',
-							2 => 'FIXED_HEIGHT',
-							3 => 'FLEX_ITEM',
+							2 => 'FIXED-HEIGHT',
+							3 => 'FLEX-ITEM',
 							4 => 'NODISPLAY',
 							5 => 'RESPONSIVE',
 						),
@@ -788,12 +788,12 @@ $rules = array(
 				),
 			'layouts'  =>
 				array(
-					'supported_layouts'      =>
+					'supported_layouts' =>
 						array(
 							0 => 'FILL',
 							1 => 'FIXED',
-							2 => 'FIXED_HEIGHT',
-							3 => 'FLEX_ITEM',
+							2 => 'FIXED-HEIGHT',
+							3 => 'FLEX-ITEM',
 							4 => 'NODISPLAY',
 							5 => 'RESPONSIVE',
 						),
@@ -902,12 +902,12 @@ $rules = array(
 				),
 			'layouts'  =>
 				array(
-					'supported_layouts'      =>
+					'supported_layouts' =>
 						array(
 							0 => 'FILL',
 							1 => 'FIXED',
-							2 => 'FIXED_HEIGHT',
-							3 => 'FLEX_ITEM',
+							2 => 'FIXED-HEIGHT',
+							3 => 'FLEX-ITEM',
 							4 => 'NODISPLAY',
 							5 => 'RESPONSIVE',
 						),
@@ -925,7 +925,7 @@ $rules = array(
 				),
 			'layouts'  =>
 				array(
-					'supported_layouts'      =>
+					'supported_layouts' =>
 						array(
 							0 => 'CONTAINER',
 						),
@@ -1016,12 +1016,12 @@ $rules = array(
 				),
 			'layouts'  =>
 				array(
-					'supported_layouts'      =>
+					'supported_layouts' =>
 						array(
 							0 => 'FILL',
 							1 => 'FIXED',
-							2 => 'FIXED_HEIGHT',
-							3 => 'FLEX_ITEM',
+							2 => 'FIXED-HEIGHT',
+							3 => 'FLEX-ITEM',
 							4 => 'NODISPLAY',
 							5 => 'RESPONSIVE',
 						),
@@ -1075,7 +1075,7 @@ $rules = array(
 					'supported_layouts'      =>
 						array(
 							0 => 'FIXED',
-							1 => 'FIXED_HEIGHT',
+							1 => 'FIXED-HEIGHT',
 							2 => 'NODISPLAY',
 						),
 					'defines_default_width'  => TRUE,
@@ -1130,12 +1130,12 @@ $rules = array(
 				),
 			'layouts'  =>
 				array(
-					'supported_layouts'      =>
+					'supported_layouts' =>
 						array(
 							0 => 'FILL',
 							1 => 'FIXED',
-							2 => 'FIXED_HEIGHT',
-							3 => 'FLEX_ITEM',
+							2 => 'FIXED-HEIGHT',
+							3 => 'FLEX-ITEM',
 							4 => 'NODISPLAY',
 							5 => 'RESPONSIVE',
 						),
@@ -1178,12 +1178,12 @@ $rules = array(
 				),
 			'layouts'  =>
 				array(
-					'supported_layouts'      =>
+					'supported_layouts' =>
 						array(
 							0 => 'FILL',
 							1 => 'FIXED',
-							2 => 'FIXED_HEIGHT',
-							3 => 'FLEX_ITEM',
+							2 => 'FIXED-HEIGHT',
+							3 => 'FLEX-ITEM',
 							4 => 'NODISPLAY',
 							5 => 'RESPONSIVE',
 						),
@@ -1235,12 +1235,12 @@ $rules = array(
 				),
 			'layouts'  =>
 				array(
-					'supported_layouts'      =>
+					'supported_layouts' =>
 						array(
 							0 => 'FILL',
 							1 => 'FIXED',
-							2 => 'FIXED_HEIGHT',
-							3 => 'FLEX_ITEM',
+							2 => 'FIXED-HEIGHT',
+							3 => 'FLEX-ITEM',
 							4 => 'NODISPLAY',
 							5 => 'RESPONSIVE',
 						),
@@ -1303,12 +1303,12 @@ $rules = array(
 				),
 			'layouts'  =>
 				array(
-					'supported_layouts'      =>
+					'supported_layouts' =>
 						array(
 							0 => 'FILL',
 							1 => 'FIXED',
-							2 => 'FIXED_HEIGHT',
-							3 => 'FLEX_ITEM',
+							2 => 'FIXED-HEIGHT',
+							3 => 'FLEX-ITEM',
 							4 => 'RESPONSIVE',
 						),
 				),
@@ -1334,12 +1334,12 @@ $rules = array(
 				),
 			'layouts'  =>
 				array(
-					'supported_layouts'      =>
+					'supported_layouts' =>
 						array(
 							0 => 'FILL',
 							1 => 'FIXED',
-							2 => 'FIXED_HEIGHT',
-							3 => 'FLEX_ITEM',
+							2 => 'FIXED-HEIGHT',
+							3 => 'FLEX-ITEM',
 							4 => 'NODISPLAY',
 							5 => 'RESPONSIVE',
 						),
@@ -1369,12 +1369,12 @@ $rules = array(
 				),
 			'layouts'  =>
 				array(
-					'supported_layouts'      =>
+					'supported_layouts' =>
 						array(
 							0 => 'FILL',
 							1 => 'FIXED',
-							2 => 'FIXED_HEIGHT',
-							3 => 'FLEX_ITEM',
+							2 => 'FIXED-HEIGHT',
+							3 => 'FLEX-ITEM',
 							4 => 'NODISPLAY',
 							5 => 'RESPONSIVE',
 						),
@@ -1434,7 +1434,7 @@ $rules = array(
 				),
 			'layouts'  =>
 				array(
-					'supported_layouts'      =>
+					'supported_layouts' =>
 						array(
 							0 => 'NODISPLAY',
 						),
@@ -1509,12 +1509,12 @@ $rules = array(
 				),
 			'layouts'  =>
 				array(
-					'supported_layouts'      =>
+					'supported_layouts' =>
 						array(
 							0 => 'FILL',
 							1 => 'FIXED',
-							2 => 'FIXED_HEIGHT',
-							3 => 'FLEX_ITEM',
+							2 => 'FIXED-HEIGHT',
+							3 => 'FLEX-ITEM',
 							4 => 'NODISPLAY',
 							5 => 'RESPONSIVE',
 						),
@@ -1540,7 +1540,7 @@ $rules = array(
 				),
 			'layouts'  =>
 				array(
-					'supported_layouts'      =>
+					'supported_layouts' =>
 						array(
 							0 => 'NODISPLAY',
 						),
@@ -1604,12 +1604,12 @@ $rules = array(
 				),
 			'layouts'  =>
 				array(
-					'supported_layouts'      =>
+					'supported_layouts' =>
 						array(
 							0 => 'FILL',
 							1 => 'FIXED',
-							2 => 'FIXED_HEIGHT',
-							3 => 'FLEX_ITEM',
+							2 => 'FIXED-HEIGHT',
+							3 => 'FLEX-ITEM',
 							4 => 'NODISPLAY',
 							5 => 'RESPONSIVE',
 						),
@@ -1636,7 +1636,7 @@ $rules = array(
 				),
 			'layouts'  =>
 				array(
-					'supported_layouts'      =>
+					'supported_layouts' =>
 						array(
 							0 => 'NODISPLAY',
 						),
@@ -1666,12 +1666,12 @@ $rules = array(
 				),
 			'layouts'  =>
 				array(
-					'supported_layouts'      =>
+					'supported_layouts' =>
 						array(
 							0 => 'FILL',
 							1 => 'FIXED',
-							2 => 'FIXED_HEIGHT',
-							3 => 'FLEX_ITEM',
+							2 => 'FIXED-HEIGHT',
+							3 => 'FLEX-ITEM',
 							4 => 'NODISPLAY',
 							5 => 'RESPONSIVE',
 						),
@@ -1698,12 +1698,12 @@ $rules = array(
 				),
 			'layouts'  =>
 				array(
-					'supported_layouts'      =>
+					'supported_layouts' =>
 						array(
 							0 => 'FILL',
 							1 => 'FIXED',
-							2 => 'FIXED_HEIGHT',
-							3 => 'FLEX_ITEM',
+							2 => 'FIXED-HEIGHT',
+							3 => 'FLEX-ITEM',
 							4 => 'NODISPLAY',
 							5 => 'RESPONSIVE',
 						),
@@ -1733,7 +1733,7 @@ $rules = array(
 				),
 			'layouts'  =>
 				array(
-					'supported_layouts'      =>
+					'supported_layouts' =>
 						array(
 							0 => 'NODISPLAY',
 						),
@@ -1776,12 +1776,12 @@ $rules = array(
 				),
 			'layouts'  =>
 				array(
-					'supported_layouts'      =>
+					'supported_layouts' =>
 						array(
 							0 => 'FILL',
 							1 => 'FIXED',
-							2 => 'FIXED_HEIGHT',
-							3 => 'FLEX_ITEM',
+							2 => 'FIXED-HEIGHT',
+							3 => 'FLEX-ITEM',
 							4 => 'NODISPLAY',
 							5 => 'RESPONSIVE',
 						),
@@ -1821,12 +1821,12 @@ $rules = array(
 				),
 			'layouts'  =>
 				array(
-					'supported_layouts'      =>
+					'supported_layouts' =>
 						array(
 							0 => 'FILL',
 							1 => 'FIXED',
-							2 => 'FIXED_HEIGHT',
-							3 => 'FLEX_ITEM',
+							2 => 'FIXED-HEIGHT',
+							3 => 'FLEX-ITEM',
 							4 => 'NODISPLAY',
 							5 => 'RESPONSIVE',
 						),
@@ -1854,12 +1854,12 @@ $rules = array(
 				),
 			'layouts'  =>
 				array(
-					'supported_layouts'      =>
+					'supported_layouts' =>
 						array(
 							0 => 'FILL',
 							1 => 'FIXED',
-							2 => 'FIXED_HEIGHT',
-							3 => 'FLEX_ITEM',
+							2 => 'FIXED-HEIGHT',
+							3 => 'FLEX-ITEM',
 							4 => 'RESPONSIVE',
 						),
 				),
@@ -1885,7 +1885,7 @@ $rules = array(
 				),
 			'layouts'  =>
 				array(
-					'supported_layouts'      =>
+					'supported_layouts' =>
 						array(
 							0 => 'NODISPLAY',
 						),
@@ -1932,13 +1932,13 @@ $rules = array(
 				),
 			'layouts'  =>
 				array(
-					'supported_layouts'      =>
+					'supported_layouts' =>
 						array(
 							0 => 'CONTAINER',
 							1 => 'FILL',
 							2 => 'FIXED',
-							3 => 'FIXED_HEIGHT',
-							4 => 'FLEX_ITEM',
+							3 => 'FIXED-HEIGHT',
+							4 => 'FLEX-ITEM',
 							5 => 'NODISPLAY',
 							6 => 'RESPONSIVE',
 						),
@@ -1976,9 +1976,9 @@ $rules = array(
 				),
 			'layouts'  =>
 				array(
-					'supported_layouts'      =>
+					'supported_layouts' =>
 						array(
-							0 => 'FIXED_HEIGHT',
+							0 => 'FIXED-HEIGHT',
 						),
 				),
 		),
@@ -2031,11 +2031,11 @@ $rules = array(
 				),
 			'layouts'  =>
 				array(
-					'supported_layouts'      =>
+					'supported_layouts' =>
 						array(
 							0 => 'FILL',
 							1 => 'FIXED',
-							2 => 'FLEX_ITEM',
+							2 => 'FLEX-ITEM',
 							3 => 'RESPONSIVE',
 						),
 				),
@@ -2083,12 +2083,12 @@ $rules = array(
 				),
 			'layouts'  =>
 				array(
-					'supported_layouts'      =>
+					'supported_layouts' =>
 						array(
 							0 => 'FILL',
 							1 => 'FIXED',
-							2 => 'FIXED_HEIGHT',
-							3 => 'FLEX_ITEM',
+							2 => 'FIXED-HEIGHT',
+							3 => 'FLEX-ITEM',
 							4 => 'NODISPLAY',
 							5 => 'RESPONSIVE',
 						),
@@ -2116,12 +2116,12 @@ $rules = array(
 				),
 			'layouts'  =>
 				array(
-					'supported_layouts'      =>
+					'supported_layouts' =>
 						array(
 							0 => 'FILL',
 							1 => 'FIXED',
-							2 => 'FIXED_HEIGHT',
-							3 => 'FLEX_ITEM',
+							2 => 'FIXED-HEIGHT',
+							3 => 'FLEX-ITEM',
 							4 => 'RESPONSIVE',
 						),
 				),
@@ -2147,12 +2147,12 @@ $rules = array(
 				),
 			'layouts'  =>
 				array(
-					'supported_layouts'      =>
+					'supported_layouts' =>
 						array(
 							0 => 'FILL',
 							1 => 'FIXED',
-							2 => 'FIXED_HEIGHT',
-							3 => 'FLEX_ITEM',
+							2 => 'FIXED-HEIGHT',
+							3 => 'FLEX-ITEM',
 							4 => 'NODISPLAY',
 							5 => 'RESPONSIVE',
 						),
@@ -2212,12 +2212,12 @@ $rules = array(
 				),
 			'layouts'  =>
 				array(
-					'supported_layouts'      =>
+					'supported_layouts' =>
 						array(
 							0 => 'FILL',
 							1 => 'FIXED',
-							2 => 'FIXED_HEIGHT',
-							3 => 'FLEX_ITEM',
+							2 => 'FIXED-HEIGHT',
+							3 => 'FLEX-ITEM',
 							4 => 'NODISPLAY',
 							5 => 'RESPONSIVE',
 						),
