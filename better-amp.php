@@ -500,11 +500,41 @@ class Better_AMP {
 				add_action( 'pre_get_posts', $callback, $priority );
 			}
 
+			// WooCommerce didn't change main query in "shop" page
+			add_action( 'pre_get_posts', array( $this, '_fix_woocommerce_shop_page_query' ), $priority + 1 );
+
 			$this->excluded_posts_id[ wc_get_page_id( 'checkout' ) ] = TRUE;
 		}
 
 		// BetterStudio themes compatibility
 		add_action( 'better-framework/menu/walker/init', array( $this, 'disable_bf_mega_menu' ) );
+	}
+
+
+	/**
+	 * Fixes global WP_Query for shop pages in AMP!
+	 *
+	 * @param $q
+	 */
+	function _fix_woocommerce_shop_page_query( $q ) {
+
+		// We only want to affect the main query
+		if ( ! $q->is_main_query() ) {
+			return;
+		}
+
+		if ( isset( $q->queried_object->ID ) && $q->queried_object->ID === wc_get_page_id( 'shop' ) ) {
+			$q->set( 'post_type', 'product' );
+			$q->set( 'posts_per_page', 8 );
+			$q->set( 'page', '' );
+			$q->set( 'pagename', '' );
+
+			// Fix conditional Functions
+			$q->is_archive           = TRUE;
+			$q->is_post_type_archive = TRUE;
+			$q->is_singular          = FALSE;
+			$q->is_page              = FALSE;
+		}
 	}
 
 
@@ -636,6 +666,7 @@ class Better_AMP {
 	protected function template_loader() {
 
 		if ( function_exists( 'is_embed' ) && is_embed() && $template = better_amp_embed_template() ) :
+		elseif ( function_exists( 'is_woocommerce' ) && is_woocommerce() && is_page( wc_get_page_id( 'shop' ) ) && $template = better_amp_locate_template( 'woocommerce.php' ) ) :
 		elseif ( is_404() && $template = better_amp_404_template() ) :
 		elseif ( is_search() && $template = better_amp_search_template() ) :
 		elseif ( is_front_page() && $template = better_amp_front_page_template() ) :
@@ -1020,7 +1051,7 @@ class Better_AMP {
 
 		do_action( 'better-amp/template/head' );
 
-		echo $prepend , $content;
+		echo $prepend, $content;
 	}
 
 	/**
