@@ -1,9 +1,9 @@
 <?php
 
 if ( better_amp_get_theme_mod( 'better-amp-post-social-share-show' ) !== 'show' ) {
-
 	return;
 }
+
 $in_customizer       = is_customize_preview();
 $count_status        = better_amp_get_theme_mod( 'better-amp-post-social-share-count' );
 $show_count          = $count_status === 'total' || $count_status === 'total-and-site';

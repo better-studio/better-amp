@@ -13,5 +13,5 @@ the_posts_pagination( array(
 	'prev_text'          => $prev,
 	'next_text'          => $next,
 	'before_page_number' => '<span class="meta-nav screen-reader-text">' . better_amp_translation_get( 'page' ) . ' ',
-	'after_page_number'  => ' ' . sprintf( better_amp_translation_get( 'page_of' ), $GLOBALS['wp_query']->max_num_pages ) . ' </span>',
+	'after_page_number'  => ' ' . sprintf( better_amp_translation_get( 'page_of' ), better_amp_get_query()->max_num_pages ) . ' </span>',
 ) );

@@ -72,8 +72,7 @@ $site_branding = better_amp_get_branding_info( 'sidebar' );
 				<?php
 			}
 
-
-			better_amp_template_part( 'social-links' );
+			better_amp_template_part( 'views/misc/social-links' );
 
 			?>
 		</div>

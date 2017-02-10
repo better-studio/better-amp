@@ -12,25 +12,20 @@ better_amp_the_post();
 		better_amp_show_ad_location( 'amp_post_title_before' );
 
 		?>
-
 		<h3 class="post-title">
 			<?php the_title() ?>
 		</h3>
-
-		<?php better_amp_post_subtitle(); ?>
-
 		<?php
+
+		better_amp_post_subtitle();
 
 		better_amp_show_ad_location( 'amp_post_title_after' );
 
-		?>
-
-		<?php if ( better_amp_get_theme_mod( 'better-amp-post-show-thumbnail' ) && has_post_thumbnail() ): ?>
+		if ( better_amp_get_theme_mod( 'better-amp-post-show-thumbnail' ) && has_post_thumbnail() ) { ?>
 			<div class="post-thumbnail" <?php better_amp_customizer_hidden_attr( 'better-amp-post-show-thumbnail' ) ?>>
-				<?php the_post_thumbnail( 'better-amp-large' ); ?>
+				<?php better_amp_the_post_thumbnail( 'better-amp-large' ); ?>
 			</div>
-		<?php endif ?>
-
+		<?php } ?>
 
 		<div class="post-meta">
 			<?php
@@ -104,7 +99,7 @@ better_amp_the_post();
 
 <?php
 
-better_amp_template_part( 'social-share' );
+better_amp_template_part( 'views/post/social-share' );
 
 if ( better_amp_get_theme_mod( 'better-amp-post-show-comment' ) && ( comments_open() || get_comments_number() ) ) { ?>
 	<div class="comments-wrapper"<?php better_amp_customizer_hidden_attr( 'better-amp-post-show-comment' ) ?>>

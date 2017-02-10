@@ -6,6 +6,7 @@ if ( better_amp_is_ad_plugin_active() ) {
 }
 
 add_image_size( 'better-amp-small', 100, 100, array( 'center', 'center' ) );  // Main Post Image In Full Width
+add_image_size( 'better-amp-normal', 260, 200, array( 'center', 'center' ) );  // Main Post Image In Full Width
 add_image_size( 'better-amp-large', 450, 300, array( 'center', 'center' ) );  // Main Post Image In Full Width
 
 add_theme_support( 'title-tag' );
@@ -370,59 +371,71 @@ if ( ! function_exists( 'better_amp_translation_fields' ) ) {
 			'default' => 'Oops! That page cannot be found.',
 		);
 
-		$fields['browsing']          = array(
+		$fields['browsing']                  = array(
 			'id'      => 'browsing',
 			'type'    => 'text',
 			'title'   => 'Browsing',
 			'default' => 'Browsing',
 		);
-		$fields['archive']           = array(
+		$fields['archive']                   = array(
 			'id'      => 'archive',
 			'type'    => 'text',
 			'title'   => 'Archive',
 			'default' => 'Archive',
 		);
-		$fields['browsing_category'] = array(
+		$fields['browsing_category']         = array(
 			'id'      => 'browsing_category',
 			'type'    => 'text',
 			'title'   => 'Browsing category',
 			'default' => 'Browsing category',
 		);
-		$fields['browsing_tag']      = array(
+		$fields['browsing_tag']              = array(
 			'id'      => 'browsing_tag',
 			'type'    => 'text',
 			'title'   => 'Browsing tag',
 			'default' => 'Browsing tag',
 		);
-		$fields['browsing_author']   = array(
+		$fields['browsing_author']           = array(
 			'id'      => 'browsing_author',
 			'type'    => 'text',
 			'title'   => 'Browsing author',
 			'default' => 'Browsing author',
 		);
-		$fields['browsing_yearly']   = array(
+		$fields['browsing_yearly']           = array(
 			'id'      => 'browsing_yearly',
 			'type'    => 'text',
 			'title'   => 'Browsing yearly archive',
 			'default' => 'Browsing yearly archive',
 		);
-		$fields['browsing_monthly']  = array(
+		$fields['browsing_monthly']          = array(
 			'id'      => 'browsing_monthly',
 			'type'    => 'text',
 			'title'   => 'Browsing monthly archive',
 			'default' => 'Browsing monthly archive',
 		);
-		$fields['browsing_daily']    = array(
+		$fields['browsing_daily']            = array(
 			'id'      => 'browsing_daily',
 			'type'    => 'text',
 			'title'   => 'Browsing daily archive',
 			'default' => 'Browsing daily archive',
 		);
-		$fields['browsing_archive']  = array(
+		$fields['browsing_archive']          = array(
 			'id'      => 'browsing_archive',
 			'type'    => 'text',
 			'title'   => 'Browsing archive',
 			'default' => 'Browsing archive',
+		);
+		$fields['browsing_product_category'] = array(
+			'id'      => 'browsing_product_category',
+			'type'    => 'text',
+			'title'   => 'Browsing shop category',
+			'default' => 'Browsing shop category',
+		);
+		$fields['browsing_product_tag']      = array(
+			'id'      => 'browsing_product_tag',
+			'type'    => 'text',
+			'title'   => 'Browsing shop tag',
+			'default' => 'Browsing shop tag',
 		);
 
 
@@ -481,18 +494,9 @@ if ( ! function_exists( 'better_amp_translation_fields' ) ) {
 			'default' => 'Chats',
 		);
 
-		$fields['product-desc']             = array(
-			'id'      => 'product-desc',
-			'type'    => 'text',
-			'title'   => 'Product Description',
-			'default' => 'Description',
-		);
-		$fields['product-reviews']          = array(
-			'id'      => 'product-reviews',
-			'type'    => 'text',
-			'title'   => 'Product Reviews',
-			'default' => 'Reviews(%s)',
-		);
+		/**
+		 * Attachment Texts
+		 */
 		$fields['attachment-return-to']     = array(
 			'id'      => 'attachment-return-to',
 			'type'    => 'text',
@@ -523,19 +527,51 @@ if ( ! function_exists( 'better_amp_translation_fields' ) ) {
 			'title'   => 'Download File',
 			'default' => '%s to Download File',
 		);
-
-		$fields['attachment-next'] = array(
+		$fields['attachment-next']          = array(
 			'id'      => 'attachment-next',
 			'type'    => 'text',
 			'title'   => 'Next  Attachment',
 			'default' => 'Next',
 		);
-
-		$fields['attachment-prev'] = array(
+		$fields['attachment-prev']          = array(
 			'id'      => 'attachment-prev',
 			'type'    => 'text',
 			'title'   => 'Previous  Attachment',
 			'default' => 'Previous',
+		);
+
+		/**
+		 * WooCommerce Texts
+		 */
+		$fields['product-shop']    = array(
+			'id'      => 'product-shop',
+			'type'    => 'text',
+			'title'   => 'Shop',
+			'default' => 'Shop',
+		);
+		$fields['product-desc']    = array(
+			'id'      => 'product-desc',
+			'type'    => 'text',
+			'title'   => 'Product Description',
+			'default' => 'Description',
+		);
+		$fields['product-reviews'] = array(
+			'id'      => 'product-reviews',
+			'type'    => 'text',
+			'title'   => 'Product Reviews',
+			'default' => 'Reviews(%s)',
+		);
+		$fields['product-view']    = array(
+			'id'      => 'product-view',
+			'type'    => 'text',
+			'title'   => 'View',
+			'default' => 'View',
+		);
+		$fields['product-sale']    = array(
+			'id'      => 'product-sale',
+			'type'    => 'text',
+			'title'   => 'Sale!',
+			'default' => 'Sale!',
 		);
 
 		return $fields;
@@ -576,14 +612,16 @@ if ( ! function_exists( 'better_amp_translation_stds' ) ) {
 		$std['search_input_placeholder'] = 'Search &hellip;';
 		$std['search_button']            = 'Search';
 
-		$std['browsing']          = 'Browsing';
-		$std['archive']           = 'Archive';
-		$std['browsing_category'] = 'Browsing category';
-		$std['browsing_tag']      = 'Browsing tag';
-		$std['browsing_author']   = 'Browsing author';
-		$std['browsing_yearly']   = 'Browsing yearly archive';
-		$std['browsing_monthly']  = 'Browsing monthly archive';
-		$std['browsing_daily']    = 'Browsing daily archive';
+		$std['browsing']                  = 'Browsing';
+		$std['archive']                   = 'Archive';
+		$std['browsing_category']         = 'Browsing category';
+		$std['browsing_tag']              = 'Browsing tag';
+		$std['browsing_author']           = 'Browsing author';
+		$std['browsing_yearly']           = 'Browsing yearly archive';
+		$std['browsing_monthly']          = 'Browsing monthly archive';
+		$std['browsing_daily']            = 'Browsing daily archive';
+		$std['browsing_product_category'] = 'Browsing shop category';
+		$std['browsing_product_tag']      = 'Browsing shop tag';
 
 		$std['asides']    = 'Asides';
 		$std['galleries'] = 'Galleries';
@@ -595,16 +633,28 @@ if ( ! function_exists( 'better_amp_translation_stds' ) ) {
 		$std['audio']     = 'Audio';
 		$std['chats']     = 'Chats';
 
-		$std['product-desc']    = 'Description';
-		$std['product-reviews'] = 'Reviews(%s)';
 
-		$std['attachment-return-to']     = 'Return to "%s"';
+		/**
+		 * Attachment Texts
+		 */
+		$std['attachment-return-to'] = 'Return to "%s"';
+		// todo change this id
 		$std['click-here']               = 'Click here';
 		$std['attachment-play-video']    = '%s to play video';
 		$std['attachment-play-audio']    = '%s to play audio';
 		$std['attachment-download-file'] = '%s to Download File';
 		$std['attachment-prev']          = 'Previous';
 		$std['attachment-next']          = 'Next';
+
+
+		/**
+		 * WooCommerce Texts
+		 */
+		$std['product-shop']    = 'Shop';
+		$std['product-desc']    = 'Description';
+		$std['product-reviews'] = 'Reviews(%s)';
+		$std['product-view']    = 'View';
+		$std['product-sale']    = 'Sale!';
 
 		return $std;
 

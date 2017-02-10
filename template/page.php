@@ -18,7 +18,11 @@ better_amp_the_post();
 		<div class="page-content entry-content">
 			<?php the_content() ?>
 		</div>
+		<?php
 
+		better_amp_template_part( 'views/post/social-share' );
+
+		?>
 	</div>
 <?php
 

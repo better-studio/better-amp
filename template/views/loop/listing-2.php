@@ -30,7 +30,7 @@
 				<?php the_excerpt(); ?>
 			</div>
 
-			<div class="post-meta">
+			<div class="post-meta clearfix">
 
 				<span class="post-date">
 					<i class="fa fa-calendar" aria-hidden="true"></i>

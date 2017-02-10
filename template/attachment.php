@@ -7,31 +7,27 @@ better_amp_the_post();
 $attachment_id = get_the_ID();
 $parent        = better_amp_get_post_parent( $attachment_id );
 
-
 ?>
 	<div <?php better_amp_post_classes( 'single-post clearfix attachment' ) ?>>
-
 		<?php
 
 		if ( $parent ) {
 			?>
 			<div class="return-to">
-				<a href="<?php the_permalink( $parent ); ?>" class="button"><i
-						class="fa fa-angle-<?php echo is_rtl() ? 'right' : 'left'; ?>"></i> <?php
-
+				<a href="<?php the_permalink( $parent ); ?>" class="button">
+					<i class="fa fa-angle-<?php echo is_rtl() ? 'right' : 'left'; ?>"></i> <?php
 					echo esc_html( sprintf( better_amp_translation_get( 'attachment-return-to' ), wp_html_excerpt( get_the_title( $parent ), 100 ) ) )
-
 					?></a>
 			</div>
 			<?php
 		}
 
-		?>
+		if ( wp_attachment_is( 'image' ) ) {
 
-		<?php if ( wp_attachment_is( 'image' ) ) {
 			if ( $img = wp_get_attachment_image_src( $attachment_id, 'full' ) ) {
 
 				better_amp_enqueue_script( 'amp-image-lightbox', 'https://cdn.ampproject.org/v0/amp-image-lightbox-0.1.js' );
+
 				?>
 				<amp-image-lightbox id="attachment-lightbox" layout="nodisplay"></amp-image-lightbox>
 
@@ -44,14 +40,12 @@ $parent        = better_amp_get_post_parent( $attachment_id );
 				         height="<?php echo esc_attr( $img[2] ) ?>"
 				>
 				</amp-img>
-
-				<h3 class="post-title">
-					<?php the_title() ?>
-				</h3>
 			<?php }
+
 		} else {
 
 			$click_here = sprintf( '<a href="%s">%s</a>', wp_get_attachment_url( $attachment_id ), better_amp_translation_get( 'click-here' ) );
+
 			if ( wp_attachment_is( 'video' ) ) {
 
 				printf( better_amp_translation_get( 'attachment-play-video' ), $click_here );
@@ -67,6 +61,11 @@ $parent        = better_amp_get_post_parent( $attachment_id );
 			}
 		}
 
+		?>
+
+		<h3 class="post-title"><?php the_title() ?></h3>
+
+		<?php
 		if ( is_rtl() ) {
 			$older_text = '<i class="fa fa-angle-double-right"></i> ' . better_amp_translation_get( 'attachment-next' );
 			$next_text  = better_amp_translation_get( 'attachment-prev' ) . ' <i class="fa fa-angle-double-left"></i>';
@@ -76,7 +75,6 @@ $parent        = better_amp_get_post_parent( $attachment_id );
 		}
 
 		?>
-
 		<div class="pagination bs-links-pagination clearfix">
 			<div class="newer"><?php next_image_link( FALSE, $older_text ); ?></div>
 			<div class="older"><?php previous_image_link( FALSE, $next_text ); ?></div>
@@ -90,17 +88,15 @@ $parent        = better_amp_get_post_parent( $attachment_id );
 
 			?>
 			<div class="parent-images clearfix">
-			<ul class="listing-attachment-siblings">
+			<ul class="listing-attachment-siblings clearfix">
 				<?php foreach ( (array) $images as $img ) {
 
-					$src     = wp_get_attachment_image_src( $img->ID );
-					$current = $img->ID == $attachment_id;
+					$src = wp_get_attachment_image_src( $img->ID, 'better-amp-small' );
+
 					?>
 					<li class="listing-item item-<?php echo esc_attr( $img->ID ); ?>">
-
-						<a class="<?php echo $current ? 'current-attachment' : '' ?>" itemprop="url"
-						   rel="bookmark"
-						   href="<?php echo $current ? '#' : get_permalink( $img->ID ); ?>">
+						<a itemprop="url" rel="bookmark"
+						   href="<?php echo get_permalink( $img->ID ); ?>">
 							<amp-img src="<?php echo esc_url( $src[0] ); ?>"
 							         width="<?php echo esc_attr( $src[1] ); ?>"
 							         height="<?php echo esc_attr( $src[2] ); ?>"></amp-img>
@@ -113,7 +109,6 @@ $parent        = better_amp_get_post_parent( $attachment_id );
 
 		?>
 	</div>
-
 <?php
 
 better_amp_get_footer();
