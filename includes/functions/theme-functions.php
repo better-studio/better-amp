@@ -594,6 +594,29 @@ if ( ! function_exists( 'better_amp_the_post' ) ) {
 }
 
 
+if ( ! function_exists( 'better_amp_the_post_thumbnail' ) ) {
+	/**
+	 * Display the post thumbnail.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param string $size
+	 * @param string $attr
+	 */
+	function better_amp_the_post_thumbnail( $size = 'post-thumbnail', $attr = '' ) {
+
+		if ( empty( $attr ) ) {
+			$attr = array(
+				'alt'    => the_title_attribute( array( 'echo' => FALSE ) ),
+				'layout' => 'responsive',
+			);
+		}
+
+		the_post_thumbnail( $size, $attr );
+	}
+}
+
+
 if ( ! function_exists( 'better_amp_is_main_query' ) ) {
 	/**
 	 * Detects and returns that current query is main query or not? with support of better_{get|set}_query
