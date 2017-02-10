@@ -792,6 +792,14 @@ $rules = array(
 									'allow_relative'   => TRUE,
 								),
 						),
+					6 =>
+						array(
+							'name' => 'srcset',
+						),
+					7 =>
+						array(
+							'name' => 'role',
+						),
 				),
 			'layouts'  =>
 				array(
