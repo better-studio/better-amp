@@ -66,6 +66,12 @@ if ( ! function_exists( 'better_amp_show_ad_location' ) ) {
 			return;
 		}
 
-		better_ads_show_ad_location( $ad_location_prefix, NULL, $args );
+		$ad_data = better_ads_get_ad_location_data( $ad_location_prefix );
+
+		if ( ! $ad_data['active_location'] ) {
+			return;
+		}
+
+		better_ads_show_ad_location( $ad_location_prefix, $ad_data, $args );
 	}
 }
