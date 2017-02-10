@@ -2027,7 +2027,23 @@ if ( ! function_exists( 'better_amp_get_archive_title_fields' ) ) {
 		$pre_title = '';
 		$title     = '';
 
-		if ( is_category() ) {
+		if ( function_exists( 'is_woocommerce' ) && is_woocommerce() ) {
+
+			if ( is_product_category() ) {
+				$icon      = '<i class="fa fa-shopping-basket"></i>';
+				$pre_title = better_amp_translation_get( 'browsing_product_category' );
+				$title     = single_term_title( '', FALSE );
+			} elseif ( is_product_tag() ) {
+				$icon      = '<i class="fa fa-shopping-basket"></i>';
+				$pre_title = better_amp_translation_get( 'browsing_product_tag' );
+				$title     = single_term_title( '', FALSE );
+			} else {
+				$icon      = '<i class="fa fa-truck"></i>';
+				$pre_title = better_amp_translation_get( 'browsing' );
+				$title     = better_amp_translation_get( 'product-shop' );
+			}
+
+		} elseif ( is_category() ) {
 			$icon      = '<i class="fa fa-folder"></i>';
 			$pre_title = better_amp_translation_get( 'browsing_category' );
 			$title     = single_cat_title( '', FALSE );
