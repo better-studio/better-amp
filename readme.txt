@@ -3,8 +3,8 @@ Contributors: betterstudio
 Donate link: http://betterstudio.com/
 Tags: amp,accelerated mobile pages, mobile theme, google amp
 Requires at least: 3.0
-Tested up to: 4.7.1
-Stable tag: 4.7.1
+Tested up to: 4.7.2
+Stable tag: 4.7.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -50,6 +50,38 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 5. Page (Contact page) + 404 page
 
 == Changelog ==
+
+= 1.1.0 =
+* 10 Ad Location added.
+* Ad Location 1: After header (in all pages)
+* Ad Location 2: Before post title
+* Ad Location 3: After post title
+* Ad Location 4: Above post content
+* Ad Location 5: Post content ads (After X Paragraph)
+* Ad Location 6: Below post content
+* Ad Location 7: After comments in posts
+* Ad Location 8: Footer (in all pages)
+* Ad Location 9: After title in archive pages
+* Ad Location 10: After X posts in archive pages
+
+* Added: New level of AMP page validator added.
+* This validator includes all Google AMP rules and will make your site
+* content validated with 99% warranty!
+
+* Added: WooCommerce support added (Shop, Product, Shop Categories, Shop tags and Cart page)
+* Added: Attachment page support added.
+
+* Added: Custom css field added.
+
+* Improvement: Style file printing changed.
+
+* Fixed: A lof of code fix and improvement.
+* Fixed: undefined function fixed.
+* Fixed: Url encode added to make sure shared url will work correctly in social networks in RTL languages.
+* Fixed: Share link changed to pretty permalink.
+* Fixed: rel=amphtml generating for non-amp pages fixed.
+* Fixed: Showing BetterStudio themes mega menu disabled in AMP.
+* Fixed: Social share sorter fixed in customizer.
 
 = 1.0.4 =
 * Fix: Fatal error in creating new post.
