@@ -1196,17 +1196,21 @@ class Better_AMP {
 	 */
 	public function plugins_compatibility() {
 
+		if ( ! is_better_amp() ) {
+			return;
+		}
+
 		/**
 		 * W3 total cache
 		 */
-		add_filter( 'w3tc_minify_js_enable', array( $this, '_return_false_in_amp' ) );
-		add_filter( 'w3tc_minify_css_enable', array( $this, '_return_false_in_amp' ) );
+		add_filter( 'w3tc_minify_js_enable', array( $this, '_return_false' ) );
+		add_filter( 'w3tc_minify_css_enable', array( $this, '_return_false' ) );
 
 
 		/**
 		 * WP Rocket
 		 */
-		if ( is_better_amp() ) {
+		if ( defined( 'WP_ROCKET_VERSION' ) ) {
 
 			if ( ! defined( 'DONOTMINIFYCSS' ) ) {
 				define( 'DONOTMINIFYCSS', TRUE );
@@ -1215,6 +1219,11 @@ class Better_AMP {
 			if ( ! defined( 'DONOTMINIFYJS' ) ) {
 				define( 'DONOTMINIFYJS', TRUE );
 			}
+
+			// Disable WP Rocket lazy load
+			add_filter( 'do_rocket_lazyload', '__return_false', PHP_INT_MAX );
+			add_filter( 'do_rocket_lazyload_iframes', '__return_false', PHP_INT_MAX );
+
 		}
 	}
 
