@@ -4,7 +4,7 @@ Plugin Name: Better AMP
 Plugin URI: http://demo.betterstudio.com/publisher/amp-demo/
 Description: Add FULL AMP support to your WordPress site.
 Author: Better Studio
-Version: 1.1.0
+Version: 1.1.1
 Author URI: http://betterstudio.com
 */
 
@@ -51,7 +51,7 @@ class Better_AMP {
 	 *
 	 * @since 1.0.0
 	 */
-	const VERSION = '1.0.4';
+	const VERSION = '1.1.1';
 
 
 	/**

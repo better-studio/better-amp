@@ -51,6 +51,14 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 
 == Changelog ==
 
+= 1.1.1 =
+* Fixed: "WP Rocket" plugin lazy load compatibility.
+* Fixed: "Lazy Load" plugin compatibility.
+* Fixed: "Lazy Load XT" plugin compatibility.
+* Fixed: Customizer page not showing correctly.
+* Fixed: Scroll to end customizer page issue.
+
+
 = 1.1.0 =
 * 10 Ad Location added.
 * Ad Location 1: After header (in all pages)
