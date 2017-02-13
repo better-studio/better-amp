@@ -1033,18 +1033,20 @@ class Better_AMP {
 		$content = ob_get_clean();
 		$prepend = '';
 
-		/**
-		 * Convert output to valid amp html
-		 */
-		$instance = new Better_AMP_HTML_Util();
-		$instance->loadHTML( '<!DOCTYPE html><html><head><meta http-equiv="content-type" content="text/html; charset=utf-8">' . $content . '</body></html>', NULL, FALSE );
+		if ( ! better_amp_is_customize_preview() ) {
+			/**
+			 * Convert output to valid amp html
+			 */
+			$instance = new Better_AMP_HTML_Util();
+			$instance->loadHTML( '<!DOCTYPE html><html><head><meta http-equiv="content-type" content="text/html; charset=utf-8">' . $content . '</body></html>', NULL, FALSE );
 
-		preg_match( '#(<\s*body[^>]*>)#isx', $content, $match );
-		$prepend .= isset( $match[1] ) ? $match[1] : '<body>'; // open body tag
+			preg_match( '#(<\s*body[^>]*>)#isx', $content, $match );
+			$prepend .= isset( $match[1] ) ? $match[1] : '<body>'; // open body tag
 
-		$this->render_content( $instance, TRUE ); // Convert HTML top amp html
-		$content = $instance->get_content( TRUE );
-		// End convert output to valid amp html
+			$this->render_content( $instance, TRUE ); // Convert HTML top amp html
+			$content = $instance->get_content( TRUE );
+			// End convert output to valid amp html
+		}
 
 		$GLOBALS['wp_filter']['better-amp/template/head'] = $this->_head_actions;
 		$this->_head_actions                              = array();
