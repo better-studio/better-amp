@@ -1233,6 +1233,24 @@ class Better_AMP {
 		if ( class_exists( 'LazyLoad_Images' ) ) {
 			add_filter( 'lazyload_is_enabled', '__return_false', PHP_INT_MAX );
 		}
+
+
+		/**
+		 * Lazy Load XT
+		 * https://wordpress.org/plugins/lazy-load-xt/
+		 */
+		if ( class_exists( 'Image_Lazy_Load' ) ) {
+
+			global $lazyloadxt;
+
+			if ( is_object( $lazyloadxt ) ) {
+				remove_filter( 'the_content', array( $lazyloadxt, 'filter_html' ) );
+				remove_filter( 'widget_text', array( $lazyloadxt, 'filter_html' ) );
+				remove_filter( 'post_thumbnail_html', array( $lazyloadxt, 'filter_html' ) );
+				remove_filter( 'get_avatar', array( $lazyloadxt, 'filter_html' ) );
+			}
+		}
+
 	}
 
 	/**
