@@ -158,7 +158,6 @@ document.addEventListener("DOMContentLoaded", function () {
             c('better-amp-post-social-share', function (value) {
 
                 function sortSocialNetworks(networks) {
-                    scrollToEnd();
 
                     var $currentItem,
                         pos      = 0,
@@ -187,7 +186,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 sortSocialNetworks(this.get()[ 'better-amp-post-social-share' ]);
 
-                value.bind(sortSocialNetworks);
+                value.bind(function (networks) {
+                    scrollToEnd();
+                    sortSocialNetworks.call(this, networks);
+                });
             });
 
             c('better-amp-post-social-share-count', function (value) {
