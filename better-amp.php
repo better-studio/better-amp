@@ -1223,7 +1223,15 @@ class Better_AMP {
 			// Disable WP Rocket lazy load
 			add_filter( 'do_rocket_lazyload', '__return_false', PHP_INT_MAX );
 			add_filter( 'do_rocket_lazyload_iframes', '__return_false', PHP_INT_MAX );
+		}
 
+
+		/**
+		 * Lazy Load
+		 * https://wordpress.org/plugins/lazy-load/
+		 */
+		if ( class_exists( 'LazyLoad_Images' ) ) {
+			add_filter( 'lazyload_is_enabled', '__return_false', PHP_INT_MAX );
 		}
 	}
 
