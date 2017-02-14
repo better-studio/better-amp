@@ -51,6 +51,14 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 
 == Changelog ==
 
+= 1.1.2 =
+* Improved: RTL style checked and fixed for all pages.
+* Fixed: Large listing image style.
+* Fixed: Subtitle wrong tag close.
+* Fixed: Google Analytics not works.
+* Fixed: Missing close tag for <head>
+
+
 = 1.1.1 =
 * Fixed: "WP Rocket" plugin lazy load compatibility.
 * Fixed: "Lazy Load" plugin compatibility.
