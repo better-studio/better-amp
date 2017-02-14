@@ -82,6 +82,10 @@ function better_amp_enqueue_static() {
 	better_amp_enqueue_style( 'google-fonts', 'https://fonts.googleapis.com/css?family=Lato:400,600|Roboto:300,400,500,700' );
 	better_amp_enqueue_inline_style( 'style.css' );
 
+	if( is_rtl() ){
+		better_amp_enqueue_inline_style( 'rtl.css' );
+	}
+
 	better_amp_enqueue_script( 'amp-sidebar', 'https://cdn.ampproject.org/v0/amp-sidebar-0.1.js' );
 	better_amp_enqueue_script( 'amp-sidebar', 'https://cdn.ampproject.org/v0/amp-accordion-0.1.js' );
 
