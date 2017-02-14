@@ -68,11 +68,12 @@ class Better_AMP_Menu_Walker extends Walker_Nav_Menu {
 	 */
 	public function end_lvl( &$output, $depth = 0, $args = array() ) {
 
-		if ( $this->accordion_childs_started ) {
+		if ( $this->accordion_childs_started && $depth == 0 ) {
+
 			$this->end_accordion_child_wrapper( $output, $depth );
 		}
 
-		if ( $this->accordion_started ) {
+		if ( $this->accordion_started && $depth == 0 ) {
 			$this->end_accordion( $output, $depth );
 		}
 
@@ -96,14 +97,26 @@ class Better_AMP_Menu_Walker extends Walker_Nav_Menu {
 
 		$args = apply_filters( 'nav_menu_item_args', $args, $item, $depth );
 
+		// Remove menu-item-has-children class
+		if ( $depth ) {
+			$index = array_search( 'menu-item-has-children', $item->classes );
+			if ( $index !== FALSE ) {
+				unset( $item->classes[ $index ] );
+			}
+		}
+
 		$classes   = empty( $item->classes ) ? array() : (array) $item->classes;
 		$classes[] = 'menu-item-' . $item->ID;
+
+		if ( $depth > 1 ) {
+			$classes[] = 'menu-item-deep';
+		}
 
 		$class_names = join( ' ', apply_filters( 'nav_menu_css_class', array_filter( $classes ), $item, $args, $depth ) );
 		$class_names = $class_names ? ' class="' . esc_attr( $class_names ) . '"' : '';
 
-		if ( $this->has_children ) {
-			add_theme_support('better-amp-has-nav-child', true);
+		if ( $this->has_children && $depth == 0 ) {
+			add_theme_support( 'better-amp-has-nav-child', TRUE );
 
 			$this->start_accordion( $output, $depth );
 
