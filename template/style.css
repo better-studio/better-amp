@@ -913,6 +913,9 @@ body.sticky-nav{
 .listing-2-item .post-thumbnail{
     margin-bottom: 15px;
 }
+.listing-2-item .post-thumbnail amp-img {
+    max-width: 100%;
+}
 .listing-2-item .post-title {
     font-size: 18px;
     margin: 0 0 10px;
