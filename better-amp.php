@@ -1034,6 +1034,9 @@ class Better_AMP {
 		$prepend = '';
 
 		if ( ! better_amp_is_customize_preview() ) {
+
+			$prepend .= '</head>';
+
 			/**
 			 * Convert output to valid amp html
 			 */
