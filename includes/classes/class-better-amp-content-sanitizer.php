@@ -810,6 +810,15 @@ class Better_AMP_Content_Sanitizer {
 					for ( $i = $elements->length - 1; $i >= 0; $i -- ) {
 						$element = $elements->item( $i );
 
+						if ( $tag_name === 'script' && $element->parentNode->tagName === 'amp-analytics' ) {
+
+							$atts = self::get_node_attributes( $element );
+
+							if ( isset( $atts['type'] ) && $atts['type'] === 'application/json' ) {
+								continue 2;
+							}
+						}
+
 						self::remove_element( $element );
 					}
 				}
