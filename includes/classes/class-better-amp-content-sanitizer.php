@@ -794,21 +794,39 @@ class Better_AMP_Content_Sanitizer {
 
 			/**
 			 * Remove all extra tags
+			 *
+			 * array(
+			 *  tag to remove => exceptions
+			 * )
 			 */
-
 			$extra_tags = array(
-				'script',
-				'svg',
+				'script' => array(
+					'type' => 'application/json'
+				),
+				'svg'    => array(),
 			);
 
-			foreach ( $extra_tags as $tag_name ) {
+
+			foreach ( $extra_tags as $tag_name => $exc ) {
 
 				$elements = $body->getElementsByTagName( $tag_name );
 
 				if ( $elements->length ) {
 
+
 					for ( $i = $elements->length - 1; $i >= 0; $i -- ) {
 						$element = $elements->item( $i );
+
+						if ( $exc ) {
+							$attr = self::get_node_attributes( $element );
+
+							foreach ( $exc as $name => $value ) {
+
+								if ( isset( $attr[ $name ] ) && $attr[ $name ] === $value ) {
+									continue 2;
+								}
+							}
+						}
 
 						self::remove_element( $element );
 					}
