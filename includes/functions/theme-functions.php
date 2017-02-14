@@ -2166,9 +2166,9 @@ if ( ! function_exists( 'better_amp_post_subtitle' ) ) {
 	function better_amp_post_subtitle() {
 
 		if ( function_exists( 'publisher_the_subtitle' ) ) {
-			publisher_the_subtitle( '<h5 class="post-subtitle">', '</h3>' );
+			publisher_the_subtitle( '<h5 class="post-subtitle">', '</h5>' );
 		} elseif ( function_exists( 'the_subtitle' ) ) {
-			the_subtitle( '<h5 class="post-subtitle">', '</h3>' );
+			the_subtitle( '<h5 class="post-subtitle">', '</h5>' );
 		}
 
 	}
