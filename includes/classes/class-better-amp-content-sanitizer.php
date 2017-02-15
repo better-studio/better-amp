@@ -815,7 +815,7 @@ class Better_AMP_Content_Sanitizer {
 							$atts = self::get_node_attributes( $element );
 
 							if ( isset( $atts['type'] ) && $atts['type'] === 'application/json' ) {
-								continue 2;
+								continue;
 							}
 						}
 
