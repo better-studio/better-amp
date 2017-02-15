@@ -1463,10 +1463,12 @@ $rules = array(
 					0 =>
 						array(
 							'name' => 'allowfullscreen',
+							'value' => '', 
 						),
 					1 =>
 						array(
 							'name' => 'allowtransparency',
+							'value' => '',
 						),
 					2 =>
 						array(

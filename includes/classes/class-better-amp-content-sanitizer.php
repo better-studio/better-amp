@@ -716,7 +716,7 @@ class Better_AMP_Content_Sanitizer {
 						/**
 						 * STEP 7) Sanitize attribute with fixed value
 						 */
-						if ( ! empty( $atts['value'] ) && isset( $element_atts[ $atts['name'] ] ) ) {
+						if ( isset( $atts['value'] ) && isset( $element_atts[ $atts['name'] ] ) ) {
 
 							if ( $element_atts[ $atts['name'] ] !== $atts['value'] ) { // is current value invalid?
 								$new_atts[ $atts['name'] ] = $atts['value']; // set valid value
