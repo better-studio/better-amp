@@ -376,6 +376,13 @@ function better_amp_customize_preview_init( $customize_manager ) {
  * @return string|void
  */
 function better_amp_guess_none_amp_url() {
+
+	static $none_amp_url;
+
+	if( $none_amp_url ){
+		return $none_amp_url;
+	}
+
 	$abspath_fix         = str_replace( '\\', '/', ABSPATH );
 	$script_filename_dir = dirname( $_SERVER['SCRIPT_FILENAME'] );
 
@@ -415,8 +422,12 @@ function better_amp_guess_none_amp_url() {
 
 	if ( preg_match( "#^$path/*$amp_qv/+(.*?)$#", $_SERVER['REQUEST_URI'], $matched ) ) {
 
-		return site_url( $matched[1] );
+		$none_amp_url = site_url( $matched[1] );
+	}else{
+		$none_amp_url = site_url();
 	}
+
+	return $none_amp_url;
 }
 
 
