@@ -1228,6 +1228,17 @@ class Better_AMP {
 			// Disable WP Rocket lazy load
 			add_filter( 'do_rocket_lazyload', '__return_false', PHP_INT_MAX );
 			add_filter( 'do_rocket_lazyload_iframes', '__return_false', PHP_INT_MAX );
+
+			// Disable HTTP protocol removing on script, link, img, srcset and form tags.
+			remove_filter( 'rocket_buffer', '__rocket_protocol_rewrite', PHP_INT_MAX );
+			remove_filter( 'wp_calculate_image_srcset', '__rocket_protocol_rewrite_srcset', PHP_INT_MAX );
+
+			// Disable Concatenate Google Fonts
+			add_filter( 'get_rocket_option_minify_google_fonts', '__return_false', PHP_INT_MAX );
+
+			// Disable CSS & JS magnification
+			add_filter( 'get_rocket_option_minify_js', '__return_false', PHP_INT_MAX );
+			add_filter( 'get_rocket_option_minify_css', '__return_false', PHP_INT_MAX );
 		}
 
 
