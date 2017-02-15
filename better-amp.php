@@ -188,24 +188,6 @@ class Better_AMP {
 	}
 
 
-	public function admin_styles() {
-		?>
-		<style>
-			.toplevel_page_better-amp-translation .wp-menu-image img {
-				width: 12px;
-				padding-top: 7px !important;
-			}
-
-			#adminmenu li#toplevel_page_better-studio-better-ads-manager + .toplevel_page_better-amp-translation,
-			#adminmenu li#toplevel_page_better-studio-rebuild-thumbnails + .toplevel_page_better-amp-translation {
-				margin-top: -10px;
-				margin-bottom: 10px;
-			}
-		</style>
-		<?php
-	}
-
-
 	/**
 	 * Load plugin textdomain file
 	 *
@@ -1305,6 +1287,32 @@ class Better_AMP {
 		}
 
 		return Better_AMP_Content_Sanitizer::transform_to_amp_url( $url );
+	}
+
+
+	/**
+	 * Fix admin menu margins for better UX
+	 */
+	public function admin_styles() {
+		?>
+		<style>
+			.toplevel_page_better-amp-translation .wp-menu-image img {
+				width: 12px;
+				padding-top: 7px !important;
+			}
+
+			#adminmenu li#toplevel_page_better-studio-better-ads-manager,
+			#adminmenu .toplevel_page_better-amp-translation {
+				margin-top: 10px;
+				margin-bottom: 10px;
+			}
+			#adminmenu li[id^="toplevel_page_better-studio"] + li#toplevel_page_better-studio-better-ads-manager,
+			#adminmenu li[id^="toplevel_page_better-studio"] + .toplevel_page_better-amp-translation {
+				margin-top: -10px;
+				margin-bottom: 10px;
+			}
+		</style>
+		<?php
 	}
 
 }
