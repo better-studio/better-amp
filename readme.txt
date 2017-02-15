@@ -1,4 +1,4 @@
-=== Better AMP ===
+=== Better AMP - WordPress Complete AMP ===
 Contributors: betterstudio
 Donate link: http://betterstudio.com/
 Tags: amp,accelerated mobile pages, mobile theme, google amp
