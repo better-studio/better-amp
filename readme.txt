@@ -51,6 +51,14 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 
 == Changelog ==
 
+= 1.1.3 =
+* Improved: WP-Rocket compatibility improved.
+* Fixed: Auto validator fixed for iFrame tag attrs.
+* Fixed: Share link changed to none-AMP version link.
+* Fixed: Script tags making page invalid fixed.
+* Fixed: Post image is not showing fixed.
+
+
 = 1.1.2 =
 * Improved: RTL style checked and fixed for all pages.
 * Fixed: Large listing image style.
