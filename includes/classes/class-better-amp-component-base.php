@@ -40,18 +40,21 @@ abstract class Better_AMP_Component_Base {
 	 *
 	 * @param array|string $template_names
 	 * @param array        $props
+	 * @param bool         $load         If true the template file will be loaded if it is found.
+	 * @param bool         $require_once Whether to require_once or require. Default true. Has no effect if $load is
+	 *                                   false.
 	 *
 	 * @since 1.0.0
 	 *
 	 * @return string file content
 	 */
-	protected function locate_template( $template_names, $props = array() ) {
+	protected function locate_template( $template_names, $props = array(), $load = TRUE, $require_once = TRUE ) {
 
 		ob_start();
 
 		better_amp_set_prop( get_class( $this ), $props );
 
-		better_amp_locate_template( $template_names, TRUE );
+		better_amp_locate_template( $template_names, $load, $require_once );
 
 		return ob_get_clean();
 	}
