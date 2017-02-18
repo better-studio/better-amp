@@ -798,6 +798,7 @@ class Better_AMP_Content_Sanitizer {
 			$extra_tags = array(
 				'script',
 				'svg',
+				'canvas',
 			);
 
 			foreach ( $extra_tags as $tag_name ) {
