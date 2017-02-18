@@ -9,7 +9,7 @@ add_action( 'better-amp/template/head', 'better_amp_print_rel_canonical' );
 
 add_action( 'better-amp/template/head', '_wp_render_title_tag' );
 
-add_action( 'better-amp/template/enqueue-scripts', 'better_amp_enqueue_rtl_style', 999 );
+//add_action( 'better-amp/template/enqueue-scripts', 'better_amp_enqueue_rtl_style', 999 );
 add_action( 'wp_head', 'better_amp_print_rel_amphtml' );
 
 add_filter( 'wp_nav_menu_args', 'better_amp_theme_set_menu_walker', 9999 );
