@@ -80,6 +80,7 @@ blockquote {
     text-align: left;
     position: relative;
     margin: 0 0 15px;
+    clear: both;
 }
 blockquote p:last-child{
     margin-bottom: 0;
