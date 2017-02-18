@@ -1,0 +1,45 @@
+/*
+ * => Woocommerce Styles
+ */
+.woocommerce-error,
+.woocommerce-info,
+.woocommerce-message {
+    padding: 1em 3.5em 1em 2em;
+}
+.woocommerce-error:before,
+.woocommerce-info:before,
+.woocommerce-message:before {
+    right: 1.5em;
+    left: auto;
+}
+.woocommerce-error .button,
+.woocommerce-info .button,
+.woocommerce-message .button {
+    float: left;
+}
+.woocommerce-error li,
+.woocommerce-info li,
+.woocommerce-message li {
+    padding-right: 0;
+    margin-right: 0;
+    padding-left: 0;
+    margin-left: auto;
+}
+.listing-item .button-view-product {
+    margin-left: 10px;
+    margin-right: auto;
+}
+
+
+/**
+ * ->Star rating
+ **/
+.rating-stars {
+    text-align: right;
+    margin-left: 10px;
+    margin-right: auto;
+}
+.rating-stars span {
+    right: 0;
+    left: auto;
+}

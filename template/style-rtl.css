@@ -1,0 +1,45 @@
+/*
+ * => Global
+ */
+body{
+    direction: rtl;
+}
+blockquote {
+    padding: 15px 60px 15px 15px;
+    text-align: right;
+}
+blockquote:before {
+    right: 12px;
+    left: auto;
+}
+.img-holder {
+    float: right;
+    margin-left: 15px;
+    margin-right: auto;
+}
+
+
+/*
+ * => Header and Navigation
+ */
+.site-header .navbar-toggle {
+    right: 0;
+    left: auto;
+}
+.site-header .navbar-search {
+    left: 0;
+    right: auto;
+}
+
+
+/*
+ * => Footer
+ */
+.footer-navigation .fa {
+    margin-left: 5px;
+    margin-right: auto;
+}
+.better-amp-main-link a .fa {
+    margin-left: 5px;
+    margin-right: auto;
+}

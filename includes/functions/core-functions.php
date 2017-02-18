@@ -360,10 +360,20 @@ function better_amp_enqueue_block_style( $handle, $file = '', $rtl = TRUE ) {
 		return TRUE;
 	}
 
-	better_amp_enqueue_inline_style( $file . '.css', $handle );
+	static $suffix;
+
+	if ( ! $suffix ) {
+		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+			$suffix = '.css';
+		} else {
+			$suffix = '.min.css';
+		}
+	}
+
+	better_amp_enqueue_inline_style( $file . $suffix, $handle );
 
 	if ( $rtl && is_rtl() ) {
-		better_amp_enqueue_inline_style( $file . '.rtl.css', $handle . '-rtl' );
+		better_amp_enqueue_inline_style( $file . '.rtl' . $suffix, $handle . '-rtl' );
 	}
 
 	return $printed_files[ $file ] = TRUE;

@@ -1,0 +1,18 @@
+/*
+ * => Post single page
+ */
+.single-post .post-meta amp-img {
+    margin-left: 6px;
+    margin-right: auto;
+}
+
+
+/*
+ * --> Post comments
+ */
+.comments-wrapper {
+    padding: 12px 12px 12px 8px;
+}
+.comments-wrapper  .button.add-comment {
+    float: left;
+}

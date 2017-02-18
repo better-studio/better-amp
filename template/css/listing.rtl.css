@@ -1,0 +1,29 @@
+/*
+ * => Base Listings -> RTL
+ */
+.listing-item .post-meta .post-date .fa {
+    margin-left: 3px;
+    margin-right: auto;
+}
+.listing-item a.post-read-more .fa {
+    margin-right: 3px;
+    margin-left: auto;
+}
+
+
+/*
+ * -> Listing Item 1
+ */
+.listing-1-item .post-thumbnail {
+    float: left;
+    margin-right: 15px;
+    margin-left: auto;
+}
+
+
+/*
+ * -> Listing Item 2
+ */
+.listing-2-item a.post-read-more {
+    float: left;
+}

@@ -1,3 +1,8 @@
+<?php
+
+better_amp_enqueue_block_style( 'social-list' );
+
+?>
 <div class="social-list-wrapper">
 	<ul class="social-list clearfix">
 		<?php
@@ -6,7 +11,7 @@
 
 			$theme_mod = 'better-amp-' . $k;
 
-			$value     = better_amp_get_theme_mod( $theme_mod );
+			$value = better_amp_get_theme_mod( $theme_mod );
 
 			if ( ! $value ) {
 				continue;

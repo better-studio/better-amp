@@ -2,6 +2,8 @@
 
 better_amp_get_header();
 
+better_amp_enqueue_inline_style( 'css/404.css', '404' );
+
 ?>
 	<header class="mr-404-suit">
 

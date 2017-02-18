@@ -1,0 +1,56 @@
+/*
+ * => Entry Content (Single)
+ */
+.entry-content .wp-caption.alignleft,
+.entry-content .alignleft {
+    margin: 5px 20px 20px 0;
+    float: left;
+}
+.entry-content .wp-caption.alignright,
+.entry-content .alignright {
+    margin: 5px 0 15px 20px;
+    float: right;
+}
+.entry-content .wp-caption.alignleft .wp-caption-text,
+.entry-content figure.alignleft .wp-caption-text {
+    text-align: left;
+}
+.entry-content .wp-caption.alignright .wp-caption-text,
+.entry-content figure.alignright .wp-caption-text,
+.entry-content .wp-caption-text,
+.entry-content .gallery-caption,
+.entry-content figcaption {
+    text-align: right;
+}
+.entry-content .gallery.gallery-columns-2 .gallery-item,
+.entry-content .gallery.gallery-columns-3 .gallery-item,
+.entry-content .gallery.gallery-columns-4 .gallery-item,
+.entry-content .gallery.gallery-columns-5 .gallery-item,
+.entry-content .gallery.gallery-columns-6 .gallery-item,
+.entry-content .gallery.gallery-columns-7 .gallery-item,
+.entry-content .gallery.gallery-columns-8 .gallery-item,
+.entry-content .gallery.gallery-columns-9 .gallery-item {
+    float: right;
+}
+
+
+/*
+ * -> Custom Lists
+ */
+.entry-content ul.bs-shortcode-list ul,
+.entry-content ul.bs-shortcode-list {
+    padding-right: 20px;
+    padding-left: 0;
+}
+.entry-content ul.bs-shortcode-list ul {
+    padding-right: 13px;
+    padding-left: 0;
+}
+.entry-content ul.bs-shortcode-list li {
+    padding-right: 25px;
+    padding-left: 0;
+}
+.entry-content ul.bs-shortcode-list li:before {
+    right: 0;
+    left: auto;
+}

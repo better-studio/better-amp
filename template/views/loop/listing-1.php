@@ -1,3 +1,9 @@
+<?php
+
+better_amp_enqueue_block_style( 'listing', 'css/listing' );
+better_amp_enqueue_block_style( 'listing-1', 'css/listing-1' );
+
+?>
 <div class="posts-listing posts-listing-1">
 	<?php
 

@@ -2,6 +2,8 @@
 
 better_amp_get_header();
 
+better_amp_enqueue_block_style( 'search' );
+
 better_amp_get_search_form();
 
 // Show search result only when user searched!
