@@ -129,6 +129,7 @@ function better_amp_get_default_theme_setting( $setting_id, $setting_index = '' 
 		'better-amp-post-show-thumbnail'     => TRUE,
 		'better-amp-post-show-comment'       => TRUE,
 		'better-amp-post-social-share-show'  => 'show',
+		'better-amp-page-social-share-show'  => 'show',
 		'better-amp-post-social-share-count' => 'total',
 		'better-amp-post-social-share'       => array(
 			'facebook'    => 1,
