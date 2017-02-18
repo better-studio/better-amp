@@ -2,6 +2,9 @@
 /*
  * => Global
  */
+body{
+    direction: rtl;
+}
 blockquote {
     padding: 15px 60px 15px 15px;
     text-align: right;
@@ -14,6 +17,9 @@ blockquote:before {
     float: right;
     margin-left: 15px;
     margin-right: auto;
+}
+.amp-featured-slider .content-holder{
+    direction: rtl;
 }
 
 
