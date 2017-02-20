@@ -51,6 +51,20 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 
 == Changelog ==
 
+= 1.2.0 =
+* Added: AMP Smart style printing. 200% smaller CSS file
+* Added: Option to show/hide share in pages.
+
+* Improved: AMP content validator layer improved.
+* Improved: Design.
+
+* Fixed: Blockquote style.
+* Fixed: Home slider RTL style fixed.
+* Fixed: Whatsapp link not works.
+* Fixed: AMP changed to amp for third-party plugins compatibility.
+* Fixed: Only 1 gallery is showing.
+
+
 = 1.1.3 =
 * Improved: WP-Rocket compatibility improved.
 * Fixed: Auto validator fixed for iFrame tag attrs.
