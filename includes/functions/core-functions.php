@@ -370,11 +370,11 @@ function better_amp_enqueue_block_style( $handle, $file = '', $rtl = TRUE ) {
 		}
 	}
 
-	better_amp_enqueue_inline_style( $file . $suffix, $handle );
-
 	if ( $rtl && is_rtl() ) {
 		better_amp_enqueue_inline_style( $file . '.rtl' . $suffix, $handle . '-rtl' );
 	}
+
+	better_amp_enqueue_inline_style( $file . $suffix, $handle );
 
 	return $printed_files[ $file ] = TRUE;
 }
