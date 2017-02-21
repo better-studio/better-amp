@@ -63,6 +63,7 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 * Fixed: Whatsapp link not works.
 * Fixed: AMP changed to amp for third-party plugins compatibility.
 * Fixed: Only 1 gallery is showing.
+* Fixed: RTL style fixed.
 
 
 = 1.1.3 =
