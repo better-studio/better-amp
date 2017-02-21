@@ -363,7 +363,7 @@ function better_amp_enqueue_block_style( $handle, $file = '', $rtl = TRUE ) {
 	static $suffix;
 
 	if ( ! $suffix ) {
-		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+		if ( ( defined( 'WP_DEBUG' ) && WP_DEBUG ) || ( defined( 'BF_DEV_MODE' ) && BF_DEV_MODE ) ) {
 			$suffix = '.css';
 		} else {
 			$suffix = '.min.css';
