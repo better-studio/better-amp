@@ -220,7 +220,7 @@ body.sticky-nav{
  * => Footer
  */
 .better-amp-footer {
-    margin: 0 -15px;
+    margin: 0;
 }
 .better-amp-footer.sticky-footer{
     position: fixed;
