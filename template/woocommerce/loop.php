@@ -2,6 +2,9 @@
 
 global $post;
 
+better_amp_enqueue_block_style( 'listing' );
+better_amp_enqueue_block_style( 'listing-grid' );
+
 ?>
 <div class="posts-listing posts-listing-grid product-archive clearfix">
 	<?php

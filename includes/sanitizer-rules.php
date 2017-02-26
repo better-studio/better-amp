@@ -170,6 +170,10 @@ $rules = array(
 						array(
 							'name' => 'align',
 						),
+					1 =>
+						array(
+							'name' => 'style',
+						),
 				),
 		),
 	12 =>
@@ -1462,11 +1466,13 @@ $rules = array(
 				array(
 					0 =>
 						array(
-							'name' => 'allowfullscreen',
+							'name'  => 'allowfullscreen',
+							'value' => '',
 						),
 					1 =>
 						array(
-							'name' => 'allowtransparency',
+							'name'  => 'allowtransparency',
+							'value' => '',
 						),
 					2 =>
 						array(

@@ -1,0 +1,10 @@
+/*
+ * => Search -> RTL
+ */
+.search-form .search-submit {
+    left: 0;
+    right: auto;
+}
+.search-form .search-submit {
+    border-radius: 33px 0 0 33px;
+}

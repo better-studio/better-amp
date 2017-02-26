@@ -2166,9 +2166,9 @@ if ( ! function_exists( 'better_amp_post_subtitle' ) ) {
 	function better_amp_post_subtitle() {
 
 		if ( function_exists( 'publisher_the_subtitle' ) ) {
-			publisher_the_subtitle( '<h5 class="post-subtitle">', '</h3>' );
+			publisher_the_subtitle( '<h5 class="post-subtitle">', '</h5>' );
 		} elseif ( function_exists( 'the_subtitle' ) ) {
-			the_subtitle( '<h5 class="post-subtitle">', '</h3>' );
+			the_subtitle( '<h5 class="post-subtitle">', '</h5>' );
 		}
 
 	}
@@ -2441,28 +2441,18 @@ if ( ! function_exists( 'better_amp_social_share_guss_current_page' ) ) {
 	 */
 	function better_amp_social_share_guss_current_page() {
 
-		// This function is fork of "bf_social_shares_count" function and it's better to use
-		// the main function if that was available. (IF BetterFramework was available)
-		if ( function_exists( 'bf_social_share_fetch_count' ) ) {
-			return bf_social_share_guss_current_page();
-		}
+		$page_permalink = better_amp_guess_none_amp_url();
 
 		if ( is_home() || is_front_page() ) {
-			$page_title     = get_bloginfo( 'name' );
-			$page_permalink = get_home_url();
+			$page_title = get_bloginfo( 'name' );
 		} elseif ( is_single( get_the_ID() ) && ! ( is_front_page() ) ) {
-			$page_title     = get_the_title();
-			$page_permalink = get_the_permalink();
+			$page_title = get_the_title();
 		} elseif ( is_page() ) {
-			$page_title     = get_the_title();
-			$page_permalink = get_the_permalink();
+			$page_title = get_the_title();
 		} elseif ( is_category() || is_tag() || is_tax() ) {
-			global $wp_query;
-			$page_title     = single_term_title( '', FALSE );
-			$page_permalink = get_term_link( $wp_query->get_queried_object_id() );
+			$page_title = single_term_title( '', FALSE );
 		} else {
-			$page_title     = get_bloginfo( 'name' );
-			$page_permalink = get_home_url();
+			$page_title = get_bloginfo( 'name' );
 		}
 
 		return compact( 'page_title', 'page_permalink' );
@@ -2569,7 +2559,7 @@ if ( ! function_exists( 'better_amp_social_share_get_li' ) ) {
 				break;
 
 			case 'whatsapp':
-				$link  = 'whatsapp://send?text=' . $page_title . "  \n\n" . $page_permalink;
+				$link  = 'whatsapp://send?text=' . $page_title . ' %0A%0A ' . $page_permalink;
 				$title = __( 'WhatsApp', 'better-amp' );
 				$icon  = '<i class="fa fa-whatsapp"></i>';
 				break;

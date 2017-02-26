@@ -73,7 +73,7 @@ class Better_AMP_Styles extends WP_Styles {
 		if ( $this->inline_styles ) {
 			echo '<style amp-custom>';
 
-			foreach ( $this->inline_styles as $code ) {
+			foreach ( array_reverse( $this->inline_styles ) as $code ) {
 				echo "\n", $code, "\n";
 			}
 

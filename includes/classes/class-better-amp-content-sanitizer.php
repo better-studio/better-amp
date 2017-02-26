@@ -140,7 +140,6 @@ class Better_AMP_Content_Sanitizer {
 
 			$length = $node->attributes->length;
 
-
 			for ( $i = $length - 1; $i >= 0; $i -- ) {
 				$attribute = $node->attributes->item( $i );
 
@@ -716,7 +715,7 @@ class Better_AMP_Content_Sanitizer {
 						/**
 						 * STEP 7) Sanitize attribute with fixed value
 						 */
-						if ( ! empty( $atts['value'] ) && isset( $element_atts[ $atts['name'] ] ) ) {
+						if ( isset( $atts['value'] ) && isset( $element_atts[ $atts['name'] ] ) ) {
 
 							if ( $element_atts[ $atts['name'] ] !== $atts['value'] ) { // is current value invalid?
 								$new_atts[ $atts['name'] ] = $atts['value']; // set valid value
@@ -799,6 +798,7 @@ class Better_AMP_Content_Sanitizer {
 			$extra_tags = array(
 				'script',
 				'svg',
+				'canvas',
 			);
 
 			foreach ( $extra_tags as $tag_name ) {
@@ -815,7 +815,7 @@ class Better_AMP_Content_Sanitizer {
 							$atts = self::get_node_attributes( $element );
 
 							if ( isset( $atts['type'] ) && $atts['type'] === 'application/json' ) {
-								continue 2;
+								continue;
 							}
 						}
 
@@ -1129,7 +1129,8 @@ class Better_AMP_Content_Sanitizer {
 				$class .= 'e_' . mt_rand();
 				$node->setAttribute( 'class', $class );
 
-				$selector = '.' . $class;
+				$selector = preg_replace( '/[ ]+/', '.', '.' . $class);
+				$selector .= $selector; // twice for higher CSS priority
 			}
 
 			better_amp_add_inline_style( sprintf( '%s{%s}', $selector, $attributes['style'] ) );

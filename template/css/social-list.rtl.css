@@ -1,0 +1,26 @@
+/*
+ * => Social List
+ */
+.social-list-wrapper .number {
+    margin: 0 4px 0 0;
+}
+.social-list-wrapper .post-share-btn {
+    margin-left: 8px;
+    margin-right: auto;
+}
+.social-list-wrapper .post-share-btn .text {
+    margin-right: 3px;
+    margin-left: auto;
+}
+.social-list li {
+    margin-left: 6px;
+    margin-right: auto;
+}
+.social-list li:last-child {
+    margin-left: 0;
+    margin-right: auto;
+}
+.social-list .social-item.has-count .fa {
+    margin-left: 1px;
+    margin-right: auto;
+}

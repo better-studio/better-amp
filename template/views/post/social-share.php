@@ -4,6 +4,8 @@ if ( better_amp_get_theme_mod( 'better-amp-post-social-share-show' ) !== 'show' 
 	return;
 }
 
+better_amp_enqueue_block_style( 'social-list' );
+
 $in_customizer       = is_customize_preview();
 $count_status        = better_amp_get_theme_mod( 'better-amp-post-social-share-count' );
 $show_count          = $count_status === 'total' || $count_status === 'total-and-site';
@@ -13,7 +15,6 @@ $active_sites = better_amp_get_theme_mod( 'better-amp-post-social-share' );
 unset( $active_sites['rand'] );
 
 ?>
-
 <?php if ( $in_customizer ) { ?>
 	<style>
 		<?php if(!$show_count) { ?>

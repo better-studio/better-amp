@@ -1,0 +1,47 @@
+/*
+ * => Product Page -> RTL
+ */
+.single-product .product-gallery .product-gallery-image {
+    margin: 0 0 8px 8px;
+    float: right;
+}
+.single-product .woocommerce-product-rating {
+    float: left;
+}
+.single-product .product-accordion .accordion-title:after {
+    left: 0;
+    border-right: 1px solid #e2e2e2;
+    right: auto;
+    border-left: none;
+}
+
+
+/**
+* -> Comments
+*/
+.woocommerce ol.commentlist li .avatar {
+    right: 0;
+    left: auto;
+}
+.woocommerce ol.commentlist li .comment-text {
+    margin: 0 80px 0 0;
+}
+.woocommerce ol.commentlist li .comment-text .rating {
+    float: left;
+    margin-left: 0;
+    margin-right: auto;
+}
+.woocommerce ol.commentlist ul.children {
+    margin: 20px 50px 0 0;
+}
+.woocommerce ol.commentlist #respond {
+    margin: 20px 50px 0 0;
+}
+.woocommerce .woocommerce-price ins {
+    margin-right: 10px;
+    margin-left: auto;
+}
+.woocommerce .onsale {
+    left: 0;
+    right: auto;
+}

@@ -80,13 +80,14 @@ function better_amp_enqueue_static() {
 
 	better_amp_enqueue_style( 'font-awesome', 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' );
 	better_amp_enqueue_style( 'google-fonts', 'https://fonts.googleapis.com/css?family=Lato:400,600|Roboto:300,400,500,700' );
-	better_amp_enqueue_inline_style( 'style.css' );
+
+	better_amp_enqueue_block_style( 'style', 'style' );
+	better_amp_enqueue_block_style( 'normalize', 'css/normalize', FALSE ); // Normalize without RTL
 
 	better_amp_enqueue_script( 'amp-sidebar', 'https://cdn.ampproject.org/v0/amp-sidebar-0.1.js' );
 	better_amp_enqueue_script( 'amp-sidebar', 'https://cdn.ampproject.org/v0/amp-accordion-0.1.js' );
 
 	if ( better_amp_get_theme_mod( 'better-amp-footer-analytics' ) ) {
-
 		better_amp_enqueue_script( 'amp-analytics', 'https://cdn.ampproject.org/v0/amp-analytics-0.1.js' );
 	}
 }
@@ -128,6 +129,7 @@ function better_amp_get_default_theme_setting( $setting_id, $setting_index = '' 
 		'better-amp-post-show-thumbnail'     => TRUE,
 		'better-amp-post-show-comment'       => TRUE,
 		'better-amp-post-social-share-show'  => 'show',
+		'better-amp-page-social-share-show'  => 'show',
 		'better-amp-post-social-share-count' => 'total',
 		'better-amp-post-social-share'       => array(
 			'facebook'    => 1,

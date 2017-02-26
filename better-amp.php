@@ -1,10 +1,10 @@
 <?php
 /*
-Plugin Name: Better AMP
+Plugin Name: Better AMP - WordPress Complete AMP
 Plugin URI: http://demo.betterstudio.com/publisher/amp-demo/
 Description: Add FULL AMP support to your WordPress site.
 Author: Better Studio
-Version: 1.1.1
+Version: 1.2.0
 Author URI: http://betterstudio.com
 */
 
@@ -51,7 +51,7 @@ class Better_AMP {
 	 *
 	 * @since 1.0.0
 	 */
-	const VERSION = '1.1.1';
+	const VERSION = '1.2.0';
 
 
 	/**
@@ -185,24 +185,6 @@ class Better_AMP {
 		define( 'BETTER_AMP_OVERRIDE_TPL_DIR', apply_filters( 'better-amp/template/dir-name', Better_AMP::TEMPLATE_DIR ) );
 		define( 'BETTER_AMP_TPL_COMPAT_ABSPATH', BETTER_AMP_PATH . 'theme-compat/' );
 
-	}
-
-
-	public function admin_styles() {
-		?>
-		<style>
-			.toplevel_page_better-amp-translation .wp-menu-image img {
-				width: 12px;
-				padding-top: 7px !important;
-			}
-
-			#adminmenu li#toplevel_page_better-studio-better-ads-manager + .toplevel_page_better-amp-translation,
-			#adminmenu li#toplevel_page_better-studio-rebuild-thumbnails + .toplevel_page_better-amp-translation {
-				margin-top: -10px;
-				margin-bottom: 10px;
-			}
-		</style>
-		<?php
 	}
 
 
@@ -1228,6 +1210,17 @@ class Better_AMP {
 			// Disable WP Rocket lazy load
 			add_filter( 'do_rocket_lazyload', '__return_false', PHP_INT_MAX );
 			add_filter( 'do_rocket_lazyload_iframes', '__return_false', PHP_INT_MAX );
+
+			// Disable HTTP protocol removing on script, link, img, srcset and form tags.
+			remove_filter( 'rocket_buffer', '__rocket_protocol_rewrite', PHP_INT_MAX );
+			remove_filter( 'wp_calculate_image_srcset', '__rocket_protocol_rewrite_srcset', PHP_INT_MAX );
+
+			// Disable Concatenate Google Fonts
+			add_filter( 'get_rocket_option_minify_google_fonts', '__return_false', PHP_INT_MAX );
+
+			// Disable CSS & JS magnification
+			add_filter( 'get_rocket_option_minify_js', '__return_false', PHP_INT_MAX );
+			add_filter( 'get_rocket_option_minify_css', '__return_false', PHP_INT_MAX );
 		}
 
 
@@ -1294,6 +1287,32 @@ class Better_AMP {
 		}
 
 		return Better_AMP_Content_Sanitizer::transform_to_amp_url( $url );
+	}
+
+
+	/**
+	 * Fix admin menu margins for better UX
+	 */
+	public function admin_styles() {
+		?>
+		<style>
+			.toplevel_page_better-amp-translation .wp-menu-image img {
+				width: 12px;
+				padding-top: 7px !important;
+			}
+
+			#adminmenu li#toplevel_page_better-studio-better-ads-manager,
+			#adminmenu .toplevel_page_better-amp-translation {
+				margin-top: 10px;
+				margin-bottom: 10px;
+			}
+			#adminmenu li[id^="toplevel_page_better-studio"] + li#toplevel_page_better-studio-better-ads-manager,
+			#adminmenu li[id^="toplevel_page_better-studio"] + .toplevel_page_better-amp-translation {
+				margin-top: -10px;
+				margin-bottom: 10px;
+			}
+		</style>
+		<?php
 	}
 
 }

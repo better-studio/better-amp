@@ -2,6 +2,9 @@
 
 better_amp_get_header();
 
+better_amp_enqueue_block_style( 'single' );
+better_amp_enqueue_block_style( 'page' );
+
 better_amp_the_post();
 
 ?>
@@ -20,7 +23,9 @@ better_amp_the_post();
 		</div>
 		<?php
 
-		better_amp_template_part( 'views/post/social-share' );
+		if ( better_amp_get_theme_mod( 'better-amp-page-social-share-show' ) != 'hide' && ! ( function_exists( 'is_woocommerce' ) && is_cart() ) ) {
+			better_amp_template_part( 'views/post/social-share' );
+		}
 
 		?>
 	</div>

@@ -1,0 +1,26 @@
+/*
+ * => Listing Grid -> RTL
+ */
+.listing-grid-item {
+    float: right;
+}
+.listing-grid-item:nth-child( 3n-2 ) {
+    padding-left: 12px;
+    clear: right;
+    padding-right: 0;
+}
+.listing-grid-item:nth-child( 3n+3  ) {
+    padding-right: 12px;
+    padding-left: 0;
+}
+@media only screen and (max-width: 650px) {
+    .listing-grid-item:nth-child( 3n-2 ) {
+        padding-left: 12px;
+        clear: right;
+        padding-right: 0;
+    }
+    .listing-grid-item:nth-child( 3n+3  ) {
+        padding-right: 12px;
+        padding-left: 0;
+    }
+}

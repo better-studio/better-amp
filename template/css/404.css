@@ -1,0 +1,26 @@
+/*
+ * => Mr 404
+ */
+.mr-404-suit {
+    background: red;
+    padding: 40px 20px;
+    margin: 15px 0;
+    background: #fff;
+    font-family: Roboto;
+    font-size: 25px;
+    font-weight: 500;
+    border: 1px solid #e7e7e7;
+    position: relative;
+    text-align: center;
+}
+.mr-404-suit .mr-404{
+    font-size: 70px;
+    font-family: Arial,"Helvetica Neue",Helvetica,sans-serif;
+    font-weight: 600;
+    line-height: 70px;
+    margin: 0 0 15px;
+}
+.mr-404-suit .mr-404-bio{
+    font-size: 18px;
+    margin: 0;
+}

@@ -2,6 +2,10 @@
 
 global $product, $post;
 
+better_amp_enqueue_block_style( 'single' );
+better_amp_enqueue_block_style( 'wc' );
+better_amp_enqueue_block_style( 'wc-single' );
+
 better_amp_get_header();
 
 better_amp_the_post();
@@ -153,6 +157,8 @@ better_amp_enqueue_script( 'amp-image-lightbox', 'https://cdn.ampproject.org/v0/
 		</amp-accordion>
 	</div>
 <?php
+
+better_amp_enqueue_block_style( 'post-terms' );
 
 echo $product->get_tags(
 	'',

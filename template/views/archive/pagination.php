@@ -1,5 +1,7 @@
 <?php
 
+better_amp_enqueue_block_style( 'pagination' );
+
 if ( is_rtl() ) {
 	$prev = '<i class="fa fa-arrow-right" aria-hidden="true"></i>' . better_amp_translation_get( 'prev' );
 	$next = better_amp_translation_get( 'next' ) . '<i class="fa fa-arrow-left" aria-hidden="true"></i>';

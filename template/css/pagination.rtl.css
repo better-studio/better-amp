@@ -1,0 +1,26 @@
+/**
+ * => Pagination
+ */
+.pagination .nav-links .page-numbers.prev {
+    float: right;
+}
+.pagination .nav-links .page-numbers.next {
+    float: left;
+}
+.pagination .nav-links .page-numbers.prev .fa {
+    margin-left: 7px;
+    margin-right: auto;
+}
+.pagination .nav-links .page-numbers.next .fa {
+    margin-right: 7px;
+    margin-left: auto;
+}
+.pagination .nav-links .page-numbers.current:first-child {
+    float: right;
+}
+.pagination .newer {
+    float: left;
+}
+.pagination .older {
+    float: right;
+}

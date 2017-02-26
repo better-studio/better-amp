@@ -1,4 +1,4 @@
-=== Better AMP ===
+=== Better AMP - WordPress Complete AMP ===
 Contributors: betterstudio
 Donate link: http://betterstudio.com/
 Tags: amp,accelerated mobile pages, mobile theme, google amp
@@ -50,6 +50,37 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 5. Page (Contact page) + 404 page
 
 == Changelog ==
+
+= 1.2.0 =
+* Added: AMP Smart style printing. 200% smaller CSS file
+* Added: Option to show/hide share in pages.
+
+* Improved: AMP content validator layer improved.
+* Improved: Design.
+
+* Fixed: Blockquote style.
+* Fixed: Home slider RTL style fixed.
+* Fixed: Whatsapp link not works.
+* Fixed: AMP changed to amp for third-party plugins compatibility.
+* Fixed: Only 1 gallery is showing.
+* Fixed: RTL style fixed.
+
+
+= 1.1.3 =
+* Improved: WP-Rocket compatibility improved.
+* Fixed: Auto validator fixed for iFrame tag attrs.
+* Fixed: Share link changed to none-AMP version link.
+* Fixed: Script tags making page invalid fixed.
+* Fixed: Post image is not showing fixed.
+
+
+= 1.1.2 =
+* Improved: RTL style checked and fixed for all pages.
+* Fixed: Large listing image style.
+* Fixed: Subtitle wrong tag close.
+* Fixed: Google Analytics not works.
+* Fixed: Missing close tag for <head>
+
 
 = 1.1.1 =
 * Fixed: "WP Rocket" plugin lazy load compatibility.

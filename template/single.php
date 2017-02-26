@@ -2,6 +2,9 @@
 
 better_amp_get_header();
 
+better_amp_enqueue_block_style( 'single' );
+better_amp_enqueue_block_style( 'post' );
+
 better_amp_the_post();
 
 ?>
@@ -77,6 +80,8 @@ better_amp_the_post();
 
 		<?php
 
+		better_amp_enqueue_block_style( 'post-terms' );
+
 		the_tags(
 			'<div class="post-terms tags"><span class="term-type"><i class="fa fa-tags"></i></span>',
 			'',
@@ -92,7 +97,6 @@ better_amp_the_post();
 			</div>
 			<?php
 		}
-
 
 		?>
 	</div>

@@ -519,6 +519,25 @@ function better_amp_customize_register( $wp_customizer ) {
 
 
 	/**
+	 * 5.7 Social share for page
+	 */
+	$wp_customizer->add_setting( 'better-amp-page-social-share-show', array(
+		'transport' => 'postMessage',
+		'default'   => better_amp_get_default_theme_setting( 'better-amp-page-social-share-show' ),
+	) );
+	$wp_customizer->add_control( 'better-amp-page-social-share-show', array(
+		'label'    => __( 'Show Share Box In Pages?', 'better-amp' ),
+		'section'  => 'better-amp-post-section',
+		'priority' => 10,
+		'type'     => 'select',
+		'choices'  => array(
+			'show' => __( 'Show', 'better-amp' ),
+			'hide' => __( 'Hide', 'better-amp' ),
+		)
+	) );
+
+
+	/**
 	 * 6. Homepage
 	 */
 	$wp_customizer->add_section( 'better-amp-home-section', array(

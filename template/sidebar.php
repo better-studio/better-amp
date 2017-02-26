@@ -2,6 +2,8 @@
 
 $site_branding = better_amp_get_branding_info( 'sidebar' );
 
+better_amp_enqueue_block_style( 'sidebar' );
+
 ?>
 <amp-sidebar id="better-ampSidebar" class="better-amp-sidebar" layout="nodisplay"
              side="<?php better_amp_direction() ?>">

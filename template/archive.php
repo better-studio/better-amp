@@ -2,6 +2,8 @@
 
 better_amp_get_header();
 
+better_amp_enqueue_block_style( 'archive' );
+
 better_amp_template_part( 'views/archive/title' );
 
 better_amp_show_ad_location( 'amp_archive_title_after' );

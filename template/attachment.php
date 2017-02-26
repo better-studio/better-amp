@@ -2,6 +2,8 @@
 
 better_amp_get_header();
 
+better_amp_enqueue_block_style( 'attachment' );
+
 better_amp_the_post();
 
 $attachment_id = get_the_ID();

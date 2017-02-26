@@ -184,7 +184,7 @@ class Better_AMP_Carousel_Component extends Better_AMP_Component_Base implements
 
 		$this->enable_enqueue_scripts = TRUE;
 
-		return $this->locate_template( 'shortcodes/gallery.php', compact( 'attachments' ) );
+		return $this->locate_template( 'shortcodes/gallery.php', compact( 'attachments' ), TRUE, FALSE );
 	}
 }
 

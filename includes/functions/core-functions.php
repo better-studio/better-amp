@@ -243,11 +243,7 @@ function better_amp_enqueue_ad( $ad_type = 'adsense' ) {
 		return;
 	}
 
-	better_amp_enqueue_inline_style( 'ads.css', 'amp-ad' );
-
-	if ( is_rtl() ) {
-		better_amp_enqueue_inline_style( 'ads-rtl.css', 'amp-ad-rtl' );
-	}
+	better_amp_enqueue_block_style( 'amd-ad', 'css/ads' );
 
 	if ( $ad_type !== 'custom_code' || $ad_type !== 'image' ) {
 		better_amp_enqueue_script( 'amp-ad', 'https://cdn.ampproject.org/v0/amp-ad-0.1.js' );
@@ -328,6 +324,63 @@ function better_amp_enqueue_inline_style( $file, $handle = '' ) {
 
 
 /**
+ * Add css file data of block
+ *
+ * @see   wp_add_inline_style for more information
+ *
+ * @param string  $handle Name of the stylesheet to add the extra styles to.
+ * @param string  $file   css file path
+ * @param boolean $rtl    add rtl
+ *
+ * @since 1.0.0
+ *
+ * @return bool True on success, false on failure.
+ */
+function better_amp_enqueue_block_style( $handle, $file = '', $rtl = TRUE ) {
+
+	if ( empty( $handle ) ) {
+		return FALSE;
+	}
+
+	if ( empty( $file ) ) {
+		if ( $handle === 'woocommerce' ) {
+			$file = 'css/wc';
+		} else {
+			$file = 'css/' . $handle;
+		}
+	}
+
+	static $printed_files;
+
+	if ( is_null( $printed_files ) ) {
+		$printed_files = array();
+	}
+
+	if ( isset( $printed_files[ $file ] ) ) {
+		return TRUE;
+	}
+
+	static $suffix;
+
+	if ( ! $suffix ) {
+		if ( ( defined( 'WP_DEBUG' ) && WP_DEBUG ) || ( defined( 'BF_DEV_MODE' ) && BF_DEV_MODE ) ) {
+			$suffix = '.css';
+		} else {
+			$suffix = '.min.css';
+		}
+	}
+
+	if ( $rtl && is_rtl() ) {
+		better_amp_enqueue_inline_style( $file . '.rtl' . $suffix, $handle . '-rtl' );
+	}
+
+	better_amp_enqueue_inline_style( $file . $suffix, $handle );
+
+	return $printed_files[ $file ] = TRUE;
+}
+
+
+/**
  * Get url of plugin directory
  *
  * @param string $path path to append the following url
@@ -376,6 +429,13 @@ function better_amp_customize_preview_init( $customize_manager ) {
  * @return string|void
  */
 function better_amp_guess_none_amp_url() {
+
+	static $none_amp_url;
+
+	if ( $none_amp_url ) {
+		return $none_amp_url;
+	}
+
 	$abspath_fix         = str_replace( '\\', '/', ABSPATH );
 	$script_filename_dir = dirname( $_SERVER['SCRIPT_FILENAME'] );
 
@@ -415,8 +475,12 @@ function better_amp_guess_none_amp_url() {
 
 	if ( preg_match( "#^$path/*$amp_qv/+(.*?)$#", $_SERVER['REQUEST_URI'], $matched ) ) {
 
-		return site_url( $matched[1] );
+		$none_amp_url = site_url( $matched[1] );
+	} else {
+		$none_amp_url = site_url();
 	}
+
+	return $none_amp_url;
 }
 
 

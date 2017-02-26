@@ -1,0 +1,7 @@
+/*
+ * =>Cart Page -> RTL
+ */
+.woocommerce table.shop_table {
+    margin: 0 0 24px -1px;
+    text-align: right;
+}
