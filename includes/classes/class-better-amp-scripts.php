@@ -35,6 +35,21 @@ class Better_AMP_Scripts extends WP_Scripts {
 
 		return TRUE;
 	}
+
+
+	/**
+	 * Determines script dependencies.
+	 *
+	 * @param mixed          $handles   Item handle and argument (string) or item handles and arguments (array of strings).
+	 * @param bool           $recursion Internal flag that function is calling itself.
+	 * @param bool|false|int $group     Optional. Group level: (int) level, (false) no groups. Default false.
+	 *
+	 * @since 1.2.1
+	 * @return bool True on success, false on failure.
+	 */
+	public function all_deps( $handles, $recursion = FALSE, $group = FALSE ) {
+		return WP_Dependencies::all_deps( $handles, $recursion, $group );
+	}
 }
 
 
