@@ -81,4 +81,19 @@ class Better_AMP_Styles extends WP_Styles {
 		}
 
 	}
+
+
+	/**
+	 * Determines style dependencies.
+	 *
+	 * @param mixed          $handles   Item handle and argument (string) or item handles and arguments (array of strings).
+	 * @param bool           $recursion Internal flag that function is calling itself.
+	 * @param bool|false|int $group     Group level: (int) level, (false) no groups.
+	 *
+	 * @since 1.2.1
+	 * @return bool True on success, false on failure.
+	 */
+	public function all_deps( $handles, $recursion = FALSE, $group = FALSE ) {
+		return WP_Dependencies::all_deps( $handles, $recursion, $group );
+	}
 }
