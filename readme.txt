@@ -51,6 +51,11 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 
 == Changelog ==
 
+= 1.2.1 =
+* Added: 'Better WordPress Minify' plugin Compatibility.
+* Fixed: Search page style issue fixed.
+
+
 = 1.2.0 =
 * Added: AMP Smart style printing. 200% smaller CSS file
 * Added: Option to show/hide share in pages.
