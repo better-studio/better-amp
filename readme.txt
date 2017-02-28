@@ -51,6 +51,12 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 
 == Changelog ==
 
+= 1.2.2 =
+- Added: Video/Audio Featured support added to AMP.
+- Added: AMP Youtube, Twitter, Facebook, Vimeo, Soundcloud, Vine and Instagram support added.
+- Fixed: Thumbnail of static pages fixed to be responsive.
+
+
 = 1.2.1 =
 * Added: 'Better WordPress Minify' plugin Compatibility.
 * Fixed: Search page style issue fixed.
