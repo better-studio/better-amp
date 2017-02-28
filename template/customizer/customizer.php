@@ -536,6 +536,18 @@ function better_amp_customize_register( $wp_customizer ) {
 		)
 	) );
 
+	/**
+	 * 5.8 Featured Video/Audio meta key
+	 */
+	$wp_customizer->add_setting( 'better-amp-featured-va-key', array(
+		'transport' => 'postMessage',
+		'default'   => better_amp_get_default_theme_setting( 'better-amp-featured-va-key' ),
+	) );
+	$wp_customizer->add_control( 'better-amp-featured-va-key', array(
+		'label'    => __( 'Featured Video/Audio Meta Key', 'better-amp' ),
+		'section'  => 'better-amp-post-section',
+		'priority' => 11,
+	) );
 
 	/**
 	 * 6. Homepage
