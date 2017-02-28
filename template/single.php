@@ -24,8 +24,28 @@ better_amp_the_post();
 
 		better_amp_show_ad_location( 'amp_post_title_after' );
 
-		if ( better_amp_get_theme_mod( 'better-amp-post-show-thumbnail' ) && has_post_thumbnail() ) { ?>
-			<div class="post-thumbnail" <?php better_amp_customizer_hidden_attr( 'better-amp-post-show-thumbnail' ) ?>>
+		$show_image_thumbnail = better_amp_get_theme_mod( 'better-amp-post-show-thumbnail' );
+
+		if ( $meta_key = better_amp_get_theme_mod( 'better-amp-featured-va-key' ) ) {
+
+			$media_url = get_post_meta( get_the_ID(), $meta_key, TRUE );
+
+			if ( $embeded = better_amp_auto_embed_content( $media_url ) ) {
+
+				$show_image_thumbnail = FALSE;
+
+				?>
+				<div
+					class="post-thumbnail embeded" <?php better_amp_customizer_hidden_attr( 'better-amp-post-show-thumbnail' ) ?>>
+					<?php echo $embeded['content'] ?>
+				</div>
+				<?php
+			}
+		}
+		
+		if ( $show_image_thumbnail && has_post_thumbnail() ) { ?>
+			<div
+				class="post-thumbnail" <?php better_amp_customizer_hidden_attr( 'better-amp-post-show-thumbnail' ) ?>>
 				<?php better_amp_the_post_thumbnail( 'better-amp-large' ); ?>
 			</div>
 		<?php } ?>

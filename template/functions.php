@@ -159,6 +159,7 @@ function better_amp_get_default_theme_setting( $setting_id, $setting_index = '' 
 		//
 		'better-amp-footer-analytics'        => '',
 		'better-amp-additional-css'          => '',
+		'better-amp-featured-va-key'         => '_featured_embed_code'
 	);
 
 	if ( $setting_index ) {
@@ -662,3 +663,69 @@ if ( ! function_exists( 'better_amp_translation_stds' ) ) {
 
 	} // better_amp_translation_stds
 }
+
+if ( ! function_exists( 'better_amp_auto_embed_content' ) ) {
+	/**
+	 * Filter Callback: Auto-embed using a link
+	 *
+	 * @param string $content
+	 *
+	 * @since 1.2.1
+	 * @return string
+	 */
+	function better_amp_auto_embed_content( $content ) {
+
+		//
+		// Custom External Videos
+		//
+		preg_match( '#^(http|https)://.+\.(mp4|m4v|webm|ogv|wmv|flv)$#i', $content, $matches );
+		if ( ! empty( $matches[0] ) ) {
+			return array(
+				'type'    => 'external-video',
+				'content' => do_shortcode( '[video src="' . $matches[0] . '"]' ),
+			);
+		}
+
+
+		//
+		// Custom External Audio
+		//
+		preg_match( '#^(http|https)://.+\.(mp3|m4a|ogg|wav|wma)$#i', $content, $matches );
+		if ( ! empty( $matches[0] ) ) {
+			return array(
+				'type'    => 'external-audio',
+				'content' => do_shortcode( '[audio src="' . $matches[0] . '"]' ),
+			);
+		}
+
+
+		//
+		// Default embeds and other registered
+		//
+
+		global $wp_embed;
+
+		if ( ! is_object( $wp_embed ) ) {
+			return array(
+				'type'    => 'unknown',
+				'content' => $content,
+			);
+		}
+
+		$embed = $wp_embed->autoembed( $content );
+
+		if ( $embed !== $content ) {
+			return array(
+				'type'    => 'embed',
+				'content' => $embed,
+			);
+		}
+
+		// No embed detected!
+		return array(
+			'type'    => 'unknown',
+			'content' => $content,
+		);
+	}
+}
+
