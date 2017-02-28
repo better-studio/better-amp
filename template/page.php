@@ -14,7 +14,7 @@ better_amp_the_post();
 
 		<?php if ( better_amp_get_theme_mod( 'better-amp-post-show-thumbnail' ) && has_post_thumbnail() ): ?>
 			<div class="page-thumbnail" <?php better_amp_customizer_hidden_attr( 'better-amp-post-show-thumbnail' ) ?>>
-				<?php the_post_thumbnail( 'better-amp-large' ); ?>
+				<?php better_amp_the_post_thumbnail( 'better-amp-large' ); ?>
 			</div>
 		<?php endif ?>
 
