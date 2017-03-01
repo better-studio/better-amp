@@ -26,11 +26,19 @@ better_amp_the_post();
 
 		$show_image_thumbnail = better_amp_get_theme_mod( 'better-amp-post-show-thumbnail' );
 
-		if ( $meta_key = better_amp_get_theme_mod( 'better-amp-featured-va-key' ) ) {
+		$meta_key = better_amp_get_theme_mod( 'better-amp-featured-va-key' );
+
+		if ( empty( $media_key ) ) {
+			$meta_key = '_featured_embed_code';
+		}
+
+		if ( ! empty( $meta_key ) ) {
 
 			$media_url = get_post_meta( get_the_ID(), $meta_key, TRUE );
 
-			if ( $embeded = better_amp_auto_embed_content( $media_url ) ) {
+			if ( ! empty( $media_url ) ) {
+
+				$embeded = better_amp_auto_embed_content( $media_url );
 
 				$show_image_thumbnail = FALSE;
 
@@ -42,7 +50,7 @@ better_amp_the_post();
 				<?php
 			}
 		}
-		
+
 		if ( $show_image_thumbnail && has_post_thumbnail() ) { ?>
 			<div
 				class="post-thumbnail" <?php better_amp_customizer_hidden_attr( 'better-amp-post-show-thumbnail' ) ?>>
