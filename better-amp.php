@@ -1225,6 +1225,17 @@ class Better_AMP {
 
 
 		/**
+		 * WP Speed of Light
+		 *
+		 * https://wordpress.org/plugins-wp/wp-speed-of-light/
+		 */
+		if ( defined( 'WPSOL_VERSION' ) ) {
+			add_filter( 'wpsol_filter_js_noptimize', '__return_true', PHP_INT_MAX );
+			add_filter( 'wpsol_filter_css_noptimize', '__return_true', PHP_INT_MAX );
+		}
+
+
+		/**
 		 * Lazy Load
 		 * https://wordpress.org/plugins/lazy-load/
 		 */
