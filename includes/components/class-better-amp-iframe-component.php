@@ -106,17 +106,20 @@ class Better_AMP_iFrame_Component implements Better_AMP_Component_Interface {
 
 			case 'facebook':
 
-				if ( preg_match( '#https?://www\.facebook\.com/.*/posts/.*#i', $url ) ||
-				     preg_match( '#https?://www\.facebook\.com/.*/videos/.*#i', $url )
-				) {
+				if ( preg_match( '#https?://www\.facebook\.com/.*/posts/.*#i', $url ) ) {
 
 					return $this->amp_facebook_html( $url );
+				}
+
+				if ( preg_match( '#https?://www\.facebook\.com/.*/videos/.*#i', $url ) ) {
+
+					return $this->amp_facebook_html( $url, TRUE );
 				}
 				break;
 
 			case 'vimeo':
 
-				if ( preg_match( '#https?://(?:.+\.)?vimeo\.com/(.*)#i', $url, $matched ) ) {
+				if ( preg_match( '#https?://(?:.+\.)?vimeo\.com/.*?(\d+)$#i', $url, $matched ) ) {
 
 					$video_id = array_pop( $matched );
 					$dim      = $this->get_iframe_dimension( $html );
@@ -250,16 +253,22 @@ class Better_AMP_iFrame_Component implements Better_AMP_Component_Interface {
 	 * Generate amp-facebook html
 	 *
 	 * @param string $url
+	 * @param bool   $is_video
 	 *
 	 * @return string
 	 * @since 1.2.1
 	 */
-	public function amp_facebook_html( $url ) {
+	public function amp_facebook_html( $url, $is_video = FALSE ) {
 
 		better_amp_enqueue_script( 'amp-facebook', 'https://cdn.ampproject.org/v0/amp-facebook-0.1.js' );
 
+		$atts = '';
 
-		return sprintf( '<amp-facebook width="700" height="400" layout="responsive" data-href="%s">', esc_url( $url ) );
+		if ( $is_video ) {
+			$atts .= ' data-embed-as="video"';
+		}
+
+		return sprintf( '<amp-facebook %s width="700" height="400" layout="responsive" data-href="%s">', $atts, esc_url( $url ) );
 	}
 
 
