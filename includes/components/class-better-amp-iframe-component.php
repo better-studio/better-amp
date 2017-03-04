@@ -52,6 +52,8 @@ class Better_AMP_iFrame_Component implements Better_AMP_Component_Interface {
 	public function head() {
 
 		add_filter( 'embed_oembed_html', array( $this, 'amp_embeded' ), 8, 2 );
+
+		add_action( 'wp_video_shortcode', array( $this, 'wp_video_shortcode' ), 8, 2 );
 	}
 
 	/**
@@ -178,13 +180,14 @@ class Better_AMP_iFrame_Component implements Better_AMP_Component_Interface {
 	 *
 	 * @param string $html
 	 * @param string $attr
+	 * @param string $tag
 	 *
-	 * @return string|bool string attribute value on success or false on failure.
+	 * @return bool|string string attribute value on success or false on failure.
 	 * @since 1.2.1
 	 */
-	public function get_html_attr( $html, $attr ) {
+	public function get_html_attr( $html, $attr, $tag = 'iframe' ) {
 
-		if ( preg_match( "'<iframe\s.*?$attr\s*=\s*
+		if ( preg_match( "'<$tag\s.*?$attr\s*=\s*
 						([\"\'])?
 						(?(1) (.*?)\\1 | ([^\s\>]+))
 						'isx", $html, $match ) ) {
@@ -521,6 +524,32 @@ class Better_AMP_iFrame_Component implements Better_AMP_Component_Interface {
 		}
 
 		return $height;
+	}
+
+	public function wp_video_shortcode( $output, $atts ) {
+
+		if ( ! empty( $atts['src'] ) ) {
+
+			$url = trim( $atts['src'] );
+
+			if ( $_output = $this->amp_embeded( '', $url ) ) {
+
+				return $_output;
+			}
+
+
+			if ( substr( $url, 0, 8 ) === 'https://' ) {
+
+				$width  = $this->get_html_attr( $output, 'width', 'video' );
+				$height = $this->get_html_attr( $output, 'height', 'video' );
+
+				better_amp_enqueue_script( 'amp-video', 'https://cdn.ampproject.org/v0/amp-video-0.1.js' );
+
+				return sprintf( '<amp-video width="%s" height="%s" src="%s" layout="responsive" controls></amp-video>', $width, $height, $url );
+			}
+		}
+
+		return $output;
 	}
 }
 
