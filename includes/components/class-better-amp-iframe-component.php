@@ -346,8 +346,6 @@ class Better_AMP_iFrame_Component implements Better_AMP_Component_Interface {
 	 * Generate amp-instagram html
 	 *
 	 * @param string $shortcode
-	 * @param int    $height
-	 * @param int    $width
 	 *
 	 * @since 1.2.1
 	 * @return string
@@ -385,7 +383,7 @@ class Better_AMP_iFrame_Component implements Better_AMP_Component_Interface {
 
 
 	/**
-	 * Transform <img> tags to the <amp-img> or <img-anim> tags
+	 * Transform <iframe> tags to <img-iframe> tags
 	 *
 	 *
 	 * @since 1.0.0
@@ -497,7 +495,7 @@ class Better_AMP_iFrame_Component implements Better_AMP_Component_Interface {
 			$results['sandbox'] = 'allow-scripts allow-same-origin';
 		}
 
-		if ( empty( $results['height'] ) ) { // height is required
+		if ( empty( $results['height'] ) && isset( $attributes['src'] ) ) { // height is required
 			$results['height'] = $this->get_frame_height( $attributes['src'] );
 		}
 

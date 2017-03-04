@@ -32,23 +32,21 @@ better_amp_the_post();
 			$meta_key = '_featured_embed_code';
 		}
 
-		if ( ! empty( $meta_key ) ) {
 
-			$media_url = get_post_meta( get_the_ID(), $meta_key, TRUE );
+		$media_url = get_post_meta( get_the_ID(), $meta_key, TRUE );
 
-			if ( ! empty( $media_url ) ) {
+		if ( ! empty( $media_url ) ) {
 
-				$embeded = better_amp_auto_embed_content( $media_url );
+			$embeded = better_amp_auto_embed_content( $media_url );
 
-				$show_image_thumbnail = FALSE;
+			$show_image_thumbnail = FALSE;
 
-				?>
-				<div
-					class="post-thumbnail embeded" <?php better_amp_customizer_hidden_attr( 'better-amp-post-show-thumbnail' ) ?>>
-					<?php echo $embeded['content'] ?>
-				</div>
-				<?php
-			}
+			?>
+			<div
+				class="post-thumbnail embeded" <?php better_amp_customizer_hidden_attr( 'better-amp-post-show-thumbnail' ) ?>>
+				<?php echo $embeded['content'] ?>
+			</div>
+			<?php
 		}
 
 		if ( $show_image_thumbnail && has_post_thumbnail() ) { ?>
