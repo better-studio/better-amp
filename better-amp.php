@@ -267,8 +267,20 @@ class Better_AMP {
 		add_filter( 'redirect_canonical', array( $this, '_fix_prevent_extra_redirect_single_pagination' ) );
 
 		add_action( 'request', array( $this, 'fix_search_page_queries' ) );
+
+		$this->fix_front_page_display_options();
+
 	} // apply_hooks
 
+
+	/**
+	 * Fix front page display option to detect homepage
+	 */
+	public function fix_front_page_display_options() {
+
+		add_action( 'pre_option_page_on_front', array( $this, '_return_zero_in_amp' ) );
+		add_action( 'pre_option_show_on_front', array( $this, '_fix_show_on_front' ) );
+	}
 
 	/**
 	 * Prevent redirect pages within single post
@@ -1274,6 +1286,39 @@ class Better_AMP {
 
 		if ( is_better_amp() ) {
 			return FALSE;
+		}
+
+		return $current;
+	}
+
+
+	/**
+	 * Just return zero in amp version
+	 *
+	 * @param mixed $current
+	 *
+	 * @return mixed
+	 */
+	public function _return_zero_in_amp( $current ) {
+
+		if ( is_better_amp() ) {
+			return 0;
+		}
+
+		return $current;
+	}
+
+	/**
+	 * Just return 'posts' string in amp version
+	 *
+	 * @param mixed $current
+	 *
+	 * @return mixed
+	 */
+	public function _fix_show_on_front( $current ) {
+
+		if ( is_better_amp() ) {
+			return 'posts';
 		}
 
 		return $current;
