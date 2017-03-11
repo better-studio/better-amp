@@ -958,23 +958,22 @@ class Better_AMP_Content_Sanitizer {
 
 						if ( $element->parentNode->tagName !== 'noscript' ) {
 
-							$source = Better_AMP_HTML_Util::child( $element, 'source', array( 'src' ) );
+							$source   = Better_AMP_HTML_Util::child( $element, 'source', array( 'src' ) );
+							$src_attr = $source->attributes->getNamedItem( 'src' );
 
-							if ( empty( $source->attributes['src'] ) ) {
-
-								self::remove_element( $element );
-								continue;
-							}
-
-							$src = $source->attributes['src']->value;
-
-							if ( ! preg_match( '#^\s*https://#', $src ) ) {
+							if ( ! $src_attr || empty( $src_attr->value ) ) {
 
 								self::remove_element( $element );
 								continue;
 							}
 
-							$element->setAttribute( 'src', $src );
+							if ( ! preg_match( '#^\s*https://#', $src_attr->value ) ) {
+
+								self::remove_element( $element );
+								continue;
+							}
+
+							$element->setAttribute( 'src', $src_attr->value );
 							Better_AMP_HTML_Util::renameElement( $element, $tag_info[0] );
 
 							if ( $enqueue ) {
