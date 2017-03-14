@@ -32,7 +32,7 @@ class FastImage {
 			$this->close();
 		}
 
-		$this->handle = fopen( $uri, 'r' );
+		$this->handle = @fopen( $uri, 'r' );
 	}
 
 
@@ -174,7 +174,11 @@ class FastImage {
 	private function getChars( $n ) {
 		$response = NULL;
 
-		// do we need more data?		
+		if ( ! $this->handle ) {
+			return FALSE;
+		}
+
+		// do we need more data?
 		if ( $this->strpos + $n - 1 >= strlen( $this->str ) ) {
 			$end = ( $this->strpos + $n );
 
