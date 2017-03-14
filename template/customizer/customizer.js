@@ -3,11 +3,22 @@
  */
 jQuery(function ($) {
 
-    wp.customize.bind('ready',function() {
-        setTimeout(function() {
-            $(".preview-tablet").click();
-        },100);
-    });
+        wp.customize.bind('ready', function () {
+
+            $("#customize-control-better-amp-show-on-front :radio").on('change', function () {
+
+                var $container = $("#customize-control-better-amp-page-on-front");
+                if (this.value === 'page') {
+                    $container.attr('style', '');
+                } else {
+                    $container.css('pointer-events', 'none')
+                              .css('opacity', '0.7');
+                }
+            }).filter(':checked').change();
+            setTimeout(function () {
+                $(".preview-tablet").click();
+            }, 100);
+        });
         function parseUrl(url) {
             var a  = document.createElement('a');
             a.href = url;

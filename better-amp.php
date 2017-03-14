@@ -663,6 +663,8 @@ class Better_AMP {
 		elseif ( function_exists( 'is_woocommerce' ) && is_woocommerce() && is_page( wc_get_page_id( 'shop' ) ) && $template = better_amp_locate_template( 'woocommerce.php' ) ) :
 		elseif ( is_404() && $template = better_amp_404_template() ) :
 		elseif ( is_search() && $template = better_amp_search_template() ) :
+		elseif ( better_amp_is_static_home_page() && $template = better_amp_static_home_page_template() ) :
+			$this->set_page_query( apply_filters( 'better-amp/template/page-on-front', 0 ) );
 		elseif ( is_front_page() && $template = better_amp_front_page_template() ) :
 		elseif ( is_home() && $template = better_amp_home_template() ) :
 		elseif ( is_post_type_archive() && $template = better_amp_post_type_archive_template() ) :
@@ -1324,6 +1326,15 @@ class Better_AMP {
 		return $current;
 	}
 
+
+	/**
+	 * Setup page query
+	 *
+	 * @param $page_id
+	 */
+	public function set_page_query( $page_id ) {
+		query_posts( 'page_id=' . $page_id . '&amp=' . get_query_var( 'amp' ) );
+	}
 
 	/**
 	 * Transform allowed posts url to amp

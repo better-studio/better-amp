@@ -1349,6 +1349,24 @@ if ( ! function_exists( 'better_amp_front_page_template' ) ) {
 	}
 }
 
+if ( ! function_exists( 'better_amp_static_home_page_template' ) ) {
+	/**
+	 * Retrieve path of static homepage template in current or parent template.
+	 *
+	 * @since 1.2.4
+	 * @return string Full path to static home page template file.
+	 */
+	function better_amp_static_home_page_template() {
+
+		if ( $template = better_amp_front_page_template() ):
+		elseif ( $template = better_amp_page_template() ):
+		elseif ( $template = better_amp_singular_template() ):
+		endif;
+
+		return $template;
+	}
+}
+
 
 if ( ! function_exists( 'better_amp_home_template' ) ) {
 	/**
@@ -2707,3 +2725,17 @@ if ( ! function_exists( 'better_amp_get_post_parent' ) ) {
 	}
 }
 
+if ( ! function_exists( 'better_amp_is_static_home_page' ) ) {
+
+	/**
+	 * Is current page static home page
+	 *
+	 * @return bool true on success or false on failure
+	 * @since 1.2.4
+	 */
+	function better_amp_is_static_home_page() {
+
+		return is_home() && apply_filters( 'better-amp/template/show-on-front', 'posts' ) === 'page' &&
+		       apply_filters( 'better-amp/template/page-on-front', 0 );
+	}
+}

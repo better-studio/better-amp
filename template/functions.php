@@ -159,7 +159,10 @@ function better_amp_get_default_theme_setting( $setting_id, $setting_index = '' 
 		//
 		'better-amp-footer-analytics'        => '',
 		'better-amp-additional-css'          => '',
-		'better-amp-featured-va-key'         => '_featured_embed_code'
+		'better-amp-featured-va-key'         => '_featured_embed_code',
+		//
+		'better-amp-show-on-front'           => 'posts',
+		'better-amp-page-on-front'           => 0,
 	);
 
 	if ( $setting_index ) {
@@ -729,3 +732,34 @@ if ( ! function_exists( 'better_amp_auto_embed_content' ) ) {
 	}
 }
 
+add_filter( 'better-amp/template/show-on-front', 'better_amp_set_show_on_front' );
+
+if ( ! function_exists( 'better_amp_set_show_on_front' ) ) {
+
+	/**
+	 * Setup show on front option value
+	 *
+	 * @since 1.2.4
+	 * @return bool|string
+	 */
+	function better_amp_set_show_on_front() {
+
+		return better_amp_get_theme_mod( 'better-amp-show-on-front' );
+	}
+}
+
+add_filter( 'better-amp/template/page-on-front', 'better_amp_set_page_on_front' );
+
+if ( ! function_exists( 'better_amp_set_page_on_front' ) ) {
+
+	/**
+	 * Setup page on front option value
+	 *
+	 * @since 1.2.4
+	 * @return bool|string
+	 */
+	function better_amp_set_page_on_front() {
+
+		return better_amp_get_theme_mod( 'better-amp-page-on-front' );
+	}
+}

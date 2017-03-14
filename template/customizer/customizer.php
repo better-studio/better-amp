@@ -562,11 +562,11 @@ function better_amp_customize_register( $wp_customizer ) {
 	/**
 	 * 6.1 SlideShow toggle
 	 */
-	$wp_customizer->add_setting( 'better-amp-home-show-slide', array(
-		'default'   => better_amp_get_default_theme_setting( 'better-amp-home-show-slide' ),
+	$wp_customizer->add_setting( 'better-amp-show-on-front-slide', array(
+		'default'   => better_amp_get_default_theme_setting( 'better-amp-show-on-front-slide' ),
 		'transport' => 'postMessage',
 	) );
-	$wp_customizer->add_control( new AMP_Customize_Switch_Control( $wp_customizer, 'better-amp-home-show-slide', array(
+	$wp_customizer->add_control( new AMP_Customize_Switch_Control( $wp_customizer, 'better-amp-show-on-front-slide', array(
 		'label'    => __( 'Show slider', 'better-amp' ),
 		'section'  => 'better-amp-home-section',
 		'priority' => 4,
@@ -591,6 +591,43 @@ function better_amp_customize_register( $wp_customizer ) {
 		)
 	) );
 
+	/**
+	 * 6.3 Homepage listing
+	 */
+	$wp_customizer->add_setting( 'better-amp-show-on-front', array(
+		'default' => better_amp_get_default_theme_setting( 'better-amp-show-on-front' ),
+	) );
+	$wp_customizer->add_control( 'better-amp-show-on-front', array(
+		'label'   => __( 'Front page displays', 'better-amp' ),
+		'section' => 'better-amp-home-section',
+		'type'    => 'radio',
+		'choices' => array(
+			'posts' => __( 'Your latest posts', 'better-amp' ),
+			'page'  => __( 'A static page (select below)', 'better-amp' ),
+		)
+	) );
+
+	$pages = get_pages( array(
+		'echo'        => 0,
+		'value_field' => 'ID',
+	) );
+
+	$page_choices = array();
+	if ( $pages && ! is_wp_error( $pages ) ) {
+		foreach($pages as $page) {
+			$page_choices[$page->ID] = $page->post_title ? $page->post_title : '#' . $page->ID . ' (no title)';
+		}
+	}
+	$pages = null;
+	$wp_customizer->add_setting( 'better-amp-page-on-front', array(
+		'default' => better_amp_get_default_theme_setting( 'better-amp-page-on-front' ),
+	) );
+	$wp_customizer->add_control( 'better-amp-page-on-front', array(
+		'label'   => __( 'Front page', 'better-amp' ),
+		'section' => 'better-amp-home-section',
+		'type'    => 'select',
+		'choices' => $page_choices
+	) );
 
 	/**
 	 * 7. Color
