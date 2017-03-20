@@ -3,6 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1">
+	<meta name="theme-color" content="<?php better_amp_get_theme_mod( 'better-amp-color-theme' ); ?>">
 
 	<?php better_amp_head() ?>
 </head>
