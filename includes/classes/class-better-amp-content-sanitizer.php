@@ -704,11 +704,20 @@ class Better_AMP_Content_Sanitizer {
 								}
 							}
 
-							if ( ! empty( $remove_element ) ) {
+							// Force schema for amp-iframe tag
+							if ( empty( $parsed['scheme'] ) && $rule['tag_name'] == 'amp-iframe' ) {
+								$parsed['scheme'] = 'https';
+							}
 
+							if ( ! empty( $remove_element ) ) {
 								self::remove_element( $element ); // Remove invalid element
 								continue;
+							} else {
+								$val = better_amp_unparse_url( $parsed );
+								$element->setAttribute( $atts['name'], $val );
+								$element_atts[ $atts['name'] ] = $val;
 							}
+
 						}
 
 

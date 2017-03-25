@@ -1507,7 +1507,7 @@ $rules = array(
 											0 => 'data',
 											1 => 'https',
 										),
-									'allow_relative'   => TRUE,
+									'allow_relative'   => FALSE,
 								),
 						),
 					7 =>
