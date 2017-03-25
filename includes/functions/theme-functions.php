@@ -2512,7 +2512,7 @@ if ( ! function_exists( 'better_amp_social_share_get_li' ) ) {
 		switch ( $id ) {
 
 			case 'facebook':
-				$link  = 'http://www.facebook.com/sharer.php?u=' . $page_permalink;
+				$link  = 'https://www.facebook.com/sharer.php?u=' . $page_permalink;
 				$title = __( 'Facebook', 'better-amp' );
 				$icon  = '<i class="fa fa-facebook"></i>';
 				break;
@@ -2534,32 +2534,32 @@ if ( ! function_exists( 'better_amp_social_share_get_li' ) ) {
 					}
 				}
 
-				$link  = 'http://twitter.com/share?text=' . $page_title . $by . '&url=' . $page_permalink;
+				$link  = 'https://twitter.com/share?text=' . $page_title . $by . '&url=' . $page_permalink;
 				$title = __( 'Twitter', 'better-amp' );
 				$icon  = '<i class="fa fa-twitter"></i>';
 				break;
 
 			case 'google_plus':
-				$link  = 'http://plus.google.com/share?url=' . $page_permalink;
+				$link  = 'https://plus.google.com/share?url=' . $page_permalink;
 				$title = __( 'Google+', 'better-amp' );
 				$icon  = '<i class="fa fa-google"></i>';
 				break;
 
 			case 'pinterest':
 				$_img_src = wp_get_attachment_image_src( get_post_thumbnail_id(), 'full' );
-				$link     = 'http://pinterest.com/pin/create/button/?url=' . $page_permalink . '&media=' . $_img_src[0] . '&description=' . $page_title;
+				$link     = 'https://pinterest.com/pin/create/button/?url=' . $page_permalink . '&media=' . $_img_src[0] . '&description=' . $page_title;
 				$title    = __( 'Pinterest', 'better-amp' );
 				$icon     = '<i class="fa fa-pinterest"></i>';
 				break;
 
 			case 'linkedin':
-				$link  = 'http://www.linkedin.com/shareArticle?mini=true&url=' . $page_permalink . '&title=' . $page_title;
+				$link  = 'https://www.linkedin.com/shareArticle?mini=true&url=' . $page_permalink . '&title=' . $page_title;
 				$title = __( 'Linkedin', 'better-amp' );
 				$icon  = '<i class="fa fa-linkedin"></i>';
 				break;
 
 			case 'tumblr':
-				$link  = 'http://www.tumblr.com/share/link?url=' . $page_permalink . '&name=' . $page_title;
+				$link  = 'https://www.tumblr.com/share/link?url=' . $page_permalink . '&name=' . $page_title;
 				$title = __( 'Tumblr', 'better-amp' );
 				$icon  = '<i class="fa fa-tumblr"></i>';
 				break;
@@ -2583,25 +2583,25 @@ if ( ! function_exists( 'better_amp_social_share_get_li' ) ) {
 				break;
 
 			case 'digg':
-				$link  = 'http://www.digg.com/submit?url=' . $page_permalink;
+				$link  = 'https://www.digg.com/submit?url=' . $page_permalink;
 				$title = __( 'Digg', 'better-amp' );
 				$icon  = '<i class="fa fa-digg"></i>';
 				break;
 
 			case 'reddit':
-				$link  = 'http://reddit.com/submit?url=' . $page_permalink . '&title=' . $page_title;
+				$link  = 'https://reddit.com/submit?url=' . $page_permalink . '&title=' . $page_title;
 				$title = __( 'ReddIt', 'better-amp' );
 				$icon  = '<i class="fa fa-reddit-alien"></i>';
 				break;
 
 			case 'stumbleupon':
-				$link  = 'http://www.stumbleupon.com/submit?url=' . $page_permalink . '&title=' . $page_title;
+				$link  = 'https://www.stumbleupon.com/submit?url=' . $page_permalink . '&title=' . $page_title;
 				$title = __( 'StumbleUpon', 'better-amp' );
 				$icon  = '<i class="fa fa-stumbleupon"></i>';
 				break;
 
 			case 'vk':
-				$link  = 'http://vkontakte.ru/share.php?url=' . $page_permalink;
+				$link  = 'https://vkontakte.ru/share.php?url=' . $page_permalink;
 				$title = __( 'VK', 'better-amp' );
 				$icon  = '<i class="fa fa-vk"></i>';
 				break;
