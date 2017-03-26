@@ -488,6 +488,10 @@ class Better_AMP_Content_Sanitizer {
 
 		$rules = array();
 
+		$white_list_atts = array(
+			'style', // style attributies will collect and sanitize @see save_element_style
+		);
+
 		include BETTER_AMP_INC . 'sanitizer-rules.php';
 
 		foreach ( $rules as $rule ) {
@@ -784,6 +788,7 @@ class Better_AMP_Content_Sanitizer {
 						}
 
 						if ( $atts2remove ) {
+							$atts2remove = array_diff( $atts2remove, $white_list_atts ); // Skip white list items
 							$this->dom->remove_attributes( $element, $atts2remove ); // Remove invalid attributes
 						}
 
