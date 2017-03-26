@@ -160,7 +160,7 @@ class Better_AMP_IMG_Component extends Better_AMP_Component_Base implements Bett
 		$class = $element->attributes->getNamedItem( 'class' );
 
 		if ( $class && isset( $class->value ) ) {
-			return preg_match( '/\b animated-img \b/ix', $class ); // the image is animated if it has a animated class
+			return preg_match( '/\b animated-img \b/ix', $class->value ); // the image is animated if it has a animated class
 		}
 
 		return FALSE;
