@@ -237,6 +237,17 @@ if ( ! function_exists( 'better_amp_better_ad_options' ) ) {
 			$fields,
 			array(
 				'group'       => TRUE,
+				'group_title' => __( 'Middle Post Content', 'better-studio' ),
+				'group_state' => 'close',
+				'id_prefix'   => 'amp_post_content_middle',
+				'format'      => 'amp',
+			)
+		);
+
+		better_ads_inject_ad_field_to_fields(
+			$fields,
+			array(
+				'group'       => TRUE,
 				'group_title' => __( 'Below Post Content', 'better-studio' ),
 				'group_state' => 'close',
 				'id_prefix'   => 'amp_post_content_after',
@@ -334,6 +345,7 @@ if ( ! function_exists( 'better_amp_better_ad_std' ) ) {
 			'amp_post_title_before',
 			'amp_post_title_after',
 			'amp_post_content_before',
+			'amp_post_content_middle',
 			'amp_post_content_after',
 			'amp_post_comment_after',
 			'amp_footer_before',
