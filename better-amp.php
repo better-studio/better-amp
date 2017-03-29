@@ -1274,6 +1274,17 @@ class Better_AMP {
 			}
 		}
 
+
+		/***
+		 * Facebook Comments Plugin
+		 * https://wordpress.org/plugins/facebook-comments-plugin/
+		 */
+		if ( function_exists( 'fbcommentshortcode' ) ) {
+			remove_action( 'wp_footer', 'fbmlsetup', 100 );
+			remove_filter( 'the_content', 'fbcommentbox', 100 );
+			remove_filter( 'widget_text', 'do_shortcode' );
+		}
+
 	}
 
 	/**
