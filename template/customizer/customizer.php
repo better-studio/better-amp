@@ -771,6 +771,29 @@ function better_amp_customize_register( $wp_customizer ) {
 			'class' => 'better-amp-code',
 		),
 	) );
+
+	/**
+	 * 10. Mobile Auto Redirect
+	 */
+	$wp_customizer->add_section( 'better-amp-auto-redirect', array(
+		'title'    => __( 'Mobile Auto Redirect', 'better-amp' ),
+		'priority' => 17,
+		'panel'    => 'better-amp-panel'
+	) );
+
+
+	/**
+	 * 10.1 Additional CSS
+	 */
+	$wp_customizer->add_setting( 'better-amp-mobile-auto-redirect', array(
+		'default' => better_amp_get_default_theme_setting( 'better-amp-mobile-auto-redirect' ),
+	) );
+
+	$wp_customizer->add_control( new AMP_Customize_Switch_Control( $wp_customizer, 'better-amp-mobile-auto-redirect', array(
+		'label'    => __( 'Auto redirect mobile users to AMP version', 'better-amp' ),
+		'section'  => 'better-amp-auto-redirect',
+		'priority' => 28,
+	) ) );
 }
 
 add_action( 'admin_menu', 'better_amp_add_customizer_admin_link', 999 );

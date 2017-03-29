@@ -268,6 +268,9 @@ class Better_AMP {
 
 		add_action( 'request', array( $this, 'fix_search_page_queries' ) );
 
+		// Auto Redirect Mobile Users
+		add_action( 'template_redirect', array( $this, 'auto_redirect_to_amp' ) );
+
 		$this->fix_front_page_display_options();
 
 	} // apply_hooks
@@ -1384,6 +1387,7 @@ class Better_AMP {
 				margin-top: 10px;
 				margin-bottom: 10px;
 			}
+
 			#adminmenu li[id^="toplevel_page_better-studio"] + li#toplevel_page_better-studio-better-ads-manager,
 			#adminmenu li[id^="toplevel_page_better-studio"] + .toplevel_page_better-amp-translation {
 				margin-top: -10px;
@@ -1393,4 +1397,62 @@ class Better_AMP {
 		<?php
 	}
 
+
+	/**
+	 * Get requested page url
+	 *
+	 * @since 1.2.4
+	 * @return string
+	 */
+	public static function get_requested_page_url() {
+
+		if ( isset( $_SERVER['HTTP_HOST'] ) ) {
+
+			$requested_url = is_ssl() ? 'https://' : 'http://';
+			$requested_url .= $_SERVER['HTTP_HOST'];
+			$requested_url .= $_SERVER['REQUEST_URI'];
+
+			return $requested_url;
+		}
+
+		return '';
+	}
+
+	/**
+	 * Redirect users to amp version of the page automatically
+	 *
+	 * @since 1.2.4
+	 */
+	public function auto_redirect_to_amp() {
+
+		if ( ! apply_filters( 'better-amp/template/auto-redirect', FALSE ) ) {
+			return;
+		}
+
+		if ( ! wp_is_mobile() || is_better_amp() ) {
+			return;
+		}
+
+		if ( is_singular() ) {
+
+			$post_id = get_queried_object_id();
+
+			if (
+				get_post_meta( $post_id, 'disable-better-amp', TRUE )
+				||
+				isset( $this->excluded_posts_id[ $post_id ] )
+			) {
+				return;
+			}
+		}
+
+		$requested_url = self::get_requested_page_url();
+		$amp_permalink = Better_AMP_Content_Sanitizer::transform_to_amp_url( $requested_url );
+
+		if ( $amp_permalink && $amp_permalink !== $requested_url ) {
+
+			wp_redirect( $amp_permalink );
+			exit;
+		}
+	}
 }
