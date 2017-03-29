@@ -718,8 +718,10 @@ class Better_AMP_Content_Sanitizer {
 								continue;
 							} else {
 								$val = better_amp_unparse_url( $parsed );
-								$element->setAttribute( $atts['name'], $val );
-								$element_atts[ $atts['name'] ] = $val;
+								if ( ! empty( $val ) ) {
+									$element->setAttribute( $atts['name'], $val );
+									$element_atts[ $atts['name'] ] = $val;
+								}
 							}
 
 						}
@@ -1142,7 +1144,7 @@ class Better_AMP_Content_Sanitizer {
 				$class .= 'e_' . mt_rand();
 				$node->setAttribute( 'class', $class );
 
-				$selector = preg_replace( '/[ ]+/', '.', '.' . $class);
+				$selector = preg_replace( '/[ ]+/', '.', '.' . $class );
 				$selector .= $selector; // twice for higher CSS priority
 			}
 
