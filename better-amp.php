@@ -226,9 +226,6 @@ class Better_AMP {
 
 		// Changes page template file with AMP template file
 		add_action( 'template_include', array( $this, 'include_template_file' ), 9999 );
-		// Override WooCommerce template files
-		add_action( 'wc_get_template', array( $this, 'include_wc_template_file' ), 9999, 2 );
-
 
 		// override template file
 		add_filter( 'comments_template', array( $this, 'override_comments_template' ), 9999 );
@@ -587,21 +584,20 @@ class Better_AMP {
 	 */
 	public function include_template_file( $template_file_path ) {
 
-		if ( is_better_amp() ) {
-
-			$include = $this->template_loader();
-
-			if ( $include = apply_filters( 'better-amp/template/include', $include ) ) {
-				return $include;
-			} else if ( current_user_can( 'switch_themes' ) ) {
-				wp_die( __( 'Better-AMP Theme Was Not Found!', 'better-amp' ) );
-			} else {
-				return BETTER_AMP_TPL_COMPAT_ABSPATH . '/no-template.php';
-			}
-
+		if ( ! is_better_amp() ) {
+			return $template_file_path;
 		}
 
-		return $template_file_path;
+		$include = $this->template_loader();
+
+		if ( $include = apply_filters( 'better-amp/template/include', $include ) ) {
+			return $include;
+		} else if ( current_user_can( 'switch_themes' ) ) {
+			wp_die( __( 'Better-AMP Theme Was Not Found!', 'better-amp' ) );
+		} else {
+			return BETTER_AMP_TPL_COMPAT_ABSPATH . '/no-template.php';
+		}
+
 	}
 
 
@@ -615,6 +611,7 @@ class Better_AMP {
 	 * @return string
 	 */
 	public function include_wc_template_file( $located, $template_name ) {
+
 		$template_name = 'woocommerce/' . ltrim( $template_name, '/' );
 
 		if ( $new_path = better_amp_locate_template( $template_name, FALSE, FALSE ) ) {
@@ -623,6 +620,7 @@ class Better_AMP {
 
 		return $located;
 	}
+
 
 	/**
 	 * Replace amp comment file with theme file
@@ -1201,6 +1199,10 @@ class Better_AMP {
 			return;
 		}
 
+		// Override WooCommerce template files
+		add_action( 'wc_get_template', array( $this, 'include_wc_template_file' ), 9999, 2 );
+
+
 		/**
 		 * W3 total cache
 		 */
@@ -1384,6 +1386,7 @@ class Better_AMP {
 				margin-top: 10px;
 				margin-bottom: 10px;
 			}
+
 			#adminmenu li[id^="toplevel_page_better-studio"] + li#toplevel_page_better-studio-better-ads-manager,
 			#adminmenu li[id^="toplevel_page_better-studio"] + .toplevel_page_better-amp-translation {
 				margin-top: -10px;
