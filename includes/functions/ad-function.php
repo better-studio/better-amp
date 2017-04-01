@@ -20,7 +20,14 @@ if ( ! function_exists( 'better_amp_is_ad_plugin_active' ) ) {
 			return $state;
 		}
 
-		return $state = class_exists( 'Better_Ads_Manager' ) && ( defined( 'BETTER_ADS_MANAGER_AMP' ) && BETTER_ADS_MANAGER_AMP );
+		$state = class_exists( 'Better_Ads_Manager' ) && ( defined( 'BETTER_ADS_MANAGER_AMP' ) && BETTER_ADS_MANAGER_AMP );
+
+		// Min BetterAds v1.9
+		if ( $state && ! function_exists( 'better_ads_inject_ad_repeater_field_to_fields' ) ) {
+			$state = FALSE;
+		}
+
+		return $state;
 	}
 }
 
