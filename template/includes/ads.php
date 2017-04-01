@@ -17,11 +17,11 @@ if ( ! function_exists( 'better_amp_better_ad_options' ) ) {
 		 * AMP Ads
 		 *
 		 */
-		$fields[] = array(
+		$fields['amp_ads'] = array(
 			'name'       => __( 'AMP Ads', 'better-studio' ),
 			'id'         => 'amp_ads',
 			'type'       => 'tab',
-			'icon'       => 'bsai-header',
+			'icon'       => 'bsfi-better-amp',
 			'margin-top' => 30,
 		);
 
@@ -86,151 +86,24 @@ if ( ! function_exists( 'better_amp_better_ad_options' ) ) {
 		/**
 		 * AMP Post content ads
 		 */
-		$fields[]     = array(
-			'name'  => __( 'Inside Post Content (After X Paragraph)', 'better-studio' ),
-			'type'  => 'group',
-			'state' => 'close',
-		);
-		$inline_ads   = array();
-		$inline_ads[] = array(
-			'name'          => __( 'Ad Type', 'better-studio' ),
-			'id'            => 'type',
-			'desc'          => __( 'Choose campaign or banner.', 'better-studio' ),
-			'type'          => 'select',
-			'options'       => array(
-				''         => __( '-- Select Ad Type --', 'better-studio' ),
-				'campaign' => __( 'Campaign', 'better-studio' ),
-				'banner'   => __( 'Banner', 'better-studio' ),
-			),
-			'repeater_item' => TRUE,
-		);
-		$inline_ads[] = array(
-			'name'               => __( 'Campaign', 'better-studio' ),
-			'id'                 => 'campaign',
-			'desc'               => __( 'Choose campaign.', 'better-studio' ),
-			'type'               => 'select',
-			'deferred-options'   => array(
-				'callback' => 'better_ads_get_campaigns_option',
-				'args'     => array(
-					- 1,
-					TRUE
-				),
-			),
-			'filter-field'       => 'type',
-			'filter-field-value' => 'campaign',
-			'repeater_item'      => TRUE,
-		);
-		$inline_ads[] = array(
-			'name'               => __( 'Banner', 'better-studio' ),
-			'id'                 => 'banner',
-			'desc'               => __( 'Choose banner.', 'better-studio' ),
-			'type'               => 'select',
-			'deferred-options'   => array(
-				'callback' => 'better_ads_get_banners_option',
-				'args'     => array(
-					- 1,
-					TRUE,
-					'amp'
-				),
-			),
-			'filter-field'       => 'type',
-			'filter-field-value' => 'banner',
-			'repeater_item'      => TRUE,
-		);
-		$inline_ads[] = array(
-			'name'               => __( 'Max Amount of Allowed Banners', 'better-studio' ),
-			'id'                 => 'count',
-			'desc'               => __( 'How many banners are allowed?.', 'better-studio' ),
-			'input-desc'         => __( 'Leave empty to show all banners.', 'better-studio' ),
-			'type'               => 'text',
-			'filter-field'       => 'type',
-			'filter-field-value' => 'campaign',
-			'repeater_item'      => TRUE,
-		);
-		$inline_ads[] = array(
-			'name'               => __( 'Columns', 'better-studio' ),
-			'id'                 => 'columns',
-			'desc'               => __( 'Show ads in multiple columns.', 'better-studio' ),
-			'type'               => 'select',
-			"options"            => array(
-				1 => __( '1 Column', 'better-studio' ),
-				2 => __( '2 Column', 'better-studio' ),
-				3 => __( '3 Column', 'better-studio' ),
-			),
-			'filter-field'       => 'type',
-			'filter-field-value' => 'campaign',
-			'repeater_item'      => TRUE,
-		);
-		$inline_ads[] = array(
-			'name'               => __( 'Order By', 'better-studio' ),
-			'id'                 => 'orderby',
-			'type'               => 'select',
-			"options"            => array(
-				'date'  => __( 'Date', 'better-studio' ),
-				'title' => __( 'Title', 'better-studio' ),
-				'rand'  => __( 'Rand', 'better-studio' ),
-			),
-			'filter-field'       => 'type',
-			'filter-field-value' => 'campaign',
-			'repeater_item'      => TRUE,
-		);
-		$inline_ads[] = array(
-			'name'               => __( 'Order', 'better-studio' ),
-			'id'                 => 'order',
-			'type'               => 'select',
-			"options"            => array(
-				'ASC'  => __( 'Ascending', 'better-studio' ),
-				'DESC' => __( 'Descending', 'better-studio' ),
-			),
-			'filter-field'       => 'type',
-			'filter-field-value' => 'campaign',
-			'repeater_item'      => TRUE,
-		);
-		$inline_ads[] = array(
-			'name'          => __( 'Position', 'better-studio' ),
-			'id'            => 'position',
-			'desc'          => __( 'Choose position of inline ad.', 'better-studio' ),
-			'type'          => 'select',
-			'options'       => array(
-				'left'   => __( 'Left Align', 'better-studio' ),
-				'center' => __( 'Center Align', 'better-studio' ),
-				'right'  => __( 'Right Align', 'better-studio' ),
-			),
-			'repeater_item' => TRUE,
-		);
-		$inline_ads[] = array(
-			'name'          => __( 'After Paragraph', 'better-studio' ),
-			'id'            => 'paragraph',
-			'desc'          => __( 'Content of each post will analyzed and it will inject an ad after the selected number of paragraphs.', 'better-studio' ),
-			'input-desc'    => __( 'After how many paragraphs the ad will display.', 'better-studio' ),
-			'type'          => 'text',
-			'repeater_item' => TRUE,
-		);
-
-		$fields['amp_post_inline'] = array(
-			'name'          => '',
-			'desc'          => __( 'Add inline adds inside post content. <br>You can add multiple inline adds for multiple location of post content.', 'better-studio' ),
-			'id'            => 'amp_post_inline',
-			'type'          => 'repeater',
-			'save-std'      => TRUE,
-			'default'       => array(
-				array(
-					'type'      => '',
-					'campaign'  => 'none',
-					'banner'    => 'none',
-					'align'  => 'center',
-					'paragraph' => 3,
-					'count'     => 2,
-					'columns'   => 2,
-					'orderby'   => 'rand',
-					'order'     => 'ASC',
-				),
-			),
-			'add_label'     => '<i class="fa fa-plus"></i> ' . __( 'Add New Inline Ad', 'better-studio' ),
-			'delete_label'  => __( 'Delete Ad', 'better-studio' ),
-			'item_title'    => __( 'Inline Ad', 'better-studio' ),
-			'section_class' => 'full-with-both',
-			'options'       => $inline_ads
+		better_ads_inject_ad_repeater_field_to_fields( $fields, array(
+				'id_prefix'        => 'amp_post_inline',
+				'group_title'      => __( 'Inside Post Content (After X Paragraph)', 'better-studio' ),
+				'field_desc'       => __( 'Add inline adds inside post content. <br>You can add multiple inline adds for multiple location of post content.', 'better-studio' ),
+				'field_add_label'  => '<i class="fa fa-plus"></i> ' . __( 'Add New Inline Ad', 'better-studio' ),
+				'field_item_title' => __( 'Inline Ad', 'better-studio' ),
+				'group_auto_close' => TRUE,
+				'field_end_fields' => array(
+					'paragraph' => array(
+						'name'          => __( 'After Paragraph', 'better-studio' ),
+						'id'            => 'paragraph',
+						'desc'          => __( 'Content of each post will analyzed and it will inject an ad after the selected number of paragraphs.', 'better-studio' ),
+						'input-desc'    => __( 'After how many paragraphs the ad will display.', 'better-studio' ),
+						'type'          => 'text',
+						'repeater_item' => TRUE,
+					)
+				)
+			)
 		);
 
 		better_ads_inject_ad_field_to_fields(
@@ -387,7 +260,7 @@ if ( ! function_exists( 'better_amp_better_ad_std' ) ) {
 					'type'      => '',
 					'campaign'  => 'none',
 					'banner'    => 'none',
-					'align'  => 'center',
+					'align'     => 'center',
 					'paragraph' => 3,
 					'count'     => 2,
 					'columns'   => 2,
@@ -400,7 +273,7 @@ if ( ! function_exists( 'better_amp_better_ad_std' ) ) {
 					'type'      => '',
 					'campaign'  => 'none',
 					'banner'    => 'none',
-					'position'  => 'center',
+					'align'     => 'center',
 					'paragraph' => 3,
 					'count'     => 2,
 					'columns'   => 2,
