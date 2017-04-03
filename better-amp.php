@@ -265,6 +265,9 @@ class Better_AMP {
 
 		add_action( 'request', array( $this, 'fix_search_page_queries' ) );
 
+		// Init BF JSON-LD
+		add_action( 'template_redirect', 'Better_AMP::init_json_ld', 1 );
+
 		$this->fix_front_page_display_options();
 
 	} // apply_hooks
@@ -1394,6 +1397,46 @@ class Better_AMP {
 			}
 		</style>
 		<?php
+	}
+
+
+	/**
+	 * Initialize BF JSON-LD
+	 */
+	public static function init_json_ld() {
+
+		if ( ! is_better_amp() ) {
+			return;
+		}
+
+		//
+		// Include BF_Json_LD_Generator if was not included inside BF
+		//
+		if ( ! class_exists( 'BF_Json_LD_Generator' ) ) {
+			include BETTER_AMP_PATH . 'includes/libs/class-bf-json-ld-generator.php';
+		}
+
+		// Config BF JSON-LD
+		add_filter( 'better-framework/json-ld/config', 'Better_AMP::config_json_ld', 15 );
+	}
+
+
+	/**
+	 * Configurations of JSON-LD
+	 *
+	 * @param $config
+	 *
+	 * @return mixed
+	 */
+	public static function config_json_ld( $config ) {
+
+		$branding = better_amp_get_branding_info();
+
+		if ( ! empty( $branding['logo'] ) ) {
+			$config['logo'] = $branding['logo'];
+		}
+
+		return $config;
 	}
 
 }
