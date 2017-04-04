@@ -1290,6 +1290,15 @@ class Better_AMP {
 			remove_filter( 'widget_text', 'do_shortcode' );
 		}
 
+
+		/***
+		 * Yoast SEO
+		 * https://wordpress.org/plugins/wordpress-seo/
+		 */
+		if ( defined( 'WPSEO_VERSION' ) && class_exists( 'WPSEO_OpenGraph' ) ) {
+			add_action( 'better-amp/template/head', array( $this, 'yoast_seo_metatags_compatibility' ) );
+		}
+
 	}
 
 	/**
@@ -1437,6 +1446,14 @@ class Better_AMP {
 		}
 
 		return $config;
+	}
+
+
+	/**
+	 * Prints meta tags with using Yoast SEO Open Graph feature.
+	 */
+	public function yoast_seo_metatags_compatibility() {
+		do_action( 'wpseo_opengraph' );
 	}
 
 }
