@@ -152,7 +152,7 @@ h1, h2, h3, h4, h5, h6,
     position: absolute;
     top: 0;
     width: 100%;
-    padding: 10px 0;
+    padding: 10px 55px;
     z-index: 9;
     height: 52px;
     line-height: 32px;
