@@ -51,6 +51,32 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 
 == Changelog ==
 
+= 1.3.0 =
+* Added: Static homepage support added.
+         You can chose a page to be shown for AMP homepage.
+
+* Added: Complete "Structured Data" support added.
+* Added: Complete YoastSEO compatibility added. No need to "Glue for Yoast SEO & AMP".
+* Added: Ad Location: AMP middle of post content ad location.
+
+* Improved: [video] shortcode compatibility improved.
+* Improved: Facebook and Vimeo embeds compatibility improved.
+* Improved: Improvement: Android title bar color will be same as BetterAMP theme color. Thanks @Antonio
+* Improved: BetterAds min supported version changed to 1.9
+
+* Fixed: BetterAMP will keeps elements inline styles.
+         Creates custom class and adds style code into page style section automatically.
+
+* Fixed: Incorrect homepage title when YoastSEO is active.
+* Fixed: Style sanitizer improved to make 100% Google validated codes.
+* Fixed: "WP Speed of Light" plugin compatibility.
+* Fixed: PHP old versions fatal error.
+* Fixed: AMP-IFRAME sanitizer improved to force protocol attribute.
+* Fixed: Social share links protocol changed to HTTPS
+* Fixed: Sanitizer value_url fixed to not print empty src!
+* Fixed: Facebook Comments Plugin compatibility. Extra codes (js and markups) will be removed.
+* Fixed: WooCommerce templates are overriding out of AMP! Thanks @ptsadmin
+
 = 1.2.3 =
 * Fixed: Thumbnail is not showing bug.
 
