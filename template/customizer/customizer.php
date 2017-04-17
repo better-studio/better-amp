@@ -562,12 +562,12 @@ function better_amp_customize_register( $wp_customizer ) {
 	/**
 	 * 6.1 SlideShow toggle
 	 */
-	$wp_customizer->add_setting( 'better-amp-show-on-front-slide', array(
-		'default'   => better_amp_get_default_theme_setting( 'better-amp-show-on-front-slide' ),
+	$wp_customizer->add_setting( 'better-amp-home-show-slide', array(
+		'default'   => better_amp_get_default_theme_setting( 'better-amp-home-show-slide' ),
 		'transport' => 'postMessage',
 	) );
-	$wp_customizer->add_control( new AMP_Customize_Switch_Control( $wp_customizer, 'better-amp-show-on-front-slide', array(
-		'label'    => __( 'Show slider', 'better-amp' ),
+	$wp_customizer->add_control( new AMP_Customize_Switch_Control( $wp_customizer, 'better-amp-home-show-slide', array(
+		'label'    => __( 'Show slider?', 'better-amp' ),
 		'section'  => 'better-amp-home-section',
 		'priority' => 4,
 	) ) );
