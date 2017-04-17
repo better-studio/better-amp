@@ -274,6 +274,25 @@ class Better_AMP {
 
 
 	/**
+	 * Get WordPress option
+	 *
+	 * @param string $option
+	 * @param mixed  $default
+	 *
+	 * @since 1.3.0
+	 * @return mixed
+	 */
+	public static function get_option( $option, $default = FALSE ) {
+
+		$tmp                           = isset( $GLOBALS['_amp_bypass_option'] ) ? $GLOBALS['_amp_bypass_option'] : FALSE;
+		$GLOBALS['_amp_bypass_option'] = TRUE;
+		$results                       = get_option( $option, $default );
+		$GLOBALS['_amp_bypass_option'] = $tmp;
+
+		return $results;
+	}
+
+	/**
 	 * Fix front page display option to detect homepage
 	 */
 	public function fix_front_page_display_options() {
@@ -1295,10 +1314,75 @@ class Better_AMP {
 		 * Yoast SEO
 		 * https://wordpress.org/plugins/wordpress-seo/
 		 */
-		if ( defined( 'WPSEO_VERSION' ) && class_exists( 'WPSEO_OpenGraph' ) ) {
-			add_action( 'better-amp/template/head', array( $this, 'yoast_seo_metatags_compatibility' ) );
+		if ( defined( 'WPSEO_VERSION' ) ) {
+
+			if ( class_exists( 'WPSEO_OpenGraph' ) ) {
+				add_action( 'better-amp/template/head', array( $this, 'yoast_seo_metatags_compatibility' ) );
+			}
+
+			if ( is_home() && ! better_amp_is_static_home_page() && self::get_option( 'show_on_front' ) === 'page' ) {
+				add_filter( 'pre_get_document_title', 'Better_AMP::yoast_seo_homepage_title', 99 );
+			}
+
+			if ( is_home() ) {
+				add_filter( 'better-framework/json-ld/website/', 'Better_AMP::yoast_seo_homepage_json_ld' );
+			}
 		}
 
+	}
+
+
+	/**
+	 * Sync none-amp homepage title with amp version
+	 *
+	 * @param string $title
+	 *
+	 * @since 1.3.0
+	 * @return string
+	 */
+	public static function yoast_seo_homepage_title( $title ) {
+
+		if ( ( $post_id = self::get_option( 'page_on_front' ) ) && is_callable( 'WPSEO_Frontend::get_instance' ) ) {
+
+			$post = get_post( $post_id );
+
+			if ( $post instanceof WP_Post ) {
+
+				$wp_seo = WPSEO_Frontend::get_instance();
+
+				if ( $new_title = $wp_seo->get_content_title( $post ) ) {
+					return $new_title;
+				}
+			}
+		}
+
+		return $title;
+	}
+
+	/**
+	 * Sync json-ld data with yoast seo plugin
+	 *
+	 * @param array $data
+	 *
+	 * @since 1.3.0
+	 * @return array
+	 */
+	public static function yoast_seo_homepage_json_ld( $data ) {
+
+		if ( is_callable( 'WPSEO_Options::get_options' ) ) {
+
+			$options = WPSEO_Options::get_options( array( 'wpseo', 'wpseo_social' ) );
+
+			if ( ! empty( $options['website_name'] ) ) {
+				$data['name'] = $options['website_name'];
+			}
+			if ( ! empty( $options['alternate_website_name'] ) ) {
+				$data['alternateName'] = $options['alternate_website_name'];
+				unset( $data['description'] );
+			}
+		}
+
+		return $data;
 	}
 
 	/**
@@ -1328,7 +1412,7 @@ class Better_AMP {
 	 */
 	public function _return_zero_in_amp( $current ) {
 
-		if ( is_better_amp() ) {
+		if ( is_better_amp() && empty( $GLOBALS['_amp_bypass_option'] ) ) {
 			return 0;
 		}
 
@@ -1344,7 +1428,7 @@ class Better_AMP {
 	 */
 	public function _fix_show_on_front( $current ) {
 
-		if ( is_better_amp() ) {
+		if ( is_better_amp() && empty( $GLOBALS['_amp_bypass_option'] ) ) {
 			return 'posts';
 		}
 
