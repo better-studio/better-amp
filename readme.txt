@@ -58,6 +58,7 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 * Added: Complete "Structured Data" support added.
 * Added: Complete YoastSEO compatibility added. No need to "Glue for Yoast SEO & AMP".
 * Added: Ad Location: AMP middle of post content ad location.
+* Added: "Ultimate Tweaker" plugin compatibility added.
 
 * Improved: [video] shortcode compatibility improved.
 * Improved: Facebook and Vimeo embeds compatibility improved.
