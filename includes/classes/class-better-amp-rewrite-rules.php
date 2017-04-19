@@ -67,6 +67,7 @@ class Better_AMP_Rewrite_Rules {
 				'page_rewrite_rules',
 				'category_rewrite_rules',
 				'post_tag_rewrite_rules',
+				'post_format_rewrite_rules',
 			) as $hook
 		) {
 			add_filter( $hook, array( $this, 'generate_rewrite_rules' ), 9999 );
