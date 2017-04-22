@@ -357,7 +357,7 @@ class Better_AMP {
 			return;
 		}
 
-		$path = bf_get_wp_installed_directory();
+		$path = bf_get_wp_installation_slug();
 
 		if ( preg_match( "#^$path/*(.*?)/$amp_qv/*$#", $_SERVER['REQUEST_URI'], $matched ) ) {
 			$new_amp_url = '/' . self::STARTPOINT . '/' . $matched[1];
