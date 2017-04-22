@@ -37,7 +37,7 @@ if ( ! function_exists( 'is_better_amp' ) ) {
 
 		} else {
 
-			$path   = bf_get_wp_installed_directory();
+			$path   = bf_get_wp_installation_slug();
 			$amp_qv = defined( 'AMP_QUERY_VAR' ) ? AMP_QUERY_VAR : 'amp';
 
 			return preg_match( "#^$path/*(.*?)/$amp_qv/*$#", $_SERVER['REQUEST_URI'] );
