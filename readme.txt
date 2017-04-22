@@ -58,6 +58,7 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 * Added: Complete "Structured Data" support added.
 * Added: Complete YoastSEO compatibility added. No need to "Glue for Yoast SEO & AMP".
 * Added: Ad Location: AMP middle of post content ad location.
+* Added: "Ultimate Tweaker" plugin compatibility added.
 
 * Improved: [video] shortcode compatibility improved.
 * Improved: Facebook and Vimeo embeds compatibility improved.
@@ -76,6 +77,8 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 * Fixed: Sanitizer value_url fixed to not print empty src!
 * Fixed: Facebook Comments Plugin compatibility. Extra codes (js and markups) will be removed.
 * Fixed: WooCommerce templates are overriding out of AMP! Thanks @ptsadmin
+* Fixed: Post formats archive page shows 404 error. Thanks @kstockl
+
 
 = 1.2.3 =
 * Fixed: Thumbnail is not showing bug.

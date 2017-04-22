@@ -1295,6 +1295,16 @@ class Better_AMP {
 			}
 		}
 
+
+		/***
+		 * Ultimate Tweaker
+		 * https://ultimate-tweaker.com/
+		 */
+		if ( class_exists( 'ultimate_tweaker_Plugin_File' ) && defined( 'UT_VERSION' ) ) {
+			bf_remove_class_filter( 'post_thumbnail_html', 'OT_media_image_no_width_height_Tweak', '_do', 10 );
+			bf_remove_class_filter( 'image_send_to_editor', 'OT_media_image_no_width_height_Tweak', '_do', 10 );
+		}
+
 	}
 
 
