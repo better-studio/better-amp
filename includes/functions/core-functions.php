@@ -20,10 +20,11 @@ if ( ! function_exists( 'is_better_amp' ) ) {
 	 */
 	function is_better_amp( $wp_query = NULL, $default = FALSE ) {
 
-		// $wp_query will passed in pre_get_posts or other filters
-		if ( ! is_null( $wp_query ) ) {
+		if ( $wp_query instanceof WP_Query ) {
 			return $wp_query->get( Better_AMP::STARTPOINT, $default );
-		} else {
+		}
+
+		if ( did_action( 'template_redirect' ) ) {
 
 			global $wp_query;
 
@@ -33,9 +34,16 @@ if ( ! function_exists( 'is_better_amp' ) ) {
 			} else {
 				return $wp_query->get( Better_AMP::STARTPOINT, $default );
 			}
-		}
 
+		} else {
+
+			$path   = bf_get_wp_installed_directory();
+			$amp_qv = defined( 'AMP_QUERY_VAR' ) ? AMP_QUERY_VAR : 'amp';
+
+			return preg_match( "#^$path/*(.*?)/$amp_qv/*$#", $_SERVER['REQUEST_URI'] );
+		}
 	}
+
 }
 
 
@@ -76,7 +84,7 @@ function better_amp_register_component( $component_class, $settings = array() ) 
 		$better_amp_registered_components[] = compact( 'component_class', 'settings' ); // maybe need add some extra indexes like __FILE__ in the future!
 
 		return TRUE;
-	} catch( Exception $e ) {
+	} catch ( Exception $e ) {
 
 		return new WP_Error( 'error', $e->getMessage() );
 	}
