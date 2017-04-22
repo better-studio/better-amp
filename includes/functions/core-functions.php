@@ -616,3 +616,58 @@ function better_amp_unparse_url( $parsed_url ) {
 
 	return "$scheme$user$pass$host$port$path$query$fragment";
 }
+
+
+if ( ! function_exists( 'bf_get_wp_installation_slug' ) ) {
+	/**
+	 * TODO :-P >.<
+	 *
+	 * @since 1.3.1
+	 *
+	 * @todo  remove this function after adding BF to better-amp
+	 * @return string
+	 */
+	function bf_get_wp_installation_slug() {
+
+		static $path;
+
+		if ( $path ) {
+			return $path;
+		}
+
+		$abspath_fix         = str_replace( '\\', '/', ABSPATH );
+		$script_filename_dir = dirname( $_SERVER['SCRIPT_FILENAME'] );
+
+		if ( $script_filename_dir . '/' == $abspath_fix ) {
+			// Strip off any file/query params in the path
+			$path = preg_replace( '#/[^/]*$#i', '', $_SERVER['PHP_SELF'] );
+
+		} else if ( FALSE !== strpos( $_SERVER['SCRIPT_FILENAME'], $abspath_fix ) ) {
+			// Request is hitting a file inside ABSPATH
+			$directory = str_replace( ABSPATH, '', $script_filename_dir );
+			// Strip off the sub directory, and any file/query params
+			$path = preg_replace( '#/' . preg_quote( $directory, '#' ) . '/[^/]*$#i', '', $_SERVER['REQUEST_URI'] );
+		} elseif ( FALSE !== strpos( $abspath_fix, $script_filename_dir ) ) {
+			// Request is hitting a file above ABSPATH
+			$subdirectory = substr( $abspath_fix, strpos( $abspath_fix, $script_filename_dir ) + strlen( $script_filename_dir ) );
+			// Strip off any file/query params from the path, appending the sub directory to the install
+			$path = preg_replace( '#/[^/]*$#i', '', $_SERVER['REQUEST_URI'] ) . $subdirectory;
+		} else {
+			$path = $_SERVER['REQUEST_URI'];
+		}
+
+		/**
+		 * Fix For Multi-site Installation
+		 */
+		if ( is_multisite() && ! is_main_site() ) {
+			$current_site_url = get_site_url();
+			$append_path      = str_replace( get_site_url( get_current_site()->blog_id ), '', $current_site_url );
+
+			if ( $append_path !== $current_site_url ) {
+				$path .= $append_path;
+			}
+		}
+
+		return $path;
+	}
+}

@@ -356,42 +356,8 @@ class Better_AMP {
 		if ( get_query_var( $amp_qv, FALSE ) === FALSE ) {
 			return;
 		}
-		$abspath_fix         = str_replace( '\\', '/', ABSPATH );
-		$script_filename_dir = dirname( $_SERVER['SCRIPT_FILENAME'] );
 
-		if ( $script_filename_dir . '/' == $abspath_fix ) {
-			// Strip off any file/query params in the path
-			$path = preg_replace( '#/[^/]*$#i', '', $_SERVER['PHP_SELF'] );
-
-		} else {
-
-			if ( FALSE !== strpos( $_SERVER['SCRIPT_FILENAME'], $abspath_fix ) ) {
-				// Request is hitting a file inside ABSPATH
-				$directory = str_replace( ABSPATH, '', $script_filename_dir );
-				// Strip off the sub directory, and any file/query params
-				$path = preg_replace( '#/' . preg_quote( $directory, '#' ) . '/[^/]*$#i', '', $_SERVER['REQUEST_URI'] );
-			} elseif ( FALSE !== strpos( $abspath_fix, $script_filename_dir ) ) {
-				// Request is hitting a file above ABSPATH
-				$subdirectory = substr( $abspath_fix, strpos( $abspath_fix, $script_filename_dir ) + strlen( $script_filename_dir ) );
-				// Strip off any file/query params from the path, appending the sub directory to the install
-				$path = preg_replace( '#/[^/]*$#i', '', $_SERVER['REQUEST_URI'] ) . $subdirectory;
-			} else {
-				$path = $_SERVER['REQUEST_URI'];
-			}
-		}
-
-		/**
-		 * Fix For Multisite Installation
-		 */
-		if ( is_multisite() && ! is_main_site() ) {
-			$current_site_url = get_site_url();
-			$append_path      = str_replace( get_site_url( get_current_site()->blog_id ), '', $current_site_url );
-
-			if ( $append_path !== $current_site_url ) {
-				$path .= $append_path;
-			}
-		}
-
+		$path = bf_get_wp_installed_directory();
 
 		if ( preg_match( "#^$path/*(.*?)/$amp_qv/*$#", $_SERVER['REQUEST_URI'], $matched ) ) {
 			$new_amp_url = '/' . self::STARTPOINT . '/' . $matched[1];
