@@ -51,6 +51,11 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 
 == Changelog ==
 
+= 1.3.2 =
+- Fixed: AMP post inline ads not working properly.
+- Fixed: AMP PHP Warning. Thanks @isrgrajan
+
+
 = 1.3.1 =
 * Added: "WordPress Fastest Cache" plugin compatibility added.
 * Improved: is_better_amp() works before template_redirect action.
