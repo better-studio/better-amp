@@ -93,6 +93,7 @@ if ( ! function_exists( 'better_amp_better_ad_options' ) ) {
 				'field_add_label'  => '<i class="fa fa-plus"></i> ' . __( 'Add New Inline Ad', 'better-studio' ),
 				'field_item_title' => __( 'Inline Ad', 'better-studio' ),
 				'group_auto_close' => TRUE,
+				'format'           => 'amp',
 				'field_end_fields' => array(
 					'paragraph' => array(
 						'name'          => __( 'After Paragraph', 'better-studio' ),
