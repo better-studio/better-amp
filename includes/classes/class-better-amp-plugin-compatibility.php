@@ -35,8 +35,28 @@ class Better_AMP_Plugin_Compatibility {
 		}
 
 
+		/**
+		 * Convert Plug plugin
+		 *
+		 * http://convertplug.com/
+		 */
+		if ( class_exists( 'Convert_Plug' ) ) {
+			add_filter( 'after_setup_theme', 'Better_AMP_Plugin_Compatibility::convert_plug' );
+		}
+
+
 		self::$plugins = NULL; // Clear memory
 
+	}
+
+
+	/**
+	 * Convert Plug plugin
+	 *
+	 * http://convertplug.com/
+	 */
+	public static function convert_plug() {
+		bf_remove_class_filter( 'the_content', 'Convert_Plug', 'cp_add_content', 10 );
 	}
 
 
