@@ -103,7 +103,7 @@ class Better_AMP_Plugin_Compatibility {
 	public static function custom_permalinks_init() {
 
 		// Guess is custom permalinks installed and active
-		if ( function_exists( 'custom_permalinks_request' ) && function_exists( 'custom_permalinks_check_conflicts' ) ) {
+		if ( function_exists( 'custom_permalinks_request' ) ) {
 			add_filter( 'request', 'Better_AMP_Plugin_Compatibility::custom_permalinks', 15 );
 		}
 	}
