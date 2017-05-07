@@ -1501,8 +1501,8 @@ class Better_AMP {
 
 		$branding = better_amp_get_branding_info();
 
-		if ( ! empty( $branding['logo'] ) ) {
-			$config['logo'] = $branding['logo'];
+		if ( ! empty( $branding['logo']['src'] ) ) {
+			$config['logo'] = $branding['logo']['src'];
 		}
 
 		return $config;
