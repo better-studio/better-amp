@@ -47,6 +47,13 @@ class Better_AMP_Plugin_Compatibility {
 
 		self::$plugins = NULL; // Clear memory
 
+
+		/**
+		 *  Custom Permalinks
+		 */
+
+		add_action( 'plugins_loaded', 'Better_AMP_Plugin_Compatibility::custom_permalinks_init' );
+
 	}
 
 
@@ -89,4 +96,61 @@ class Better_AMP_Plugin_Compatibility {
 
 	} // wpfc_fix_options
 
+
+	/**
+	 * Initialize Custom permalinks support
+	 */
+	public static function custom_permalinks_init() {
+
+		// Guess is custom permalinks installed and active
+		if ( function_exists( 'custom_permalinks_request' ) && function_exists( 'custom_permalinks_check_conflicts' ) ) {
+			add_filter( 'request', 'Better_AMP_Plugin_Compatibility::custom_permalinks', 15 );
+		}
+	}
+
+
+	/**
+	 * Add Custom permalinks compatibility
+	 *
+	 * @param array $query_vars
+	 *
+	 * @return array
+	 */
+	public static function custom_permalinks( $query_vars ) {
+
+		$amp_qv = defined( 'AMP_QUERY_VAR' ) ? AMP_QUERY_VAR : 'amp';
+		$path   = bf_get_wp_installation_slug();
+
+		if ( ! (
+			preg_match( "#^$path/*$amp_qv/(.*?)/*$#", $_SERVER['REQUEST_URI'], $matched )
+			||
+			preg_match( "#^$path/*(.*?)/$amp_qv/*$#", $_SERVER['REQUEST_URI'], $matched )
+		)
+		) {
+			return $query_vars;
+		}
+
+		if ( empty( $matched[1] ) ) {
+			return $query_vars;
+		}
+
+		remove_filter( 'request', 'Better_AMP_Plugin_Compatibility::custom_permalinks', 15 );
+
+		$_SERVER['REQUEST_URI'] = '/' . $matched[1] . '/';
+		$query_vars ['amp']     = '1';
+		$_REQUEST['amp']        = '1';
+
+
+		if ( $new_qv = custom_permalinks_request( $query_vars ) ) {
+
+			$new_qv['amp'] = '1';
+
+			// prevent redirect amp post to none-amp version
+			remove_filter( 'template_redirect', 'custom_permalinks_redirect', 5 );
+
+			return $new_qv;
+		}
+
+		return $query_vars;
+	} // custom_permalinks
 }
