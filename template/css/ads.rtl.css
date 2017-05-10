@@ -7,18 +7,18 @@
 /**
  * 2. =>Ads Container
  **************************************************************/
-.betteradscontainer.betterads-align-left {
+.bsac.bsac-align-left {
     text-align: left;
 }
-.betteradscontainer.betterads-align-right {
+.bsac.bsac-align-right {
     text-align: right;
 }
-.betteradscontainer.betterads-float-right {
+.bsac.bsac-float-right {
     float: right;
     margin-left: 20px;
     margin-right: auto;
 }
-.betteradscontainer.betterads-float-left {
+.bsac.bsac-float-left {
     float: left;
     margin-right: 20px;
     margin-left: auto;
@@ -29,29 +29,29 @@
  * 4. =>Columns
  **************************************************************/
 /* 2 column */
-.betteradscontainer.betterad-column-2 .betterad-container {
+.bsac.bsac-column-2 .bsac-container {
     float: right;
 }
-.betteradscontainer.betterad-column-2 .betterad-container:nth-of-type(odd) {
+.bsac.bsac-column-2 .bsac-container:nth-of-type(odd) {
     padding-left: 5px;
     clear: right;
     padding-right: 0;
 }
-.betteradscontainer.betterad-column-2 .betterad-container:nth-of-type(even) {
+.bsac.bsac-column-2 .bsac-container:nth-of-type(even) {
     padding-right: 5px;
     padding-left: 0;
 }
 
 /* 3 column */
-.betteradscontainer.betterad-column-3 .betterad-container {
+.bsac.bsac-column-3 .bsac-container {
     float: right;
 }
-.betteradscontainer.betterad-column-3 .betterad-container:nth-child( 3n-2 ) {
+.bsac.bsac-column-3 .bsac-container:nth-child( 3n-2 ) {
     padding-left: 6px;
     clear: right;
     padding-right: 0;
 }
-.betteradscontainer.betterad-column-3 .betterad-container:nth-child( 3n+3  ) {
+.bsac.bsac-column-3 .bsac-container:nth-child( 3n+3  ) {
     padding-right: 6px;
     padding-left: 0;
 }

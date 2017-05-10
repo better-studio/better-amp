@@ -13,30 +13,30 @@ BetterAMP ads style for BetterAds
 /**
  * 1. =>Base & Helpers
  **************************************************************/
-.betteradscontainer .betterad-container{
+.bsac .bsac-container{
     overflow: hidden;
 }
-.betterads-clearfix:before,
-.betterads-clearfix:after{
+.bsac-clearfix:before,
+.bsac-clearfix:after{
     content: "";
     display: table;
 }
-.betterads-clearfix:after{
+.bsac-clearfix:after{
     clear: both;
 }
-.betterads-clearfix{
+.bsac-clearfix{
     zoom: 1;
 }
-.betterad-caption {
+.bsac-caption {
     display: block;
     color: #bbbbbb;
     font-size: 12px;
     line-height: 24px;
 }
-.betterad-container.betterad-container a{
+.bsac-container.bsac-container a{
     text-decoration: none;
 }
-.betterad-type-code br{
+.bsac-type-code br{
     display: none;
 }
 .better-ads-post-top {
@@ -46,7 +46,7 @@ BetterAMP ads style for BetterAds
     margin-top: 20px;
     margin-bottom: 0;
 }
-.betterads-empty-note{
+.bsac-empty-note{
     display: none;
 }
 
@@ -54,23 +54,23 @@ BetterAMP ads style for BetterAds
 /**
  * 2. =>Ads Container
  **************************************************************/
-.betteradscontainer.betteradscontainer .betterad-type-image amp-img{
+.bsac.bsac .bsac-type-image amp-img{
     display: inline-block;
 }
-.betteradscontainer.betterads-align-center{
+.bsac.bsac-align-center{
     text-align: center;
 }
-.betteradscontainer.betterads-align-right{
+.bsac.bsac-align-right{
     text-align: right;
 }
-.betteradscontainer.betterads-align-left{
+.bsac.bsac-align-left{
     text-align: left;
 }
-.betteradscontainer.betterads-float-left{
+.bsac.bsac-float-left{
     float: left;
     margin-right: 20px;
 }
-.betteradscontainer.betterads-float-right{
+.bsac.bsac-float-right{
     float: right;
     margin-left: 20px;
 }
@@ -79,18 +79,18 @@ BetterAMP ads style for BetterAds
 /**
  * 3. =>Ad Container
  **************************************************************/
-.betteradscontainer .betterad-container{
+.bsac .bsac-container{
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
     margin-bottom: 20px;
 }
-.betteradscontainer .betterad-container.betterad-type-code object,
-.betteradscontainer .betterad-container.betterad-type-code embed,
-.betteradscontainer .betterad-container.betterad-type-image img{
+.bsac .bsac-container.bsac-type-code object,
+.bsac .bsac-container.bsac-type-code embed,
+.bsac .bsac-container.bsac-type-image img{
     max-width: 100%;
 }
-.betteradscontainer .betterad-container.betterad-type-image .ad-caption{
+.bsac .bsac-container.bsac-type-image .ad-caption{
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -105,31 +105,31 @@ BetterAMP ads style for BetterAds
  **************************************************************/
 
 /* 2 column */
-.betteradscontainer.betterad-column-2 .betterad-container{
+.bsac.bsac-column-2 .bsac-container{
     float: left;
     width: 50%;
 }
-.betteradscontainer.betterad-column-2 .betterad-container:nth-of-type(odd){
+.bsac.bsac-column-2 .bsac-container:nth-of-type(odd){
     padding-right: 5px;
     clear: left;
 }
-.betteradscontainer.betterad-column-2 .betterad-container:nth-of-type(even){
+.bsac.bsac-column-2 .bsac-container:nth-of-type(even){
     padding-left: 5px;
 }
 
 /* 3 column */
-.betteradscontainer.betterad-column-3 .betterad-container{
+.bsac.bsac-column-3 .bsac-container{
     float: left;
     width: 33.3333%;
 }
-.betteradscontainer.betterad-column-3 .betterad-container:nth-child( 3n-1 ){
+.bsac.bsac-column-3 .bsac-container:nth-child( 3n-1 ){
     padding: 0 3px;
 }
-.betteradscontainer.betterad-column-3 .betterad-container:nth-child( 3n-2 ){
+.bsac.bsac-column-3 .bsac-container:nth-child( 3n-2 ){
     padding-right: 6px;
     clear: left;
 }
-.betteradscontainer.betterad-column-3 .betterad-container:nth-child( 3n+3  ){
+.bsac.bsac-column-3 .bsac-container:nth-child( 3n+3  ){
     padding-left: 6px;
 }
 
@@ -137,15 +137,15 @@ BetterAMP ads style for BetterAds
 /**
  * 5. =>Ad Locations
  **************************************************************/
-.betteradscontainer.location-amp_header_after{
+.bsac.location-amp_header_after{
     padding-top: 20px;
     margin-bottom: -15px;
 }
-.posts-listing.posts-listing-2 .betteradscontainer.location-amp_archive_after_x,
-.posts-listing.posts-listing-1 .betteradscontainer.location-amp_archive_after_x {
+.posts-listing.posts-listing-2 .bsac.location-amp_archive_after_x,
+.posts-listing.posts-listing-1 .bsac.location-amp_archive_after_x {
     padding-top: 20px;
 }
-.posts-listing.posts-listing-2 .betteradscontainer.location-amp_archive_after_x + .listing-2-item,
-.posts-listing.posts-listing-1 .betteradscontainer.location-amp_archive_after_x + .listing-1-item{
+.posts-listing.posts-listing-2 .bsac.location-amp_archive_after_x + .listing-2-item,
+.posts-listing.posts-listing-1 .bsac.location-amp_archive_after_x + .listing-1-item{
     border-top: 1px solid #e6e6e6;
 }
