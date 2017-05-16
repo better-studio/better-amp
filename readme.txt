@@ -51,6 +51,13 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 
 == Changelog ==
 
+= 1.3.3 =
+- Fixed: "Custom Permalinks" support added to BetterAMP.
+- Fixed: "link" tags will be removed from BetterAMP pages body section.
+- Fixed: Structured data validation issue with custom image logo (BetterAMP).
+- Fixed: "Convert Plug" plugin validation issue fixed.
+
+
 = 1.3.2 =
 - Fixed: AMP post inline ads not working properly.
 - Fixed: AMP PHP Warning. Thanks @isrgrajan
