@@ -771,6 +771,30 @@ function better_amp_customize_register( $wp_customizer ) {
 			'class' => 'better-amp-code',
 		),
 	) );
+
+
+	/**
+	 * 10. Additional CSS
+	 */
+	$wp_customizer->add_section( 'better-amp-advanced-section', array(
+		'title'    => __( 'Advanced Settings', 'better-amp' ),
+		'priority' => 15,
+		'panel'    => 'better-amp-panel'
+	) );
+
+	/**
+	 * 10.1 Google Analytics
+	 */
+	$wp_customizer->add_setting( 'better-amp-exclude-urls', array(
+		'default' => better_amp_get_default_theme_setting( 'better-amp-exclude-urls' ),
+	) );
+	$wp_customizer->add_control( 'better-amp-exclude-urls', array(
+		'label'       => __( 'Exclude AMP URL', 'better-amp' ),
+		'section'     => 'better-amp-advanced-section',
+		'priority'    => 28,
+		'type'        => 'textarea',
+		'description' => __( 'Separate by enter', 'better-amp' ),
+	) );
 }
 
 add_action( 'admin_menu', 'better_amp_add_customizer_admin_link', 999 );

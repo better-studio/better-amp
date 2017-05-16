@@ -44,6 +44,13 @@ class Better_AMP_Content_Sanitizer {
 		'sizes'  => TRUE,
 	);
 
+	/**
+	 * List of none-amp urls
+	 *
+	 * @since 1.3.4
+	 * @var array
+	 */
+	private static $none_amp_urls = array();
 
 	/**
 	 * Store tabindex number
@@ -271,6 +278,22 @@ class Better_AMP_Content_Sanitizer {
 
 		if ( ! self::$enable_url_transform ) {
 			return $url;
+		}
+
+		//
+		// Don't transform none-amp urls to amp url
+		//
+		{
+			if ( isset( self::$none_amp_urls['general'][ rtrim( $url, '/' ) ] ) ) {
+				return $url;
+			}
+
+			if ( ! empty( self::$none_amp_urls['start_with'] ) ) {
+
+				if ( preg_match( '#^' . self::$none_amp_urls['start_with'] . '#i', $url ) ) {
+					return $url;
+				}
+			}
 		}
 
 		// check is url internal?
@@ -1173,4 +1196,37 @@ class Better_AMP_Content_Sanitizer {
 		return $results;
 	}
 
+
+	/**
+	 * Add none-amp urls to prevent transform to amp version
+	 *
+	 * accept star* at the end of the url
+	 *
+	 * @since 1.3.4
+	 *
+	 * @param string|array $urls
+	 */
+	public static function set_none_amp_url( $urls ) {
+
+		foreach ( (array) $urls as $url ) {
+
+			$url       = rtrim( $url, '/' );
+			$last_char = substr( $url, - 1 );
+
+			if ( $last_char === '*' ) {
+
+				if ( empty( self::$none_amp_urls['start_with'] ) ) {
+					self::$none_amp_urls['start_with'] = '';
+				} else {
+					self::$none_amp_urls['start_with'] .= '|';
+				}
+
+				self::$none_amp_urls['start_with'] = rtrim( $url, '*' );
+
+			} else {
+
+				self::$none_amp_urls['general'][ $url ] = TRUE;
+			}
+		}
+	}
 }
