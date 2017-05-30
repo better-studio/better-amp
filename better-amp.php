@@ -813,7 +813,7 @@ class Better_AMP {
 
 		switch ( $method_name ) {
 			case 'enqueue_amp_scripts':
-				$return = $instance->can_enqueue_scripts();
+				$return = $return && $instance->can_enqueue_scripts();
 				break;
 		}
 
@@ -1029,6 +1029,10 @@ class Better_AMP {
 			$prepend .= isset( $match[1] ) ? $match[1] : '<body>'; // open body tag
 
 			$this->render_content( $instance, TRUE ); // Convert HTML top amp html
+
+			// @see Better_AMP_Component::enqueue_amp_tags_script
+			$this->call_components_method( 'enqueue_amp_tags_script', $instance );
+
 			$content = $instance->get_content( TRUE );
 			// End convert output to valid amp html
 		}

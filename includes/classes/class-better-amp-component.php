@@ -212,4 +212,30 @@ class Better_AMP_Component extends Better_AMP_Component_Base {
 	public function can_enqueue_scripts() {
 		return ! empty( $this->component->enable_enqueue_scripts );
 	}
+
+	/**
+	 * Enqueue AMP component script if amp tag exists in the page and script was not printed yet
+	 *
+	 * @param Better_AMP_HTML_Util $dom
+	 *
+	 * @return Better_AMP_HTML_Util
+	 */
+	public function enqueue_amp_tags_script( $dom ) {
+
+		$has_enqueue_scripts = $this->can_enqueue_scripts();
+
+		if ( ! $has_enqueue_scripts ) { // if script was not printed previously
+
+			$config = $this->get_config();
+
+			foreach ( $config['scripts'] as $tag => $script ) {
+
+				if ( $dom->getElementsByTagName( $tag )->length ) {
+					better_amp_enqueue_script( $tag, $script, array( 'ampproject' ) );
+				}
+			}
+		}
+
+		return $dom;
+	}
 }
