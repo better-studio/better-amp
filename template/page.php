@@ -10,7 +10,7 @@ better_amp_the_post();
 ?>
 	<div <?php better_amp_post_classes( 'single-page clearfix' ) ?>>
 
-		<h3 class="page-title"><?php the_title() ?></h3>
+		<h1 class="page-title"><?php the_title() ?></h1>
 
 		<?php if ( better_amp_get_theme_mod( 'better-amp-post-show-thumbnail' ) && has_post_thumbnail() ): ?>
 			<div class="page-thumbnail" <?php better_amp_customizer_hidden_attr( 'better-amp-post-show-thumbnail' ) ?>>
