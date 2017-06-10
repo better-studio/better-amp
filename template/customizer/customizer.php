@@ -614,11 +614,11 @@ function better_amp_customize_register( $wp_customizer ) {
 
 	$page_choices = array();
 	if ( $pages && ! is_wp_error( $pages ) ) {
-		foreach($pages as $page) {
-			$page_choices[$page->ID] = $page->post_title ? $page->post_title : '#' . $page->ID . ' (no title)';
+		foreach ( $pages as $page ) {
+			$page_choices[ $page->ID ] = $page->post_title ? $page->post_title : '#' . $page->ID . ' (no title)';
 		}
 	}
-	$pages = null;
+	$pages = NULL;
 	$wp_customizer->add_setting( 'better-amp-page-on-front', array(
 		'default' => better_amp_get_default_theme_setting( 'better-amp-page-on-front' ),
 	) );
@@ -789,11 +789,11 @@ function better_amp_customize_register( $wp_customizer ) {
 		'default' => better_amp_get_default_theme_setting( 'better-amp-exclude-urls' ),
 	) );
 	$wp_customizer->add_control( 'better-amp-exclude-urls', array(
-		'label'       => __( 'Exclude AMP URL', 'better-amp' ),
+		'label'       => __( 'Exclude URL From Auto Converting', 'better-amp' ),
 		'section'     => 'better-amp-advanced-section',
 		'priority'    => 28,
 		'type'        => 'textarea',
-		'description' => __( 'Separate by enter', 'better-amp' ),
+		'description' => __( 'You can exclude URL\'s of your site to prevent converting them into AMP URL inside your site. You can use * in the end of URL to exclude all URL\'s that start with it. Eg. <strong>yoursite.com/test/*</strong><br><br> You can add multiple URL\s in multiple lines.', 'better-amp' ),
 	) );
 }
 
