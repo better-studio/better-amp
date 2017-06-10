@@ -1194,8 +1194,8 @@ class Better_AMP {
 		/**
 		 * W3 total cache
 		 */
-		add_filter( 'w3tc_minify_js_enable', '_return_false' );
-		add_filter( 'w3tc_minify_css_enable', '_return_false' );
+		add_filter( 'w3tc_minify_js_enable', '__return_false' );
+		add_filter( 'w3tc_minify_css_enable', '__return_false' );
 
 
 		/**
