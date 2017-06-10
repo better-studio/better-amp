@@ -7,6 +7,9 @@
 /**
  * 2. =>Ads Container
  **************************************************************/
+.rtl .bsac .bsac-container {
+    direction: ltr;
+}
 .bsac.bsac-align-left {
     text-align: left;
 }
