@@ -115,6 +115,12 @@ class Better_AMP_Plugin_Compatibility {
 		if ( function_exists( 'custom_permalinks_request' ) ) { // Guess is custom permalinks installed and active
 			add_filter( 'request', 'Better_AMP_Plugin_Compatibility::custom_permalinks', 15 );
 		}
+
+		/**
+		 * NextGEN Gallery Compatibility
+		 */
+
+		add_filter( 'run_ngg_resource_manager', '__return_false', 999 );
 	}
 
 
