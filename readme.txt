@@ -51,6 +51,17 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 
 == Changelog ==
 
+= 1.4.0 =
+- Added: AMP "Above The Fold" plugin compatibility added.
+- Added: New option to exclude URL (and URL pattern) from AMP URL converter. You can use it to exclude subdirectories.
+
+- Improved: AMP pages SEO improved.
+- Improved: AMP validator improved. It's even smarter!
+
+- Fixed: AMP ads rtl style fixed.
+- Fixed: AMP minor warning fixed.
+
+
 = 1.3.3 =
 - Fixed: "Custom Permalinks" support added to BetterAMP.
 - Fixed: "link" tags will be removed from BetterAMP pages body section.

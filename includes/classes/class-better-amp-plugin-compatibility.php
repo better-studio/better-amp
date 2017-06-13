@@ -45,6 +45,21 @@ class Better_AMP_Plugin_Compatibility {
 		}
 
 
+		/***
+		 * Above The Fold Plugin
+		 */
+		if ( class_exists( 'Abovethefold' ) ) {
+			if ( ! defined( 'DONOTABTF' ) ) {
+				define( 'DONOTABTF', TRUE );
+			}
+			$GLOBALS['Abovethefold']->disable = TRUE;
+
+			bf_remove_class_action( 'init', 'Abovethefold_Optimization', 'html_output_hook', 99999 );
+			bf_remove_class_action( 'wp_head', 'Abovethefold_Optimization', 'header', 1 );
+			bf_remove_class_action( 'wp_print_footer_scripts', 'Abovethefold_Optimization', 'footer', 99999 );
+		}
+
+
 		self::$plugins = NULL; // Clear memory
 
 

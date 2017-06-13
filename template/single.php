@@ -15,9 +15,9 @@ better_amp_the_post();
 		better_amp_show_ad_location( 'amp_post_title_before' );
 
 		?>
-		<h3 class="post-title">
+		<h1 class="post-title">
 			<?php the_title() ?>
-		</h3>
+		</h1>
 		<?php
 
 		better_amp_post_subtitle();

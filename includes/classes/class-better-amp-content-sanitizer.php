@@ -1221,7 +1221,7 @@ class Better_AMP_Content_Sanitizer {
 					self::$none_amp_urls['start_with'] .= '|';
 				}
 
-				self::$none_amp_urls['start_with'] = rtrim( $url, '*' );
+				self::$none_amp_urls['start_with'] .= rtrim( $url, '*' );
 
 			} else {
 
