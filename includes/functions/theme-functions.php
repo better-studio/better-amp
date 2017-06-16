@@ -2166,7 +2166,11 @@ if ( ! function_exists( 'better_amp_post_classes' ) ) {
 
 		$class[] = 'clearfx';
 
-		echo 'class="' . join( ' ', $class ) . '"';
+		$class = str_replace( 'hentry', '', join( ' ', $class ) );
+
+		echo 'class="' . $class . '"';
+
+		unset( $class );
 	}
 }
 
