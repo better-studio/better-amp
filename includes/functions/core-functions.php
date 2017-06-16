@@ -293,6 +293,8 @@ function better_amp_add_inline_style( $data, $handle = '' ) {
 		$data = trim( preg_replace( '#<style[^>]*>(.*)</style>#is', '$1', $data ) );
 	}
 
+	$data = preg_replace( '/\s*!\s*important/', '', $data ); // Remove !important
+
 	better_amp_styles()->add_inline_style( $handle, $data );
 }
 
