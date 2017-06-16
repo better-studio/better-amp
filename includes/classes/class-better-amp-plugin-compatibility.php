@@ -59,16 +59,9 @@ class Better_AMP_Plugin_Compatibility {
 			bf_remove_class_action( 'wp_print_footer_scripts', 'Abovethefold_Optimization', 'footer', 99999 );
 		}
 
-
 		self::$plugins = NULL; // Clear memory
 
-
-		/**
-		 *  Custom Permalinks
-		 */
-
-		add_action( 'plugins_loaded', 'Better_AMP_Plugin_Compatibility::custom_permalinks_init' );
-
+		add_action( 'plugins_loaded', 'Better_AMP_Plugin_Compatibility::plugins_loaded' );
 	}
 
 
@@ -113,14 +106,21 @@ class Better_AMP_Plugin_Compatibility {
 
 
 	/**
-	 * Initialize Custom permalinks support
+	 * Plugin loaded hook
 	 */
-	public static function custom_permalinks_init() {
-
-		// Guess is custom permalinks installed and active
-		if ( function_exists( 'custom_permalinks_request' ) ) {
+	public static function plugins_loaded() {
+		/**
+		 * Initialize Custom permalinks support
+		 */
+		if ( function_exists( 'custom_permalinks_request' ) ) { // Guess is custom permalinks installed and active
 			add_filter( 'request', 'Better_AMP_Plugin_Compatibility::custom_permalinks', 15 );
 		}
+
+		/**
+		 * NextGEN Gallery Compatibility
+		 */
+
+		add_filter( 'run_ngg_resource_manager', '__return_false', 999 );
 	}
 
 

@@ -1243,8 +1243,8 @@ if ( ! function_exists( 'better_amp_fix_customizer_statics' ) ) {
  * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
  * @see  wp-includes/template.php
  *
- * |            Original Name           |               AMP Name               |
- * | ---------------------------------- | ------------------------------------ |
+ * |           Original Name            |                  AMP Name                  |
+ * | ---------------------------------- | ------------------------------------------ |
  * |   get_embed_template               |     better_amp_embed_template              |
  * |   get_404_template                 |     better_amp_404_template                |
  * |   get_search_template              |     better_amp_search_template             |
