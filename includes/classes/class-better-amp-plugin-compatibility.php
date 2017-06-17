@@ -59,6 +59,14 @@ class Better_AMP_Plugin_Compatibility {
 			bf_remove_class_action( 'wp_print_footer_scripts', 'Abovethefold_Optimization', 'footer', 99999 );
 		}
 
+		/**
+		 * WP-Optimize Plugin
+		 * https://wordpress.org/plugins/wp-optimize/
+		 */
+		if ( class_exists( 'WP_Optimize' ) ) {
+			bf_remove_class_action( 'plugins_loaded', 'WP_Optimize', 'plugins_loaded', 1 );
+		}
+
 		self::$plugins = NULL; // Clear memory
 
 		add_action( 'plugins_loaded', 'Better_AMP_Plugin_Compatibility::plugins_loaded' );
