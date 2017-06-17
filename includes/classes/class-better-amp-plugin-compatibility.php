@@ -177,3 +177,16 @@ class Better_AMP_Plugin_Compatibility {
 		return $query_vars;
 	} // custom_permalinks
 }
+
+/**
+ * Speed Booster Pack
+ * https://wordpress.org/plugins/speed-booster-pack/
+ */
+if ( is_better_amp() && ! class_exists( 'Speed_Booster_Pack_Core' ) ) {
+	/**
+	 * Disables plugin fucntionality by overriding "Speed_Booster_Pack_Core" class
+	 */
+	class Speed_Booster_Pack_Core {
+
+	}
+}
