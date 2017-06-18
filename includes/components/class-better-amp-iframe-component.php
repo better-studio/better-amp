@@ -499,7 +499,14 @@ class Better_AMP_iFrame_Component implements Better_AMP_Component_Interface {
 		}
 
 		if ( empty( $results['height'] ) && isset( $attributes['src'] ) ) { // height is required
-			$results['height'] = $this->get_frame_height( $attributes['src'] );
+
+			if ( ! empty( $attributes['amp-height'] ) ) {
+				$results['height'] = $attributes['amp-height'];
+			} elseif ( ! empty( $attributes['height'] ) ) {
+				$results['height'] = $attributes['height'];
+			} else {
+				$results['height'] = $this->get_frame_height( $attributes['src'] );
+			}
 		}
 
 		return $results;
