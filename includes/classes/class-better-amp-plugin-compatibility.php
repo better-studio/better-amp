@@ -129,6 +129,16 @@ class Better_AMP_Plugin_Compatibility {
 		 */
 
 		add_filter( 'run_ngg_resource_manager', '__return_false', 999 );
+
+
+		/**
+		 * WPML Compatibility
+		 */
+		if ( defined( 'WPML_PLUGIN_BASENAME' ) && WPML_PLUGIN_BASENAME ) {
+
+			add_action( 'wpml_is_redirected', '__return_false');
+		}
+
 	}
 
 
