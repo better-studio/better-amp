@@ -537,7 +537,26 @@ function better_amp_customize_register( $wp_customizer ) {
 	) );
 
 	/**
-	 * 5.8 Featured Video/Audio meta key
+	 * 5.8 Share link format
+	 */
+	$wp_customizer->add_setting( 'better-amp-post-social-share-link-format', array(
+		'transport' => 'postMessage',
+		'default'   => better_amp_get_default_theme_setting( 'better-amp-post-social-share-link-format' ),
+	) );
+	$wp_customizer->add_control( 'better-amp-post-social-share-link-format', array(
+		'label'    => __( 'Share box link format?', 'better-amp' ),
+		'section'  => 'better-amp-post-section',
+		'priority' => 12,
+		'type'     => 'select',
+		'choices'  => array(
+			'standard' => __( 'Standard wordpress permalink', 'better-amp' ),
+			'short'    => __( 'Short link', 'better-amp' ),
+		)
+	) );
+
+
+	/**
+	 * 5.9 Featured Video/Audio meta key
 	 */
 	$wp_customizer->add_setting( 'better-amp-featured-va-key', array(
 		'transport' => 'postMessage',

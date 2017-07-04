@@ -2463,18 +2463,56 @@ if ( ! function_exists( 'better_amp_social_share_guss_current_page' ) ) {
 	 */
 	function better_amp_social_share_guss_current_page() {
 
-		$page_permalink = better_amp_guess_none_amp_url();
+		$page_permalink  = '';
+		$need_short_link = better_amp_get_theme_mod( 'better-amp-post-social-share-link-format' ) === 'short';
 
 		if ( is_home() || is_front_page() ) {
 			$page_title = get_bloginfo( 'name' );
 		} elseif ( is_single( get_the_ID() ) && ! ( is_front_page() ) ) {
 			$page_title = get_the_title();
+
+			if ( $need_short_link ) {
+				$page_permalink = wp_get_shortlink();
+			}
+
 		} elseif ( is_page() ) {
 			$page_title = get_the_title();
+
+			if ( $need_short_link ) {
+				$page_permalink = wp_get_shortlink();
+			}
+
 		} elseif ( is_category() || is_tag() || is_tax() ) {
 			$page_title = single_term_title( '', FALSE );
+
+			if ( $need_short_link ) {
+
+				$queried_object = get_queried_object();
+
+				if ( ! empty( $queried_object->taxonomy ) ) {
+
+					if ( 'category' == $queried_object->taxonomy ) {
+						$page_permalink = "?cat=$queried_object->term_id";
+					} else {
+						$tax = get_taxonomy( $queried_object->taxonomy );
+
+						if ( $tax->query_var ) {
+							$page_permalink = "?$tax->query_var=$queried_object->slug";
+						} else {
+							$page_permalink = "?taxonomy=$queried_object->taxonomy&term=$queried_object->term_id";
+						}
+					}
+
+					$page_permalink = home_url( $page_permalink );
+				}
+			}
+
 		} else {
 			$page_title = get_bloginfo( 'name' );
+		}
+
+		if ( ! $page_permalink ) {
+			$page_permalink = better_amp_guess_none_amp_url();
 		}
 
 		return compact( 'page_title', 'page_permalink' );
