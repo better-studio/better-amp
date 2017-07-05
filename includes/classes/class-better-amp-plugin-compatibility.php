@@ -2,6 +2,7 @@
 
 Better_AMP_Plugin_Compatibility::init();
 
+
 /**
  * Third Party Plugins Compatibility
  *
@@ -15,6 +16,7 @@ class Better_AMP_Plugin_Compatibility {
 	 * @var array
 	 */
 	public static $plugins = array();
+
 
 	/**
 	 * Initialization
@@ -59,6 +61,7 @@ class Better_AMP_Plugin_Compatibility {
 			bf_remove_class_action( 'wp_print_footer_scripts', 'Abovethefold_Optimization', 'footer', 99999 );
 		}
 
+
 		/**
 		 * WP-Optimize Plugin
 		 * https://wordpress.org/plugins/wp-optimize/
@@ -67,9 +70,29 @@ class Better_AMP_Plugin_Compatibility {
 			bf_remove_class_action( 'plugins_loaded', 'WP_Optimize', 'plugins_loaded', 1 );
 		}
 
+
+		/**
+		 * WP Speed Grades Lite
+		 *
+		 * http://www.wp-speed.com/
+		 */
+		if ( defined( 'WP_SPEED_GRADES_VERSION' ) ) {
+			add_action( 'init', array( 'Better_AMP_Plugin_Compatibility', 'pre_init' ), 0 );
+		}
+
+
 		self::$plugins = NULL; // Clear memory
 
 		add_action( 'plugins_loaded', 'Better_AMP_Plugin_Compatibility::plugins_loaded' );
+	}
+
+
+	/**
+	 * Pre init action
+	 */
+	public static function pre_init() {
+
+		remove_action( 'init', 'wpspgrpro_init_minify_html', 1 );
 	}
 
 
@@ -79,6 +102,7 @@ class Better_AMP_Plugin_Compatibility {
 	 * http://convertplug.com/
 	 */
 	public static function convert_plug() {
+
 		bf_remove_class_filter( 'the_content', 'Convert_Plug', 'cp_add_content', 10 );
 	}
 
@@ -117,6 +141,7 @@ class Better_AMP_Plugin_Compatibility {
 	 * Plugin loaded hook
 	 */
 	public static function plugins_loaded() {
+
 		/**
 		 * Initialize Custom permalinks support
 		 */
@@ -177,6 +202,7 @@ class Better_AMP_Plugin_Compatibility {
 		return $query_vars;
 	} // custom_permalinks
 }
+
 
 /**
  * Speed Booster Pack
