@@ -95,43 +95,44 @@ function better_amp_enqueue_static() {
 function better_amp_get_default_theme_setting( $setting_id, $setting_index = '' ) {
 
 	$settings = array(
-		'logo'                               => array(
+		'logo'                                     => array(
 			'height'      => 40,
 			'width'       => 230,
 			'flex-height' => FALSE,
 			'flex-width'  => TRUE,
 		),
-		'sidebar-logo'                       => array(
+		'sidebar-logo'                             => array(
 			'height'      => 150,
 			'width'       => 150,
 			'flex-height' => TRUE,
 			'flex-width'  => TRUE,
 		),
 		//
-		'better-amp-header-logo-img'         => '',
-		'better-amp-header-logo-text'        => '',
-		'better-amp-header-show-search'      => TRUE,
+		'better-amp-header-logo-img'               => '',
+		'better-amp-header-logo-text'              => '',
+		'better-amp-header-show-search'            => TRUE,
 		//
-		'better-amp-sidebar-show'            => TRUE,
-		'better-amp-sidebar-logo-text'       => '',
-		'better-amp-sidebar-logo-img'        => '',
-		'better-amp-facebook'                => '#',
-		'better-amp-twitter'                 => '#',
-		'better-amp-google_plus'             => '#',
-		'better-amp-email'                   => '#',
-		'better-amp-sidebar-footer-text'     => '',
+		'better-amp-sidebar-show'                  => TRUE,
+		'better-amp-sidebar-logo-text'             => '',
+		'better-amp-sidebar-logo-img'              => '',
+		'better-amp-facebook'                      => '#',
+		'better-amp-twitter'                       => '#',
+		'better-amp-google_plus'                   => '#',
+		'better-amp-email'                         => '#',
+		'better-amp-sidebar-footer-text'           => '',
 		//
-		'better-amp-footer-copyright-text'   => 'Powered by <a href="https://wordpress.org/plugins/better-amp/" target="_blank">BetterAMP</a>',
-		'better-amp-footer-main-link'        => TRUE,
+		'better-amp-footer-copyright-text'         => 'Powered by <a href="https://wordpress.org/plugins/better-amp/" target="_blank">BetterAMP</a>',
+		'better-amp-footer-main-link'              => TRUE,
 		//
-		'better-amp-archive-listing'         => 'listing-1',
+		'better-amp-archive-listing'               => 'listing-1',
 		//
-		'better-amp-post-show-thumbnail'     => TRUE,
-		'better-amp-post-show-comment'       => TRUE,
-		'better-amp-post-social-share-show'  => 'show',
-		'better-amp-page-social-share-show'  => 'show',
-		'better-amp-post-social-share-count' => 'total',
-		'better-amp-post-social-share'       => array(
+		'better-amp-post-show-thumbnail'           => TRUE,
+		'better-amp-post-show-comment'             => TRUE,
+		'better-amp-post-social-share-show'        => 'show',
+		'better-amp-page-social-share-show'        => 'show',
+		'better-amp-post-social-share-count'       => 'total',
+		'better-amp-post-social-share-link-format' => 'standard',
+		'better-amp-post-social-share'             => array(
 			'facebook'    => 1,
 			'twitter'     => 1,
 			'reddit'      => 1,
@@ -147,24 +148,24 @@ function better_amp_get_default_theme_setting( $setting_id, $setting_index = '' 
 			'digg'        => 0,
 		),
 		//
-		'better-amp-home-show-slide'         => '1',
-		'better-amp-home-listing'            => 'default',
+		'better-amp-home-show-slide'               => '1',
+		'better-amp-home-listing'                  => 'default',
 		//
-		'better-amp-color-theme'             => '#0379c4',
-		'better-amp-color-bg'                => '#e8e8e8',
-		'better-amp-color-content-bg'        => '#ffffff',
-		'better-amp-color-footer-bg'         => '#f3f3f3',
-		'better-amp-color-footer-nav-bg'     => '#ffffff',
-		'better-amp-color-text'              => '#363636',
+		'better-amp-color-theme'                   => '#0379c4',
+		'better-amp-color-bg'                      => '#e8e8e8',
+		'better-amp-color-content-bg'              => '#ffffff',
+		'better-amp-color-footer-bg'               => '#f3f3f3',
+		'better-amp-color-footer-nav-bg'           => '#ffffff',
+		'better-amp-color-text'                    => '#363636',
 		//
-		'better-amp-footer-analytics'        => '',
-		'better-amp-additional-css'          => '',
-		'better-amp-featured-va-key'         => '_featured_embed_code',
+		'better-amp-footer-analytics'              => '',
+		'better-amp-additional-css'                => '',
+		'better-amp-featured-va-key'               => '_featured_embed_code',
 		//
-		'better-amp-show-on-front'           => 'posts',
-		'better-amp-page-on-front'           => 0,
+		'better-amp-show-on-front'                 => 'posts',
+		'better-amp-page-on-front'                 => 0,
 		//
-		'better-amp-exclude-urls'            => '',
+		'better-amp-exclude-urls'                  => '',
 	);
 
 	if ( $setting_index ) {
