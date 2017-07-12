@@ -129,6 +129,10 @@ better_amp_the_post();
 
 <?php
 
+if ( better_amp_get_theme_mod( 'better-amp-post-show-related' ) ) {
+	better_amp_template_part( 'views/post/related' );
+}
+
 better_amp_template_part( 'views/post/social-share' );
 
 if ( better_amp_get_theme_mod( 'better-amp-post-show-comment' ) && ( comments_open() || get_comments_number() ) ) { ?>

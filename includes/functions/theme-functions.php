@@ -2781,3 +2781,42 @@ if ( ! function_exists( 'better_amp_is_static_home_page' ) ) {
 		       apply_filters( 'better-amp/template/page-on-front', 0 );
 	}
 }
+
+if ( ! function_exists( 'better_amp_related_posts_query_args' ) ) {
+	/**
+	 * Get WP_Query arguments for related posts
+	 *
+	 * @since 1.5.0
+	 *
+	 * @param int $post_id
+	 *
+	 * @return array
+	 */
+	function better_amp_related_posts_query_args( $post_id = 0 ) {
+
+		$query_args = array();
+
+		if ( ! $post_id ) {
+			$post_id = get_the_ID();
+		}
+
+		if ( $post_cats = wp_get_post_categories( $post_id ) ) {
+			$query_args['category__in'] = $post_cats;
+
+		} else {
+			$tag_in = wp_get_object_terms( $post_id, 'post_tag', array( 'fields' => 'ids' ) );
+
+			if ( $tag_in && ! is_wp_error( $tag_in ) ) {
+				$query_args['tag__in'] = $tag_in;
+			}
+		}
+
+		if ( $query_args ) {
+			
+			$query_args['post__not_in']        = array( $post_id );
+			$query_args['ignore_sticky_posts'] = TRUE;
+		}
+
+		return $query_args;
+	}
+}

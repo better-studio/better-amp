@@ -458,7 +458,21 @@ function better_amp_customize_register( $wp_customizer ) {
 
 
 	/**
-	 * 5.3 Divider
+	 * 5.3 Show Related Posts
+	 */
+	$wp_customizer->add_setting( 'better-amp-post-show-related', array(
+		'default'   => better_amp_get_default_theme_setting( 'better-amp-post-show-related' ),
+		'transport' => 'postMessage',
+	) );
+	$wp_customizer->add_control( new AMP_Customize_Switch_Control( $wp_customizer, 'better-amp-post-show-related', array(
+		'label'    => __( 'Show Related Posts', 'better-amp' ),
+		'section'  => 'better-amp-post-section',
+		'priority' => 4,
+	) ) );
+
+
+	/**
+	 * 5.4 Divider
 	 */
 	$wp_customizer->add_setting( 'better-amp-post-divider-1', array() );
 	$wp_customizer->add_control( new AMP_Customize_Divider_Control( $wp_customizer, 'better-amp-post-divider-1', array(
@@ -467,7 +481,7 @@ function better_amp_customize_register( $wp_customizer ) {
 	) ) );
 
 	/**
-	 * 5.4 Show Share Box
+	 * 5.5 Show Share Box
 	 */
 	$wp_customizer->add_setting( 'better-amp-post-social-share-show', array(
 		'transport' => 'postMessage',
@@ -485,7 +499,7 @@ function better_amp_customize_register( $wp_customizer ) {
 	) );
 
 	/**
-	 * 5.5 Show share count
+	 * 5.6 Show share count
 	 */
 	$wp_customizer->add_setting( 'better-amp-post-social-share-count', array(
 		'transport' => 'postMessage',
@@ -505,7 +519,7 @@ function better_amp_customize_register( $wp_customizer ) {
 
 
 	/**
-	 * 5.6 Social share sorter
+	 * 5.7 Social share sorter
 	 */
 	$wp_customizer->add_setting( 'better-amp-post-social-share', array(
 		'default'   => better_amp_get_default_theme_setting( 'better-amp-post-social-share' ),
@@ -519,7 +533,7 @@ function better_amp_customize_register( $wp_customizer ) {
 
 
 	/**
-	 * 5.7 Social share for page
+	 * 5.8 Social share for page
 	 */
 	$wp_customizer->add_setting( 'better-amp-page-social-share-show', array(
 		'transport' => 'postMessage',
@@ -537,7 +551,7 @@ function better_amp_customize_register( $wp_customizer ) {
 	) );
 
 	/**
-	 * 5.8 Share link format
+	 * 5.9 Share link format
 	 */
 	$wp_customizer->add_setting( 'better-amp-post-social-share-link-format', array(
 		'transport' => 'postMessage',
@@ -556,7 +570,7 @@ function better_amp_customize_register( $wp_customizer ) {
 
 
 	/**
-	 * 5.9 Featured Video/Audio meta key
+	 * 5.10 Featured Video/Audio meta key
 	 */
 	$wp_customizer->add_setting( 'better-amp-featured-va-key', array(
 		'transport' => 'postMessage',

@@ -68,6 +68,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
             });
 
+            c('better-amp-post-show-related', function (value) {
+                value.bind(function (to) {
+                    scrollToEnd();
+                    $(".related-posts-wrapper")[ to === '0' ? 'hide' : 'show' ]();
+                });
+            });
+
             c('better-amp-home-show-slide', function (value) {
                 value.bind(function (to) {
                     $(".homepage-slider")[ to === '0' ? 'hide' : 'show' ]();

@@ -129,7 +129,11 @@ h1, h2, h3, h4, h5, h6,
     font-weight: 500;
     margin: 15px 0 7px;
 }
-
+.heading {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 10px 0;
+}
 
 /*
  * => Header and Navigation
@@ -289,7 +293,56 @@ body.sticky-nav{
     margin-right: 5px;
 }
 
+/*
+ * => Carousel Style
+ */
+.carousel {
+    overflow: hidden;
+}
+.carousel .carousel-item,
+.carousel .img-holder {
+    width: 205px;
+    float: none;
+    margin: 0;
+}
+.carousel .carousel-item {
+    margin-right: 20px;
+    margin-bottom: 20px;
 
+    overflow: hidden;
+
+    line-height: 0;
+}
+.carousel .carousel-item:last-child {
+    margin-right: 0;
+
+}
+.carousel .content-holder {
+    position: relative;
+    bottom: auto;
+    right: auto;
+    top: auto;
+    left: auto;
+
+    background: #f8f8f8;
+    border: 1px solid #e2e2e2;
+    border-top-width: 0;
+
+    float: left;
+    white-space: normal;
+    padding: 15px;
+    height: 100px;
+}
+.carousel .content-holder h3 {
+    margin: 0;
+}
+.carousel .content-holder a {
+    line-height: 20px;
+    font-size: 15px;
+
+    color: #000;
+    text-decoration: none;
+}
 /*
  * => BetterStudio Themes Style
  */
