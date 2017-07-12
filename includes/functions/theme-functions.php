@@ -19,6 +19,7 @@ $GLOBALS['better_amp_theme_core_query'] = NULL;
 if ( ! function_exists( 'better_amp_locate_template' ) ) {
 	/**
 	 * Retrieve the name of the highest priority amp template file that exists.
+	 *
 	 * @see   locate_template for more doc
 	 *
 	 * @param string|array $template_names Template file(s) to search for, in order.
@@ -648,6 +649,7 @@ if ( ! function_exists( 'better_amp_head' ) ) {
 	 * @since 1.0.0
 	 */
 	function better_amp_head() {
+
 		do_action( 'better-amp/template/head' );
 	}
 }
@@ -660,6 +662,7 @@ if ( ! function_exists( 'better_amp_footer' ) ) {
 	 * @since 1.0.0
 	 */
 	function better_amp_footer() {
+
 		do_action( 'better-amp/template/footer' );
 	}
 }
@@ -674,6 +677,7 @@ if ( ! function_exists( 'better_amp_body_class' ) ) {
 	 * @since 1.0.0
 	 */
 	function better_amp_body_class( $class = '' ) {
+
 		echo 'class="' . join( ' ', get_body_class( $class ) ) . '"';
 	}
 }
@@ -759,6 +763,7 @@ if ( ! function_exists( 'better_amp_get_template_info' ) ) {
 	 * Get active amp theme information
 	 *
 	 * array {
+	 *
 	 * @type string     $Version      Template Semantic Version  Number {@link http://semver.org/}
 	 * @type string     $ScreenShot   -optional: screenshot.png- Relative Path to ScreenShot.
 	 * @type int|string $MaxWidth     -optional:600- Maximum Template Container Width.
@@ -775,6 +780,7 @@ if ( ! function_exists( 'better_amp_get_template_info' ) ) {
 	 * @return array
 	 */
 	function better_amp_get_template_info() {
+
 		return wp_parse_args(
 			apply_filters( 'better-amp/template/active-template', array() ),
 			array(
@@ -832,6 +838,7 @@ if ( ! function_exists( 'better_amp_guess_height' ) ) {
 	 * @return int
 	 */
 	function better_amp_guess_height() {
+
 		return better_amp_get_container_width() * 0.75;
 	}
 }
@@ -885,6 +892,7 @@ if ( ! function_exists( 'better_amp_hw_attr' ) ) {
 	 * @return int
 	 */
 	function better_amp_hw_attr( $width = '', $height = '' ) {
+
 		echo better_amp_get_hw_attr( $width, $height );
 	}
 }
@@ -910,6 +918,27 @@ if ( ! function_exists( 'better_amp_get_comment_link' ) ) {
 	}
 }
 
+if ( ! function_exists( 'better_amp_comment_reply_link' ) ) {
+	/**
+	 * Retrieve the HTML content for reply to comment link.
+	 *
+	 * @param array $args @see comment_reply_link for documentation
+	 *
+	 * @since 1.5.0
+	 * @return void|false|string
+	 */
+	function better_amp_comment_reply_link( $args = array() ) {
+
+		$current_value                                      = Better_AMP_Content_Sanitizer::$enable_url_transform;
+		Better_AMP_Content_Sanitizer::$enable_url_transform = FALSE;
+
+		$result                                             = comment_reply_link( $args );
+		Better_AMP_Content_Sanitizer::$enable_url_transform = $current_value;
+
+		return $result;
+	}
+}
+
 
 if ( ! function_exists( 'better_amp_comment_link' ) ) {
 	/**
@@ -920,6 +949,7 @@ if ( ! function_exists( 'better_amp_comment_link' ) ) {
 	 * @return int
 	 */
 	function better_amp_comment_link() {
+
 		echo esc_attr( better_amp_get_comment_link() );
 	}
 }
@@ -984,7 +1014,7 @@ if ( ! function_exists( 'better_amp_get_canonical_url' ) ) {
 				}
 			}
 
-		} else if ( is_search() ) {
+		} elseif ( is_search() ) {
 
 			$search_query = get_search_query();
 
@@ -1240,6 +1270,7 @@ if ( ! function_exists( 'better_amp_fix_customizer_statics' ) ) {
  * Better-AMP Template functions
  *
  * We used wordpress core functions and renamed some get_* functions to better_amp_*
+ *
  * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
  * @see  wp-includes/template.php
  *
@@ -1313,6 +1344,7 @@ if ( ! function_exists( 'better_amp_404_template' ) ) {
 	 * @return string Full path to 404 template file.
 	 */
 	function better_amp_404_template() {
+
 		return better_amp_locate_template( '404.php' );
 	}
 }
@@ -1329,6 +1361,7 @@ if ( ! function_exists( 'better_amp_search_template' ) ) {
 	 * @return string Full path to search template file.
 	 */
 	function better_amp_search_template() {
+
 		return better_amp_locate_template( 'search.php' );
 	}
 }
@@ -1345,6 +1378,7 @@ if ( ! function_exists( 'better_amp_front_page_template' ) ) {
 	 * @return string Full path to front page template file.
 	 */
 	function better_amp_front_page_template() {
+
 		return better_amp_locate_template( 'front-page.php' );
 	}
 }
@@ -1379,6 +1413,7 @@ if ( ! function_exists( 'better_amp_home_template' ) ) {
 	 * @return string Full path to home template file.
 	 */
 	function better_amp_home_template() {
+
 		$templates = array( 'home.php', 'index.php' );
 
 		return better_amp_locate_template( $templates );
@@ -1593,6 +1628,7 @@ if ( ! function_exists( 'better_amp_singular_template' ) ) {
 	 * @return string Full path to singular template file
 	 */
 	function better_amp_singular_template() {
+
 		return better_amp_locate_template( 'singular.php' );
 	}
 }
@@ -1688,6 +1724,7 @@ if ( ! function_exists( 'better_amp_date_template' ) ) {
 	 * @return string Full path to date template file.
 	 */
 	function better_amp_date_template() {
+
 		return better_amp_locate_template( 'date.php' );
 	}
 }
@@ -1702,6 +1739,7 @@ if ( ! function_exists( 'better_amp_paged_template' ) ) {
 	 * @return string Full path to paged template file.
 	 */
 	function better_amp_paged_template() {
+
 		return better_amp_locate_template( 'paged.php' );
 	}
 }
@@ -1716,6 +1754,7 @@ if ( ! function_exists( 'better_amp_index_template' ) ) {
 	 * @return string Full path to index template file.
 	 */
 	function better_amp_index_template() {
+
 		return better_amp_locate_template( 'index.php' );
 	}
 }
@@ -1750,6 +1789,7 @@ if ( ! function_exists( 'better_amp_template_part' ) ) {
 	 * @since 1.0.0
 	 */
 	function better_amp_template_part( $slug, $name = NULL ) {
+
 		$templates = array();
 		$name      = (string) $name;
 		if ( '' !== $name ) {
@@ -1772,6 +1812,7 @@ if ( ! function_exists( 'better_amp_get_search_page_url' ) ) {
 	 * @return string
 	 */
 	function better_amp_get_search_page_url() {
+
 		return esc_url( add_query_arg( 's', '', better_amp_site_url() ) );
 	}
 }
@@ -1829,6 +1870,7 @@ if ( ! function_exists( 'better_amp_element_uni_id' ) ) {
 	 * @return string
 	 */
 	function better_amp_element_uni_id() {
+
 		return uniqid( 'element-' . rand() . '-' );
 	}
 }
@@ -2381,14 +2423,14 @@ if ( ! function_exists( 'better_amp_social_shares_count' ) ) {
 		}
 
 		$sites = array_intersect_key( $sites, array( // Valid sites
-			'facebook'    => '',
-			'twitter'     => '',
-			'google_plus' => '',
-			'pinterest'   => '',
-			'linkedin'    => '',
-			'tumblr'      => '',
-			'reddit'      => '',
-			'stumbleupon' => '',
+		                                             'facebook'    => '',
+		                                             'twitter'     => '',
+		                                             'google_plus' => '',
+		                                             'pinterest'   => '',
+		                                             'linkedin'    => '',
+		                                             'tumblr'      => '',
+		                                             'reddit'      => '',
+		                                             'stumbleupon' => '',
 		) );
 
 		// Disable social share in localhost
@@ -2703,6 +2745,7 @@ if ( ! function_exists( 'better_amp_customizer_hidden_attr' ) ) {
 	 * @param $theme_mod
 	 */
 	function better_amp_customizer_hidden_attr( $theme_mod ) {
+
 		if ( better_amp_is_customize_preview() && ! better_amp_get_theme_mod( $theme_mod, FALSE ) ) {
 			echo ' style="display:none"';
 		}
@@ -2716,6 +2759,7 @@ if ( ! function_exists( 'better_amp_language_attributes' ) ) {
 	 * @since 1.0.0
 	 */
 	function better_amp_language_attributes() {
+
 		$attributes = array();
 
 		if ( function_exists( 'is_rtl' ) && is_rtl() ) {
@@ -2724,6 +2768,7 @@ if ( ! function_exists( 'better_amp_language_attributes' ) ) {
 
 		if ( $lang = get_bloginfo( 'language' ) ) {
 			$attributes[] = "lang=\"$lang\"";
+
 		}
 
 		$output = implode( ' ', $attributes );
@@ -2768,7 +2813,6 @@ if ( ! function_exists( 'better_amp_get_post_parent' ) ) {
 }
 
 if ( ! function_exists( 'better_amp_is_static_home_page' ) ) {
-
 	/**
 	 * Is current page static home page
 	 *
@@ -2779,6 +2823,89 @@ if ( ! function_exists( 'better_amp_is_static_home_page' ) ) {
 
 		return is_home() && apply_filters( 'better-amp/template/show-on-front', 'posts' ) === 'page' &&
 		       apply_filters( 'better-amp/template/page-on-front', 0 );
+	}
+}
+
+if ( ! function_exists( 'better_amp_comments_template' ) ) {
+	/**
+	 * Retrieves comments template path in the current or parent template.
+	 *
+	 * @since 1.5.0
+	 */
+	function better_amp_comments_template() {
+
+		better_amp_locate_template( 'comments.php', TRUE );
+	}
+}
+
+if ( ! function_exists( 'better_amp_list_comments' ) ) {
+	/**
+	 * List comments for a particular post.
+	 *
+	 * @see   wp_list_comments for more documentation
+	 *
+	 * @param string|array $args               wp_list_comments first argument
+	 * @param array        $comment_query_args comment query arguments
+	 *
+	 * @return string|void
+	 * @since 1.5.0
+	 *
+	 */
+	function better_amp_list_comments( $args = array(), $comment_query_args = array() ) {
+
+		$comment_args = array(
+			'orderby'       => 'comment_date_gmt',
+			'order'         => 'ASC',
+			'status'        => 'approve',
+			'post_id'       => get_the_ID(),
+			'no_found_rows' => FALSE,
+		);
+
+		if ( empty( $args['callback'] ) && better_amp_locate_template( 'comment-item.php' ) ) {
+			$args['callback']     = 'better_amp_comment_item';
+			$args['end-callback'] = 'better_amp_comment_item_end';
+		}
+
+		$comments = new WP_Comment_Query( array_merge( $comment_args, $comment_query_args ) );
+
+		return wp_list_comments( $args, $comments->comments );
+	}
+}
+
+
+if ( ! function_exists( 'better_amp_comment_item' ) ) {
+
+	/**
+	 * Load comment-item.php file in the current or parent template.
+	 *
+	 * @since 1.5.0
+	 *
+	 * @param WP_Comment_Query $comment
+	 */
+	function better_amp_comment_item( $comment ) {
+
+		static $path;
+
+		if ( is_null( $path ) ) {
+			$path = better_amp_locate_template( 'comment-item.php' );
+		}
+
+		if ( $path ) {
+			include $path;
+		}
+	}
+}
+
+
+if ( ! function_exists( 'better_amp_comment_item_end' ) ) {
+	/**
+	 * Print li closing tag
+	 *
+	 * @since 1.5.0
+	 */
+	function better_amp_comment_item_end() {
+
+		echo '</li>';
 	}
 }
 

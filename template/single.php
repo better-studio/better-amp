@@ -137,22 +137,28 @@ better_amp_template_part( 'views/post/social-share' );
 
 if ( better_amp_get_theme_mod( 'better-amp-post-show-comment' ) && ( comments_open() || get_comments_number() ) ) { ?>
 	<div class="comments-wrapper"<?php better_amp_customizer_hidden_attr( 'better-amp-post-show-comment' ) ?>>
+		<div class="comment-header clearfix">
 
-		<div class="comments-label strong-label">
-			<i class="fa fa-comments" aria-hidden="true"></i>
-			<?php better_amp_translation_echo( 'comments' ); ?>
+			<div class="comments-label strong-label">
+				<i class="fa fa-comments" aria-hidden="true"></i>
+				<?php better_amp_translation_echo( 'comments' ); ?>
 
-			<span class="counts-label">(<?php echo number_format_i18n( get_comments_number() ); ?>)</span>
+				<span class="counts-label">(<?php echo number_format_i18n( get_comments_number() ); ?>)</span>
 
+			</div>
+
+			<a href="<?php better_amp_comment_link() ?>"
+			   class="button add-comment"><?php better_amp_translation_echo( 'add_comment' ); ?></a>
 		</div>
 
-		<a href="<?php better_amp_comment_link() ?>"
-		   class="button add-comment"><?php better_amp_translation_echo( 'add_comment' ); ?></a>
+		<ul class="comment-list">
+			<?php  better_amp_list_comments(); ?>
+		</ul>
 	</div>
 	<?php
-
 }
 
 better_amp_show_ad_location( 'amp_post_comment_after' );
+
 
 better_amp_get_footer();

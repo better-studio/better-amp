@@ -33,6 +33,22 @@ blockquote:before {
 
 
 /*
+ * => Comments
+ */
+
+.comment .column-1 {
+    float: right;
+}
+.comment .column-2 {
+    padding-right: 75px;
+    padding-left: 0;
+}
+.comment .comment-footer a, .comment .comment-footer .fa {
+    float: right;
+    margin-left: 10px;
+    line-height: 18px;
+}
+/*
  * => Footer
  */
 .footer-navigation .fa {

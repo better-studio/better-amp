@@ -455,6 +455,25 @@ if ( ! function_exists( 'better_amp_translation_fields' ) ) {
 			'title'   => 'Related Posts',
 			'default' => 'Related Posts',
 		);
+		//
+		$fields['comments_edit']     = array(
+			'id'      => 'comments_edit',
+			'type'    => 'text',
+			'title'   => 'Edit Comment',
+			'default' => 'Edit',
+		);
+		$fields['comments_reply']    = array(
+			'id'      => 'comments_reply',
+			'type'    => 'text',
+			'title'   => 'Reply',
+			'default' => 'Reply',
+		);
+		$fields['comments_reply_to'] = array(
+			'id'      => 'comments_reply_to',
+			'type'    => 'text',
+			'title'   => 'Reply To %s',
+			'default' => 'Reply To %s',
+		);
 
 
 		$fields['asides']    = array(
@@ -642,6 +661,9 @@ if ( ! function_exists( 'better_amp_translation_stds' ) ) {
 		$std['browsing_product_category'] = 'Browsing shop category';
 		$std['browsing_product_tag']      = 'Browsing shop tag';
 		$std['related_posts']             = 'Related Posts';
+		$std['comments_edit']             = 'Edit';
+		$std['comments_reply']            = 'Reply';
+		$std['comments_reply_to']         = 'Reply To %s';
 
 		$std['asides']    = 'Asides';
 		$std['galleries'] = 'Galleries';
