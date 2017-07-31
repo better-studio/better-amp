@@ -62,7 +62,7 @@ better_amp_the_post();
 			$author_ID = get_the_author_meta( 'ID' );
 
 			?>
-			<a href="<?php echo esc_url( get_author_posts_url( $author_ID ) ); ?>"
+			<a href="<?php echo get_author_posts_url( $author_ID ); ?>"
 			   title="<?php better_amp_translation_echo( 'browse_author_articles' ); ?>"
 			   class="post-author-avatar"><?php echo get_avatar( $author_ID, 26 ); ?></a><?php
 
