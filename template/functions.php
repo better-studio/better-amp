@@ -128,6 +128,7 @@ function better_amp_get_default_theme_setting( $setting_id, $setting_index = '' 
 		//
 		'better-amp-post-show-thumbnail'           => TRUE,
 		'better-amp-post-show-comment'             => TRUE,
+		'better-amp-post-show-related'             => TRUE,
 		'better-amp-post-social-share-show'        => 'show',
 		'better-amp-page-social-share-show'        => 'show',
 		'better-amp-post-social-share-count'       => 'total',
@@ -183,6 +184,7 @@ function better_amp_get_default_theme_setting( $setting_id, $setting_index = '' 
 include BETTER_AMP_PATH . 'template/customizer/customizer.php';
 
 function better_amp_default_theme_logo() {
+
 	ob_start();
 	$site_branding = better_amp_get_branding_info();
 	?>
@@ -204,6 +206,7 @@ function better_amp_default_theme_logo() {
 }
 
 function better_amp_default_theme_sidebar_logo() {
+
 	ob_start();
 	$site_branding = better_amp_get_branding_info( 'sidebar' );
 	?>
@@ -446,6 +449,31 @@ if ( ! function_exists( 'better_amp_translation_fields' ) ) {
 			'title'   => 'Browsing shop tag',
 			'default' => 'Browsing shop tag',
 		);
+		$fields['related_posts']             = array(
+			'id'      => 'related_posts',
+			'type'    => 'text',
+			'title'   => 'Related Posts',
+			'default' => 'Related Posts',
+		);
+		//
+		$fields['comments_edit']     = array(
+			'id'      => 'comments_edit',
+			'type'    => 'text',
+			'title'   => 'Edit Comment',
+			'default' => 'Edit',
+		);
+		$fields['comments_reply']    = array(
+			'id'      => 'comments_reply',
+			'type'    => 'text',
+			'title'   => 'Reply',
+			'default' => 'Reply',
+		);
+		$fields['comments_reply_to'] = array(
+			'id'      => 'comments_reply_to',
+			'type'    => 'text',
+			'title'   => 'Reply To %s',
+			'default' => 'Reply To %s',
+		);
 
 
 		$fields['asides']    = array(
@@ -602,6 +630,7 @@ if ( ! function_exists( 'better_amp_translation_stds' ) ) {
 	 * @return array
 	 */
 	function better_amp_translation_stds( $std = array() ) {
+
 		$std['prev']                     = 'Previous';
 		$std['next']                     = 'Next';
 		$std['page']                     = 'Page';
@@ -631,6 +660,10 @@ if ( ! function_exists( 'better_amp_translation_stds' ) ) {
 		$std['browsing_daily']            = 'Browsing daily archive';
 		$std['browsing_product_category'] = 'Browsing shop category';
 		$std['browsing_product_tag']      = 'Browsing shop tag';
+		$std['related_posts']             = 'Related Posts';
+		$std['comments_edit']             = 'Edit';
+		$std['comments_reply']            = 'Reply';
+		$std['comments_reply_to']         = 'Reply To %s';
 
 		$std['asides']    = 'Asides';
 		$std['galleries'] = 'Galleries';
