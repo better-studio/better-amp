@@ -2909,41 +2909,84 @@ if ( ! function_exists( 'better_amp_comment_item_end' ) ) {
 	}
 }
 
+
 if ( ! function_exists( 'better_amp_related_posts_query_args' ) ) {
 	/**
-	 * Get WP_Query arguments for related posts
+	 * Get Related Posts
 	 *
-	 * @since 1.5.0
+	 * @param integer      $count  number of posts to return
+	 * @param string       $type
+	 * @param integer|null $post_id
+	 * @param array        $params query extra arguments
 	 *
-	 * @param int $post_id
-	 *
-	 * @return array
+	 * @return array  query args array
 	 */
-	function better_amp_related_posts_query_args( $post_id = 0 ) {
+	function better_amp_related_posts_query_args( $count = 5, $type = 'cat', $post_id = NULL, $params = array() ) {
 
-		$query_args = array();
+		$post = get_post( $post_id );
 
-		if ( ! $post_id ) {
-			$post_id = get_the_ID();
+		if ( ! $post_id && isset( $post->ID ) ) {
+			$post_id = $post->ID;
 		}
 
-		if ( $post_cats = wp_get_post_categories( $post_id ) ) {
-			$query_args['category__in'] = $post_cats;
+		$args = array(
+			'posts_per_page'      => $count,
+			'post__not_in'        => array( $post_id ),
+			'ignore_sticky_posts' => TRUE,
+		);
 
-		} else {
-			$tag_in = wp_get_object_terms( $post_id, 'post_tag', array( 'fields' => 'ids' ) );
+		switch ( $type ) {
 
-			if ( $tag_in && ! is_wp_error( $tag_in ) ) {
-				$query_args['tag__in'] = $tag_in;
-			}
+			case 'cat':
+				$args['category__in'] = wp_get_post_categories( $post_id );
+				break;
+
+			case 'tag':
+				$tag_in = wp_get_object_terms( $post_id, 'post_tag', array( 'fields' => 'ids' ) );
+				if ( $tag_in && ! is_wp_error( $tag_in ) ) {
+
+					$args['tag__in'] = $tag_in;
+				}
+				break;
+
+			case 'author':
+				if ( isset( $post->post_author ) ) {
+					$args['author'] = $post->post_author;
+				}
+				break;
+
+			case 'cat-tag':
+				$args['category__in'] = wp_get_post_categories( $post_id );
+				$args['tag__in']      = wp_get_object_terms( $post_id, 'post_tag', array( 'fields' => 'ids' ) );
+				break;
+
+			case 'cat-tag-author':
+				$args['category__in'] = wp_get_post_categories( $post_id );
+
+				if ( isset( $post->post_author ) ) {
+					$args['author'] = $post->post_author;
+				}
+
+				$tag_in = wp_get_object_terms( $post_id, 'post_tag', array( 'fields' => 'ids' ) );
+
+				if ( $tag_in && ! is_wp_error( $tag_in ) ) {
+					$args['tag__in'] = $tag_in;
+				}
+				break;
+
+			case 'rand':
+			case 'random':
+			case 'randomly':
+				$args['orderby'] = 'rand';
+				break;
+
 		}
 
-		if ( $query_args ) {
-			
-			$query_args['post__not_in']        = array( $post_id );
-			$query_args['ignore_sticky_posts'] = TRUE;
+		if ( $params ) {
+			$args = array_merge( $args, $params );
 		}
 
-		return $query_args;
-	}
-}
+		return $args;
+
+	} // better_amp_related_posts_query_args
+} // if

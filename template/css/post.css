@@ -48,24 +48,22 @@
     border: 1px solid #e2e2e2;
     background: #fff;
     margin: 15px 0 20px;
-    padding: 12px 8px 12px 12px;
+    padding: 16px 8px 16px 12px;
     position: relative;
     line-height: 18px;
 }
 .comments-wrapper .comments-label {
     display: inline-block;
+    line-height: 32px;
 }
 .comments-wrapper .counts-label {
     color: #929292;
 }
 .comments-wrapper  .button.add-comment {
     float: right;
-    margin-top: -5px;
+    margin-top: 0;
     line-height: 30px;
     padding: 0 17px;
     font-size: 12px;
     border-radius: 33px;
-}
-.social-list-wrapper + .comments-wrapper {
-    margin-top: -16px;
 }

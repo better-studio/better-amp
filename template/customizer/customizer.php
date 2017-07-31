@@ -469,7 +469,33 @@ function better_amp_customize_register( $wp_customizer ) {
 		'section'  => 'better-amp-post-section',
 		'priority' => 4,
 	) ) );
-
+	$wp_customizer->add_setting( 'better-amp-post-related-algorithm', array(
+		'default'   => better_amp_get_default_theme_setting( 'better-amp-post-related-algorithm' ),
+		'transport' => 'postMessage',
+	) );
+	$wp_customizer->add_control( 'better-amp-post-related-algorithm', array(
+		'label'    => __( 'Related Posts Algorithm', 'better-amp' ),
+		'section'  => 'better-amp-post-section',
+		'priority' => 5,
+		'type'     => 'select',
+		'choices'  => array(
+			'cat'            => __( 'by Category', 'better-amp' ),
+			'tag'            => __( 'by Tag', 'better-amp' ),
+			'author'         => __( 'by Author', 'better-amp' ),
+			'cat-tag'        => __( 'by Category & Tag', 'better-amp' ),
+			'cat-tag-author' => __( 'by Category, Tag & Author', 'better-amp' ),
+			'random'         => __( 'Randomly', 'better-amp' ),
+		)
+	) );
+	$wp_customizer->add_setting( 'better-amp-post-related-count', array(
+		'default'   => better_amp_get_default_theme_setting( 'better-amp-post-related-count' ),
+		'transport' => 'postMessage',
+	) );
+	$wp_customizer->add_control( new AMP_Customize_Switch_Control( $wp_customizer, 'better-amp-post-related-count', array(
+		'label'    => __( 'Related Posts Count', 'better-amp' ),
+		'section'  => 'better-amp-post-section',
+		'priority' => 4,
+	) ) );
 
 	/**
 	 * 5.4 Divider
@@ -828,7 +854,7 @@ function better_amp_customize_register( $wp_customizer ) {
 		'type'        => 'textarea',
 		'description' => sprintf(
 			__( 'You can exclude URL\'s of your site to prevent converting them into AMP URL inside your site. You can use * in the end of URL to exclude all URL\'s that start with it. Eg. <strong>%stest/*</strong><br><br> You can add multiple URL\s in multiple lines.', 'better-amp' ),
-			home_url('/')
+			home_url( '/' )
 		),
 	) );
 }

@@ -335,20 +335,27 @@ body.sticky-nav{
 }
 .carousel .content-holder h3 {
     margin: 0;
+    height: 64px;
+    overflow: hidden;
+    position: relative;
 }
 .carousel .content-holder a {
     line-height: 20px;
     font-size: 15px;
-
     color: #000;
     text-decoration: none;
 }
+
 /*
  * => Comments Style
  */
 .comment-header {
-    margin-bottom: 7px;
+    margin-bottom: 14px;
 }
+.comment-header:last-child{
+    margin-bottom: 0;
+}
+
 .comment-list {
     margin: 0;
     padding: 0;
@@ -356,14 +363,16 @@ body.sticky-nav{
 .comment-list,
 .comment-list ul {
     list-style: none;
+    padding: 0;
+}
+.comment-list ul ul{
+    padding: 0 0 0 30px;
 }
 .comment-list .comment {
     position: relative;
-    margin-top:20px;
-}
-.comment-list>.comment {
-    padding-top:25px;
-    border-top:1px solid #e5e5e5;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid #f3f3f3;
 }
 .comment-list>.comment:first-child {
     margin-top: 0;
@@ -385,22 +394,23 @@ body.sticky-nav{
 }
 .comment .comment-content {
     color: #838383;
-    font-size: 14px;
-    line-height: 1.57;
-
-    margin-top: 15px;
+    margin-top: 8px;
     line-height: 1.57;
     font-size: 14px;
 }
+.comment .comment-content p:last-child{
+    margin-bottom: 0;
+}
 .comment .comment-author {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 700;
     font-style: normal;
 }
 .comment .comment-published {
-    margin-left: 25px;
+    margin-left: 10px;
     font-size: 12px;
     color: #a2a2a2;
+    font-style: italic;
 }
 .comment .comment-footer a,
 .comment .comment-footer .fa {
@@ -413,6 +423,8 @@ body.sticky-nav{
 .comments-wrapper  .button.add-comment {
     color: #555;
 }
+
+
 /*
  * => BetterStudio Themes Style
  */

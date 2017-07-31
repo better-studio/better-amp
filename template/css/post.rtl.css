@@ -8,11 +8,41 @@
 
 
 /*
- * --> Post comments
+ * => Carousel Style
  */
-.comments-wrapper {
-    padding: 12px 12px 12px 8px;
+.carousel .carousel-item {
+    margin-left: 20px;
+    margin-right: auto;
 }
-.comments-wrapper  .button.add-comment {
-    float: left;
+.carousel .carousel-item:last-child {
+    margin-left: 0;
+    margin-right: auto;
+}
+.carousel .content-holder {
+    left: auto;
+    right: auto;
+    float: right;
+}
+
+
+/*
+ * => Comments Style
+ */
+.comment-list ul ul {
+    padding: 0 30px 0 0;
+}
+.comment .column-1 {
+    float: right;
+}
+.comment .column-2 {
+    padding-right: 75px;
+    padding-left: 0;
+}
+.comment .comment-published {
+    margin-right: 10px;
+    margin-left: auto;
+}
+.comment .comment-footer a+a {
+    margin-right: 10px;
+    margin-left: auto;
 }
