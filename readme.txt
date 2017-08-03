@@ -3,8 +3,8 @@ Contributors: betterstudio
 Donate link: http://betterstudio.com/
 Tags: amp,accelerated mobile pages, mobile theme, google amp
 Requires at least: 3.0
-Tested up to: 4.7.2
-Stable tag: 4.7.2
+Tested up to: 4.8.0
+Stable tag: 4.8.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -50,6 +50,23 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 5. Page (Contact page) + 404 page
 
 == Changelog ==
+
+= 1.5.0 =
+- Added: Related posts added (6 algorithm to show related posts)
+- Added: Comments will be shown in AMP.
+- Added: Option to change share links to short/normal link.
+- Added: CSS validator added for custom css and element css!
+- Added: "WP Speed Grades" plugin compatibility added.
+- Added: "WP-Optimize" plugin compatibility.
+- Added: "Speed Booster Pack" plugin compatibility.
+- Added: NextGEN Gallery Support
+
+- Fixed: Incorrect AMP Author Avatar url (plugin conflict).
+- Fixed: iFrames height not comes from iFrame tag!
+- Fixed: Posts "hentry" class removed for better SEO results.
+- Fixed: "Auto URL Convertor" field description fixed.
+- Fixed: Exclude auto convert link only works for one pattern!
+
 
 = 1.4.0 =
 - Added: AMP "Above The Fold" plugin compatibility added.
