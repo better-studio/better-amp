@@ -43,7 +43,7 @@ better_amp_the_post();
 
 			?>
 			<div
-				class="post-thumbnail embeded" <?php better_amp_customizer_hidden_attr( 'better-amp-post-show-thumbnail' ) ?>>
+					class="post-thumbnail embeded" <?php better_amp_customizer_hidden_attr( 'better-amp-post-show-thumbnail' ) ?>>
 				<?php echo $embeded['content'] ?>
 			</div>
 			<?php
@@ -51,7 +51,7 @@ better_amp_the_post();
 
 		if ( $show_image_thumbnail && has_post_thumbnail() ) { ?>
 			<div
-				class="post-thumbnail" <?php better_amp_customizer_hidden_attr( 'better-amp-post-show-thumbnail' ) ?>>
+					class="post-thumbnail" <?php better_amp_customizer_hidden_attr( 'better-amp-post-show-thumbnail' ) ?>>
 				<?php better_amp_the_post_thumbnail( 'better-amp-large' ); ?>
 			</div>
 		<?php } ?>
@@ -129,11 +129,11 @@ better_amp_the_post();
 
 <?php
 
+better_amp_template_part( 'views/post/social-share' );
+
 if ( better_amp_get_theme_mod( 'better-amp-post-show-related' ) ) {
 	better_amp_template_part( 'views/post/related' );
 }
-
-better_amp_template_part( 'views/post/social-share' );
 
 if ( better_amp_get_theme_mod( 'better-amp-post-show-comment' ) && ( comments_open() || get_comments_number() ) ) { ?>
 	<div class="comments-wrapper"<?php better_amp_customizer_hidden_attr( 'better-amp-post-show-comment' ) ?>>
@@ -152,7 +152,7 @@ if ( better_amp_get_theme_mod( 'better-amp-post-show-comment' ) && ( comments_op
 		</div>
 
 		<ul class="comment-list">
-			<?php  better_amp_list_comments(); ?>
+			<?php better_amp_list_comments(); ?>
 		</ul>
 	</div>
 	<?php
