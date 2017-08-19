@@ -457,7 +457,10 @@ if ( ! function_exists( 'better_amp_translation_fields' ) ) {
 			'title'   => 'Related Posts',
 			'default' => 'Related Posts',
 		);
-		//
+
+		/**
+		 * Comments Texts
+		 */
 		$fields['comments_edit']     = array(
 			'id'      => 'comments_edit',
 			'type'    => 'text',
@@ -475,6 +478,30 @@ if ( ! function_exists( 'better_amp_translation_fields' ) ) {
 			'type'    => 'text',
 			'title'   => 'Reply To %s',
 			'default' => 'Reply To %s',
+		);
+		$fields['comments'] = array(
+			'id'      => 'comments',
+			'type'    => 'text',
+			'title'   => 'Comments',
+			'default' => 'Comments',
+		);
+		$fields['comment_previous'] = array(
+			'id'      => 'comment_previous',
+			'type'    => 'text',
+			'title'   => 'Previous',
+			'default' => 'Previous',
+		);
+		$fields['comment_next'] = array(
+			'id'      => 'comment_next',
+			'type'    => 'text',
+			'title'   => 'Next',
+			'default' => 'Next',
+		);
+		$fields['comment_page_numbers'] = array(
+			'id'      => 'comment_page_numbers',
+			'type'    => 'text',
+			'title'   => 'Page %1$s of %2$s',
+			'default' => 'Page %1$s of %2$s',
 		);
 
 
@@ -639,7 +666,6 @@ if ( ! function_exists( 'better_amp_translation_stds' ) ) {
 		$std['page_of']                  = 'of %d';
 		$std['by_on']                    = 'By %s1 on %s2';
 		$std['browse_author_articles']   = 'Browse Author Articles';
-		$std['comments']                 = 'Comments';
 		$std['add_comment']              = 'Add Comment';
 		$std['share']                    = 'Share';
 		$std['header']                   = 'Header';
@@ -663,9 +689,6 @@ if ( ! function_exists( 'better_amp_translation_stds' ) ) {
 		$std['browsing_product_category'] = 'Browsing shop category';
 		$std['browsing_product_tag']      = 'Browsing shop tag';
 		$std['related_posts']             = 'Related Posts';
-		$std['comments_edit']             = 'Edit';
-		$std['comments_reply']            = 'Reply';
-		$std['comments_reply_to']         = 'Reply To %s';
 
 		$std['asides']    = 'Asides';
 		$std['galleries'] = 'Galleries';
@@ -677,6 +700,18 @@ if ( ! function_exists( 'better_amp_translation_stds' ) ) {
 		$std['audio']     = 'Audio';
 		$std['chats']     = 'Chats';
 
+
+		/**
+		 * Comments Texts
+		 */
+
+		$std['comments_edit']        = 'Edit';
+		$std['comments_reply']       = 'Reply';
+		$std['comments_reply_to']    = 'Reply To %s';
+		$std['comments']             = 'Comments';
+		$std['comment_previous']     = 'Previous';
+		$std['comment_next']         = 'Next';
+		$std['comment_page_numbers'] = 'Page %1$s of %2$s';
 
 		/**
 		 * Attachment Texts

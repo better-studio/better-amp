@@ -80,7 +80,8 @@ blockquote:before {
     left: 12px;
     top: 17px;
 }
-.button,.pagination a {
+.button,.pagination a,
+.comments-pagination a{
     padding: 6px 15px;
     border: 1px solid #d7d7d7;
     background: #faf9f9;
@@ -94,6 +95,16 @@ blockquote:before {
 }
 .pagination a{
     padding: 0px 15px;
+}
+.comments-pagination {
+    margin: 10px 0;
+}
+.comments-pagination a {
+    margin-right: 5px;
+}
+.comments-pagination {
+    color: #adadad;
+    font-size:small;
 }
 .img-holder{
     position: relative;

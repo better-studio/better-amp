@@ -2847,17 +2847,22 @@ if ( ! function_exists( 'better_amp_list_comments' ) ) {
 	 * @param string|array $args               wp_list_comments first argument
 	 * @param array        $comment_query_args comment query arguments
 	 *
+	 * @global WP_Query    $wp_query           Global WP_Query instance.
 	 * @return string|void
 	 * @since 1.5.0
 	 *
 	 */
 	function better_amp_list_comments( $args = array(), $comment_query_args = array() ) {
 
+		global $wp_query;
+
+		$post_id = get_the_ID();
+
 		$comment_args = array(
 			'orderby'       => 'comment_date_gmt',
 			'order'         => 'ASC',
 			'status'        => 'approve',
-			'post_id'       => get_the_ID(),
+			'post_id'       => $post_id,
 			'no_found_rows' => FALSE,
 		);
 
@@ -2868,7 +2873,47 @@ if ( ! function_exists( 'better_amp_list_comments' ) ) {
 
 		$comments = new WP_Comment_Query( array_merge( $comment_args, $comment_query_args ) );
 
-		return wp_list_comments( $args, $comments->comments );
+		/**
+		 * Filters the comments array.
+		 *
+		 * @see comments_template
+		 *
+		 * @param array $comments Array of comments supplied to the comments template.
+		 * @param int   $post_ID  Post ID.
+		 */
+		$comments_list = apply_filters( 'comments_array', $comments->comments, $post_id );
+
+		// Save comments list to comments property of the main query to enable wordpress core
+		// function such as get_next_comments_link works in comments page
+		$wp_query->comments = $comments_list;
+
+		return wp_list_comments( $args );
+	}
+}
+
+if ( ! function_exists( 'better_amp_comments_paginate' ) ) {
+	/**
+	 * Displays pagination links for the comments on the current post.
+	 *
+	 * @see   wp_list_comments for more documentation
+	 *
+	 * @since 1.5.0
+	 *
+	 */
+	function better_amp_comments_paginate() {
+
+		// Nav texts with RTL support
+		if ( is_rtl() ) {
+			$prev = '<i class="fa fa-angle-double-right"></i> ' . better_amp_translation_get( 'comment_previous' );
+			$next = better_amp_translation_get( 'comment_next' ) . ' <i class="fa fa-angle-double-left"></i>';
+		} else {
+			$next = better_amp_translation_get( 'comment_next' ) . ' <i class="fa fa-angle-double-right"></i>';
+			$prev = '<i class="fa fa-angle-double-left"></i> ' . better_amp_translation_get( 'comment_previous' );
+		}
+
+		previous_comments_link( $prev );
+
+		next_comments_link( $next );
 	}
 }
 
