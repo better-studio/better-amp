@@ -156,16 +156,18 @@ if ( better_amp_get_theme_mod( 'better-amp-post-show-comment' ) && ( comments_op
 		</ul>
 	</div>
 
-	<div class="comments-pagination pagination">
-		<?php better_amp_comments_paginate() ?>
+	<?php
 
+	if ( get_comment_pages_count() ) { ?>
+		<div class="comments-pagination pagination">
+			<?php better_amp_comments_paginate() ?>
 
-		<span class="page-numbers">
+			<span class="page-numbers">
 			<?php printf( better_amp_translation_get( 'comment_page_numbers' ), get_query_var( 'cpage' ) ? absint( get_query_var( 'cpage' ) ) : 1, get_comment_pages_count() ); ?>
 
-	</div>
-
-	<?php
+		</div>
+		<?php
+	}
 }
 
 better_amp_show_ad_location( 'amp_post_comment_after' );
