@@ -9,6 +9,9 @@
     text-align: center;
     font-size: 0;
 }
+.single-post .post-thumbnail amp-img {
+    max-width: 100%;
+}
 .single-post .post-title {
     font-size: 20px;
     margin: 0 0 15px;
