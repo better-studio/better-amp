@@ -101,6 +101,7 @@ blockquote:before {
 }
 .comments-pagination a {
     margin-right: 5px;
+    padding: 5px 15px;
 }
 .comments-pagination {
     color: #adadad;
