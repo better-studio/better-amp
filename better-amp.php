@@ -4,7 +4,7 @@ Plugin Name: Better AMP - WordPress Complete AMP
 Plugin URI: http://demo.betterstudio.com/publisher/amp-demo/
 Description: Add FULL AMP support to your WordPress site.
 Author: Better Studio
-Version: 1.5.0
+Version: 1.5.1
 Author URI: http://betterstudio.com
 */
 
@@ -29,6 +29,7 @@ Author URI: http://betterstudio.com
 // Fire up!
 Better_AMP::get_instance();
 
+
 /**
  * Main class for BetterAMP
  *
@@ -51,7 +52,7 @@ class Better_AMP {
 	 *
 	 * @since 1.0.0
 	 */
-	const VERSION = '1.5.0';
+	const VERSION = '1.5.1';
 
 
 	/**
@@ -131,6 +132,7 @@ class Better_AMP {
 	 * @since 1.0.0
 	 */
 	public function __clone() {
+
 		_doing_it_wrong( __FUNCTION__, __( 'Cloning Better_AMP is forbidden', 'better-amp' ), '' );
 	}
 
@@ -141,6 +143,7 @@ class Better_AMP {
 	 * @since 1.0.0
 	 */
 	public function __wakeup() {
+
 		_doing_it_wrong( __FUNCTION__, __( 'Unserializing Better_AMP is forbidden', 'better-amp' ), '' );
 	}
 
@@ -194,6 +197,7 @@ class Better_AMP {
 	 * @since 1.0.0
 	 */
 	protected function load_text_domain() {
+
 		load_plugin_textdomain( 'better-amp', FALSE, plugin_basename( BETTER_AMP_PATH ) . '/languages' );
 	}
 
@@ -204,6 +208,7 @@ class Better_AMP {
 	 * @since 1.0.0
 	 */
 	protected function include_files() {
+
 		require_once BETTER_AMP_PATH . 'bootstrap.php';
 	}
 
@@ -292,6 +297,7 @@ class Better_AMP {
 		return $results;
 	}
 
+
 	/**
 	 * Fix front page display option to detect homepage
 	 */
@@ -300,6 +306,7 @@ class Better_AMP {
 		add_action( 'pre_option_page_on_front', array( $this, '_return_zero_in_amp' ) );
 		add_action( 'pre_option_show_on_front', array( $this, '_fix_show_on_front' ) );
 	}
+
 
 	/**
 	 * Prevent redirect pages within single post
@@ -318,7 +325,9 @@ class Better_AMP {
 		return $redirect;
 	}
 
+
 	public function admin_hooks() {
+
 		if ( ! is_admin() ) {
 			return;
 		}
@@ -333,16 +342,19 @@ class Better_AMP {
 		add_action( 'admin_menu', array( $this, 'fix_admin_sub_menu' ), 999 );
 	}
 
+
 	/**
 	 * Register rewrite rules and flush permalink in installation
 	 *
 	 * @since 1.0.0
 	 */
 	public function install() {
+
 		$this->add_rewrite();
 
 		set_transient( 'better-amp-flush-rules', TRUE );
 	}
+
 
 	/**
 	 * "Automattic AMP" plugin compatibility
@@ -352,6 +364,7 @@ class Better_AMP {
 	 * @since 1.0.0
 	 */
 	public function redirect_amp_endpoint_url() {
+
 		$amp_qv = defined( 'AMP_QUERY_VAR' ) ? AMP_QUERY_VAR : 'amp';
 		if ( get_query_var( $amp_qv, FALSE ) === FALSE ) {
 			return;
@@ -413,6 +426,7 @@ class Better_AMP {
 	 * You can add action to 'pre_get_posts' with priority grater than 1000 to change it.
 	 *
 	 * Action: pre_get_posts
+	 *
 	 * @see   isolate_pre_get_posts_end
 	 *
 	 * @since 1.0.0
@@ -433,6 +447,7 @@ class Better_AMP {
 
 	/**
 	 * Rollback the main query vars.
+	 *
 	 * @see   isolate_pre_get_posts_end for more documentation
 	 *
 	 * Action: pre_get_posts
@@ -525,6 +540,7 @@ class Better_AMP {
 	 * @since 1.1
 	 */
 	public function disable_bf_mega_menu( &$walker ) {
+
 		$fields = $walker->get_mega_menu_fields_id();
 
 		unset( $fields['mega_menu'] );
@@ -539,6 +555,7 @@ class Better_AMP {
 	 * @since 1.0.0
 	 */
 	public function add_rewrite() {
+
 		better_amp_add_rewrite_startpoint( self::STARTPOINT, EP_ALL );
 
 		/**
@@ -557,8 +574,10 @@ class Better_AMP {
 	 * @return array
 	 */
 	public function append_index_rewrite_rule() {
+
 		add_rewrite_rule( self::STARTPOINT . '/?$', "index.php?amp=index", 'top' );
 	}
+
 
 	/**
 	 * Callback: Include AMP template file in AMP pages
@@ -580,7 +599,7 @@ class Better_AMP {
 
 		if ( $include = apply_filters( 'better-amp/template/include', $include ) ) {
 			return $include;
-		} else if ( current_user_can( 'switch_themes' ) ) {
+		} elseif ( current_user_can( 'switch_themes' ) ) {
 			wp_die( __( 'Better-AMP Theme Was Not Found!', 'better-amp' ) );
 		} else {
 			return BETTER_AMP_TPL_COMPAT_ABSPATH . '/no-template.php';
@@ -712,6 +731,7 @@ class Better_AMP {
 
 	}
 
+
 	/**
 	 * Transforms HTML content to AMP content
 	 *
@@ -740,6 +760,7 @@ class Better_AMP {
 	 * @since 1.0.0
 	 */
 	public function register_autoload() {
+
 		spl_autoload_register( array( __CLASS__, 'autoload_amp_classes' ) );
 	}
 
@@ -893,6 +914,7 @@ class Better_AMP {
 	 * @since 1.0.0
 	 */
 	public function trigger_component_head() {
+
 		$this->call_components_method( 'head' );
 	}
 
@@ -966,6 +988,7 @@ class Better_AMP {
 		return $template;
 	}
 
+
 	/**
 	 * Callback: Starts the collecting output to enable components to add style into head
 	 * Print theme completely then fire better_amp_head() callbacks and append it before </head>
@@ -985,6 +1008,7 @@ class Better_AMP {
 		ob_start();
 
 	}
+
 
 	/**
 	 * Collect better_amp_head actions and remove those actions
@@ -1045,12 +1069,14 @@ class Better_AMP {
 		echo $prepend, $content;
 	}
 
+
 	/**
 	 * Init metaboxes
 	 *
 	 * @since 1.0.0
 	 */
 	public function metaboxes() {
+
 		if ( is_admin() ) {
 			add_action( 'add_meta_boxes', array( $this, 'append_metaboxes' ) );
 			add_action( 'save_post', array( $this, 'save_metaboxes' ) );
@@ -1064,6 +1090,7 @@ class Better_AMP {
 	 * @since 1.0.0
 	 */
 	public function append_metaboxes() {
+
 		add_meta_box(
 			'better-amp-settings',
 			esc_html__( 'Better AMP Settings', 'better-amp' ),
@@ -1086,6 +1113,7 @@ class Better_AMP {
 	 * @param $post
 	 */
 	public function metabox_output( $post ) {
+
 		?>
 		<div class="inside">
 
@@ -1146,6 +1174,7 @@ class Better_AMP {
 
 	/**
 	 * Fix to change first menu name!
+	 *
 	 * @since 1.0.0
 	 */
 	public function fix_admin_sub_menu() {
@@ -1339,6 +1368,7 @@ class Better_AMP {
 		return $title;
 	}
 
+
 	/**
 	 * Sync json-ld data with yoast seo plugin
 	 *
@@ -1364,6 +1394,7 @@ class Better_AMP {
 
 		return $data;
 	}
+
 
 	/**
 	 * Just return false in amp version
@@ -1399,6 +1430,7 @@ class Better_AMP {
 		return $current;
 	}
 
+
 	/**
 	 * Just return 'posts' string in amp version
 	 *
@@ -1422,8 +1454,10 @@ class Better_AMP {
 	 * @param $page_id
 	 */
 	public function set_page_query( $page_id ) {
+
 		query_posts( 'page_id=' . $page_id . '&amp=' . get_query_var( 'amp' ) );
 	}
+
 
 	/**
 	 * Transform allowed posts url to amp
@@ -1450,6 +1484,7 @@ class Better_AMP {
 	 * Fix admin menu margins for better UX
 	 */
 	public function admin_styles() {
+
 		?>
 		<style>
 			.toplevel_page_better-amp-translation .wp-menu-image img {
@@ -1517,6 +1552,7 @@ class Better_AMP {
 	 * Prints meta tags with using Yoast SEO Open Graph feature.
 	 */
 	public function yoast_seo_metatags_compatibility() {
+
 		do_action( 'wpseo_opengraph' );
 	}
 
