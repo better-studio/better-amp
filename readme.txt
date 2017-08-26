@@ -51,7 +51,11 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 
 == Changelog ==
 
-= 1.5.0 =
+= 1.5.2 =
+- Improved: WooCommerce outdated functions updated.
+
+
+= 1.5.1 =
 - Added: Related posts added (6 algorithm to show related posts)
 - Added: Comments will be shown in AMP.
 - Added: Option to change share links to short/normal link.
@@ -60,12 +64,16 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 - Added: "WP-Optimize" plugin compatibility.
 - Added: "Speed Booster Pack" plugin compatibility.
 - Added: NextGEN Gallery Support
+- Added: Comments pagination support added.
+
+- Improved: Related posts moved after share buttons.
 
 - Fixed: Incorrect AMP Author Avatar url (plugin conflict).
 - Fixed: iFrames height not comes from iFrame tag!
 - Fixed: Posts "hentry" class removed for better SEO results.
 - Fixed: "Auto URL Convertor" field description fixed.
 - Fixed: Exclude auto convert link only works for one pattern!
+- Fixed: single featured images goes out of box in mobile.
 
 
 = 1.4.0 =
