@@ -45,7 +45,8 @@ better_amp_enqueue_script( 'amp-image-lightbox', 'https://cdn.ampproject.org/v0/
 		<?php } ?>
 
 		<?php
-		$attachment_ids = $product->get_gallery_attachment_ids();
+
+		$attachment_ids = $product->get_gallery_image_ids();
 
 		if ( $attachment_ids ) { ?>
 			<div class="product-gallery clearfix"><?php
@@ -99,7 +100,7 @@ better_amp_enqueue_script( 'amp-image-lightbox', 'https://cdn.ampproject.org/v0/
 
 					?>
 					<div class="rating rating-stars rating-stars-<?php the_ID() ?>"><span
-							class="rating-stars-active"></span></div>
+								class="rating-stars-active"></span></div>
 				</div>
 				<?php
 			}
@@ -160,13 +161,15 @@ better_amp_enqueue_script( 'amp-image-lightbox', 'https://cdn.ampproject.org/v0/
 
 better_amp_enqueue_block_style( 'post-terms' );
 
-echo $product->get_tags(
+echo wc_get_product_tag_list(
+	$product->get_id(),
 	'',
 	'<div class="post-terms tags"><span class="term-type"><i class="fa fa-tags"></i></span>',
 	'</div>'
 );
 
-echo $product->get_categories(
+echo wc_get_product_category_list(
+	$product->get_id(),
 	'',
 	'<div class="post-terms cats"><span class="term-type"><i class="fa fa-folder-open"></i></span>',
 	'</div>'
