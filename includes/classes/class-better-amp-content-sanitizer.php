@@ -1,5 +1,6 @@
 <?php
 
+
 /**
  * Strips blacklisted tags and attributes from content.
  *
@@ -77,7 +78,9 @@ class Better_AMP_Content_Sanitizer {
 	 */
 	const PATTERN_REL_WP_ATTACHMENT = '#wp-att-([\d]+)#';
 
+
 	public function __construct( Better_AMP_HTML_Util $dom ) {
+
 		$this->dom = $dom;
 	}
 
@@ -104,6 +107,7 @@ class Better_AMP_Content_Sanitizer {
 		$this->tags = array();
 	}
 
+
 	/**
 	 * List of blacklisted attributes
 	 *
@@ -112,11 +116,13 @@ class Better_AMP_Content_Sanitizer {
 	 * @return array
 	 */
 	private function get_blacklisted_attributes() {
+
 		return array(
 			'style',
 			'size',
 		);
 	}
+
 
 	/**
 	 * Stripes attributes on nodes and childs
@@ -194,6 +200,7 @@ class Better_AMP_Content_Sanitizer {
 	 * @since 1.0.0
 	 */
 	private function replace_node_with_children( $node ) {
+
 		// If the node has children and also has a parent node,
 		// clone and re-add all the children just before current node.
 		if ( $node->hasChildNodes() && $node->parentNode ) {
@@ -221,6 +228,7 @@ class Better_AMP_Content_Sanitizer {
 	 * @return bool
 	 */
 	public static function endswith( $haystack, $needle ) {
+
 		return '' !== $haystack
 		       && '' !== $needle
 		       && $needle === substr( $haystack, - strlen( $needle ) );
@@ -403,6 +411,7 @@ class Better_AMP_Content_Sanitizer {
 
 	/**
 	 * Trigger url transform status on/off
+	 *
 	 * @see   transform_to_amp_url
 	 *
 	 * @param bool $is_on
@@ -412,6 +421,7 @@ class Better_AMP_Content_Sanitizer {
 	 * @return bool previous situation
 	 */
 	public static function turn_url_transform_off_on( $is_on ) {
+
 		$prev                       = self::$enable_url_transform;
 		self::$enable_url_transform = $is_on;
 
@@ -474,6 +484,7 @@ class Better_AMP_Content_Sanitizer {
 	 * @since 1.1
 	 */
 	public static function remove_element( $element ) {
+
 		$element->parentNode->removeChild( $element );
 	}
 
@@ -501,6 +512,7 @@ class Better_AMP_Content_Sanitizer {
 
 		return $invalid_attrs;
 	}
+
 
 	/**
 	 * @since 1.1
@@ -922,10 +934,10 @@ class Better_AMP_Content_Sanitizer {
 						if ( ! isset( $parsed_action['schema'] ) && ! empty( $parsed_action['path'] ) ) {
 
 							$action_xhr = $parsed_action['path'];
-						} else if ( isset( $parsed_action['schema'] ) && $parsed_action['schema'] === 'https' ) {
+						} elseif ( isset( $parsed_action['schema'] ) && $parsed_action['schema'] === 'https' ) {
 
 							$action_xhr = $action_xhr;
-						} else if ( $_parsed = self::parse_internal_url( $action ) ) {
+						} elseif ( $_parsed = self::parse_internal_url( $action ) ) {
 
 
 							$action_xhr = empty( $_parsed['path'] ) ? '/' : $_parsed['path'];
@@ -998,8 +1010,19 @@ class Better_AMP_Content_Sanitizer {
 
 						if ( $element->parentNode->tagName !== 'noscript' ) {
 
-							$source   = Better_AMP_HTML_Util::child( $element, 'source', array( 'src' ) );
-							$src_attr = $source->attributes->getNamedItem( 'src' );
+							$attr_id = 'src';
+							$source  = Better_AMP_HTML_Util::child( $element, 'source', array( $attr_id ) );
+
+							if ( ! $source ) {
+								$attr_id = 'href';
+								$source  = Better_AMP_HTML_Util::child( $element, 'a', array( $attr_id ) );
+							}
+
+							if ( ! $source ) {
+								continue;
+							}
+
+							$src_attr = $source->attributes->getNamedItem( $attr_id );
 
 							if ( ! $src_attr || empty( $src_attr->value ) ) {
 
@@ -1056,6 +1079,7 @@ class Better_AMP_Content_Sanitizer {
 
 		return array();
 	}
+
 
 	/**
 	 *
@@ -1155,6 +1179,7 @@ class Better_AMP_Content_Sanitizer {
 	 * @since 1.1
 	 */
 	public function save_element_style( $node ) {
+
 		$attributes = self::get_node_attributes( $node );
 
 		if ( ! empty( $attributes['style'] ) ) {
@@ -1175,6 +1200,7 @@ class Better_AMP_Content_Sanitizer {
 			better_amp_add_inline_style( sprintf( '%s{%s}', $selector, $attributes['style'] ) );
 		}
 	}
+
 
 	/**
 	 * @param array $rule
