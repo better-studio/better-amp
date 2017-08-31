@@ -51,6 +51,11 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 
 == Changelog ==
 
+= 1.5.3 =
+- Fixed: Third Party plugins a URL compatibility. Thanks @Karl
+- Fixed: Content sanitizer improved to support special type of video tag.
+
+
 = 1.5.2 =
 - Improved: WooCommerce outdated functions updated.
 
