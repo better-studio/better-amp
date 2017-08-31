@@ -84,7 +84,7 @@ function better_amp_register_component( $component_class, $settings = array() ) 
 		$better_amp_registered_components[] = compact( 'component_class', 'settings' ); // maybe need add some extra indexes like __FILE__ in the future!
 
 		return TRUE;
-	} catch ( Exception $e ) {
+	} catch( Exception $e ) {
 
 		return new WP_Error( 'error', $e->getMessage() );
 	}
@@ -147,6 +147,7 @@ function better_amp_enqueue_script( $handle, $src = '', $deps = array(), $media 
  * @return bool
  */
 function better_amp_script_is( $handle, $list = 'enqueued' ) {
+
 	return (bool) better_amp_scripts()->query( $handle, $list );
 }
 
@@ -158,6 +159,7 @@ function better_amp_script_is( $handle, $list = 'enqueued' ) {
  * @since 1.0.0
  */
 function better_amp_print_scripts() {
+
 	better_amp_scripts()->do_items();
 }
 
@@ -169,6 +171,7 @@ function better_amp_print_scripts() {
  * @since 1.0.0
  */
 function better_amp_enqueue_scripts() {
+
 	do_action( 'better-amp/template/enqueue-scripts' );
 }
 
@@ -232,6 +235,7 @@ function better_amp_enqueue_style( $handle, $src = '', $deps = array(), $ver = F
  * @return bool
  */
 function better_amp_style_is( $handle, $list = 'enqueued' ) {
+
 	return (bool) better_amp_styles()->query( $handle, $list );
 }
 
@@ -266,6 +270,7 @@ function better_amp_enqueue_ad( $ad_type = 'adsense' ) {
  * @since 1.0.0
  */
 function better_amp_print_styles() {
+
 	better_amp_styles()->do_items();
 }
 
@@ -571,6 +576,7 @@ if ( ! function_exists( 'better_amp_translation_echo' ) ) {
 	 * @param $key
 	 */
 	function better_amp_translation_echo( $key ) {
+
 		echo better_amp_translation_get( $key );
 	}
 }
@@ -614,6 +620,7 @@ function better_amp_css_sanitizer( $css ) {
  * @return string
  */
 function better_amp_unparse_url( $parsed_url ) {
+
 	$scheme   = isset( $parsed_url['scheme'] ) ? $parsed_url['scheme'] . '://' : '';
 	$host     = isset( $parsed_url['host'] ) ? $parsed_url['host'] : '';
 	$port     = isset( $parsed_url['port'] ) ? ':' . $parsed_url['port'] : '';
@@ -623,6 +630,13 @@ function better_amp_unparse_url( $parsed_url ) {
 	$path     = isset( $parsed_url['path'] ) ? $parsed_url['path'] : '';
 	$query    = isset( $parsed_url['query'] ) ? '?' . $parsed_url['query'] : '';
 	$fragment = isset( $parsed_url['fragment'] ) ? '#' . $parsed_url['fragment'] : '';
+
+	//
+	// schema has to be relative when there is no schema but host was defined!
+	//
+	if ( ! empty( $parsed_url['host'] ) && empty( $parsed_url['scheme'] ) ) {
+		$scheme = '//';
+	}
 
 	return "$scheme$user$pass$host$port$path$query$fragment";
 }
@@ -652,7 +666,7 @@ if ( ! function_exists( 'bf_get_wp_installation_slug' ) ) {
 			// Strip off any file/query params in the path
 			$path = preg_replace( '#/[^/]*$#i', '', $_SERVER['PHP_SELF'] );
 
-		} else if ( FALSE !== strpos( $_SERVER['SCRIPT_FILENAME'], $abspath_fix ) ) {
+		} elseif ( FALSE !== strpos( $_SERVER['SCRIPT_FILENAME'], $abspath_fix ) ) {
 			// Request is hitting a file inside ABSPATH
 			$directory = str_replace( ABSPATH, '', $script_filename_dir );
 			// Strip off the sub directory, and any file/query params
