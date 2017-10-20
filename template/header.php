@@ -10,6 +10,8 @@
 <body <?php better_amp_body_class( 'sticky-nav body' ) ?>>
 <?php
 
+do_action( 'better-amp/template/body/start' );
+
 if ( better_amp_get_theme_mod( 'better-amp-sidebar-show' ) ) {
 	better_amp_get_sidebar();
 }
@@ -32,7 +34,7 @@ if ( better_amp_get_theme_mod( 'better-amp-sidebar-show' ) ) {
 			?>
 			<a href="<?php echo better_amp_get_search_page_url() ?>"
 			   class="navbar-search" <?php better_amp_customizer_hidden_attr( 'better-amp-header-show-search' ) ?>><i
-					class="fa fa-search" aria-hidden="true"></i>
+						class="fa fa-search" aria-hidden="true"></i>
 			</a>
 			<?php
 		}
