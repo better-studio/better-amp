@@ -833,7 +833,7 @@ function better_amp_customize_register( $wp_customizer ) {
 
 
 	/**
-	 * 10. Additional CSS
+	 * 10. Advanced Settings
 	 */
 	$wp_customizer->add_section( 'better-amp-advanced-section', array(
 		'title'    => __( 'Advanced Settings', 'better-amp' ),
@@ -857,6 +857,47 @@ function better_amp_customize_register( $wp_customizer ) {
 			home_url( '/' )
 		),
 	) );
+
+
+	/**
+	 * 11. Custom Code
+	 */
+	$wp_customizer->add_section( 'better-amp-custom-code-section', array(
+		'title'    => __( 'Custom Code', 'better-amp' ),
+		'priority' => 16,
+		'panel'    => 'better-amp-panel'
+	) );
+	$wp_customizer->add_setting( 'better-amp-code-head', array(
+		'default' => better_amp_get_default_theme_setting( 'better-amp-code-head' ),
+	) );
+	$wp_customizer->add_control( 'better-amp-code-head', array(
+		'label'       => __( 'Codes between &#x3C;head&#x3E; and &#x3C;/head&#x3E; tags', 'better-amp' ),
+		'section'     => 'better-amp-custom-code-section',
+		'priority'    => 29,
+		'type'        => 'textarea',
+		'description' => __( 'Please be careful. Bad codes can make invalidation issue for your AMP pages.', 'better-amp' ),
+	) );
+	$wp_customizer->add_setting( 'better-amp-code-body-start', array(
+		'default' => better_amp_get_default_theme_setting( 'better-amp-code-body-start' ),
+	) );
+	$wp_customizer->add_control( 'better-amp-code-body-start', array(
+		'label'       => __( 'Codes right after &#x3C;body&#x3E; tag', 'better-amp' ),
+		'section'     => 'better-amp-custom-code-section',
+		'priority'    => 29,
+		'type'        => 'textarea',
+		'description' => __( 'Please be careful. Bad codes can make invalidation issue for your AMP pages.', 'better-amp' ),
+	) );
+	$wp_customizer->add_setting( 'better-amp-code-body-stop', array(
+		'default' => better_amp_get_default_theme_setting( 'better-amp-code-body-stop' ),
+	) );
+	$wp_customizer->add_control( 'better-amp-code-body-stop', array(
+		'label'       => __( 'Codes right before &#x3C;/body&#x3E; tag', 'better-amp' ),
+		'section'     => 'better-amp-custom-code-section',
+		'priority'    => 29,
+		'type'        => 'textarea',
+		'description' => __( 'Please be careful. Bad codes can make invalidation issue for your AMP pages.', 'better-amp' ),
+	) );
+
 }
 
 add_action( 'admin_menu', 'better_amp_add_customizer_admin_link', 999 );

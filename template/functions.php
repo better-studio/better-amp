@@ -169,6 +169,10 @@ function better_amp_get_default_theme_setting( $setting_id, $setting_index = '' 
 		'better-amp-page-on-front'                 => 0,
 		//
 		'better-amp-exclude-urls'                  => '',
+		//
+		'better-amp-code-head'                     => '',
+		'better-amp-code-body-start'               => '',
+		'better-amp-code-body-stop'                => '',
 	);
 
 	if ( $setting_index ) {
@@ -461,37 +465,37 @@ if ( ! function_exists( 'better_amp_translation_fields' ) ) {
 		/**
 		 * Comments Texts
 		 */
-		$fields['comments_edit']     = array(
+		$fields['comments_edit']        = array(
 			'id'      => 'comments_edit',
 			'type'    => 'text',
 			'title'   => 'Edit Comment',
 			'default' => 'Edit',
 		);
-		$fields['comments_reply']    = array(
+		$fields['comments_reply']       = array(
 			'id'      => 'comments_reply',
 			'type'    => 'text',
 			'title'   => 'Reply',
 			'default' => 'Reply',
 		);
-		$fields['comments_reply_to'] = array(
+		$fields['comments_reply_to']    = array(
 			'id'      => 'comments_reply_to',
 			'type'    => 'text',
 			'title'   => 'Reply To %s',
 			'default' => 'Reply To %s',
 		);
-		$fields['comments'] = array(
+		$fields['comments']             = array(
 			'id'      => 'comments',
 			'type'    => 'text',
 			'title'   => 'Comments',
 			'default' => 'Comments',
 		);
-		$fields['comment_previous'] = array(
+		$fields['comment_previous']     = array(
 			'id'      => 'comment_previous',
 			'type'    => 'text',
 			'title'   => 'Previous',
 			'default' => 'Previous',
 		);
-		$fields['comment_next'] = array(
+		$fields['comment_next']         = array(
 			'id'      => 'comment_next',
 			'type'    => 'text',
 			'title'   => 'Next',
@@ -842,4 +846,43 @@ if ( is_better_amp() ) {
 	if ( $exclude_urls = better_amp_get_theme_mod( 'better-amp-exclude-urls' ) ) {
 		Better_AMP_Content_Sanitizer::set_none_amp_url( explode( "\n", $exclude_urls ) );
 	}
+}
+
+
+add_action( 'better-amp/template/head', 'better_amp_custom_code_head' );
+
+/**
+ * Prints custom codes inside head tag
+ *
+ * @hooked better-amp/template/head
+ */
+function better_amp_custom_code_head() {
+
+	echo better_amp_get_theme_mod( 'better-amp-code-head' );
+}
+
+
+add_action( 'better-amp/template/body/start', 'better_amp_custom_code_body_start' );
+
+/**
+ * Prints custom codes right after body tag start
+ *
+ * @hooked better-amp/template/body/start
+ */
+function better_amp_custom_code_body_start() {
+
+	echo better_amp_get_theme_mod( 'better-amp-code-body-start' );
+}
+
+
+add_action( 'better-amp/template/footer', 'better_amp_custom_code_body_stop' );
+
+/**
+ * Prints custom codes before body tag close
+ *
+ * @hooked better-amp/template/footer
+ */
+function better_amp_custom_code_body_stop() {
+
+	echo better_amp_get_theme_mod( 'better-amp-code-body-stop' );
 }
