@@ -858,7 +858,7 @@ add_action( 'better-amp/template/head', 'better_amp_custom_code_head' );
  */
 function better_amp_custom_code_head() {
 
-	echo better_amp_get_theme_mod( 'better-amp-code-head' );
+	echo better_amp_get_option( 'better-amp-code-head', FALSE );
 }
 
 
@@ -871,7 +871,7 @@ add_action( 'better-amp/template/body/start', 'better_amp_custom_code_body_start
  */
 function better_amp_custom_code_body_start() {
 
-	echo better_amp_get_theme_mod( 'better-amp-code-body-start' );
+	echo better_amp_get_option( 'better-amp-code-body-start', FALSE );
 }
 
 
@@ -884,5 +884,5 @@ add_action( 'better-amp/template/footer', 'better_amp_custom_code_body_stop' );
  */
 function better_amp_custom_code_body_stop() {
 
-	echo better_amp_get_theme_mod( 'better-amp-code-body-stop' );
+	echo better_amp_get_option( 'better-amp-code-body-stop', FALSE );
 }
