@@ -50,6 +50,7 @@ $tags = array(
 	'amp-youtube'               => '',
 	'button'                    => '',
 	'amp-pixel'                 => '',
+	'amp-auto-ads'              => '',
 	# HTML Tags
 	'a'                         => '',
 	'abbr'                      => '',
