@@ -7,7 +7,16 @@
 
 	<?php better_amp_head() ?>
 </head>
-<body <?php better_amp_body_class( 'sticky-nav body' ) ?>>
+<?php
+
+$body_class = 'body';
+
+if ( better_amp_get_theme_mod( 'better-amp-header-sticky' ) ) {
+	$body_class .= ' sticky-nav';
+}
+
+?>
+<body <?php better_amp_body_class( $body_class ) ?>>
 <?php
 
 do_action( 'better-amp/template/body/start' );

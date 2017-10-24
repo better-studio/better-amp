@@ -189,6 +189,20 @@ function better_amp_customize_register( $wp_customizer ) {
 
 
 	/**
+	 * 1.4 Sticky Header
+	 */
+	$wp_customizer->add_setting( 'better-amp-header-sticky', array(
+		'transport' => 'postMessage',
+		'default'   => better_amp_get_default_theme_setting( 'better-amp-header-sticky' ),
+	) );
+	$wp_customizer->add_control( new AMP_Customize_Switch_Control( $wp_customizer, 'better-amp-header-sticky', array(
+		'label'    => __( 'Sticky Header', 'better-amp' ),
+		'section'  => 'better-amp-header-section',
+		'priority' => 14,
+	) ) );
+
+
+	/**
 	 * 2. Add Sidebar section
 	 */
 	$wp_customizer->add_section( 'better-amp-sidebar-section', array(

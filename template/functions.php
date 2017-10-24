@@ -111,6 +111,7 @@ function better_amp_get_default_theme_setting( $setting_id, $setting_index = '' 
 		'better-amp-header-logo-img'               => '',
 		'better-amp-header-logo-text'              => '',
 		'better-amp-header-show-search'            => TRUE,
+		'better-amp-header-sticky'                 => TRUE,
 		//
 		'better-amp-sidebar-show'                  => TRUE,
 		'better-amp-sidebar-logo-text'             => '',
