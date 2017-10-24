@@ -2466,14 +2466,14 @@ if ( ! function_exists( 'better_amp_social_shares_count' ) ) {
 		}
 
 		if ( $update_cache ) { // Update cache storage if needed
-			$current_page = bf_social_share_guss_current_page();
+			$current_page = better_amp_social_share_guss_current_page();
 
 			foreach ( $sites as $site_id => $is_active ) {
 				if ( ! $is_active ) {
 					continue;
 				}
 
-				$count_number = bf_social_share_fetch_count( $site_id, $current_page['page_permalink'] );
+				$count_number = better_amp_social_share_fetch_count( $site_id, $current_page['page_permalink'] );
 
 				update_post_meta( $post_id, 'bs_social_share_' . $site_id, $count_number );
 
