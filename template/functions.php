@@ -173,6 +173,8 @@ function better_amp_get_default_theme_setting( $setting_id, $setting_index = '' 
 		'better-amp-code-head'                     => '',
 		'better-amp-code-body-start'               => '',
 		'better-amp-code-body-stop'                => '',
+		//
+		'better-amp-mobile-auto-redirect'          => 0,
 	);
 
 	if ( $setting_index ) {
@@ -886,3 +888,21 @@ function better_amp_custom_code_body_stop() {
 
 	echo better_amp_get_option( 'better-amp-code-body-stop', FALSE );
 }
+
+
+add_filter( 'better-amp/template/auto-redirect', 'better_amp_auto_redirect_mobiles' );
+
+if ( ! function_exists( 'better_amp_auto_redirect_mobiles' ) ) {
+
+	/**
+	 * Trigger Auto Redirect Option
+	 *
+	 * @since 1.2.4
+	 * @return bool true if active
+	 */
+	function better_amp_auto_redirect_mobiles() {
+
+		return better_amp_get_theme_mod( 'better-amp-mobile-auto-redirect' );
+	}
+}
+
