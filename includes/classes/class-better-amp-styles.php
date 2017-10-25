@@ -1,5 +1,6 @@
 <?php
 
+
 /**
  * The Better_AMP_Styles is a clone of the WP_Styles
  *
@@ -59,6 +60,7 @@ class Better_AMP_Styles extends WP_Styles {
 		parent::do_items( $handles, $group );
 	}
 
+
 	/**
 	 * Print inline css styles in single <style> tag
 	 *
@@ -71,9 +73,10 @@ class Better_AMP_Styles extends WP_Styles {
 	public function print_inline_styles() {
 
 		if ( $this->inline_styles ) {
+
 			echo '<style amp-custom>';
 
-			foreach ( array_reverse( $this->inline_styles ) as $code ) {
+			foreach ( $this->inline_styles as $code ) {
 				echo "\n", $code, "\n";
 			}
 
@@ -86,7 +89,8 @@ class Better_AMP_Styles extends WP_Styles {
 	/**
 	 * Determines style dependencies.
 	 *
-	 * @param mixed          $handles   Item handle and argument (string) or item handles and arguments (array of strings).
+	 * @param mixed          $handles   Item handle and argument (string) or item handles and arguments (array of
+	 *                                  strings).
 	 * @param bool           $recursion Internal flag that function is calling itself.
 	 * @param bool|false|int $group     Group level: (int) level, (false) no groups.
 	 *
@@ -94,6 +98,7 @@ class Better_AMP_Styles extends WP_Styles {
 	 * @return bool True on success, false on failure.
 	 */
 	public function all_deps( $handles, $recursion = FALSE, $group = FALSE ) {
+
 		return WP_Dependencies::all_deps( $handles, $recursion, $group );
 	}
 }
