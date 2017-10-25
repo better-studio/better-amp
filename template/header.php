@@ -11,7 +11,7 @@
 
 $body_class = 'body';
 
-if ( better_amp_get_theme_mod( 'better-amp-header-sticky' ) ) {
+if ( better_amp_get_theme_mod( 'better-amp-header-sticky', FALSE ) ) {
 	$body_class .= ' sticky-nav';
 }
 
