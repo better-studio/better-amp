@@ -51,6 +51,20 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 
 == Changelog ==
 
+= 1.6.0 =
+- Added: Auto redirect to AMP for mobile visitors added (compatible with all cache plugins).
+- Added: "Google Auto Ad" compatibility added.
+- Added: New fields for adding custom code in head, body start and end of page.
+- Added: Favicon support added.
+- Added: Option to enable/disable header sticky feature.
+
+- Improved: Admin panel usability improved.
+- Improved: Codes improved.
+
+- Fixed: Custom CSS was not after all css codes.
+
+- Devs: @better-amp/template/body/start action added.
+
 = 1.5.3 =
 - Fixed: Third Party plugins a URL compatibility. Thanks @Karl
 - Fixed: Content sanitizer improved to support special type of video tag.
