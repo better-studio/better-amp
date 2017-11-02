@@ -19,11 +19,23 @@ better_amp_show_ad_location( 'amp_footer_before' );
 		<?php
 
 		if ( better_amp_get_theme_mod( 'better-amp-footer-main-link' ) ) :
+
+			$args = array();
+
+			// disable auto redirect for this link
+			if ( better_amp_get_theme_mod( 'better-amp-mobile-auto-redirect' ) ) {
+				$args['query-args'] = array(
+					array(
+						'bamp-skip-redirect',
+						TRUE,
+					)
+				);
+			}
+
 			?>
-			<div
-				class="better-amp-main-link" <?php better_amp_customizer_hidden_attr( 'better-amp-footer-main-link' ) ?>>
-				<a href="<?php echo esc_attr( better_amp_guess_none_amp_url() ) ?>"><i
-						class="fa fa-external-link-square"></i> <?php better_amp_translation_echo( 'view_desktop' ); ?>
+			<div class="better-amp-main-link" <?php better_amp_customizer_hidden_attr( 'better-amp-footer-main-link' ) ?>>
+				<a href="<?php echo esc_attr( better_amp_guess_none_amp_url( $args ) ) ?>"><i
+							class="fa fa-external-link-square"></i> <?php better_amp_translation_echo( 'view_desktop' ); ?>
 				</a>
 			</div>
 			<?php

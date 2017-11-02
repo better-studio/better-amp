@@ -1595,6 +1595,10 @@ class Better_AMP {
 			return;
 		}
 
+		if ( isset( $_GET['bamp-skip-redirect'] ) && $_GET['bamp-skip-redirect'] ) {
+			return;
+		}
+
 		// if post have not AMP version
 		if ( is_singular() ) {
 
