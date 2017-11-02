@@ -441,9 +441,11 @@ function better_amp_customize_preview_init( $customize_manager ) {
  *
  * @since 1.0.0
  *
+ * @param array $args
+ *
  * @return string|void
  */
-function better_amp_guess_none_amp_url() {
+function better_amp_guess_none_amp_url( $args = array() ) {
 
 	static $none_amp_url;
 
@@ -493,6 +495,13 @@ function better_amp_guess_none_amp_url() {
 		$none_amp_url = site_url( $matched[1] );
 	} else {
 		$none_amp_url = site_url();
+	}
+
+	// Change query args from outside
+	if ( isset( $args['query-args'] ) && is_array( $args['query-args'] ) ) {
+		foreach ( $args['query-args'] as $arg ) {
+			$none_amp_url = add_query_arg( $arg[0], $arg[1], $none_amp_url );
+		}
 	}
 
 	return $none_amp_url;
