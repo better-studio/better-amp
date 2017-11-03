@@ -60,6 +60,7 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 
 - Improved: Admin panel usability improved.
 - Improved: Codes improved.
+- Improved: Will not redirect visitor to amp for "None AMP Link"  at footer! Thanks @Karl
 
 - Fixed: Custom CSS was not after all css codes.
 
