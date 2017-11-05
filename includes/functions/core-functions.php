@@ -375,21 +375,11 @@ function better_amp_enqueue_block_style( $handle, $file = '', $rtl = TRUE ) {
 		return TRUE;
 	}
 
-	static $suffix;
-
-	if ( ! $suffix ) {
-		if ( ( defined( 'WP_DEBUG' ) && WP_DEBUG ) || ( defined( 'BF_DEV_MODE' ) && BF_DEV_MODE ) ) {
-			$suffix = '.css';
-		} else {
-			$suffix = '.min.css';
-		}
-	}
+	better_amp_enqueue_inline_style( better_amp_min_suffix( $file, '.css' ), $handle );
 
 	if ( $rtl && is_rtl() ) {
-		better_amp_enqueue_inline_style( $file . '.rtl' . $suffix, $handle . '-rtl' );
+		better_amp_enqueue_inline_style( better_amp_min_suffix( $file . '.rtl', '.css' ), $handle . '-rtl' );
 	}
-
-	better_amp_enqueue_inline_style( $file . $suffix, $handle );
 
 	return $printed_files[ $file ] = TRUE;
 }
