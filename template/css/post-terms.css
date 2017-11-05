@@ -5,6 +5,7 @@
     margin: 0 0 10px;
     position: relative;
     padding-left: 48px;
+    clear: both;
 }
 .post-terms a,
 .post-terms .term-type{

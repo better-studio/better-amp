@@ -4,6 +4,7 @@ add_action( 'better-amp/template/head', 'better_amp_enqueue_scripts' );
 add_action( 'better-amp/template/head', 'better_amp_print_styles' );
 add_action( 'better-amp/template/head', 'better_amp_print_scripts' );
 add_action( 'better-amp/template/head', 'better_amp_enqueue_boilerplate_style' );
+add_action( 'better-amp/template/head', 'wp_site_icon' );
 
 add_action( 'better-amp/template/head', 'better_amp_print_rel_canonical' );
 

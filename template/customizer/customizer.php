@@ -189,6 +189,20 @@ function better_amp_customize_register( $wp_customizer ) {
 
 
 	/**
+	 * 1.4 Sticky Header
+	 */
+	$wp_customizer->add_setting( 'better-amp-header-sticky', array(
+		'transport' => 'postMessage',
+		'default'   => better_amp_get_default_theme_setting( 'better-amp-header-sticky' ),
+	) );
+	$wp_customizer->add_control( new AMP_Customize_Switch_Control( $wp_customizer, 'better-amp-header-sticky', array(
+		'label'    => __( 'Sticky Header', 'better-amp' ),
+		'section'  => 'better-amp-header-section',
+		'priority' => 14,
+	) ) );
+
+
+	/**
 	 * 2. Add Sidebar section
 	 */
 	$wp_customizer->add_section( 'better-amp-sidebar-section', array(
@@ -809,7 +823,7 @@ function better_amp_customize_register( $wp_customizer ) {
 	 * 9. Additional CSS
 	 */
 	$wp_customizer->add_section( 'better-amp-css-section', array(
-		'title'    => __( 'Additional CSS', 'better-amp' ),
+		'title'    => __( 'Custom CSS Code', 'better-amp' ),
 		'priority' => 15,
 		'panel'    => 'better-amp-panel'
 	) );
@@ -833,50 +847,10 @@ function better_amp_customize_register( $wp_customizer ) {
 
 
 	/**
-	 * 10. Advanced Settings
-	 */
-	$wp_customizer->add_section( 'better-amp-advanced-section', array(
-		'title'    => __( 'Advanced Settings', 'better-amp' ),
-		'priority' => 15,
-		'panel'    => 'better-amp-panel'
-	) );
-
-	/**
-	 * 10.1 Google Analytics
-	 */
-	$wp_customizer->add_setting( 'better-amp-exclude-urls', array(
-		'default' => better_amp_get_default_theme_setting( 'better-amp-exclude-urls' ),
-	) );
-	$wp_customizer->add_control( 'better-amp-exclude-urls', array(
-		'label'       => __( 'Exclude URL From Auto Converting', 'better-amp' ),
-		'section'     => 'better-amp-advanced-section',
-		'priority'    => 20,
-		'type'        => 'textarea',
-		'description' => sprintf(
-			__( 'You can exclude URL\'s of your site to prevent converting them into AMP URL inside your site. You can use * in the end of URL to exclude all URL\'s that start with it. Eg. <strong>%stest/*</strong><br><br> You can add multiple URL\s in multiple lines.', 'better-amp' ),
-			home_url( '/' )
-		),
-	) );
-
-
-	/**
-	 * 10.2 Mobile redirect
-	 */
-	$wp_customizer->add_setting( 'better-amp-mobile-auto-redirect', array(
-		'default' => better_amp_get_default_theme_setting( 'better-amp-mobile-auto-redirect' ),
-	) );
-
-	$wp_customizer->add_control( new AMP_Customize_Switch_Control( $wp_customizer, 'better-amp-mobile-auto-redirect', array(
-		'label'    => __( 'Auto redirect mobile users to AMP version', 'better-amp' ),
-		'section'  => 'better-amp-advanced-section',
-		'priority' => 25,
-	) ) );
-
-	/**
 	 * 11. Custom Code
 	 */
 	$wp_customizer->add_section( 'better-amp-custom-code-section', array(
-		'title'    => __( 'Custom Code', 'better-amp' ),
+		'title'    => __( 'Custom HTML Code', 'better-amp' ),
 		'priority' => 16,
 		'panel'    => 'better-amp-panel'
 	) );
@@ -910,6 +884,48 @@ function better_amp_customize_register( $wp_customizer ) {
 		'type'        => 'textarea',
 		'description' => __( 'Please be careful. Bad codes can make invalidation issue for your AMP pages.', 'better-amp' ),
 	) );
+
+	/**
+	 * 10. Advanced Settings
+	 */
+	$wp_customizer->add_section( 'better-amp-advanced-section', array(
+		'title'    => __( 'Advanced Settings', 'better-amp' ),
+		'priority' => 17,
+		'panel'    => 'better-amp-panel'
+	) );
+
+	/**
+	 * 10.1 Google Analytics
+	 */
+	$wp_customizer->add_setting( 'better-amp-exclude-urls', array(
+		'default' => better_amp_get_default_theme_setting( 'better-amp-exclude-urls' ),
+	) );
+	$wp_customizer->add_control( 'better-amp-exclude-urls', array(
+		'label'       => __( 'Exclude URL From Auto Converting', 'better-amp' ),
+		'section'     => 'better-amp-advanced-section',
+		'priority'    => 20,
+		'type'        => 'textarea',
+		'description' => sprintf(
+			__( 'You can exclude URL\'s of your site to prevent converting them into AMP URL inside your site. You can use * in the end of URL to exclude all URL\'s that start with it. Eg. <strong>%stest/*</strong><br><br> You can add multiple URL\s in multiple lines.', 'better-amp' ),
+			home_url( '/' )
+		),
+	) );
+
+
+	/**
+	 * 10.2 Mobile redirect
+	 */
+	$wp_customizer->add_setting( 'better-amp-mobile-auto-redirect', array(
+		'default' => better_amp_get_default_theme_setting( 'better-amp-mobile-auto-redirect' ),
+	) );
+
+	$wp_customizer->add_control( new AMP_Customize_Switch_Control( $wp_customizer, 'better-amp-mobile-auto-redirect', array(
+		'label'       => __( 'Show AMP for Mobile Visitors', 'better-amp' ),
+		'description' => __( 'All mobile visitor will be redirected to AMP version of site automatically. Works with all cache plugins.', 'better-amp' ),
+		'section'     => 'better-amp-advanced-section',
+		'priority'    => 25,
+	) ) );
+
 
 }
 

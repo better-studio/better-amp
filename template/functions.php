@@ -15,8 +15,44 @@ register_nav_menu( 'amp-sidebar-nav', __( 'AMP Sidebar', 'better-amp' ) );
 
 register_nav_menu( 'better-amp-footer', __( 'AMP Footer Navigation', 'better-amp' ) );
 
-add_action( 'better-amp/template/enqueue-scripts', 'better_amp_custom_styles', 20 );
 
+add_action( 'better-amp/template/head', 'better_amp_enqueue_general_styles', 0 );
+
+/**
+ * Enqueue static file for amp version
+ */
+function better_amp_enqueue_general_styles() {
+
+	better_amp_enqueue_style( 'font-awesome', 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' );
+	better_amp_enqueue_style( 'google-fonts', 'https://fonts.googleapis.com/css?family=Lato:400,600|Roboto:300,400,500,700' );
+
+	better_amp_enqueue_block_style( 'normalize', 'css/normalize', FALSE ); // Normalize without RTL
+	better_amp_enqueue_block_style( 'style', 'style' );
+
+}
+
+
+add_action( 'better-amp/template/enqueue-scripts', 'better_amp_enqueue_static' );
+
+/**
+ * Enqueue static file for amp version
+ */
+function better_amp_enqueue_static() {
+
+	better_amp_enqueue_script( 'amp-sidebar', 'https://cdn.ampproject.org/v0/amp-sidebar-0.1.js' );
+	better_amp_enqueue_script( 'amp-sidebar', 'https://cdn.ampproject.org/v0/amp-accordion-0.1.js' );
+
+	if ( better_amp_get_theme_mod( 'better-amp-footer-analytics' ) ) {
+		better_amp_enqueue_script( 'amp-analytics', 'https://cdn.ampproject.org/v0/amp-analytics-0.1.js' );
+	}
+}
+
+
+add_action( 'better-amp/template/enqueue-scripts', 'better_amp_custom_styles', 100 );
+
+/**
+ * Prints custom codes of AMP theme after all styles
+ */
 function better_amp_custom_styles() {
 
 	$theme_color = better_amp_get_theme_mod( 'better-amp-color-theme', FALSE );
@@ -65,32 +101,12 @@ function better_amp_custom_styles() {
 
 	<?php
 
+	better_amp_add_inline_style( ob_get_clean(), 'theme_panel_color_fields' );
 
-	better_amp_add_inline_style( ob_get_clean() );
-	better_amp_add_inline_style( better_amp_get_theme_mod( 'better-amp-additional-css', FALSE ) );
+	better_amp_add_inline_style( better_amp_get_theme_mod( 'better-amp-additional-css', FALSE ), 'custom_codes_from_panel' );
 
 }
 
-/**
- * Enqueue static file for amp version
- */
-add_action( 'better-amp/template/enqueue-scripts', 'better_amp_enqueue_static' );
-
-function better_amp_enqueue_static() {
-
-	better_amp_enqueue_style( 'font-awesome', 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' );
-	better_amp_enqueue_style( 'google-fonts', 'https://fonts.googleapis.com/css?family=Lato:400,600|Roboto:300,400,500,700' );
-
-	better_amp_enqueue_block_style( 'style', 'style' );
-	better_amp_enqueue_block_style( 'normalize', 'css/normalize', FALSE ); // Normalize without RTL
-
-	better_amp_enqueue_script( 'amp-sidebar', 'https://cdn.ampproject.org/v0/amp-sidebar-0.1.js' );
-	better_amp_enqueue_script( 'amp-sidebar', 'https://cdn.ampproject.org/v0/amp-accordion-0.1.js' );
-
-	if ( better_amp_get_theme_mod( 'better-amp-footer-analytics' ) ) {
-		better_amp_enqueue_script( 'amp-analytics', 'https://cdn.ampproject.org/v0/amp-analytics-0.1.js' );
-	}
-}
 
 function better_amp_get_default_theme_setting( $setting_id, $setting_index = '' ) {
 
@@ -111,6 +127,7 @@ function better_amp_get_default_theme_setting( $setting_id, $setting_index = '' 
 		'better-amp-header-logo-img'               => '',
 		'better-amp-header-logo-text'              => '',
 		'better-amp-header-show-search'            => TRUE,
+		'better-amp-header-sticky'                 => TRUE,
 		//
 		'better-amp-sidebar-show'                  => TRUE,
 		'better-amp-sidebar-logo-text'             => '',
@@ -905,4 +922,3 @@ if ( ! function_exists( 'better_amp_auto_redirect_mobiles' ) ) {
 		return better_amp_get_theme_mod( 'better-amp-mobile-auto-redirect' );
 	}
 }
-
