@@ -319,23 +319,39 @@ class Better_AMP_Content_Sanitizer {
 
 		$sitedomain = rtrim( $sitedomain, '/' );
 
-		if ( preg_match( '#^https?://w*\.?' . preg_quote( $sitedomain, '#' ) . '/?([^/]*)/?(.*?)$#', $url, $matched ) ) {
+		if ( preg_match( '#^https?://w*\.?' . preg_quote( $sitedomain, '#' ) . '/?([^/]*)/?([^/]*)/?(.*?)$#', $url, $matched ) ) {
 
 			// if url was not amp
-			if ( $matched[1] !== Better_AMP::STARTPOINT ) {
+			$exclude_sub_dirs = (array) apply_filters( 'better-amp/transformer/exclude-subdir', array() );
+
+			$sub_dir_excluded = in_array( $matched[1], $exclude_sub_dirs );
+			$first_valid_dir  = $sub_dir_excluded ? $matched[2] : $matched[1];
+
+			if ( $first_valid_dir !== Better_AMP::STARTPOINT ) {
+
+				$before_sp = '';
 
 				if ( $matched[1] !== 'wp-content' ) { // do not convert link which is started with wp-content
 					if ( $matched[1] ) {
+
 						$matched[0] = '';
-						$path       = implode( '/', $matched );
+
+						if ( $sub_dir_excluded ) {
+							$before_sp = $matched[1];
+
+							$matched[1] = '';
+						}
+
+						$path = implode( '/', array_filter( $matched ) );
+
 					} else {
+
 						$path = '/';
 					}
 
-					return better_amp_site_url( $path );
+					return better_amp_site_url( $path, $before_sp );
 				}
 			}
-
 		}
 
 		return $url;

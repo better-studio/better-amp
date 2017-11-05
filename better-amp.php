@@ -243,7 +243,7 @@ class Better_AMP {
 
 		// Replace all links inside contents to AMP version.
 		// Stops user to go outside of AMP version.
-		add_filter( 'better-amp/template/include', array( $this, 'replace_internal_links_with_amp_version' ) );
+		add_action( 'wp', array( $this, 'replace_internal_links_with_amp_version' ) );
 
 		// Registers all components scripts into the header style and scripts
 		add_action( 'better-amp/template/enqueue-scripts', array( $this, 'enqueue_components_scripts' ) );
@@ -376,11 +376,14 @@ class Better_AMP {
 		$path = bf_get_wp_installation_slug();
 
 		if ( preg_match( "#^$path/*(.*?)/$amp_qv/*$#", $_SERVER['REQUEST_URI'], $matched ) ) {
-			$new_amp_url = '/' . self::STARTPOINT . '/' . $matched[1];
 
-			if ( $new_amp_url && trim( $path . $new_amp_url, '/' ) !== trim( $_SERVER['REQUEST_URI'], '/' ) ) {
 
-				wp_redirect( site_url( $new_amp_url ), 301 );
+			$new_amp_url = Better_AMP_Content_Sanitizer::transform_to_amp_url( site_url( $matched[1] ) );
+			$new_amp_url = trailingslashit( $new_amp_url );
+
+			if ( $new_amp_url && trim( str_replace( site_url(), '', $new_amp_url ), '/' ) !== trim( $_SERVER['REQUEST_URI'], '/' ) ) {
+
+				wp_redirect( $new_amp_url, 301 );
 				exit;
 			}
 		}
@@ -396,6 +399,7 @@ class Better_AMP {
 
 				if ( preg_match( "#^$path/*$amp_qv/+(.*?)/*$#", $_SERVER['REQUEST_URI'], $matched ) ) {
 
+					// todo: use Better_AMP_Content_Sanitizer::transform_to_amp_url
 					wp_redirect( site_url( $matched[1] ) );
 					exit;
 				}
@@ -965,17 +969,20 @@ class Better_AMP {
 
 
 	/**
-	 * Callback: Replaces all website internal links with AMP version
-	 * Filter  : better-amp/template/include
-	 * We used this filter to insure replacement process just fire in AMP version.
+	 * Replaces all website internal links with AMP version
 	 *
-	 * @param string $template
+	 * @hooked wp
+	 *
+	 * @param WP $wp
 	 *
 	 * @since 1.0.0
-	 *
 	 * @return string
 	 */
-	public function replace_internal_links_with_amp_version( $template ) {
+	public function replace_internal_links_with_amp_version( $wp ) {
+
+		if ( empty( $wp->query_vars['amp'] ) ) {
+			return;
+		}
 
 		add_filter( 'nav_menu_link_attributes', array( 'Better_AMP_Content_Sanitizer', 'replace_href_with_amp' ) );
 		add_filter( 'the_content', array( 'Better_AMP_Content_Sanitizer', 'transform_all_links_to_amp' ) );
@@ -988,7 +995,6 @@ class Better_AMP {
 		add_filter( 'attachment_link', array( 'Better_AMP_Content_Sanitizer', 'transform_to_amp_url' ) );
 		add_filter( 'post_type_link', array( 'Better_AMP_Content_Sanitizer', 'transform_to_amp_url' ) );
 
-		return $template;
 	}
 
 

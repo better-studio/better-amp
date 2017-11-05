@@ -84,6 +84,17 @@ class Better_AMP_Plugin_Compatibility {
 		self::$plugins = NULL; // Clear memory
 
 		add_action( 'plugins_loaded', 'Better_AMP_Plugin_Compatibility::plugins_loaded' );
+
+
+		/**
+		 * WPML Plugin
+		 *
+		 * @link  https://wpml.org
+		 *
+		 * @since 1.6.0
+		 */
+
+		add_action( 'template_redirect', array( __CLASS__, 'fix_wpml_template_hooks' ) );
 	}
 
 
@@ -211,6 +222,38 @@ class Better_AMP_Plugin_Compatibility {
 
 		return $query_vars;
 	} // custom_permalinks
+
+	/**
+	 * WPML plugin compatibility fixes
+	 */
+	public static function fix_wpml_template_hooks() {
+
+		global $wpml_language_resolution;
+
+		/**
+		 * @var SitePress $sitepress
+		 */
+		$sitepress = isset( $GLOBALS['sitepress'] ) ? $GLOBALS['sitepress'] : '';
+		$callback  = array( $sitepress, 'display_wpml_footer' );
+
+		if ( ! $sitepress || ! $sitepress instanceof SitePress ) {
+			return;
+		}
+
+
+		if ( has_action( 'wp_footer', $callback ) ) {
+
+			add_action( 'better-amp/template/footer', $callback );
+		}
+
+		if ( $sitepress->get_setting( 'language_negotiation_type' ) == '1' ) {
+
+			add_filter( 'better-amp/transformer/exclude-subdir', array(
+				$wpml_language_resolution,
+				'get_active_language_codes'
+			) );
+		}
+	}
 }
 
 
