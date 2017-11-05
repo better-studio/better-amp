@@ -1127,18 +1127,25 @@ if ( ! function_exists( 'better_amp_get_search_page_url' ) ) {
 	/**
 	 * Get AMP index page url
 	 *
-	 * @param string $path Optional. Path relative to the site URL. Default empty.
-	 *
-	 * @since 1.0.0
+	 * @param string $path      Optional. Path relative to the site URL. Default empty.
+	 * @param string $before_sp .     Custom string to append before amp start point. Default empty.
 	 *
 	 * @return string
+	 * @since 1.0.0
+	 *
 	 */
-	function better_amp_site_url( $path = '' ) {
+	function better_amp_site_url( $path = '', $before_sp = '' ) {
 
-		$url = site_url( '/' . Better_AMP::STARTPOINT );
+		$url = site_url( '/' );
+		//
+		$url .= $before_sp ? trailingslashit( $before_sp ) : '';
+		$url .= Better_AMP::STARTPOINT;
 
 		if ( $path ) {
-			$url .= $path;
+
+			$path = ltrim( $path, '/' );
+			$url  .= "/$path";
+
 		}
 
 		return $url;
