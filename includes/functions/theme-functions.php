@@ -3042,3 +3042,29 @@ if ( ! function_exists( 'better_amp_related_posts_query_args' ) ) {
 
 	} // better_amp_related_posts_query_args
 } // if
+
+
+if ( ! function_exists( 'better_amp_min_suffix' ) ) {
+	/**
+	 * Returns appropriate suffix for static files (min or not)
+	 *
+	 * @param string $before
+	 * @param string $after
+	 *
+	 * @return string
+	 */
+	function better_amp_min_suffix( $before = '', $after = '' ) {
+
+		static $suffix;
+
+		if ( ! $suffix ) {
+			if ( ( defined( 'WP_DEBUG' ) && WP_DEBUG ) || ( defined( 'BF_DEV_MODE' ) && BF_DEV_MODE ) ) {
+				$suffix = '';
+			} else {
+				$suffix = '.min';
+			}
+		}
+
+		return "$before$suffix$after";
+	}
+}
