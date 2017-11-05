@@ -65,6 +65,7 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 - Fixed: Custom CSS was not after all css codes.
 
 - Devs: @better-amp/template/body/start action added.
+- Devs: Gulp.js file updated.
 
 = 1.5.3 =
 - Fixed: Third Party plugins a URL compatibility. Thanks @Karl
