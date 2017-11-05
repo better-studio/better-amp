@@ -437,12 +437,6 @@ function better_amp_customize_preview_init( $customize_manager ) {
  */
 function better_amp_guess_none_amp_url( $args = array() ) {
 
-	static $none_amp_url;
-
-	if ( $none_amp_url ) {
-		return $none_amp_url;
-	}
-
 	$abspath_fix         = str_replace( '\\', '/', ABSPATH );
 	$script_filename_dir = dirname( $_SERVER['SCRIPT_FILENAME'] );
 
