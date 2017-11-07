@@ -505,11 +505,12 @@ function better_amp_customize_register( $wp_customizer ) {
 		'default'   => better_amp_get_default_theme_setting( 'better-amp-post-related-count' ),
 		'transport' => 'postMessage',
 	) );
-	$wp_customizer->add_control( new AMP_Customize_Switch_Control( $wp_customizer, 'better-amp-post-related-count', array(
+
+	$wp_customizer->add_control( 'better-amp-post-related-count', array(
 		'label'    => __( 'Related Posts Count', 'better-amp' ),
 		'section'  => 'better-amp-post-section',
 		'priority' => 4,
-	) ) );
+	) );
 
 	/**
 	 * 5.4 Divider
