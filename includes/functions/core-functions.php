@@ -433,9 +433,13 @@ function better_amp_customize_preview_init( $customize_manager ) {
  *
  * @param array $args
  *
- * @return string|void
+ * @return string
  */
 function better_amp_guess_none_amp_url( $args = array() ) {
+
+	if ( ! isset( $_SERVER['SCRIPT_FILENAME'] ) ) { // todo: fix missing SCRIPT_FILENAME in cron
+		return '';
+	}
 
 	$abspath_fix         = str_replace( '\\', '/', ABSPATH );
 	$script_filename_dir = dirname( $_SERVER['SCRIPT_FILENAME'] );
