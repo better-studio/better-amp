@@ -52,6 +52,10 @@ a{
     -o-transition: all .4s ease;
     transition: all .4s ease;
 }
+amp-video {
+    max-width: 100%;
+    height: auto;
+}
 .strong-label,
 blockquote {
     color: #000;
