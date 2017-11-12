@@ -51,6 +51,9 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 
 == Changelog ==
 
+= 1.6.1 =
+- Improved: Style improved.
+
 = 1.6.0 =
 - Added: Full WPML support added to AMP.
 - Added: Auto redirect to AMP for mobile visitors added (compatible with all cache plugins).
