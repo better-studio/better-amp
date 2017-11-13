@@ -2429,15 +2429,16 @@ if ( ! function_exists( 'better_amp_social_shares_count' ) ) {
 			return bf_social_shares_count( $sites );
 		}
 
-		$sites = array_intersect_key( $sites, array( // Valid sites
-		                                             'facebook'    => '',
-		                                             'twitter'     => '',
-		                                             'google_plus' => '',
-		                                             'pinterest'   => '',
-		                                             'linkedin'    => '',
-		                                             'tumblr'      => '',
-		                                             'reddit'      => '',
-		                                             'stumbleupon' => '',
+		$sites = array_intersect_key( $sites, array(
+			// Valid sites
+			'facebook'    => '',
+			'twitter'     => '',
+			'google_plus' => '',
+			'pinterest'   => '',
+			'linkedin'    => '',
+			'tumblr'      => '',
+			'reddit'      => '',
+			'stumbleupon' => '',
 		) );
 
 		// Disable social share in localhost
