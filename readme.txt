@@ -51,6 +51,11 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 
 == Changelog ==
 
+= 1.6.2 =
+- Improved: AMP codes improved.
+- Fixed: Infinite redirect to AMP version in subdirectory wp installations.
+
+
 = 1.6.1 =
 - Improved: Style improved.
 
