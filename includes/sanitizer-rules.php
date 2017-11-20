@@ -2256,4 +2256,15 @@ $rules = array(
 						),
 				),
 		),
+	65 =>
+		array(
+			'tag_name' => 'span',
+			'attrs'    =>
+				array(
+					0 =>
+						array(
+							'name' => 'rel',
+						),
+				),
+		),
 );
