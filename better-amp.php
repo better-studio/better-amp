@@ -1369,6 +1369,16 @@ class Better_AMP {
 			bf_remove_class_filter( 'image_send_to_editor', 'OT_media_image_no_width_height_Tweak', '_do', 10 );
 		}
 
+
+		/**
+		 * WPO Tweaks
+		 *
+		 * https://servicios.ayudawp.com/
+		 */
+		if ( function_exists( 'wpo_tweaks_init' ) ) {
+			remove_filter('script_loader_tag', 'wpo_defer_parsing_of_js');
+		}
+
 	}
 
 
