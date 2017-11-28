@@ -95,6 +95,16 @@ class Better_AMP_Plugin_Compatibility {
 		 */
 
 		add_action( 'template_redirect', array( __CLASS__, 'fix_wpml_template_hooks' ) );
+
+
+		/**
+		 * Pretty Links Compatibility
+		 *
+		 * @link  https://wordpress.org/plugins/pretty-link/
+		 * @since 1.7.0
+		 */
+
+		add_filter( 'prli-check-if-slug', 'Better_AMP_Plugin_Compatibility::pretty_links_compatibility', 2, 2 );
 	}
 
 
@@ -172,7 +182,7 @@ class Better_AMP_Plugin_Compatibility {
 		 */
 		if ( defined( 'WPML_PLUGIN_BASENAME' ) && WPML_PLUGIN_BASENAME ) {
 
-			add_action( 'wpml_is_redirected', '__return_false');
+			add_action( 'wpml_is_redirected', '__return_false' );
 		}
 
 	}
@@ -253,6 +263,38 @@ class Better_AMP_Plugin_Compatibility {
 				'get_active_language_codes'
 			) );
 		}
+	}
+
+
+	/**
+	 * Drop amp start-point from pretty link slug
+	 *
+	 * @param bool|object $is_pretty_link
+	 * @param string      $slug
+	 *
+	 * @since 1.7.0
+	 * @return bool|object
+	 */
+	public static function pretty_links_compatibility( $is_pretty_link, $slug ) {
+
+		if ( isset( $GLOBALS['prli_link'] ) && $GLOBALS['prli_link'] instanceof PrliLink ) {
+
+			if ( preg_match( '#^/*' . Better_AMP::STARTPOINT . '/+(.+)$#i', $slug, $match ) ) {
+
+				/**
+				 * @var PrliLink $instance
+				 */
+				$instance = $GLOBALS['prli_link'];
+				$callback = array( $instance, 'getOneFromSlug' );
+
+				if ( is_callable( $callback ) ) {
+
+					return call_user_func( $callback, $match[1] );
+				}
+			}
+		}
+
+		return $is_pretty_link;
 	}
 }
 
