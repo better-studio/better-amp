@@ -207,6 +207,19 @@ class BF_Json_LD_Generator {
 
 
 	/**
+	 * Get the last modification date of the current post
+	 * 
+	 * @since
+	 * @return string
+	 */
+	public static function get_the_modification_date() {
+		global $post;
+
+		return $post->post_modified;
+	}
+
+
+	/**
 	 * Escape shortcodes and tags of text
 	 *
 	 * @param string $text
@@ -406,13 +419,12 @@ class BF_Json_LD_Generator {
 			//
 			'url'              => $permalink,
 			'headline'         => $post->post_title,
-			'publisher'        => array(
-				'@id' => '#organization',
-			),
+			'publisher'        => self::generate_organization_schema(),
 			'mainEntityOfPage' => array(
 				'@type' => 'WebPage',
 				'@id'   => $permalink,
 			),
+			'dateModified' => self::get_the_modification_date()
 		);
 
 
