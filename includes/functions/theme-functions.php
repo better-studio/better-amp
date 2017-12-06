@@ -1023,11 +1023,16 @@ if ( ! function_exists( 'better_amp_get_canonical_url' ) ) {
 				$canonical = get_search_link();
 			}
 
-		} elseif ( is_front_page() ) {
+		} elseif ( (is_front_page() || is_category()) && !is_paged() ) {
 
 			$canonical = get_bloginfo( 'url' );
 
-		} elseif ( is_tax() || is_tag() || is_category() ) {
+		} elseif ( (is_front_page() || is_category()) && is_paged() ) {
+
+			global $wp;
+			$canonical = home_url( $wp->request );
+
+		} elseif ( is_tax() || is_tag() ) {
 
 			$term = get_queried_object();
 
