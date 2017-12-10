@@ -23,6 +23,16 @@ class Better_AMP_Plugin_Compatibility {
 	 */
 	public static function init() {
 
+		/**
+		 * WPML Plugin
+		 *
+		 * @link  https://wpml.org
+		 *
+		 * @since 1.6.0
+		 */
+
+		add_action( 'init', array( __CLASS__, 'fix_wpml_template_hooks' ) );
+
 		if ( ! is_better_amp() ) {
 			return;
 		}
@@ -84,7 +94,7 @@ class Better_AMP_Plugin_Compatibility {
 		self::$plugins = NULL; // Clear memory
 
 		add_action( 'plugins_loaded', 'Better_AMP_Plugin_Compatibility::plugins_loaded' );
-
+    
 
 		/**
 		 * WPML Plugin
@@ -105,6 +115,7 @@ class Better_AMP_Plugin_Compatibility {
 		 */
 
 		add_filter( 'prli-check-if-slug', 'Better_AMP_Plugin_Compatibility::pretty_links_compatibility', 2, 2 );
+
 	}
 
 
