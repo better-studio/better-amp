@@ -94,7 +94,7 @@ class Better_AMP_Plugin_Compatibility {
 		self::$plugins = NULL; // Clear memory
 
 		add_action( 'plugins_loaded', 'Better_AMP_Plugin_Compatibility::plugins_loaded' );
-    
+
 
 		/**
 		 * WPML Plugin
@@ -243,6 +243,7 @@ class Better_AMP_Plugin_Compatibility {
 
 		return $query_vars;
 	} // custom_permalinks
+
 
 	/**
 	 * WPML plugin compatibility fixes
