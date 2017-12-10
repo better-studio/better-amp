@@ -51,6 +51,14 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 
 == Changelog ==
 
+= 1.7.0 =
+- Fixed: RTL Ads issue. Thanks @Igor @Issa
+- Fixed: issues with AMP urls by excluding language subdirectories. Thanks @david.g
+
+- Improved: "WPO Tweaks" plugin compatibility.
+- Add: Pretty Links Plugin Compatibility
+
+
 = 1.6.3 =
 - Fixed: Validation issue about WordPress update.
 
