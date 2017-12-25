@@ -17,6 +17,9 @@ blockquote:before {
     margin-left: 15px;
     margin-right: auto;
 }
+.rtl .bsac .bsac-container {
+    direction: rtl;
+}
 
 
 /*
