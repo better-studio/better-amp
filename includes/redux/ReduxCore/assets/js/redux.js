@@ -185,9 +185,11 @@
 
                 window.onbeforeunload = null;
 
-                if ( redux.args.ajax_save === true ) {
+                if ( redux.optName.args.ajax_save === true ) {
                     $.redux.ajax_save( $( this ) );
                     e.preventDefault();
+                } else {
+                    location.reload( true );
                 }
             }
         );
@@ -311,7 +313,7 @@
             }
         );
 
-        $( 'td > fieldset:empty,td > div:empty' ).parent().parent().hide();
+        $( '.redux-container td > fieldset:empty,td > div:empty' ).parent().parent().hide();
     };
 
     $.redux.initQtip = function() {
@@ -857,10 +859,10 @@
         }
 
         var container = current.parents( '.redux-field-container:first' ),
-            is_hidden = container.parents( 'tr:first' ).hasClass( '.hide' );
+            is_hidden = container.parents( 'tr:first' ).hasClass( 'hide' );
 
         if ( !container.parents( 'tr:first' ).length ) {
-            is_hidden = container.parents( '.customize-control:first' ).hasClass( '.hide' );
+            is_hidden = container.parents( '.customize-control:first' ).hasClass( 'hide' );
         }
 
         $.each(
@@ -973,7 +975,7 @@
         if ( redux.required_child.hasOwnProperty( id ) ) {
             $.each(
                 redux.required_child[id], function( i, parentData ) {
-                    if ( $( '#' + redux.args.opt_name + '-' + parentData.parent ).parents( 'tr:first' ).hasClass( '.hide' ) ) {
+                    if ( $( '#' + redux.args.opt_name + '-' + parentData.parent ).parents( 'tr:first' ).hasClass( 'hide' ) ) {
                         show = false;
                     } else {
                         if ( show !== false ) {
@@ -996,14 +998,17 @@
             operation = data.operation,
             arr;
 
+        if ($.isPlainObject( parentValue )) {
+            parentValue = Object.keys( parentValue ).map(
+                function( key ) {
+                    return [key, parentValue[key]];
+                }
+            );            
+        }
+
         switch ( operation ) {
             case '=':
             case 'equals':
-                //                if ($.isPlainObject(parentValue)) {
-                //                    var arr = Object.keys(parentValue).map(function (key) {return parentValue[key]});
-                //                    parentValue = arr;
-                //                }
-
                 if ( $.isArray( parentValue ) ) {
                     $( parentValue[0] ).each(
                         function( idx, val ) {
@@ -1044,7 +1049,7 @@
             case '!=':
             case 'not':
                 if ( $.isArray( parentValue ) ) {
-                    $( parentValue ).each(
+                    $( parentValue[0] ).each(
                         function( idx, val ) {
                             if ( $.isArray( checkValue ) ) {
                                 $( checkValue ).each(
@@ -1450,58 +1455,41 @@
     $( document ).ready(
         function() {
             if ( redux.rAds ) {
-                setTimeout(
+                var el;
+                if ( $( '#redux-header' ).length > 0 ) {
+                    $( '#redux-header' ).append( '<div class="rAds"></div>' );
+                    el = $( '#redux-header' );
+                } else {
+                    $( '#customize-theme-controls ul' ).first().prepend(
+                        '<li id="redux_rAds" class="accordion-section rAdsContainer" style="position: relative;"><div class="rAds"></div></li>' );
+                    el = $( '#redux_rAds' );
+                }
+
+                el.css( 'position', 'relative' );
+                el.find( '.rAds' ).attr(
+                    'style',
+                    'position:absolute; top: 6px; right: 9px; display:block !important;overflow:hidden;'
+                ).css( 'left', '-99999px' );
+                el.find( '.rAds' ).html( redux.rAds.replace( /<br\s?\/?>/, '' ) );
+                var rAds = el.find( '.rAds' );
+
+                $( rAds ).hide();
+                rAds.bind( "DOMSubtreeModified", function() {
+                    if ( $( this ).html().indexOf( "<a href" ) >= 0 ) {
+                        rAds.find( 'img' ).css( 'visibility', 'hidden' );
+                        setTimeout( function() {
+                            rAds.show();
+                            $.redux.resizeAds();
+                        }, 400 );
+                        rAds.find( 'img' ).css( 'visibility', 'inherit' );
+                        rAds.unbind( "DOMSubtreeModified" );
+                    }
+
+                } );
+                $( window ).resize(
                     function() {
-                        var el;
-                        if ( $( '#redux-header' ).length > 0 ) {
-                            $( '#redux-header' ).append( '<div class="rAds"></div>' );
-                            el = $( '#redux-header' );
-                        } else {
-                            $( '#customize-theme-controls ul' ).first().prepend( '<li id="redux_rAds" class="accordion-section rAdsContainer" style="position: relative;"><div class="rAds"></div></li>' );
-                            el = $( '#redux_rAds' );
-                        }
-
-                        el.css( 'position', 'relative' );
-
-                        el.find( '.rAds' ).attr(
-                            'style',
-                            'position:absolute; top: 6px; right: 6px; display:block !important;overflow:hidden;'
-                        ).css( 'left', '-99999px' );
-                        el.find( '.rAds' ).html( redux.rAds.replace( /<br\s?\/?>/, '' ) );
-                        var rAds = el.find( '.rAds' );
-
-                        var maxHeight = el.height();
-                        var maxWidth = el.width() - el.find( '.display_header' ).width() - 30;
-
-                        rAds.find( 'a' ).css( 'float', 'right' ).css( 'line-height', el.height() + 'px' ).css(
-                            'margin-left', '5px'
-                        );
-
-                        $( document ).ajaxComplete(
-                            function() {
-                                rAds.find( 'a' ).hide();
-                                setTimeout(
-                                    function() {
-                                        $.redux.resizeAds();
-                                        rAds.find( 'a' ).fadeIn();
-                                    }, 1400
-                                );
-                                setTimeout(
-                                    function() {
-                                        $.redux.resizeAds();
-
-                                    }, 1500
-                                );
-                                $( document ).unbind( 'ajaxComplete' );
-                            }
-                        );
-
-                        $( window ).resize(
-                            function() {
-                                $.redux.resizeAds();
-                            }
-                        );
-                    }, 400
+                        $.redux.resizeAds();
+                    }
                 );
 
             }
@@ -1530,6 +1518,7 @@ var confirmOnPageExit = function( e ) {
 };
 
 function redux_change( variable ) {
+    variable = jQuery(variable);
 
     jQuery( 'body' ).trigger( 'check_dependencies', variable );
 
@@ -1620,12 +1609,6 @@ function redux_change( variable ) {
     }
     // Don't show the changed value notice while save_notice is visible.
     if ( rContainer.find( '.saved_notice:visible' ).length > 0 ) {
-        return;
-    }
-
-
-    if ( redux.customizer ) {
-        redux.customizer.save( variable, rContainer, parentID );
         return;
     }
 

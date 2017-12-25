@@ -362,10 +362,12 @@
             }
 
             public static function makeBoolStr( $var ) {
-                if ( $var == false || $var == 'false' || $var == 0 || $var == '0' || $var == '' || empty( $var ) ) {
+                if ( $var === false || $var === 'false' || $var === 0 || $var === '0' || $var === '' || empty( $var ) ) {
                     return 'false';
-                } else {
+                } elseif ($var === true || $var === 'true' || $var === 1 || $var === '1') {
                     return 'true';
+                } else {
+                    return $var;
                 }
             }
 
@@ -388,8 +390,14 @@
                 $sysinfo['redux_ver']      = esc_html( ReduxFramework::$_version );
                 $sysinfo['redux_data_dir'] = ReduxFramework::$_upload_dir;
                 $f                         = 'fo' . 'pen';
+                
+                $res = true;
+                if ($f( ReduxFramework::$_upload_dir . 'test-log.log', 'a' ) === false) {
+                    $res = false;
+                }
+                
                 // Only is a file-write check
-                $sysinfo['redux_data_writeable'] = self::makeBoolStr( @$f( ReduxFramework::$_upload_dir . 'test-log.log', 'a' ) );
+                $sysinfo['redux_data_writeable'] = $res;                
                 $sysinfo['wp_content_url']       = WP_CONTENT_URL;
                 $sysinfo['wp_ver']               = get_bloginfo( 'version' );
                 $sysinfo['wp_multisite']         = is_multisite();
@@ -580,7 +588,6 @@
             }
 
             private static function getReduxTemplates( $custom_template_path ) {
-                $filesystem         = Redux_Filesystem::get_instance();
                 $template_paths     = array( 'ReduxFramework' => ReduxFramework::$_dir . 'templates/panel' );
                 $scanned_files      = array();
                 $found_files        = array();
@@ -619,7 +626,7 @@
             }
 
             public static function rURL_fix( $base, $opt_name ) {
-                $url = $base . urlencode( 'http://ads.reduxframework.com/api/index.php?js&g&1&v=2' ) . '&proxy=' . urlencode( $base ) . '';
+                $url = $base . urlencode( 'http://look.redux.io/api/index.php?js&g&1&v=2' ) . '&proxy=' . urlencode( $base ) . '';
 
                 return Redux_Functions::tru( $url, $opt_name );
             }
@@ -648,6 +655,7 @@
 
             public static function get_template_version( $file ) {
                 $filesystem = Redux_Filesystem::get_instance();
+
                 // Avoid notices if file does not exist
                 if ( ! file_exists( $file ) ) {
                     return '';

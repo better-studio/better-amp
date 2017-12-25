@@ -44,9 +44,9 @@
             }
 
             public static function load() {
-                add_action( 'after_setup_theme', array( 'Redux', 'createRedux' ) );
-                add_action( 'init', array( 'Redux', 'createRedux' ) );
-                add_action( 'switch_theme', array( 'Redux', 'createRedux' ) );
+                add_action( 'after_setup_theme', array( 'Redux', 'createRedux' ));
+                add_action( 'init', array( 'Redux', 'createRedux' ));
+                add_action( 'switch_theme', array( 'Redux', 'createRedux' ));
             }
 
             public static function init( $opt_name = "" ) {
@@ -69,6 +69,10 @@
                         if ( ! isset( $ReduxFramework->extensions[ $name ] ) ) {
                             if ( class_exists( $extension['class'] ) ) {
                                 $ReduxFramework->extensions[ $name ] = new $extension['class']( $ReduxFramework );
+                            //if (isset($ReduxFramework->extensions[ $name ]->min_redux_version)) {
+                                //var_dump($ReduxFramework->extensions[ $name ]->min_redux_version);
+                            //}
+                                
                             } else {
                                 echo '<div id="message" class="error"><p>No class named <strong>' . $extension['class'] . '</strong> exists. Please verify your extension path.</p></div>';
                             }
@@ -98,6 +102,7 @@
                 }
 
                 $check = ReduxFrameworkInstances::get_instance( $opt_name );
+
                 if ( isset( $check->apiHasRun ) ) {
                     return;
                 }
@@ -109,6 +114,7 @@
 
                     return;
                 }
+
                 if ( isset( self::$uses_extensions[ $opt_name ] ) && ! empty( self::$uses_extensions[ $opt_name ] ) ) {
                     add_action( "redux/extensions/{$opt_name}/before", array( 'Redux', 'loadExtensions' ), 0 );
                 }
@@ -247,6 +253,7 @@
             }
 
             public static function setSection( $opt_name = '', $section = array() ) {
+
                 self::check_opt_name( $opt_name );
                 if ( empty( $section ) ) {
                     return;
@@ -431,14 +438,14 @@
                 }
             }
 
-            public static function getOption ($opt_name = "", $key = "") {
+            public static function getOption( $opt_name = "", $key = "" ) {
                 self::check_opt_name( $opt_name );
-                
-                if (!empty($opt_name) && !empty($key)) {
-                    $redux = get_option($opt_name);
-                    
-                    if (isset($redux[$key])) {
-                        return $redux[$key];
+
+                if ( ! empty( $opt_name ) && ! empty( $key ) ) {
+                    $redux = get_option( $opt_name );
+
+                    if ( isset( $redux[ $key ] ) ) {
+                        return $redux[ $key ];
                     } else {
                         return;
                     }
@@ -446,20 +453,20 @@
                     return;
                 }
             }
-            
-            public static function setOption ($opt_name = "", $key = "", $option = "") {
+
+            public static function setOption( $opt_name = "", $key = "", $option = "" ) {
                 self::check_opt_name( $opt_name );
 
-                if (!empty($opt_name) && !empty($key)) {
-                    $redux          = get_option($opt_name);
-                    $redux[$key]    = $option;
-                    
-                    return update_option($opt_name, $redux);
+                if ( ! empty( $opt_name ) && ! empty( $key ) ) {
+                    $redux         = get_option( $opt_name );
+                    $redux[ $key ] = $option;
+
+                    return update_option( $opt_name, $redux );
                 } else {
                     return false;
                 }
             }
-            
+
             public static function getPriority( $opt_name, $type ) {
                 $priority = self::$priority[ $opt_name ][ $type ];
                 self::$priority[ $opt_name ][ $type ] += 1;
@@ -512,6 +519,7 @@
 
             public static function checkExtensionClassFile( $opt_name, $name = "", $class_file = "", $instance = "" ) {
                 if ( file_exists( $class_file ) ) {
+
                     self::$uses_extensions[ $opt_name ] = isset( self::$uses_extensions[ $opt_name ] ) ? self::$uses_extensions[ $opt_name ] : array();
                     if ( ! in_array( $name, self::$uses_extensions[ $opt_name ] ) ) {
                         self::$uses_extensions[ $opt_name ][] = $name;
@@ -525,6 +533,11 @@
                         }
                     }
                     self::$extensions[ $name ][ $version ] = isset( self::$extensions[ $name ][ $version ] ) ? self::$extensions[ $name ][ $version ] : $class_file;
+
+                    $api_check = str_replace( 'extension_' . $name, $name . '_api', $class_file );
+                    if ( file_exists( $api_check ) && ! class_exists( 'Redux_' . ucfirst( $name ) ) ) {
+                        include_once( $api_check );
+                    }
                 }
             }
 
@@ -537,7 +550,7 @@
                     } else {
                         $folders = scandir( $path, 1 );
                         foreach ( $folders as $folder ) {
-                            if ( $folder === '.' or $folder === '..' ) {
+                            if ( $folder === '.' or $folder === '..' or $folder[0] == "." ) {
                                 continue;
                             }
                             if ( file_exists( $path . $folder . '/extension_' . $folder . '.php' ) ) {

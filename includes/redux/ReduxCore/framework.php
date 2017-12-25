@@ -55,6 +55,9 @@
         // ThemeCheck checks
         require_once dirname( __FILE__ ) . '/inc/themecheck/class.redux_themecheck.php';
 
+        // Welcome
+        require_once dirname( __FILE__ ) . '/inc/welcome/welcome.php';
+
         /**
          * Main ReduxFramework class
          *
@@ -66,7 +69,7 @@
             // Please update the build number with each push, no matter how small.
             // This will make for easier support when we ask users what version they are using.
 
-            public static $_version = '3.6.3';
+            public static $_version = '3.6.7.13';
             public static $_dir;
             public static $_url;
             public static $_upload_dir;
@@ -203,7 +206,6 @@
                 // Pass parent pointer to function helper.
                 Redux_Functions::$_parent     = $this;
                 Redux_CDN::$_parent           = $this;
-                Redux_Admin_Notices::$_parent = $this;
 
                 // Set values
                 $this->set_default_args();
@@ -250,8 +252,6 @@
                     $this->args['save_defaults'] = false;
                 }
 
-                $this->change_demo_defaults();
-
                 if ( ! empty ( $this->args['opt_name'] ) ) {
                     /**
                      * SHIM SECTION
@@ -273,6 +273,21 @@
                         unset ( $this->args['page_type'] );
                     }
 
+                    // Auto create the page_slug appropriately
+                    if ( empty( $this->args['page_slug'] ) ) {
+                        if ( ! empty( $this->args['display_name'] ) ) {
+                            $this->args['page_slug'] = sanitize_html_class( $this->args['display_name'] );
+                        } else if ( ! empty( $this->args['page_title'] ) ) {
+                            $this->args['page_slug'] = sanitize_html_class( $this->args['page_title'] );
+                        } else if ( ! empty( $this->args['menu_title'] ) ) {
+                            $this->args['page_slug'] = sanitize_html_class( $this->args['menu_title'] );
+                        } else {
+                            $this->args['page_slug'] = str_replace( '-', '_', $this->args['opt_name'] );
+                        }
+                    }
+                    
+                    $this->change_demo_defaults();
+                    
                     // Get rid of extra_tabs! Not needed.
                     if ( is_array( $extra_tabs ) && ! empty ( $extra_tabs ) ) {
                         foreach ( $extra_tabs as $tab ) {
@@ -407,7 +422,7 @@
                         require_once 'core/dashboard.php';
                         new reduxDashboardWidget( $this );
 
-                        if ( ! isset ( $GLOBALS['redux_notice_check'] ) ) {
+                        if ( ! isset ( $GLOBALS['redux_notice_check'] ) || $GLOBALS['redux_notice_check'] == 0 ) {
                             require_once 'core/newsflash.php';
 
                             $params = array(
@@ -593,13 +608,13 @@
             public function _update_check() {
                 // Only one notice per instance please
                 if ( ! isset ( $GLOBALS['redux_update_check'] ) ) {
-                    Redux_Functions::updateCheck( self::$_version );
+                    Redux_Functions::updateCheck($this, self::$_version );
                     $GLOBALS['redux_update_check'] = 1;
                 }
             }
 
             public function _admin_notices() {
-                Redux_Admin_Notices::adminNotices( $this->admin_notices );
+                Redux_Admin_Notices::adminNotices($this, $this->admin_notices );
             }
 
             public function _dismiss_admin_notice() {
@@ -634,7 +649,21 @@
 
                 $basepath = apply_filters( "redux/textdomain/basepath/{$this->args['opt_name']}", $basepath );
 
-                load_plugin_textdomain( 'redux-framework', false, $basepath . 'languages' );
+                $loaded = load_plugin_textdomain( 'redux-framework', false, $basepath . 'languages');
+
+                if ( !$loaded ){
+                    $loaded = load_muplugin_textdomain( 'redux-framework', $basepath . 'languages' );
+                }
+
+                if ( !$loaded ){
+                    $loaded = load_theme_textdomain( 'redux-framework', $basepath . 'languages' );
+                }
+
+                if ( ! $loaded ) {
+                    $locale = apply_filters( 'plugin_locale', get_locale(), 'redux-framework' );
+                    $mofile = dirname( __FILE__ ) . '/languages/redux-framework-' . $locale . '.mo';
+                    load_textdomain( 'redux-framework', $mofile );
+                }
             }
             // _internationalization()
 
@@ -1274,19 +1303,6 @@
 //                    }
                 }
 
-                // Auto create the page_slug appropriately
-                if ( empty( $this->args['page_slug'] ) ) {
-                    if ( ! empty( $this->args['display_name'] ) ) {
-                        $this->args['page_slug'] = sanitize_html_class( $this->args['display_name'] );
-                    } else if ( ! empty( $this->args['page_title'] ) ) {
-                        $this->args['page_slug'] = sanitize_html_class( $this->args['page_title'] );
-                    } else if ( ! empty( $this->args['menu_title'] ) ) {
-                        $this->args['page_slug'] = sanitize_html_class( $this->args['menu_title'] );
-                    } else {
-                        $this->args['page_slug'] = str_replace( '-', '_', $this->args['opt_name'] );
-                    }
-                }
-
                 if ( isset( $this->args['customizer_only'] ) && $this->args['customizer_only'] == true ) {
                     $this->args['menu_type']      = 'hidden';
                     $this->args['customizer']     = true;
@@ -1445,7 +1461,7 @@
                                     continue;
                                 }
 
-                                if ( isset( $section['permissions'] ) && ! current_user_can( $section['permissions'] ) ) {
+                                if ( isset( $section['permissions'] ) && ! self::current_user_can( $section['permissions'] ) ) {
                                     continue;
                                 }
 
@@ -2067,7 +2083,7 @@
                     $heading = isset ( $section['heading'] ) ? $section['heading'] : $section['title'];
 
                     if ( isset ( $section['permissions'] ) ) {
-                        if ( ! current_user_can( $section['permissions'] ) ) {
+                        if ( ! self::current_user_can( $section['permissions'] ) ) {
                             $this->hidden_perm_sections[] = $section['title'];
 
                             foreach ( $section['fields'] as $num => $field_data ) {
@@ -2155,7 +2171,7 @@
 
                             if ( isset ( $field['permissions'] ) ) {
 
-                                if ( ! current_user_can( $field['permissions'] ) ) {
+                                if ( ! self::current_user_can( $field['permissions'] ) ) {
                                     $data = isset ( $this->options[ $field['id'] ] ) ? $this->options[ $field['id'] ] : $this->options_defaults[ $field['id'] ];
 
                                     $this->hidden_perm_fields[ $field['id'] ] = $data;
@@ -2740,9 +2756,11 @@
                 }
 
                 $this->transients['changed_values'] = array(); // Changed values since last save
-                foreach ( $this->options as $key => $value ) {
-                    if ( isset ( $plugin_options[ $key ] ) && $value != $plugin_options[ $key ] ) {
-                        $this->transients['changed_values'][ $key ] = $value;
+                if ( !empty( $this->options ) ) {
+                    foreach ( $this->options as $key => $value ) {
+                        if ( isset ( $plugin_options[ $key ] ) && $value != $plugin_options[ $key ] ) {
+                            $this->transients['changed_values'][ $key ] = $value;
+                        }
                     }
                 }
 
@@ -2779,7 +2797,7 @@
                     die();
                 }
 
-                if ( ! current_user_can( $this->args['page_permissions'] ) ) {
+                if ( ! self::current_user_can( $this->args['page_permissions'] ) ) {
                     echo json_encode( array(
                         'status' => __( 'Invalid user capability.  Please reload the page and try again.', 'redux-framework' ),
                         'action' => ''
@@ -3180,6 +3198,7 @@
                     $subsectionsClass = $subsections ? ' hasSubSections' : '';
                     $subsectionsClass .= ( ! isset ( $section['fields'] ) || empty ( $section['fields'] ) ) ? ' empty_section' : '';
                     $extra_icon = $subsections ? '<span class="extraIconSubsections"><i class="el el-chevron-down">&nbsp;</i></span>' : '';
+                    //var_dump($section);
                     $string .= '<li id="' . esc_attr( $k . $suffix ) . '_section_group_li" class="redux-group-tab-link-li' . esc_attr( $hide_section ) . esc_attr( $section['class'] ) . esc_attr( $subsectionsClass ) . '">';
                     $string .= '<a href="javascript:void(0);" id="' . esc_attr( $k . $suffix ) . '_section_group_li_a" class="redux-group-tab-link-a" data-key="' . esc_attr( $k ) . '" data-rel="' . esc_attr( $k . $suffix ) . '">' . $extra_icon . $icon . '<span class="group_title">' . wp_kses_post( $section['title'] ) . '</span></a>';
 
@@ -3404,7 +3423,7 @@
                     if ( class_exists( $field_class ) ) {
                         $value = isset ( $this->options[ $field['id'] ] ) ? $this->options[ $field['id'] ] : '';
 
-                        if ( $v !== null ) {
+                        if ( $v != null ) {
                             $value = $v;
                         }
 
@@ -3699,25 +3718,26 @@
                             foreach ( $parentValue as $idx => $val ) {
                                 if ( is_array( $checkValue ) ) {
                                     foreach ( $checkValue as $i => $v ) {
-                                        if ( $val == $v ) {
+                                        if ( Redux_Helpers::makeBoolStr($val) === Redux_Helpers::makeBoolStr($v) ) {
                                             $return = true;
                                         }
                                     }
                                 } else {
-                                    if ( $val == $checkValue ) {
+                                    if ( Redux_Helpers::makeBoolStr($val) === Redux_Helpers::makeBoolStr($checkValue) ) {
                                         $return = true;
                                     }
                                 }
                             }
                         } else {
+                            //var_dump($checkValue);
                             if ( is_array( $checkValue ) ) {
                                 foreach ( $checkValue as $i => $v ) {
-                                    if ( $parentValue == $v ) {
+                                    if ( Redux_Helpers::makeBoolStr($parentValue) === Redux_Helpers::makeBoolStr($v) ) {
                                         $return = true;
                                     }
                                 }
                             } else {
-                                if ( $parentValue == $checkValue ) {
+                                if ( Redux_Helpers::makeBoolStr($parentValue) === Redux_Helpers::makeBoolStr($checkValue) ) {
                                     $return = true;
                                 }
                             }
@@ -3731,12 +3751,12 @@
                             foreach ( $parentValue as $idx => $val ) {
                                 if ( is_array( $checkValue ) ) {
                                     foreach ( $checkValue as $i => $v ) {
-                                        if ( $val != $v ) {
+                                        if ( Redux_Helpers::makeBoolStr($val) !== Redux_Helpers::makeBoolStr($v) ) {
                                             $return = true;
                                         }
                                     }
                                 } else {
-                                    if ( $val != $checkValue ) {
+                                    if ( Redux_Helpers::makeBoolStr($val) !== Redux_Helpers::makeBoolStr($checkValue) ) {
                                         $return = true;
                                     }
                                 }
@@ -3744,12 +3764,12 @@
                         } else {
                             if ( is_array( $checkValue ) ) {
                                 foreach ( $checkValue as $i => $v ) {
-                                    if ( $parentValue != $v ) {
+                                    if ( Redux_Helpers::makeBoolStr($parentValue) !== Redux_Helpers::makeBoolStr($v) ) {
                                         $return = true;
                                     }
                                 }
                             } else {
-                                if ( $parentValue != $checkValue ) {
+                                if ( Redux_Helpers::makeBoolStr($parentValue) !== Redux_Helpers::makeBoolStr($checkValue) ) {
                                     $return = true;
                                 }
                             }
@@ -3957,6 +3977,8 @@
              * @return  array $merged
              */
             function redux_array_merge_recursive_distinct( array $array1, array $array2 ) {
+                $merged = array();
+                
                 $merged = $array1;
 
                 foreach ( $array2 as $key => $value ) {
@@ -3993,42 +4015,244 @@
                         foreach ( $this->args['share_icons'] as $idx => $arr ) {
                             if ( is_array( $arr ) && ! empty( $arr ) ) {
                                 foreach ( $arr as $x => $y ) {
-                                    if ( strpos( strtolower( $y ), 'redux' ) !== false ) {
-                                        $msg = __( '<strong>Redux Framework Notice: </strong>There are references to the Redux Framework support site in your config\'s <code>share_icons</code> argument.  This is sample data.  Please change or remove this data before shipping your product.', 'redux-framework' );
-                                        $this->display_arg_change_notice( 'share', $msg );
-                                        $this->omit_share_icons = true;
+                                    if (!$this->omit_share_icons) {
+                                        if ( strpos( strtolower( $y ), 'redux' ) !== false ) {
+                                            $msg = __( '<strong>Redux Framework Notice: </strong>There are references to the Redux Framework support site in your config\'s <code>share_icons</code> argument.  This is sample data.  Please change or remove this data before shipping your product.', 'redux-framework' );
+                                            $this->display_arg_change_notice( 'share', $msg );
+                                            $this->omit_share_icons = true;
+                                            continue;
+                                        }
                                     }
                                 }
                             }
                         }
                     }
-
                 }
             }
 
             private function display_arg_change_notice( $mode, $msg = '' ) {
                 if ( $mode == 'admin' ) {
                     if ( ! $this->omit_admin_items ) {
-                        $this->admin_notices[] = array(
-                            'type'    => 'error',
-                            'msg'     => $msg,
-                            'id'      => 'admin_config',
-                            'dismiss' => true,
+                        $data = array(
+                            'parent'    => $this,
+                            'type'      => 'error',
+                            'msg'       => $msg,
+                            'id'        => 'admin_config',
+                            'dismiss'   => true
                         );
+                        
+                        Redux_Admin_Notices::set_notice($data);
                     }
                 }
 
                 if ( $mode == 'share' ) {
                     if ( ! $this->omit_share_icons ) {
-                        $this->admin_notices[] = array(
-                            'type'    => 'error',
-                            'msg'     => $msg,
-                            'id'      => 'share_config',
-                            'dismiss' => true,
+                        $data = array(
+                            'parent'    => $this,
+                            'type'      => 'error',
+                            'msg'       => $msg,
+                            'id'        => 'share_config',
+                            'dismiss'   => true
                         );
+                        
+                        Redux_Admin_Notices::set_notice($data);
                     }
                 }
             }
+
+
+            /**
+             * Checks a nested capabilities array or string to determine if the current user meets the requirements.
+             *
+             * @since 3.6.3.4
+             *
+             * @param  string|array $capabilities Permission string or array to check. See self::user_can() for details.
+             * @param  int          $object_id    (Optional) ID of the specific object to check against if capability is a "meta" cap.
+             *                                    e.g. 'edit_post', 'edit_user', 'edit_page', etc.,
+             *
+             * @return bool Whether or not the user meets the requirements. False on invalid user.
+             */
+            public static function current_user_can( $capabilities ) {
+                $current_user = wp_get_current_user();
+
+                if ( empty( $current_user ) ) {
+                    return false;
+                }
+
+                $name_arr=func_get_args();
+                $args = array_merge( array( $current_user ),$name_arr );
+
+                return call_user_func_array( array( 'self', 'user_can' ), $args );
+            }
+
+
+            /**
+             * Checks a nested capabilities array or string to determine if the user meets the requirements.
+             *
+             * You can pass in a simple string like 'edit_posts' or an array of conditions.
+             *
+             * The capability 'relation' is reserved for controlling the relation mode (AND/OR), which defaults to AND.
+             *
+             * Max depth of 30 levels.  False is returned for any conditions exceeding max depth.
+             *
+             * If you want to check meta caps, you must also pass the object ID on which to check against.
+             * If you get the error: PHP Notice:  Undefined offset: 0 in /wp-includes/capabilities.php, you didn't
+             * pass the required $object_id.
+             *
+             * @since 3.6.3.4
+             *
+             * @example
+             * ::user_can( 42, 'edit_pages' );                        // Checks if user ID 42 has the 'edit_pages' cap.
+             * ::user_can( 42, 'edit_page', 17433 );                  // Checks if user ID 42 has the 'edit_page' cap for post ID 17433.
+             * ::user_can( 42, array( 'edit_pages', 'edit_posts' ) ); // Checks if user ID 42 has both the 'edit_pages' and 'edit_posts' caps.
+             *
+             * @param  int|object   $user         User ID or WP_User object to check. Defaults to the current user.
+             * @param  string|array $capabilities Capability string or array to check. The array lets you use multiple
+             *                                    conditions to determine if a user has permission.
+             *                                    Invalid conditions are skipped (conditions which aren't a string/array/bool/number(cast to bool)).
+             *   Example array where the user needs to have either the 'edit_posts' capability OR doesn't have the
+             *   'delete_pages' cap OR has the 'update_plugins' AND 'add_users' capabilities.
+             *   array(
+             *     'relation'     => 'OR',      // Optional, defaults to AND.
+             *     'edit_posts',                // Equivalent to 'edit_posts' => true,
+             *     'delete_pages' => false,     // Tests that the user DOESN'T have this capability
+             *     array(                       // Nested conditions array (up to 30 nestings)
+             *       'update_plugins',
+             *       'add_users',
+             *     ),
+             *   )
+             *
+             * @param  int          $object_id    (Optional) ID of the specific object to check against if capability is a "meta" cap.
+             *                                    e.g. 'edit_post', 'edit_user', 'edit_page', etc.,
+             *
+             * @return bool Whether or not the user meets the requirements.
+             *              Will always return false for:
+             *              - Invalid/missing user
+             *              - If the $capabilities is not a string or array
+             *              - Max nesting depth exceeded (for that level)
+             */
+            public static function user_can( $user, $capabilities, $object_id = null ) {
+                static $depth = 0;
+                $args = array();
+                
+                if ( $depth >= 30 ) {
+                    return false;
+                }
+
+                if ( empty( $user ) ) {
+                    return false;
+                }
+
+                if ( !is_object( $user ) ) {
+                    $user = get_userdata( $user );
+                }
+
+                if ( is_string( $capabilities ) ) {
+                    // Simple string capability check
+                    $args = array(
+                        $user,
+                        $capabilities,
+                    );
+
+                    if ( $object_id !== null ) {
+                        $args[] = $object_id;
+                    }
+
+                    return call_user_func_array( 'user_can', $args );
+                } else {
+                    // Only strings and arrays are allowed as valid capabilities
+                    if ( !is_array( $capabilities ) ) {
+                        return false;
+                    }
+                }
+
+                // Capability array check
+                $or = false;
+
+                foreach ( $capabilities as $key => $value ) {
+                    if ( $key === 'relation' ) {
+                        if ( $value === 'OR' ) {
+                            $or = true;
+                        }
+
+                        continue;
+                    }
+
+                    /**
+                     * Rules can be in 4 different formats:
+                     * [
+                     *   [0]      => 'foobar',
+                     *   [1]      => array(...),
+                     *   'foobar' => false,
+                     *   'foobar' => array(...),
+                     * ]
+                     */
+                    if ( is_numeric( $key ) ) {
+                        // Numeric key
+                        if ( is_string( $value ) ) {
+                            // Numeric key with a string value is the capability string to check
+                            // [0] => 'foobar'
+                            $args = array( $user, $value, );
+
+                            if ( $object_id !== null ) {
+                                $args[] = $object_id;
+                            }
+
+                            $expression_result = call_user_func_array( 'user_can', $args ) === true;
+                        } elseif ( is_array( $value ) ) {
+                            // [0] => array(...)
+                            $depth++;
+
+                            $expression_result = self::user_can( $user, $value, $object_id );
+
+                            $depth--;
+                        } else {
+                            // Invalid types are skipped
+                            continue;
+                        }
+                    } else {
+                        // Non-numeric key
+                        if ( is_scalar( $value ) ) {
+                            // 'foobar' => false
+                            $args = array( $user, $key, );
+
+                            if ( $object_id !== null ) {
+                                $args[] = $object_id;
+                            }
+
+                            $expression_result = call_user_func_array( 'user_can', $args ) === (bool)$value;
+                        } elseif ( is_array( $value ) ) {
+                            // 'foobar' => array(...)
+                            $depth++;
+
+                            $expression_result = self::user_can( $user, $value, $object_id );
+
+                            $depth--;
+                        } else {
+                            // Invalid types are skipped
+                            continue;
+                        }
+                    }
+
+                    // Check after every evaluation if we know enough to return a definitive answer
+                    if ( $or ) {
+                        if ( $expression_result ) {
+                            // If the relation is OR, return on the first true expression
+                            return true;
+                        }
+                    } else {
+                        if ( !$expression_result ) {
+                            // If the relation is AND, return on the first false expression
+                            return false;
+                        }
+                    }
+                }
+
+                // If we get this far on an OR, then it failed
+                // If we get this far on an AND, then it succeeded
+                return !$or;
+            }
+
         }
 
         // ReduxFramework
