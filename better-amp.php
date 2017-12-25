@@ -1721,7 +1721,16 @@ class Better_AMP {
 	 */
 	public function yoast_seo_metatags_compatibility() {
 
-		do_action( 'wpseo_opengraph' );
+		//
+		// Remove canonical from in Yoast to generate correct canonical
+		//
+		bf_remove_class_action( 'wpseo_head', 'WPSEO_Frontend', 'canonical', 20 );
+
+
+		//
+		// Yoast SEO meta
+		//
+		do_action( 'wpseo_head' );
 	}
 
 }
