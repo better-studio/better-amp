@@ -349,7 +349,7 @@ class Better_AMP_Content_Sanitizer {
 						$path = '/';
 					}
 
-					return better_amp_site_url( $path, $before_sp );
+					return better_amp_site_url( $path . ( substr( $url, - 1 ) === '/' ? '/' : '' ), $before_sp );
 				}
 			}
 		}
