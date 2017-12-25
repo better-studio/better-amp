@@ -162,6 +162,6 @@ if ( ! function_exists( 'bf_remove_class_action' ) ) {
 	 * @return bool               Whether the function is removed.
 	 */
 	function bf_remove_class_action( $tag, $class_name = '', $method_name = '', $priority = 10 ) {
-		bf_remove_class_filter( $tag, $class_name, $method_name, $priority );
+		return bf_remove_class_filter( $tag, $class_name, $method_name, $priority );
 	}
 }
