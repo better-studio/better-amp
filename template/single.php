@@ -146,8 +146,17 @@ if ( better_amp_get_theme_mod( 'better-amp-post-show-comment' ) && ( comments_op
 				<span class="counts-label">(<?php echo number_format_i18n( get_comments_number() ); ?>)</span>
 
 			</div>
+			<?php
 
-			<a href="<?php better_amp_comment_link() ?>"
+			$link = better_amp_get_comment_link();
+
+			// disable auto redirect for this link
+			if ( better_amp_get_theme_mod( 'better-amp-mobile-auto-redirect' ) ) {
+				$link = add_query_arg( 'bamp-skip-redirect', TRUE, $link );
+			}
+
+			?>
+			<a href="<?php echo $link; ?>"
 			   class="button add-comment"><?php better_amp_translation_echo( 'add_comment' ); ?></a>
 		</div>
 
