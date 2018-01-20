@@ -668,7 +668,7 @@ if ( ! function_exists( 'bf_get_wp_installation_slug' ) ) {
 			$directory = str_replace( ABSPATH, '', $script_filename_dir );
 			// Strip off the sub directory, and any file/query params
 			$path = preg_replace( '#/' . preg_quote( $directory, '#' ) . '/[^/]*$#i', '', $_SERVER['REQUEST_URI'] );
-		} elseif ( FALSE !== strpos( $abspath_fix, $script_filename_dir ) ) {
+		} elseif ( '' !== $script_filename_dir && FALSE !== strpos( $abspath_fix, $script_filename_dir ) ) {
 			// Request is hitting a file above ABSPATH
 			$subdirectory = substr( $abspath_fix, strpos( $abspath_fix, $script_filename_dir ) + strlen( $script_filename_dir ) );
 			// Strip off any file/query params from the path, appending the sub directory to the install
