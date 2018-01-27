@@ -51,6 +51,13 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 
 == Changelog ==
 
+= 1.7.1 =
+- Improved: AMP Yoast SEO plugin compatibility improved.
+
+- Fixed: AMP urls ending / fixed.
+- Fixed: Add Comment button not works when auto mobile redirect is active.
+- Fixed: Code warning.
+
 = 1.7.0 =
 - Fixed: RTL Ads issue. Thanks @Igor @Issa
 - Fixed: issues with AMP urls by excluding language subdirectories. Thanks @david.g
