@@ -128,6 +128,7 @@ class Better_AMP_IMG_Component extends Better_AMP_Component_Base implements Bett
 
 		$valid_atts = array(
 			'src',
+			'srcset',
 			'height',
 			'width',
 			'class',
