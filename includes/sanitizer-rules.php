@@ -9,6 +9,10 @@
 
 $rules = array(
 	array(
+		'tag_name' => 'br',
+		'attrs'    => array(),
+	),
+	array(
 		'tag_name' => 'base',
 		'attrs'    => array(
 			array(

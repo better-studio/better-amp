@@ -551,8 +551,12 @@ class Better_AMP_Content_Sanitizer {
 				$elements      = $this->dom->getElementsByTagName( $rule['tag_name'] );
 				$prev_tag_name = $rule['tag_name'];
 			}
-
 			if ( $nodes_count = $elements->length ) {
+
+				if ( empty( $atts ) ) { // Remove all elements attributes
+
+					$this->remove_all_attributes( $elements );
+				}
 
 				foreach ( $rule['attrs'] as $atts ) {
 
@@ -1236,6 +1240,23 @@ class Better_AMP_Content_Sanitizer {
 		}
 
 		return $results;
+	}
+
+
+	/**
+	 * @param DOMNodeList $elements
+	 */
+	protected function remove_all_attributes( $elements ) {
+
+		$length = count( $elements );
+
+		for ( $i = 0; $i < $length; $i ++ ) {
+
+			$element = $elements->item( $i );
+
+			$attributes = Better_AMP_HTML_Util::get_node_attributes( $element );
+			$this->dom->remove_attributes( $element, array_keys( $attributes ) ); // Remove invalid attributes
+		}
 	}
 
 
