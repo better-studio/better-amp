@@ -348,6 +348,7 @@ body.sticky-nav{
     white-space: normal;
     padding: 15px;
     height: 100px;
+    width: 100%;
 }
 .carousel .content-holder h3 {
     margin: 0;
