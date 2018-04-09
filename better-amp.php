@@ -1585,7 +1585,7 @@ class Better_AMP {
 		}
 
 		?>
-		<script><?php echo include better_amp_min_suffix( BETTER_AMP_PATH . 'js/mobile_redirect', '.js' ); ?></script><?php
+		<script><?php echo file_get_contents( better_amp_min_suffix( BETTER_AMP_PATH . 'js/mobile_redirect', '.js' ) ); ?></script><?php
 	}
 
 
