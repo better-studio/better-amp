@@ -51,6 +51,11 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 
 == Changelog ==
 
+= 1.7.2 =
+- Improved: Auto content validator improved.
+- Improved: Video will be shown on single if the post format was video!
+- Improved: Codes improved.
+
 = 1.7.1 =
 - Improved: AMP Yoast SEO plugin compatibility improved.
 
