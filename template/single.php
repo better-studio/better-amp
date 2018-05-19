@@ -26,14 +26,17 @@ better_amp_the_post();
 
 		$show_image_thumbnail = better_amp_get_theme_mod( 'better-amp-post-show-thumbnail' );
 
-		$meta_key = better_amp_get_theme_mod( 'better-amp-featured-va-key' );
+		if ( get_post_format() === 'video' ) {
+			$meta_key = better_amp_get_theme_mod( 'better-amp-featured-va-key' );
 
-		if ( empty( $media_key ) ) {
-			$meta_key = '_featured_embed_code';
+			if ( empty( $media_key ) ) {
+				$meta_key = '_featured_embed_code';
+			}
+
+			$media_url = get_post_meta( get_the_ID(), $meta_key, TRUE );
+		} else {
+			$media_url = FALSE;
 		}
-
-
-		$media_url = get_post_meta( get_the_ID(), $meta_key, TRUE );
 
 		if ( ! empty( $media_url ) ) {
 

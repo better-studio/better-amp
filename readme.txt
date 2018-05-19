@@ -3,8 +3,8 @@ Contributors: betterstudio
 Donate link: http://betterstudio.com/
 Tags: amp,accelerated mobile pages, mobile theme, google amp
 Requires at least: 3.0
-Tested up to: 4.8.0
-Stable tag: 4.8.0
+Tested up to: 4.9.5
+Stable tag: 4.9.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -50,6 +50,11 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 5. Page (Contact page) + 404 page
 
 == Changelog ==
+
+= 1.7.2 =
+- Improved: Auto content validator improved.
+- Improved: Video will be shown on single if the post format was video!
+- Improved: Codes improved.
 
 = 1.7.1 =
 - Improved: AMP Yoast SEO plugin compatibility improved.
