@@ -314,7 +314,7 @@ class Better_AMP_Content_Sanitizer {
 				'https://',
 			),
 			'',
-			site_url()
+			home_url()
 		);
 
 		$sitedomain = rtrim( $sitedomain, '/' );

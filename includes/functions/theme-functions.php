@@ -1136,7 +1136,7 @@ if ( ! function_exists( 'better_amp_get_search_page_url' ) ) {
 	 */
 	function better_amp_site_url( $path = '', $before_sp = '' ) {
 
-		$url = site_url( '/' );
+		$url = home_url( '/' );
 		//
 		$url .= $before_sp ? trailingslashit( $before_sp ) : '';
 		$url .= Better_AMP::STARTPOINT;
