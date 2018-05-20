@@ -377,22 +377,12 @@ class Better_AMP {
 			}
 		}
 
-		$is_amp_available = TRUE;
-
-		if ( is_singular() ) {
-
-			if ( $post_id = get_queried_object_id() ) {
-
-				$is_amp_available = ! get_post_meta( $post_id, 'disable-better-amp', TRUE ) && ! isset( $this->excluded_posts_id[ $post_id ] );
-			}
-		}
-
 		$path        = bf_get_wp_installation_slug();
 		$request_url = str_replace( $path, '', $_SERVER['REQUEST_URI'] );
 
 		preg_match( "#^/*(.*?)/$amp_qv/*$#", $request_url, $automattic_amp_match );
 
-		if ( ! $is_amp_available ) {
+		if ( ! $this->amp_version_exists() ) {
 
 			if ( ! empty( $automattic_amp_match[1] ) ) {
 
@@ -404,7 +394,7 @@ class Better_AMP {
 
 			} else {
 
-				$redirect_url = '';
+				$redirect_url = better_amp_get_canonical_url();
 			}
 
 			if ( $redirect_url ) {
@@ -436,16 +426,58 @@ class Better_AMP {
 	 * @since 1.1
 	 * @return bool of exists
 	 */
-	public static function amp_version_exists() {
+	public function amp_version_exists() {
 
-		$exits = TRUE;
+		static $filters;
 
-		if ( is_singular() ) {
-			$post_id = get_queried_object_id();
-			$exits   = ! get_post_meta( $post_id, 'disable-better-amp', TRUE );
+		if ( ! isset( $filters ) ) {
+
+			$filters = wp_parse_args(
+				apply_filters( 'better-amp/filter/config', array() ),
+				array(
+					'disabled_post_types' => array(),
+					'disabled_taxonomies' => array(),
+					'disabled_homepage'   => FALSE,
+					'disabled_search'     => FALSE,
+				)
+			);
 		}
 
-		return $exits;
+		if ( is_singular() ) {
+
+			$post_id = get_queried_object_id();
+
+			if ( get_post_meta( $post_id, 'disable-better-amp', TRUE ) || isset( $this->excluded_posts_id[ $post_id ] ) ) {
+
+				return FALSE;
+			}
+		}
+
+		if ( empty( $filters ) ) {
+			return TRUE;
+		}
+
+		if ( is_home() ) {
+
+			return ! $filters['disabled_homepage'];
+		}
+
+		if ( is_search() ) {
+			return ! $filters['disabled_search'];
+		}
+
+		if ( is_singular() || is_post_type_archive() ) {
+
+
+			return ! in_array( get_queried_object()->post_type, $filters['disabled_post_types'] );
+		}
+
+		if ( is_tax() || is_category() || is_tag() ) {
+
+			return ! in_array( get_queried_object()->taxonomy, $filters['disabled_taxonomies'] );
+		}
+
+		return TRUE;
 	}
 
 
@@ -1635,24 +1667,17 @@ class Better_AMP {
 			}
 
 			return;
+
 		} else {
+
 			if ( isset( $_COOKIE['bamp-skip-redirect'] ) ) {
 				unset( $_COOKIE['bamp-skip-redirect'] );
 			}
 		}
 
 		// if post have not AMP version
-		if ( is_singular() ) {
-
-			$post_id = get_queried_object_id();
-
-			if (
-				get_post_meta( $post_id, 'disable-better-amp', TRUE )
-				||
-				isset( $this->excluded_posts_id[ $post_id ] )
-			) {
-				return;
-			}
+		if ( ! $this->amp_version_exists() ) {
+			return;
 		}
 
 		if ( wp_is_mobile() ) {
@@ -1672,7 +1697,6 @@ class Better_AMP {
 			// Last and safest way to redirect but it will have a little delay!
 			add_action( 'wp_print_scripts', array( $this, 'print_mobile_redirect_script' ) );
 		}
-
 	}
 
 
@@ -1732,5 +1756,4 @@ class Better_AMP {
 		//
 		do_action( 'wpseo_head' );
 	}
-
 }

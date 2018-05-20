@@ -74,8 +74,7 @@ add_action( 'customize_register', 'better_amp_customize_register' );
  */
 function better_amp_customize_register( $wp_customizer ) {
 
-	include BETTER_AMP_PATH . 'template/customizer/class-amp-customize-divider-control.php';
-	include BETTER_AMP_PATH . 'template/customizer/class-amp-customize-switch-control.php';
+	include BETTER_AMP_PATH . 'template/customizer/class-amp-customize-controls.php';
 	include BETTER_AMP_PATH . 'template/customizer/class-amp-customize-social-sorter-control.php';
 
 	/**
@@ -910,7 +909,7 @@ function better_amp_customize_register( $wp_customizer ) {
 	) ) );
 
 	/**
-	 * 10.2 Google Analytics
+	 * 10.2 Exclude URL
 	 */
 	$wp_customizer->add_setting( 'better-amp-exclude-urls', array(
 		'default' => better_amp_get_default_theme_setting( 'better-amp-exclude-urls' ),
@@ -925,6 +924,91 @@ function better_amp_customize_register( $wp_customizer ) {
 			home_url( '/' )
 		),
 	) );
+
+
+	/**
+	 * 11. Advanced filters
+	 */
+	$wp_customizer->add_section( 'better-amp-filter-section', array(
+		'title'    => __( 'Advanced Filters', 'better-amp' ),
+		'priority' => 18,
+		'panel'    => 'better-amp-panel'
+	) );
+
+	/**
+	 * 11.1 Toggle filter
+	 */
+	$wp_customizer->add_setting( 'better-amp-filter-active', array(
+		'transport' => 'postMessage',
+		'default'   => better_amp_get_default_theme_setting( 'better-amp-filter-active' ),
+	) );
+	$wp_customizer->add_control( new AMP_Customize_Switch_Control( $wp_customizer, 'better-amp-filter-active', array(
+		'priority'    => 21,
+		'section'     => 'better-amp-filter-section',
+		'label'       => __( 'Enable filter', 'better-amp' ),
+		'description' => __( 'Customize which pages have amp version.', 'better-amp' ),
+	) ) );
+
+	/**
+	 * 11.2 Disabled post types
+	 */
+	$wp_customizer->add_setting( 'better-amp-filter-post-types', array(
+		'transport' => 'postMessage',
+		'default'   => better_amp_get_default_theme_setting( 'better-amp-filter-post-types' ),
+	) );
+
+	$wp_customizer->add_control( new AMP_Customize_Multiple_Select_Control( $wp_customizer, 'better-amp-filter-post-types', array(
+		'label'            => __( 'Disabled post types', 'better-amp' ),
+		'section'          => 'better-amp-filter-section',
+		'description'      => __( 'AMP will not working out on selected post types.', 'better-amp' ),
+		'priority'         => 22,
+		'type'             => 'select',
+		'deferred_choices' => 'better_amp_list_post_types',
+	) ) );
+
+	/**
+	 * 11.3 Disabled taxonomies
+	 */
+	$wp_customizer->add_setting( 'better-amp-filter-taxonomies', array(
+		'default'   => better_amp_get_default_theme_setting( 'better-amp-filter-taxonomies' ),
+		'transport' => 'postMessage',
+	) );
+	$wp_customizer->add_control( new AMP_Customize_Multiple_Select_Control( $wp_customizer, 'better-amp-filter-taxonomies', array(
+		'label'       => __( 'Disabled taxonomies', 'better-amp' ),
+		'section'     => 'better-amp-filter-section',
+		'description' => __( 'Disable amp for this taxonomies.', 'better-amp' ),
+		'priority'    => 23,
+		'type'        => 'select',
+		'deferred_choices' => 'better_amp_list_taxonomies',
+	) ) );
+
+	/**
+	 * 11.3 Disabled homepage
+	 */
+	$wp_customizer->add_setting( 'better-amp-filter-home', array(
+		'default'   => better_amp_get_default_theme_setting( 'better-amp-filter-home' ),
+		'transport' => 'postMessage',
+	) );
+
+	$wp_customizer->add_control( new AMP_Customize_Switch_Control( $wp_customizer, 'better-amp-filter-home', array(
+		'priority' => 24,
+		'section'  => 'better-amp-filter-section',
+		'label'    => __( 'Disable on HomePage', 'better-amp' ),
+	) ) );
+
+	/**
+	 * 11.3 Disabled search page
+	 */
+	$wp_customizer->add_setting( 'better-amp-filter-search', array(
+		'default'   => better_amp_get_default_theme_setting( 'better-amp-filter-search' ),
+		'transport' => 'postMessage',
+	) );
+
+	$wp_customizer->add_control( new AMP_Customize_Switch_Control( $wp_customizer, 'better-amp-filter-search', array(
+		'priority' => 25,
+		'section'  => 'better-amp-filter-section',
+		'label'    => __( 'Disable on search result', 'better-amp' ),
+	) ) );
 
 
 }

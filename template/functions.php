@@ -192,6 +192,8 @@ function better_amp_get_default_theme_setting( $setting_id, $setting_index = '' 
 		'better-amp-code-body-stop'                => '',
 		//
 		'better-amp-mobile-auto-redirect'          => 0,
+		//
+		'better-amp-filter-active'                 => FALSE,
 	);
 
 	if ( $setting_index ) {
@@ -920,5 +922,88 @@ if ( ! function_exists( 'better_amp_auto_redirect_mobiles' ) ) {
 	function better_amp_auto_redirect_mobiles() {
 
 		return better_amp_get_theme_mod( 'better-amp-mobile-auto-redirect' );
+	}
+}
+
+
+if ( ! function_exists( 'better_amp_list_post_types' ) ) {
+
+	/**
+	 * List available and public post types.
+	 *
+	 * @since 1.8.0
+	 * @return array
+	 */
+	function better_amp_list_post_types() {
+
+		$results = array();
+
+		foreach (
+			get_post_types( array(
+				'public'             => TRUE,
+				'publicly_queryable' => TRUE
+			) ) as $post_type => $_
+		) {
+
+			if ( ! $post_type_object = get_post_type_object( $post_type ) ) {
+				continue;
+			}
+
+			$results[ $post_type ] = $post_type_object->label;
+		}
+
+		return $results;
+	}
+}
+
+
+if ( ! function_exists( 'better_amp_list_taxonomies' ) ) {
+
+	/**
+	 * List available and public taxonomies.
+	 *
+	 * @since 1.8.0
+	 * @return array
+	 */
+	function better_amp_list_taxonomies() {
+
+		$results    = array();
+		$taxonomies = get_taxonomies( array( 'public' => TRUE, ) );
+		unset( $taxonomies['post_format'] );
+
+		foreach ( $taxonomies as $id => $_ ) {
+
+			if ( $object = get_taxonomy( $id ) ) {
+
+				$results[ $id ] = $object->label;
+			}
+		}
+
+		return $results;
+	}
+}
+
+add_filter( 'better-amp/filter/config', 'better_amp_filter_config' );
+
+if ( ! function_exists( 'better_amp_filter_config' ) ) {
+
+	/**
+	 * @param array $filters
+	 *
+	 * @since 1.8.0
+	 * @return array
+	 */
+	function better_amp_filter_config( $filters ) {
+
+		if ( ! better_amp_get_theme_mod( 'better-amp-filter-active' ) ) {
+			return $filters;
+		}
+
+		$filters['disabled_post_types'] = (array) better_amp_get_theme_mod( 'better-amp-filter-post-types' );
+		$filters['disabled_taxonomies'] = (array) better_amp_get_theme_mod( 'better-amp-filter-taxonomies' );
+		$filters['disabled_homepage']   = better_amp_get_theme_mod( 'better-amp-filter-home' );
+		$filters['disabled_search']     = better_amp_get_theme_mod( 'better-amp-filter-search' );
+
+		return $filters;
 	}
 }
