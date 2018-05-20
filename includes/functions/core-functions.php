@@ -692,3 +692,40 @@ if ( ! function_exists( 'bf_get_wp_installation_slug' ) ) {
 		return $path;
 	}
 }
+
+if ( ! function_exists( 'better_amp_wp_amp_compatibility_constants' ) ) {
+
+	/**
+	 * Define WP-AMP query constant for themes/plugins compatibility.
+	 *
+	 * @since 1.8.0
+	 */
+	function better_amp_wp_amp_compatibility_constants() {
+
+		if ( ! defined( 'AMP_QUERY_VAR' ) ) {
+			define( 'AMP_QUERY_VAR', 'amp' );
+		}
+	}
+}
+
+
+if ( ! function_exists( 'better_amp_wp_amp_compatibility_functions' ) ) {
+
+	/**
+	 * Define is WP-AMP function for compatibility reason.
+	 *
+	 * @since 1.8.0
+	 */
+
+	function better_amp_wp_amp_compatibility_functions() {
+
+		if ( function_exists( 'is_amp_endpoint' ) ) {
+			return;
+		}
+
+		function is_amp_endpoint() {
+
+			return is_better_amp();
+		}
+	}
+}

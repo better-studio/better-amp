@@ -16,3 +16,6 @@ add_action( 'wp_head', 'better_amp_print_rel_amphtml' );
 add_filter( 'wp_nav_menu_args', 'better_amp_theme_set_menu_walker', 9999 );
 
 add_action( 'init', 'better_amp_fix_customizer_statics', 3 );
+
+add_action( 'after_setup_theme', 'better_amp_wp_amp_compatibility_constants' );
+add_action( 'plugins_loaded', 'better_amp_wp_amp_compatibility_functions' );
