@@ -1,5 +1,6 @@
 <?php
 
+
 /**
  * Core class to add new feature to WordPress Rewrite API (such as start points)
  *
@@ -45,7 +46,8 @@ class Better_AMP_Rewrite_Rules {
 	 * Better_AMP_Rewrite_Rules constructor.
 	 */
 	public function __construct() {
-		$this->add_rewrite_rules_hooks();
+
+		add_action( 'init', array( $this, 'add_rewrite_rules_hooks' ), 9e4 );
 	}
 
 
@@ -55,6 +57,8 @@ class Better_AMP_Rewrite_Rules {
 	 * @since 1.0.0
 	 */
 	public function add_rewrite_rules_hooks() {
+
+		$this->post_type_archive_rules();
 
 		foreach (
 			array(
@@ -77,6 +81,51 @@ class Better_AMP_Rewrite_Rules {
 	}
 
 	/**
+	 * Add rewrite rules for post type archive pages.
+	 */
+	protected function post_type_archive_rules() {
+
+		global $wp_rewrite;
+
+		$post_type_archive_ep_mask = EP_ROOT; // i'm not sure!
+
+		foreach ( get_post_types( array( '_builtin' => FALSE ) ) as $post_type ) {
+
+			if ( isset( $wp_rewrite->extra_rules_top[ $post_type . '/?$' ] ) ) {
+
+				$regex = $post_type . '/?$';
+				$query = $wp_rewrite->extra_rules_top[ $post_type . '/?$' ];
+
+			} elseif ( isset( $wp_rewrite->extra_rules_top[ '/' . $post_type . '/?$' ] ) ) {
+
+				$regex = '/' . $post_type . '/?$';
+				$query = $wp_rewrite->extra_rules_top[ '/' . $post_type . '/?$' ];
+
+			} else {
+
+				continue;
+			}
+
+
+			foreach ( $this->get_start_points() as $spregex => $sp ) {
+
+				if ( ! $sp[0] & $post_type_archive_ep_mask ) {
+
+					continue;
+				}
+
+				if ( $sp[2] ) {
+					$startpint_query = $query . $sp[1] . '1';
+				} else {
+					$startpint_query = $this->increase_pattern_preg_index( $query ) . $sp[1] . $wp_rewrite->preg_index( 1 );
+				}
+
+				$wp_rewrite->extra_rules_top[ $spregex . ltrim( $regex, '/' ) ] = $startpint_query;
+			}
+		}
+	}
+
+	/**
 	 * Register "{$permastructname}_rewrite_rules" Filters
 	 *
 	 * @param      array  $rules      Root rewrite rules
@@ -87,6 +136,7 @@ class Better_AMP_Rewrite_Rules {
 	 * @return array
 	 */
 	public function register_extra_permastruct_hooks( $rules ) {
+
 		global $wp_rewrite;
 
 		// Remove exluced items from extra_permastructs
@@ -109,12 +159,14 @@ class Better_AMP_Rewrite_Rules {
 
 	/**
 	 * Get list of extra_permastructs to skip append startpoint
+	 *
 	 * @see   exclude_extra_permastructs
 	 *
 	 * @since 1.1
 	 * @return array
 	 */
 	public function get_exclude_extra_permastructs() {
+
 		return $this->exclude_extra_permastructs;
 	}
 
@@ -310,6 +362,7 @@ class Better_AMP_Rewrite_Rules {
 			wp_parse_str( $query, $vars );
 
 			if ( ! isset( $vars['feed'] ) ) { //skip feeds regex
+
 				foreach ( $startpints as $spregex => $sp ) {
 					if ( $sp[0] & $current_SP ) {
 
@@ -319,9 +372,8 @@ class Better_AMP_Rewrite_Rules {
 							$startpint_query = $this->increase_pattern_preg_index( $query ) . $sp[1] . $wp_rewrite->preg_index( 1 );
 						}
 
-						$results[ $spregex . $regex ] = $startpint_query;
+						$results[ $spregex . ltrim( $regex, '/' ) ] = $startpint_query;
 					}
-
 				}
 			}
 
