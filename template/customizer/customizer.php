@@ -927,30 +927,16 @@ function better_amp_customize_register( $wp_customizer ) {
 
 
 	/**
-	 * 11. Advanced filters
+	 * 11. AMP Pages
 	 */
 	$wp_customizer->add_section( 'better-amp-filter-section', array(
-		'title'    => __( 'Advanced Filters', 'better-amp' ),
+		'title'    => __( 'AMP Pages', 'better-amp' ),
 		'priority' => 18,
 		'panel'    => 'better-amp-panel'
 	) );
 
 	/**
-	 * 11.1 Toggle filter
-	 */
-	$wp_customizer->add_setting( 'better-amp-filter-active', array(
-		'transport' => 'postMessage',
-		'default'   => better_amp_get_default_theme_setting( 'better-amp-filter-active' ),
-	) );
-	$wp_customizer->add_control( new AMP_Customize_Switch_Control( $wp_customizer, 'better-amp-filter-active', array(
-		'priority'    => 21,
-		'section'     => 'better-amp-filter-section',
-		'label'       => __( 'Enable filter', 'better-amp' ),
-		'description' => __( 'Customize which pages have amp version.', 'better-amp' ),
-	) ) );
-
-	/**
-	 * 11.2 Disabled post types
+	 * 11.1 Disabled post types
 	 */
 	$wp_customizer->add_setting( 'better-amp-filter-post-types', array(
 		'transport' => 'postMessage',
@@ -967,7 +953,7 @@ function better_amp_customize_register( $wp_customizer ) {
 	) ) );
 
 	/**
-	 * 11.3 Disabled taxonomies
+	 * 11.2 Disabled taxonomies
 	 */
 	$wp_customizer->add_setting( 'better-amp-filter-taxonomies', array(
 		'default'   => better_amp_get_default_theme_setting( 'better-amp-filter-taxonomies' ),
@@ -985,29 +971,29 @@ function better_amp_customize_register( $wp_customizer ) {
 	/**
 	 * 11.3 Disabled homepage
 	 */
-	$wp_customizer->add_setting( 'better-amp-filter-home', array(
-		'default'   => better_amp_get_default_theme_setting( 'better-amp-filter-home' ),
+	$wp_customizer->add_setting( 'better-amp-on-home', array(
+		'default'   => better_amp_get_default_theme_setting( 'better-amp-on-home' ),
 		'transport' => 'postMessage',
 	) );
 
-	$wp_customizer->add_control( new AMP_Customize_Switch_Control( $wp_customizer, 'better-amp-filter-home', array(
+	$wp_customizer->add_control( new AMP_Customize_Switch_Control( $wp_customizer, 'better-amp-on-home', array(
 		'priority' => 24,
 		'section'  => 'better-amp-filter-section',
-		'label'    => __( 'Disable on HomePage', 'better-amp' ),
+		'label'    => __( 'Enable on HomePage', 'better-amp' ),
 	) ) );
 
 	/**
-	 * 11.3 Disabled search page
+	 * 11.4 Disabled search page
 	 */
-	$wp_customizer->add_setting( 'better-amp-filter-search', array(
-		'default'   => better_amp_get_default_theme_setting( 'better-amp-filter-search' ),
+	$wp_customizer->add_setting( 'better-amp-on-search', array(
+		'default'   => better_amp_get_default_theme_setting( 'better-amp-on-search' ),
 		'transport' => 'postMessage',
 	) );
 
-	$wp_customizer->add_control( new AMP_Customize_Switch_Control( $wp_customizer, 'better-amp-filter-search', array(
+	$wp_customizer->add_control( new AMP_Customize_Switch_Control( $wp_customizer, 'better-amp-on-search', array(
 		'priority' => 25,
 		'section'  => 'better-amp-filter-section',
-		'label'    => __( 'Disable on search result', 'better-amp' ),
+		'label'    => __( 'Enable on search results', 'better-amp' ),
 	) ) );
 
 

@@ -193,7 +193,8 @@ function better_amp_get_default_theme_setting( $setting_id, $setting_index = '' 
 		//
 		'better-amp-mobile-auto-redirect'          => 0,
 		//
-		'better-amp-filter-active'                 => FALSE,
+		'better-amp-on-home'                       => TRUE,
+		'better-amp-on-search'                     => TRUE,
 	);
 
 	if ( $setting_index ) {
@@ -995,14 +996,10 @@ if ( ! function_exists( 'better_amp_filter_config' ) ) {
 	 */
 	function better_amp_filter_config( $filters ) {
 
-		if ( ! better_amp_get_theme_mod( 'better-amp-filter-active' ) ) {
-			return $filters;
-		}
-
 		$filters['disabled_post_types'] = (array) better_amp_get_theme_mod( 'better-amp-filter-post-types' );
 		$filters['disabled_taxonomies'] = (array) better_amp_get_theme_mod( 'better-amp-filter-taxonomies' );
-		$filters['disabled_homepage']   = better_amp_get_theme_mod( 'better-amp-filter-home' );
-		$filters['disabled_search']     = better_amp_get_theme_mod( 'better-amp-filter-search' );
+		$filters['disabled_homepage']   = !better_amp_get_theme_mod( 'better-amp-on-home' );
+		$filters['disabled_search']     = !better_amp_get_theme_mod( 'better-amp-on-search' );
 
 		return $filters;
 	}
