@@ -466,10 +466,29 @@ class Better_AMP {
 			return ! $filters['disabled_search'];
 		}
 
-		if ( is_singular() || is_post_type_archive() ) {
-
+		if ( is_singular() ) {
 
 			return ! in_array( get_queried_object()->post_type, $filters['disabled_post_types'] );
+		}
+
+		if ( is_post_type_archive() ) {
+
+			$queried_object = get_queried_object();
+
+			if ( $queried_object instanceof WP_Post_Type ) { #  WP >= 4.6.0
+
+				$post_type = $queried_object->name;
+
+			} elseif ( $queried_object instanceof WP_Post ) { #  WP < 4.6.0
+
+				$post_type = $queried_object->post_type;
+
+			} else {
+
+				return FALSE;
+			}
+
+			return ! in_array( $post_type, $filters['disabled_post_types'] );
 		}
 
 		if ( is_tax() || is_category() || is_tag() ) {
