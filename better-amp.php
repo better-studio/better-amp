@@ -386,11 +386,11 @@ class Better_AMP {
 
 			if ( ! empty( $automattic_amp_match[1] ) ) {
 
-				$redirect_url = site_url( $automattic_amp_match[1] );
+				$redirect_url = home_url( $automattic_amp_match[1] );
 
 			} elseif ( preg_match( "#^/*$amp_qv/+(.*?)/*$#", $request_url, $matched ) ) {
 
-				$redirect_url = site_url( $matched[1] );
+				$redirect_url = home_url( $matched[1] );
 
 			} else {
 
