@@ -777,6 +777,14 @@ if ( ! function_exists( 'better_amp_auto_embed_content' ) ) {
 	 */
 	function better_amp_auto_embed_content( $content ) {
 
+		if(! is_string($content)) {
+
+			return array(
+				'type'    => 'unknown',
+				'content' => '',
+			);
+		}
+		
 		//
 		// Custom External Videos
 		//
