@@ -447,6 +447,17 @@ class Better_AMP {
 
 			$post_id = get_queried_object_id();
 
+		} elseif ( is_home() && better_amp_is_static_home_page() ) {
+
+			$post_id = intval( apply_filters( 'better-amp/template/page-on-front', 0 ) );
+
+		} else {
+
+			$post_id = 0;
+		}
+
+		if ( $post_id ) {
+
 			if ( get_post_meta( $post_id, 'disable-better-amp', TRUE ) || isset( $this->excluded_posts_id[ $post_id ] ) ) {
 
 				return FALSE;
