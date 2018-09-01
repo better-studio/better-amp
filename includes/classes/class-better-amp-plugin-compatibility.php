@@ -116,6 +116,13 @@ class Better_AMP_Plugin_Compatibility {
 
 		add_filter( 'prli-check-if-slug', 'Better_AMP_Plugin_Compatibility::pretty_links_compatibility', 2, 2 );
 
+		/**
+		 * Polylang compatibility
+		 *
+		 * @since 1.8.0
+		 */
+		add_filter( 'pll_check_canonical_url', '__return_false' );
+
 	}
 
 
