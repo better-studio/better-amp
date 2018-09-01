@@ -43,7 +43,21 @@ if ( ! function_exists( 'is_better_amp' ) ) {
 			return (bool) preg_match( "#^$path/*(.*?)/$amp_qv/*#", $_SERVER['REQUEST_URI'] );
 		}
 	}
+}
 
+
+if ( ! function_exists( 'is_amp_endpoint' ) ) {
+
+	/**
+	 * Alias name for is_better_amp()
+	 *
+	 * @since 1.8.0
+	 * @return bool
+	 */
+	function is_amp_endpoint() {
+
+		return is_better_amp();
+	}
 }
 
 
