@@ -123,6 +123,17 @@ class Better_AMP_Plugin_Compatibility {
 		 */
 		add_filter( 'pll_check_canonical_url', '__return_false' );
 
+
+		/**
+		 * New Relic compatibility
+		 *
+		 * @since 1.8.0
+		 * @link  https://docs.newrelic.com/docs/agents/php-agent/getting-started/introduction-new-relic-php
+		 */
+
+		if ( extension_loaded( 'newrelic' ) && function_exists( 'newrelic_disable_autorum' ) ) {
+			newrelic_disable_autorum();
+		}
 	}
 
 
