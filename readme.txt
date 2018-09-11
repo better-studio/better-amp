@@ -51,6 +51,19 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 
 == Changelog ==
 
+= 1.8.0 =
+- Added: Advanced AMP pages filter added.
+         Enables you to enable/disable in custom post types/ taxonomies and other pages in the most custom way.
+
+- Added: New Relic compatibility added.
+- Added: Polylang plugin compatibility added.
+
+- Improved: Better AMP compatibility with all other plugins improved.
+
+- Fixed: AMP pages redirects when the site url and home url is not same (wp in directory).
+- Fixed: AMP for post types archive issue fixed.
+- Fixed: ‘Disable amp version’ option works on home page.
+
 = 1.7.2 =
 - Improved: Auto content validator improved.
 - Improved: Video will be shown on single if the post format was video!
