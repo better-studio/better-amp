@@ -451,6 +451,11 @@ function better_amp_customize_preview_init( $customize_manager ) {
  */
 function better_amp_guess_none_amp_url( $args = array() ) {
 
+	if ( ! better_amp_using_permalink_structure() ) {
+
+		return home_url( remove_query_arg( 'amp' ) );
+	}
+
 	if ( ! isset( $_SERVER['SCRIPT_FILENAME'] ) ) { // todo: fix missing SCRIPT_FILENAME in cron
 		return '';
 	}
@@ -758,5 +763,19 @@ if ( ! function_exists( 'better_amp_permalink_prefix' ) ) {
 		$prefix              = substr( $permalink_structure, 0, strpos( $permalink_structure, '%' ) );
 
 		return ltrim( $prefix, '/' );
+	}
+}
+
+if ( ! function_exists( 'better_amp_using_permalink_structure' ) ) {
+
+	/**
+	 * Is custom permalink activated for this WP installation?
+	 *
+	 * @since 1.8.1
+	 * @return bool true if custom permalink activatived.
+	 */
+	function better_amp_using_permalink_structure() {
+
+		return (bool) get_option( 'better_amp_using_permalink_structure' );
 	}
 }

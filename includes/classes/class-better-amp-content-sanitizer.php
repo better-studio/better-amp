@@ -369,6 +369,11 @@ class Better_AMP_Content_Sanitizer {
 	 */
 	public static function transform_to_none_amp_url( $url ) {
 
+		if ( ! better_amp_using_permalink_structure() ) {
+
+			return remove_query_arg( Better_AMP::STARTPOINT, $url );
+		}
+
 		// check is url internal?
 		// todo support parked domains
 		$sitedomain = str_replace(

@@ -368,6 +368,10 @@ class Better_AMP {
 	 */
 	public function redirect_amp_endpoint_url() {
 
+		if ( ! better_amp_using_permalink_structure() ) {
+			return;
+		}
+
 		$amp_qv = defined( 'AMP_QUERY_VAR' ) ? AMP_QUERY_VAR : 'amp';
 
 		if ( get_query_var( $amp_qv, FALSE ) === FALSE ) {

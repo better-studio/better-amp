@@ -1136,24 +1136,31 @@ if ( ! function_exists( 'better_amp_get_search_page_url' ) ) {
 	 */
 	function better_amp_site_url( $path = '', $before_sp = '' ) {
 
-		$url_prefix = better_amp_permalink_prefix();
+		if ( better_amp_using_permalink_structure() ) {
 
-		$url = trailingslashit( home_url( $url_prefix ) );
-		$url .= $before_sp ? trailingslashit( $before_sp ) : '';
-		$url .= Better_AMP::STARTPOINT;
+			$url_prefix = better_amp_permalink_prefix();
+
+			$url = trailingslashit( home_url( $url_prefix ) );
+			$url .= $before_sp ? trailingslashit( $before_sp ) : '';
+			$url .= Better_AMP::STARTPOINT;
 
 
-		if ( ! empty( $path ) && $url_prefix && preg_match( '#^' . preg_quote( $url_prefix, '#' ) . '(.+)$#i', $path, $match ) ) {
+			if ( ! empty( $path ) && $url_prefix && preg_match( '#^' . preg_quote( $url_prefix, '#' ) . '(.+)$#i', $path, $match ) ) {
 
-			$path = rtrim( $match[1], '/' );
+				$path = rtrim( $match[1], '/' );
+			}
+
+			if ( $path ) {
+
+				$path = ltrim( $path, '/' );
+				$url  .= "/$path";
+			}
+
+		} else {
+
+			$url = add_query_arg( Better_AMP::STARTPOINT, true, home_url( $path ) );
 		}
 
-		if ( $path ) {
-
-			$path = ltrim( $path, '/' );
-			$url  .= "/$path";
-
-		}
 
 		return $url;
 	}
@@ -1178,7 +1185,7 @@ if ( ! function_exists( 'better_amp_do_shortcode' ) ) {
 
 			Better_AMP::get_instance()->call_components_method( 'register_shortcodes' );
 
-			$registered = TRUE;
+			$registered = true;
 		}
 
 		return call_user_func_array( 'do_shortcode', $args );
@@ -1251,7 +1258,7 @@ if ( ! function_exists( 'better_amp_direction' ) ) {
 	 * @since 1.0.0
 	 *
 	 */
-	function better_amp_direction( $reverse = FALSE ) {
+	function better_amp_direction( $reverse = false ) {
 
 		if ( $reverse ) {
 			echo is_rtl() ? 'left' : 'right';
@@ -1538,7 +1545,7 @@ if ( ! function_exists( 'better_amp_attachment_template' ) ) {
 
 		if ( $attachment ) {
 
-			if ( FALSE !== strpos( $attachment->post_mime_type, '/' ) ) {
+			if ( false !== strpos( $attachment->post_mime_type, '/' ) ) {
 				list( $type, $subtype ) = explode( '/', $attachment->post_mime_type );
 			} else {
 				list( $type, $subtype ) = array( $attachment->post_mime_type, '' );
@@ -1786,7 +1793,7 @@ if ( ! function_exists( 'better_amp_get_search_form' ) ) {
 
 		add_theme_support( 'better-amp-form' );
 
-		return better_amp_locate_template( 'searchform.php', TRUE );
+		return better_amp_locate_template( 'searchform.php', true );
 	}
 }
 
@@ -1802,7 +1809,7 @@ if ( ! function_exists( 'better_amp_template_part' ) ) {
 	 *
 	 * @since 1.0.0
 	 */
-	function better_amp_template_part( $slug, $name = NULL ) {
+	function better_amp_template_part( $slug, $name = null ) {
 
 		$templates = array();
 		$name      = (string) $name;
@@ -1812,7 +1819,7 @@ if ( ! function_exists( 'better_amp_template_part' ) ) {
 
 		$templates[] = "{$slug}.php";
 
-		better_amp_locate_template( $templates, TRUE, FALSE );
+		better_amp_locate_template( $templates, true, false );
 	}
 }
 
@@ -1843,7 +1850,7 @@ if ( ! function_exists( 'better_amp_get_thumbnail' ) ) {
 	 *
 	 * @return string
 	 */
-	function better_amp_get_thumbnail( $thumbnail_size = 'thumbnail', $post_id = NULL ) {
+	function better_amp_get_thumbnail( $thumbnail_size = 'thumbnail', $post_id = null ) {
 
 		if ( is_null( $post_id ) ) {
 			$post_id = get_the_ID();
@@ -1902,7 +1909,7 @@ if ( ! function_exists( 'better_amp_get_branding_info' ) ) {
 	 */
 	function better_amp_get_branding_info( $position = 'header' ) {
 
-		if ( $info = better_amp_get_global( $position . '-site-info', FALSE ) ) {
+		if ( $info = better_amp_get_global( $position . '-site-info', false ) ) {
 			return $info;
 		} else {
 			$info = array(
@@ -1917,7 +1924,7 @@ if ( ! function_exists( 'better_amp_get_branding_info' ) ) {
 			);
 		}
 
-		if ( $name = better_amp_get_option( 'better-amp-' . $position . '-logo-text', FALSE ) ) {
+		if ( $name = better_amp_get_option( 'better-amp-' . $position . '-logo-text', false ) ) {
 			$info['name'] = $name;
 		}
 
@@ -1937,7 +1944,7 @@ if ( ! function_exists( 'better_amp_get_branding_info' ) ) {
 				$info['logo']        = $logo;
 				$info['logo']['alt'] = $info['name'] . ' - ' . $info['description'];
 
-				$info['logo-tag'] = better_amp_create_image( $info['logo'], FALSE );
+				$info['logo-tag'] = better_amp_create_image( $info['logo'], false );
 			}
 		}
 
@@ -1960,7 +1967,7 @@ if ( ! function_exists( 'better_amp_get_option' ) ) {
 	 *
 	 * @return string
 	 */
-	function better_amp_get_option( $option_key = '', $default_value = NULL ) {
+	function better_amp_get_option( $option_key = '', $default_value = null ) {
 
 		if ( empty( $option_key ) ) {
 			return $default_value;
@@ -1987,7 +1994,7 @@ if ( ! function_exists( 'better_amp_get_theme_mod' ) ) {
 	 *
 	 * @return bool|string
 	 */
-	function better_amp_get_theme_mod( $name, $check_customize_preview = TRUE ) {
+	function better_amp_get_theme_mod( $name, $check_customize_preview = true ) {
 
 		$result = get_theme_mod( $name, better_amp_get_default_theme_setting( $name ) );
 
@@ -2024,7 +2031,7 @@ if ( ! function_exists( 'better_amp_get_server_ip_address' ) ) {
 		}
 
 		//if ( $ip === '::1' || filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE ) !== FALSE ) {
-		if ( $ip === '::1' || filter_var( $ip, FILTER_VALIDATE_IP ) !== FALSE ) {
+		if ( $ip === '::1' || filter_var( $ip, FILTER_VALIDATE_IP ) !== false ) {
 			return $ip;
 		}
 	}
@@ -2106,11 +2113,11 @@ if ( ! function_exists( 'better_amp_get_archive_title_fields' ) ) {
 			if ( is_product_category() ) {
 				$icon      = '<i class="fa fa-shopping-basket"></i>';
 				$pre_title = better_amp_translation_get( 'browsing_product_category' );
-				$title     = single_term_title( '', FALSE );
+				$title     = single_term_title( '', false );
 			} elseif ( is_product_tag() ) {
 				$icon      = '<i class="fa fa-shopping-basket"></i>';
 				$pre_title = better_amp_translation_get( 'browsing_product_tag' );
-				$title     = single_term_title( '', FALSE );
+				$title     = single_term_title( '', false );
 			} else {
 				$icon      = '<i class="fa fa-truck"></i>';
 				$pre_title = better_amp_translation_get( 'browsing' );
@@ -2120,11 +2127,11 @@ if ( ! function_exists( 'better_amp_get_archive_title_fields' ) ) {
 		} elseif ( is_category() ) {
 			$icon      = '<i class="fa fa-folder"></i>';
 			$pre_title = better_amp_translation_get( 'browsing_category' );
-			$title     = single_cat_title( '', FALSE );
+			$title     = single_cat_title( '', false );
 		} elseif ( is_tag() ) {
 			$icon      = '<i class="fa fa-tag"></i>';
 			$pre_title = better_amp_translation_get( 'browsing_tag' );
-			$title     = single_tag_title( '', FALSE );
+			$title     = single_tag_title( '', false );
 		} elseif ( is_author() ) {
 			$icon      = '<i class="fa fa-user-circle"></i>';
 			$pre_title = better_amp_translation_get( 'browsing_author' );
@@ -2182,14 +2189,14 @@ if ( ! function_exists( 'better_amp_get_archive_title_fields' ) ) {
 		} elseif ( is_post_type_archive() ) {
 			$icon      = '<i class="fa fa-archive"></i>';
 			$pre_title = better_amp_translation_get( 'browsing_archive' );
-			$title     = post_type_archive_title( '', FALSE );
+			$title     = post_type_archive_title( '', false );
 		} elseif ( is_tax() ) {
 
 			$tax = get_taxonomy( get_queried_object()->taxonomy );
 
 			$icon      = '<i class="fa fa-archive"></i>';
 			$pre_title = better_amp_translation_get( 'browsing_archive' );
-			$title     = sprintf( __( '%1$s: %2$s', 'beetter-amp' ), $tax->labels->singular_name, single_term_title( '', FALSE ) );
+			$title     = sprintf( __( '%1$s: %2$s', 'beetter-amp' ), $tax->labels->singular_name, single_term_title( '', false ) );
 		} else {
 			$icon      = '<i class="fa fa-archive"></i>';
 			$pre_title = better_amp_translation_get( 'browsing' );
@@ -2274,7 +2281,7 @@ if ( ! function_exists( 'better_amp_social_share_fetch_count' ) ) {
 
 		$count       = 0;
 		$remote_args = array(
-			'sslverify' => FALSE
+			'sslverify' => false
 		);
 
 		switch ( $site_id ) {
@@ -2284,7 +2291,7 @@ if ( ! function_exists( 'better_amp_social_share_fetch_count' ) ) {
 
 				if ( ! is_wp_error( $remote ) ) {
 
-					$response = json_decode( wp_remote_retrieve_body( $remote ), TRUE );
+					$response = json_decode( wp_remote_retrieve_body( $remote ), true );
 
 					if ( isset( $response['share']['share_count'] ) ) {
 						$count = $response['share']['share_count'];
@@ -2301,7 +2308,7 @@ if ( ! function_exists( 'better_amp_social_share_fetch_count' ) ) {
 
 				if ( ! is_wp_error( $remote ) ) {
 
-					$response = json_decode( wp_remote_retrieve_body( $remote ), TRUE );
+					$response = json_decode( wp_remote_retrieve_body( $remote ), true );
 
 					if ( isset( $response['count'] ) ) {
 						$count = $response['count'];
@@ -2317,12 +2324,12 @@ if ( ! function_exists( 'better_amp_social_share_fetch_count' ) ) {
 				$remote = wp_remote_post( 'https://clients6.google.com/rpc', array(
 					'body'      => $post_data,
 					'headers'   => 'Content-type: application/json',
-					'sslverify' => FALSE,
+					'sslverify' => false,
 				) );
 
 				if ( ! is_wp_error( $remote ) ) {
 
-					$response = json_decode( wp_remote_retrieve_body( $remote ), TRUE );
+					$response = json_decode( wp_remote_retrieve_body( $remote ), true );
 
 					if ( isset( $response[0]['result']['metadata']['globalCounts']['count'] ) ) {
 						$count = $response[0]['result']['metadata']['globalCounts']['count'];
@@ -2338,7 +2345,7 @@ if ( ! function_exists( 'better_amp_social_share_fetch_count' ) ) {
 				if ( ! is_wp_error( $remote ) ) {
 
 					if ( preg_match( '/^\s*CALLBACK\s*\((.+)\)\s*$/', wp_remote_retrieve_body( $remote ), $match ) ) {
-						$response = json_decode( $match[1], TRUE );
+						$response = json_decode( $match[1], true );
 
 						if ( isset( $response['count'] ) ) {
 							$count = $response['count'];
@@ -2354,7 +2361,7 @@ if ( ! function_exists( 'better_amp_social_share_fetch_count' ) ) {
 
 				if ( ! is_wp_error( $remote ) ) {
 
-					$response = json_decode( wp_remote_retrieve_body( $remote ), TRUE );
+					$response = json_decode( wp_remote_retrieve_body( $remote ), true );
 
 					if ( isset( $response['count'] ) ) {
 						$count = $response['count'];
@@ -2369,7 +2376,7 @@ if ( ! function_exists( 'better_amp_social_share_fetch_count' ) ) {
 
 				if ( ! is_wp_error( $remote ) ) {
 
-					$response = json_decode( wp_remote_retrieve_body( $remote ), TRUE );
+					$response = json_decode( wp_remote_retrieve_body( $remote ), true );
 
 					if ( isset( $response['response']['note_count'] ) ) {
 						$count = $response['response']['note_count'];
@@ -2385,7 +2392,7 @@ if ( ! function_exists( 'better_amp_social_share_fetch_count' ) ) {
 
 				if ( ! is_wp_error( $remote ) ) {
 
-					$response = json_decode( $remote['body'], TRUE );
+					$response = json_decode( $remote['body'], true );
 
 					if ( isset( $response['data']['children']['0']['data']['score'] ) ) {
 						$count = $response['data']['children']['0']['data']['score'];
@@ -2400,7 +2407,7 @@ if ( ! function_exists( 'better_amp_social_share_fetch_count' ) ) {
 
 				if ( ! is_wp_error( $remote ) ) {
 
-					$response = json_decode( $remote['body'], TRUE );
+					$response = json_decode( $remote['body'], true );
 
 					if ( isset( $response['result']['views'] ) ) {
 						$count = $response['result']['views'];
@@ -2454,13 +2461,13 @@ if ( ! function_exists( 'better_amp_social_shares_count' ) ) {
 		}
 
 		$post_id = get_queried_object_id();
-		$expired = (int) get_post_meta( $post_id, 'bs_social_share_interval', TRUE );
+		$expired = (int) get_post_meta( $post_id, 'bs_social_share_interval', true );
 		$results = array();
 
-		$update_cache = FALSE;
+		$update_cache = false;
 
 		if ( $expired < time() ) {
-			$update_cache = TRUE;
+			$update_cache = true;
 		} else {
 
 			// get count from cache storage
@@ -2469,7 +2476,7 @@ if ( ! function_exists( 'better_amp_social_shares_count' ) ) {
 					continue;
 				}
 
-				$count_number = get_post_meta( $post_id, 'bs_social_share_' . $site_id, TRUE );
+				$count_number = get_post_meta( $post_id, 'bs_social_share_' . $site_id, true );
 				$update_cache = $count_number === '';
 
 				if ( $update_cache ) {
@@ -2540,7 +2547,7 @@ if ( ! function_exists( 'better_amp_social_share_guss_current_page' ) ) {
 			}
 
 		} elseif ( is_category() || is_tag() || is_tax() ) {
-			$page_title = single_term_title( '', FALSE );
+			$page_title = single_term_title( '', false );
 
 			if ( $need_short_link ) {
 
@@ -2589,7 +2596,7 @@ if ( ! function_exists( 'better_amp_social_share_get_li' ) ) {
 	 *
 	 * @return string
 	 */
-	function better_amp_social_share_get_li( $id = '', $show_title = TRUE, $count_label = 0 ) {
+	function better_amp_social_share_get_li( $id = '', $show_title = true, $count_label = 0 ) {
 
 		if ( empty( $id ) ) {
 			return '';
@@ -2605,7 +2612,7 @@ if ( ! function_exists( 'better_amp_social_share_get_li' ) ) {
 			$cur_page       = better_amp_social_share_guss_current_page();
 			$page_title     = esc_attr( $cur_page['page_title'] );
 			$page_permalink = urlencode( $cur_page['page_permalink'] );
-			$initialized    = TRUE;
+			$initialized    = true;
 		}
 
 		switch ( $id ) {
@@ -2761,7 +2768,7 @@ if ( ! function_exists( 'better_amp_customizer_hidden_attr' ) ) {
 	 */
 	function better_amp_customizer_hidden_attr( $theme_mod ) {
 
-		if ( better_amp_is_customize_preview() && ! better_amp_get_theme_mod( $theme_mod, FALSE ) ) {
+		if ( better_amp_is_customize_preview() && ! better_amp_get_theme_mod( $theme_mod, false ) ) {
 			echo ' style="display:none"';
 		}
 	}
@@ -2801,7 +2808,7 @@ if ( ! function_exists( 'better_amp_get_post_parent' ) ) {
 	 * @since 1.1
 	 * @return bool|WP_Post WP_Post on success or false on failure
 	 */
-	function better_amp_get_post_parent( $attachment_id = NULL ) {
+	function better_amp_get_post_parent( $attachment_id = null ) {
 
 		if ( empty( $attachment_id ) && isset( $GLOBALS['post'] ) ) {
 			$attachment = $GLOBALS['post'];
@@ -2811,15 +2818,15 @@ if ( ! function_exists( 'better_amp_get_post_parent' ) ) {
 
 		// Validate attachment
 		if ( ! $attachment || is_wp_error( $attachment ) ) {
-			return FALSE;
+			return false;
 		}
 
-		$parent = FALSE;
+		$parent = false;
 
 		if ( ! empty( $attachment->post_parent ) ) {
 			$parent = get_post( $attachment->post_parent );
 			if ( ! $parent || is_wp_error( $parent ) ) {
-				$parent = FALSE;
+				$parent = false;
 			}
 		}
 
@@ -2849,7 +2856,7 @@ if ( ! function_exists( 'better_amp_comments_template' ) ) {
 	 */
 	function better_amp_comments_template() {
 
-		better_amp_locate_template( 'comments.php', TRUE );
+		better_amp_locate_template( 'comments.php', true );
 	}
 }
 
@@ -2878,7 +2885,7 @@ if ( ! function_exists( 'better_amp_list_comments' ) ) {
 			'order'         => 'ASC',
 			'status'        => 'approve',
 			'post_id'       => $post_id,
-			'no_found_rows' => FALSE,
+			'no_found_rows' => false,
 		);
 
 		if ( empty( $args['callback'] ) && better_amp_locate_template( 'comment-item.php' ) ) {
@@ -2981,7 +2988,7 @@ if ( ! function_exists( 'better_amp_related_posts_query_args' ) ) {
 	 *
 	 * @return array  query args array
 	 */
-	function better_amp_related_posts_query_args( $count = 5, $type = 'cat', $post_id = NULL, $params = array() ) {
+	function better_amp_related_posts_query_args( $count = 5, $type = 'cat', $post_id = null, $params = array() ) {
 
 		$post = get_post( $post_id );
 
@@ -2992,7 +2999,7 @@ if ( ! function_exists( 'better_amp_related_posts_query_args' ) ) {
 		$args = array(
 			'posts_per_page'      => $count,
 			'post__not_in'        => array( $post_id ),
-			'ignore_sticky_posts' => TRUE,
+			'ignore_sticky_posts' => true,
 		);
 
 		switch ( $type ) {
