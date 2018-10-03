@@ -380,7 +380,9 @@ class Better_AMP {
 		$path        = bf_get_wp_installation_slug();
 		$request_url = str_replace( $path, '', $_SERVER['REQUEST_URI'] );
 
-		preg_match( "#^/*(.*?)/$amp_qv/*$#", $request_url, $automattic_amp_match );
+		$url_prefix = preg_quote( better_amp_permalink_prefix(), '#' );
+
+		preg_match( "#^/*$url_prefix(.*?)/$amp_qv/*$#", $request_url, $automattic_amp_match );
 
 		if ( ! $this->amp_version_exists() ) {
 
@@ -405,10 +407,11 @@ class Better_AMP {
 			}
 		}
 
+
 		if ( ! empty( $automattic_amp_match[1] ) ) {
 
 
-			$new_amp_url = Better_AMP_Content_Sanitizer::transform_to_amp_url( site_url( $automattic_amp_match[1] ) );
+			$new_amp_url = Better_AMP_Content_Sanitizer::transform_to_amp_url( home_url( $automattic_amp_match[1] ) );
 			$new_amp_url = trailingslashit( $new_amp_url );
 
 			if ( $new_amp_url && trim( str_replace( site_url(), '', $new_amp_url ), '/' ) !== trim( $request_url, '/' ) ) {

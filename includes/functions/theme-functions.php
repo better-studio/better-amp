@@ -1136,10 +1136,17 @@ if ( ! function_exists( 'better_amp_get_search_page_url' ) ) {
 	 */
 	function better_amp_site_url( $path = '', $before_sp = '' ) {
 
-		$url = home_url( '/' );
-		//
+		$url_prefix = better_amp_permalink_prefix();
+
+		$url = trailingslashit( home_url( $url_prefix ) );
 		$url .= $before_sp ? trailingslashit( $before_sp ) : '';
 		$url .= Better_AMP::STARTPOINT;
+
+
+		if ( ! empty( $path ) && $url_prefix && preg_match( '#^' . preg_quote( $url_prefix, '#' ) . '(.+)$#i', $path, $match ) ) {
+
+			$path = rtrim( $match[1], '/' );
+		}
 
 		if ( $path ) {
 

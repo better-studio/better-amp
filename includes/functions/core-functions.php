@@ -743,3 +743,20 @@ if ( ! function_exists( 'better_amp_wp_amp_compatibility_functions' ) ) {
 		}
 	}
 }
+
+if ( ! function_exists( 'better_amp_permalink_prefix' ) ) {
+	/**
+	 * Get permalink structure prefix which is fixed in all urls.
+	 *
+	 * @since 1.8.1
+	 *
+	 * @return string
+	 */
+	function better_amp_permalink_prefix() {
+
+		$permalink_structure = get_option( 'permalink_structure' );
+		$prefix              = substr( $permalink_structure, 0, strpos( $permalink_structure, '%' ) );
+
+		return ltrim( $prefix, '/' );
+	}
+}

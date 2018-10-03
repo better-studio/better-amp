@@ -355,6 +355,10 @@ class Better_AMP_Rewrite_Rules {
 
 		$results = array();
 
+		$permalink_structure = get_option( 'permalink_structure' );
+		$url_prefix          = substr( $permalink_structure, 0, strpos( $permalink_structure, '%' ) );
+		$url_prefix          = preg_quote( ltrim( $url_prefix, '/' ), '#' );
+
 		foreach ( $rewrite_rules as $regex => $query ) {
 
 			$vars = array();
@@ -372,7 +376,15 @@ class Better_AMP_Rewrite_Rules {
 							$startpint_query = $this->increase_pattern_preg_index( $query ) . $sp[1] . $wp_rewrite->preg_index( 1 );
 						}
 
-						$results[ $spregex . ltrim( $regex, '/' ) ] = $startpint_query;
+						if ( $url_prefix && preg_match("#^($url_prefix)(.+)$#",$regex,$match) ) {
+
+							$results[ $match[1] . $spregex . ltrim( $match[2], '/' ) ] = $startpint_query;
+
+						} else {
+
+							$results[ $spregex . ltrim( $regex, '/' ) ] = $startpint_query;
+						}
+
 					}
 				}
 			}

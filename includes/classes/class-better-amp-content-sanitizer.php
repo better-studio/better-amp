@@ -379,12 +379,13 @@ class Better_AMP_Content_Sanitizer {
 				'https://',
 			),
 			'',
-			site_url()
+			home_url()
 		);
 
+		$prefix     = better_amp_permalink_prefix();
 		$sitedomain = rtrim( $sitedomain, '/' );
 
-		if ( preg_match( '#^https?://w*\.?' . preg_quote( $sitedomain, '#' ) . '/?([^/]*)/?(.*?)$#', $url, $matched ) ) {
+		if ( preg_match( '#^https?://w*\.?' . preg_quote( $sitedomain, '#' ) . '/?' . $prefix . '([^/]*)/?(.*?)$#', $url, $matched ) ) {
 
 			// if url was not amp
 			if ( $matched[1] === Better_AMP::STARTPOINT ) {
@@ -397,7 +398,7 @@ class Better_AMP_Content_Sanitizer {
 					$path = '/';
 				}
 
-				return site_url( $path );
+				return home_url( rtrim( $prefix, '/' ) . $path );
 			}
 
 		}
