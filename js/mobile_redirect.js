@@ -44,6 +44,6 @@ if (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elain
     if (_bs_getParameterByName('bamp-skip-redirect')) {
         _bs_setCookie('bamp-skip-redirect', 1);
     } else if (!_bsReadCookie('bamp-skip-redirect')) {
-        window.location.href = "<?php echo esc_attr( $amp_permalink ) ?>";
+        window.location.href = "%%amp_permalink%%";
     }
 }
