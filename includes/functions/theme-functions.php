@@ -2074,10 +2074,6 @@ if ( ! function_exists( 'better_amp_human_number_format' ) ) {
 	 */
 	function better_amp_human_number_format( $number ) {
 
-		if ( function_exists( 'bf_human_number_format' ) ) {
-			return bf_human_number_format( $number );
-		}
-
 		if ( ! is_numeric( $number ) ) {
 			return $number;
 		}
@@ -2726,7 +2722,7 @@ if ( ! function_exists( 'better_amp_social_share_get_li' ) ) {
 		}
 
 		if ( $count_label ) {
-			$output .= sprintf( '<span class="number">%s</span>', bf_human_number_format( $count_label ) );
+			$output .= sprintf( '<span class="number">%s</span>', better_amp_human_number_format( $count_label ) );
 		}
 
 		$output .= '</a></li>';

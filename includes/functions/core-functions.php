@@ -515,32 +515,6 @@ function better_amp_guess_none_amp_url( $args = array() ) {
 }
 
 
-if ( ! function_exists( 'bf_human_number_format' ) ) {
-	/**
-	 * Format number to human friendly style
-	 *
-	 * @param $number
-	 *
-	 * @return string
-	 */
-	function bf_human_number_format( $number ) {
-
-		if ( ! is_numeric( $number ) ) {
-			return $number;
-		}
-
-		if ( $number >= 1000000 ) {
-			return round( ( $number / 1000 ) / 1000, 1 ) . "M";
-		} elseif ( $number >= 100000 ) {
-			return round( $number / 1000, 0 ) . "k";
-		} else {
-			return @number_format( $number );
-		}
-
-	}
-}
-
-
 if ( ! function_exists( 'better_amp_translation_get' ) ) {
 	/**
 	 * Returns translation of strings from panel
