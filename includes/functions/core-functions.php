@@ -776,6 +776,8 @@ if ( ! function_exists( 'better_amp_using_permalink_structure' ) ) {
 	 */
 	function better_amp_using_permalink_structure() {
 
-		return (bool) get_option( 'better_amp_using_permalink_structure' );
+		return (bool) get_option( 'permalink_structure' );
+
+
 	}
 }
