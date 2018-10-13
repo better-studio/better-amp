@@ -51,6 +51,10 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 
 == Changelog ==
 
+= 1.8.2 =
+- Fixed: Small code issue fixed.
+
+
 = 1.8.1 =
 - Added: support default/plain WordPress Permalink Settings.
 - Improve: The Custom Permalink Structure feature improved.
