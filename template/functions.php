@@ -945,7 +945,9 @@ if ( ! function_exists( 'better_amp_list_post_types' ) ) {
 	 */
 	function better_amp_list_post_types() {
 
-		$results = array();
+		$results = array(
+			__( '- none -', 'better-amp' ),
+		);
 
 		foreach (
 			get_post_types( array(
@@ -976,7 +978,9 @@ if ( ! function_exists( 'better_amp_list_taxonomies' ) ) {
 	 */
 	function better_amp_list_taxonomies() {
 
-		$results    = array();
+		$results    = array(
+			__( '- none -', 'better-amp' ),
+		);
 		$taxonomies = get_taxonomies( array( 'public' => TRUE, ) );
 		unset( $taxonomies['post_format'] );
 
