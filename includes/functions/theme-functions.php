@@ -971,7 +971,7 @@ if ( ! function_exists( 'better_amp_print_rel_canonical' ) ) {
 
 		$canonical = Better_AMP_Content_Sanitizer::transform_to_none_amp_url( $canonical_url );
 
-		if ( $canonical ) {
+		if ( $canonical && $canonical_url != $canonical ) {
 			?>
 			<link rel="canonical" href="<?php echo esc_attr( $canonical ) ?>"/>
 			<?php
