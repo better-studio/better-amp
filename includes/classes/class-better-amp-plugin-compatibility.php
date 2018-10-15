@@ -134,6 +134,16 @@ class Better_AMP_Plugin_Compatibility {
 		if ( extension_loaded( 'newrelic' ) && function_exists( 'newrelic_disable_autorum' ) ) {
 			newrelic_disable_autorum();
 		}
+
+
+		/**
+		 * Squirrly SEO Plugin
+		 *
+		 * @since 1.8.3
+		 * @link  https://wordpress.org/plugins/squirrly-seo/
+		 */
+		add_action( 'template_redirect', array( __CLASS__, 'squirrly_seo' ) );
+
 	}
 
 
@@ -325,6 +335,32 @@ class Better_AMP_Plugin_Compatibility {
 		}
 
 		return $is_pretty_link;
+	}
+
+	/**
+	 * Squirrly SEO Compatibility
+	 *
+	 * @since 1.8.3
+	 */
+	public static function squirrly_seo() {
+
+		if ( ! is_callable( 'SQ_Classes_ObjController::getClass' ) ) {
+			return;
+		}
+
+		$object = SQ_Classes_ObjController::getClass( 'SQ_Models_Services_Canonical' );
+
+		remove_filter( 'sq_canonical', array( $object, 'packCanonical' ), 99 );
+
+		add_action( 'sq_canonical', array( __class__, 'return_rel_canonical' ), 99 );
+	}
+
+	public static function return_rel_canonical() {
+
+		if ( $canonical = better_amp_rel_canonical_url() ) {
+
+			return '<link rel="canonical" href="' . $canonical . '"/>';
+		}
 	}
 }
 

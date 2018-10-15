@@ -954,14 +954,15 @@ if ( ! function_exists( 'better_amp_comment_link' ) ) {
 	}
 }
 
+if ( ! function_exists( 'better_amp_rel_canonical_url' ) ) {
 
-if ( ! function_exists( 'better_amp_print_rel_canonical' ) ) {
 	/**
-	 * Print rel=canonical tag in AMP version
+	 * Get rel=canonical tag url.
 	 *
-	 * @since 1.0.0
+	 * @since 1.8.3
+	 * @return string
 	 */
-	function better_amp_print_rel_canonical() {
+	function better_amp_rel_canonical_url() {
 
 		$canonical_url = better_amp_get_canonical_url();
 
@@ -969,14 +970,27 @@ if ( ! function_exists( 'better_amp_print_rel_canonical' ) ) {
 			$canonical_url = better_amp_site_url();
 		}
 
-		$canonical = Better_AMP_Content_Sanitizer::transform_to_none_amp_url( $canonical_url );
+		return Better_AMP_Content_Sanitizer::transform_to_none_amp_url( $canonical_url );
+	}
+}
 
-		if ( $canonical ) {
+if ( ! function_exists( 'better_amp_print_rel_canonical' ) ) {
+	/**
+	 * Print rel=canonical tag in AMP version
+	 *
+	 * @param bool $echo
+	 *
+	 * @since 1.0.0
+	 * @return string
+	 */
+	function better_amp_print_rel_canonical(  ) {
+
+
+		if ( $canonical = better_amp_rel_canonical_url() ) {
 			?>
 			<link rel="canonical" href="<?php echo esc_attr( $canonical ) ?>"/>
 			<?php
 		}
-
 	}
 }
 
