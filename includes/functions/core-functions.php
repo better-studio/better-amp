@@ -349,9 +349,13 @@ function better_amp_enqueue_inline_style( $file, $handle = '' ) {
 
 	better_amp_locate_template( $file, true );
 
-	better_amp_add_inline_style( ob_get_clean(), $handle );
+	$code = ob_get_clean();
 
-	return $printed_files[ $file ] = TRUE;
+	$code = apply_filters( "better-amp/style-files/{$file}", $code );
+
+	better_amp_add_inline_style( $code, $handle );
+
+	return $printed_files[ $file ] = true;
 }
 
 
