@@ -475,7 +475,7 @@ class Better_AMP {
 			return TRUE;
 		}
 
-		if ( is_home() ) {
+		if ( is_home() || is_front_page() ) {
 
 			return ! $filters['disabled_homepage'];
 		}
