@@ -49,7 +49,6 @@ if ( ! function_exists( 'is_better_amp' ) ) {
 	}
 }
 
-
 if ( ! function_exists( 'is_amp_endpoint' ) ) {
 
 	/**
@@ -101,7 +100,7 @@ function better_amp_register_component( $component_class, $settings = array() ) 
 
 		$better_amp_registered_components[] = compact( 'component_class', 'settings' ); // maybe need add some extra indexes like __FILE__ in the future!
 
-		return TRUE;
+		return true;
 	} catch( Exception $e ) {
 
 		return new WP_Error( 'error', $e->getMessage() );
@@ -148,7 +147,7 @@ function better_amp_enqueue_script( $handle, $src = '', $deps = array(), $media 
 
 	if ( $src ) {
 		$_handle = explode( '?', $handle );
-		$better_amp_scripts->add( $_handle[0], $src, $deps, FALSE, $media );
+		$better_amp_scripts->add( $_handle[0], $src, $deps, false, $media );
 	}
 
 	$better_amp_scripts->enqueue( $handle );
@@ -229,7 +228,7 @@ function better_amp_styles() {
  *
  * @since 1.0.0
  */
-function better_amp_enqueue_style( $handle, $src = '', $deps = array(), $ver = FALSE, $media = 'all' ) {
+function better_amp_enqueue_style( $handle, $src = '', $deps = array(), $ver = false, $media = 'all' ) {
 
 	$better_amp_styles = better_amp_styles();
 
@@ -307,7 +306,7 @@ function better_amp_print_styles() {
  */
 function better_amp_add_inline_style( $data, $handle = '' ) {
 
-	if ( FALSE !== stripos( $data, '</style>' ) ) {
+	if ( false !== stripos( $data, '</style>' ) ) {
 		_doing_it_wrong( __FUNCTION__, sprintf(
 			__( 'Do not pass %1$s tags to %2$s.', 'better-amp' ),
 			'<code>&lt;style&gt;</code>',
@@ -343,12 +342,12 @@ function better_amp_enqueue_inline_style( $file, $handle = '' ) {
 	}
 
 	if ( isset( $printed_files[ $file ] ) ) {
-		return TRUE;
+		return true;
 	}
 
 	ob_start();
 
-	better_amp_locate_template( $file, TRUE );
+	better_amp_locate_template( $file, true );
 
 	better_amp_add_inline_style( ob_get_clean(), $handle );
 
@@ -369,10 +368,10 @@ function better_amp_enqueue_inline_style( $file, $handle = '' ) {
  *
  * @return bool True on success, false on failure.
  */
-function better_amp_enqueue_block_style( $handle, $file = '', $rtl = TRUE ) {
+function better_amp_enqueue_block_style( $handle, $file = '', $rtl = true ) {
 
 	if ( empty( $handle ) ) {
-		return FALSE;
+		return false;
 	}
 
 	if ( empty( $file ) ) {
@@ -390,7 +389,7 @@ function better_amp_enqueue_block_style( $handle, $file = '', $rtl = TRUE ) {
 	}
 
 	if ( isset( $printed_files[ $file ] ) ) {
-		return TRUE;
+		return true;
 	}
 
 	better_amp_enqueue_inline_style( better_amp_min_suffix( $file, '.css' ), $handle );
@@ -399,7 +398,7 @@ function better_amp_enqueue_block_style( $handle, $file = '', $rtl = TRUE ) {
 		better_amp_enqueue_inline_style( better_amp_min_suffix( $file . '.rtl', '.css' ), $handle . '-rtl' );
 	}
 
-	return $printed_files[ $file ] = TRUE;
+	return $printed_files[ $file ] = true;
 }
 
 
@@ -472,12 +471,12 @@ function better_amp_guess_none_amp_url( $args = array() ) {
 		$path = preg_replace( '#/[^/]*$#i', '', $_SERVER['PHP_SELF'] );
 
 	} else {
-		if ( FALSE !== strpos( $_SERVER['SCRIPT_FILENAME'], $abspath_fix ) ) {
+		if ( false !== strpos( $_SERVER['SCRIPT_FILENAME'], $abspath_fix ) ) {
 			// Request is hitting a file inside ABSPATH
 			$directory = str_replace( ABSPATH, '', $script_filename_dir );
 			// Strip off the sub directory, and any file/query params
 			$path = preg_replace( '#/' . preg_quote( $directory, '#' ) . '/[^/]*$#i', '', $_SERVER['REQUEST_URI'] );
-		} elseif ( FALSE !== strpos( $abspath_fix, $script_filename_dir ) ) {
+		} elseif ( false !== strpos( $abspath_fix, $script_filename_dir ) ) {
 			// Request is hitting a file above ABSPATH
 			$subdirectory = substr( $abspath_fix, strpos( $abspath_fix, $script_filename_dir ) + strlen( $script_filename_dir ) );
 			// Strip off any file/query params from the path, appending the sub directory to the install
@@ -660,12 +659,12 @@ if ( ! function_exists( 'bf_get_wp_installation_slug' ) ) {
 			// Strip off any file/query params in the path
 			$path = preg_replace( '#/[^/]*$#i', '', $_SERVER['PHP_SELF'] );
 
-		} elseif ( FALSE !== strpos( $_SERVER['SCRIPT_FILENAME'], $abspath_fix ) ) {
+		} elseif ( false !== strpos( $_SERVER['SCRIPT_FILENAME'], $abspath_fix ) ) {
 			// Request is hitting a file inside ABSPATH
 			$directory = str_replace( ABSPATH, '', $script_filename_dir );
 			// Strip off the sub directory, and any file/query params
 			$path = preg_replace( '#/' . preg_quote( $directory, '#' ) . '/[^/]*$#i', '', $_SERVER['REQUEST_URI'] );
-		} elseif ( '' !== $script_filename_dir && FALSE !== strpos( $abspath_fix, $script_filename_dir ) ) {
+		} elseif ( '' !== $script_filename_dir && false !== strpos( $abspath_fix, $script_filename_dir ) ) {
 			// Request is hitting a file above ABSPATH
 			$subdirectory = substr( $abspath_fix, strpos( $abspath_fix, $script_filename_dir ) + strlen( $script_filename_dir ) );
 			// Strip off any file/query params from the path, appending the sub directory to the install
