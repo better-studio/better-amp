@@ -14,7 +14,7 @@ $GLOBALS['better_amp_theme_core_props_cache'] = array();
 $GLOBALS['better_amp_theme_core_globals_cache'] = array();
 
 // Used to save template query
-$GLOBALS['better_amp_theme_core_query'] = NULL;
+$GLOBALS['better_amp_theme_core_query'] = null;
 
 if ( ! function_exists( 'better_amp_locate_template' ) ) {
 	/**
@@ -30,7 +30,7 @@ if ( ! function_exists( 'better_amp_locate_template' ) ) {
 	 *
 	 * @return string The template filename if one is located.
 	 */
-	function better_amp_locate_template( $template_names, $load = FALSE, $require_once = TRUE ) {
+	function better_amp_locate_template( $template_names, $load = false, $require_once = true ) {
 
 		$wp_theme_can_override = current_theme_supports( 'better-amp-template' );
 
@@ -79,7 +79,7 @@ if ( ! function_exists( 'better_amp_load_templates' ) ) {
 	 *
 	 * @return bool|string
 	 */
-	function better_amp_load_templates( $templates, $theme_directory, $load = FALSE, $require_once = TRUE ) {
+	function better_amp_load_templates( $templates, $theme_directory, $load = false, $require_once = true ) {
 
 		foreach ( (array) $templates as $theme_file ) {
 
@@ -100,7 +100,7 @@ if ( ! function_exists( 'better_amp_load_templates' ) ) {
 			}
 		}
 
-		return FALSE;
+		return false;
 	}
 }
 
@@ -120,7 +120,7 @@ if ( ! function_exists( 'better_amp_get_view' ) ) {
 	 *
 	 * @return null|string
 	 */
-	function better_amp_get_view( $folder, $file = '', $style = '', $echo = TRUE ) {
+	function better_amp_get_view( $folder, $file = '', $style = '', $echo = true ) {
 
 		// If file name passed as folder argument for short method call
 		if ( ! empty( $folder ) && empty( $file ) ) {
@@ -142,9 +142,9 @@ if ( ! function_exists( 'better_amp_get_view' ) ) {
 
 		}
 
-		$template = better_amp_locate_template( $templates, FALSE, FALSE );
+		$template = better_amp_locate_template( $templates, false, false );
 
-		if ( $echo == FALSE ) {
+		if ( $echo == false ) {
 			ob_start();
 		}
 
@@ -156,7 +156,7 @@ if ( ! function_exists( 'better_amp_get_view' ) ) {
 
 		//do_action( 'themename-theme-core/view/after/' . $file );
 
-		if ( $echo == FALSE ) {
+		if ( $echo == false ) {
 			return ob_get_clean();
 		}
 
@@ -181,7 +181,7 @@ if ( ! function_exists( 'better_amp_get_prop' ) ) {
 	 *
 	 * @return  mixed
 	 */
-	function better_amp_get_prop( $id, $default = NULL ) {
+	function better_amp_get_prop( $id, $default = null ) {
 
 		global $better_amp_theme_core_props_cache;
 
@@ -205,7 +205,7 @@ if ( ! function_exists( 'better_amp_echo_prop' ) ) {
 	 *
 	 * @return  mixed
 	 */
-	function better_amp_echo_prop( $id, $default = NULL ) {
+	function better_amp_echo_prop( $id, $default = null ) {
 
 		global $better_amp_theme_core_props_cache;
 
@@ -293,7 +293,7 @@ if ( ! function_exists( 'better_amp_set_prop_class' ) ) {
 	 *
 	 * @return  mixed
 	 */
-	function better_amp_set_prop_class( $value, $clean = FALSE ) {
+	function better_amp_set_prop_class( $value, $clean = false ) {
 
 		global $better_amp_theme_core_props_cache;
 
@@ -418,7 +418,7 @@ if ( ! function_exists( 'better_amp_get_global' ) ) {
 	 *
 	 * @return  mixed
 	 */
-	function better_amp_get_global( $id, $default = NULL ) {
+	function better_amp_get_global( $id, $default = null ) {
 
 		global $better_amp_theme_core_globals_cache;
 
@@ -442,7 +442,7 @@ if ( ! function_exists( 'better_amp_echo_global' ) ) {
 	 *
 	 * @return  mixed
 	 */
-	function better_amp_echo_global( $id, $default = NULL ) {
+	function better_amp_echo_global( $id, $default = null ) {
 
 		global $better_amp_theme_core_globals_cache;
 
@@ -529,11 +529,11 @@ if ( ! function_exists( 'better_amp_clear_query' ) ) {
 	 * @since 1.0.0
 	 *
 	 */
-	function better_amp_clear_query( $reset_query = TRUE ) {
+	function better_amp_clear_query( $reset_query = true ) {
 
 		global $better_amp_theme_core_query;
 
-		$better_amp_theme_core_query = NULL;
+		$better_amp_theme_core_query = null;
 
 		// This will remove obscure bugs that occur when the previous wp_query object is not destroyed properly before another is set up.
 		if ( $reset_query ) {
@@ -559,14 +559,14 @@ if ( ! function_exists( 'better_amp_have_posts' ) ) {
 		}
 
 		// If count customized
-		if ( better_amp_get_prop( 'posts-count', NULL ) != NULL ) {
+		if ( better_amp_get_prop( 'posts-count', null ) != null ) {
 			if ( better_amp_get_prop( 'posts-counter', 1 ) > better_amp_get_prop( 'posts-count' ) ) {
-				return FALSE;
+				return false;
 			} else {
 				if ( better_amp_get_query()->current_post + 1 < better_amp_get_query()->post_count ) {
-					return TRUE;
+					return true;
 				} else {
-					return FALSE;
+					return false;
 				}
 			}
 		} else {
@@ -585,7 +585,7 @@ if ( ! function_exists( 'better_amp_the_post' ) ) {
 	function better_amp_the_post() {
 
 		// If count customized
-		if ( better_amp_get_prop( 'posts-count', NULL ) != NULL ) {
+		if ( better_amp_get_prop( 'posts-count', null ) != null ) {
 			better_amp_set_prop( 'posts-counter', absint( better_amp_get_prop( 'posts-counter', 1 ) ) + 1 );
 		}
 
@@ -608,7 +608,7 @@ if ( ! function_exists( 'better_amp_the_post_thumbnail' ) ) {
 
 		if ( empty( $attr ) ) {
 			$attr = array(
-				'alt'    => the_title_attribute( array( 'echo' => FALSE ) ),
+				'alt'    => the_title_attribute( array( 'echo' => false ) ),
 				'layout' => 'responsive',
 			);
 		}
@@ -691,7 +691,7 @@ if ( ! function_exists( 'better_amp_get_header' ) ) {
 	 *
 	 * @since 1.0.0
 	 */
-	function better_amp_get_header( $name = NULL ) {
+	function better_amp_get_header( $name = null ) {
 
 		$templates = array();
 
@@ -703,7 +703,7 @@ if ( ! function_exists( 'better_amp_get_header' ) ) {
 
 		$templates[] = 'header.php';
 
-		better_amp_locate_template( $templates, TRUE );
+		better_amp_locate_template( $templates, true );
 	}
 }
 
@@ -716,7 +716,7 @@ if ( ! function_exists( 'better_amp_get_footer' ) ) {
 	 *
 	 * @since 1.0.0
 	 */
-	function better_amp_get_footer( $name = NULL ) {
+	function better_amp_get_footer( $name = null ) {
 
 		$templates = array();
 
@@ -728,7 +728,7 @@ if ( ! function_exists( 'better_amp_get_footer' ) ) {
 
 		$templates[] = 'footer.php';
 
-		better_amp_locate_template( $templates, TRUE );
+		better_amp_locate_template( $templates, true );
 	}
 }
 
@@ -741,7 +741,7 @@ if ( ! function_exists( 'better_amp_get_sidebar' ) ) {
 	 *
 	 * @since 1.0.0
 	 */
-	function better_amp_get_sidebar( $name = NULL ) {
+	function better_amp_get_sidebar( $name = null ) {
 
 		$templates = array();
 
@@ -753,7 +753,7 @@ if ( ! function_exists( 'better_amp_get_sidebar' ) ) {
 
 		$templates[] = 'sidebar.php';
 
-		better_amp_locate_template( $templates, TRUE );
+		better_amp_locate_template( $templates, true );
 	}
 }
 
@@ -908,7 +908,7 @@ if ( ! function_exists( 'better_amp_get_comment_link' ) ) {
 	 */
 	function better_amp_get_comment_link() {
 
-		$prev = Better_AMP_Content_Sanitizer::turn_url_transform_off_on( FALSE );
+		$prev = Better_AMP_Content_Sanitizer::turn_url_transform_off_on( false );
 
 		$comments_url = get_permalink() . '#respond';
 
@@ -930,7 +930,7 @@ if ( ! function_exists( 'better_amp_comment_reply_link' ) ) {
 	function better_amp_comment_reply_link( $args = array() ) {
 
 		$current_value                                      = Better_AMP_Content_Sanitizer::$enable_url_transform;
-		Better_AMP_Content_Sanitizer::$enable_url_transform = FALSE;
+		Better_AMP_Content_Sanitizer::$enable_url_transform = false;
 
 		$result                                             = comment_reply_link( $args );
 		Better_AMP_Content_Sanitizer::$enable_url_transform = $current_value;
@@ -983,7 +983,7 @@ if ( ! function_exists( 'better_amp_print_rel_canonical' ) ) {
 	 * @since 1.0.0
 	 * @return string
 	 */
-	function better_amp_print_rel_canonical(  ) {
+	function better_amp_print_rel_canonical() {
 
 
 		if ( $canonical = better_amp_rel_canonical_url() ) {
@@ -1176,7 +1176,7 @@ if ( ! function_exists( 'better_amp_get_search_page_url' ) ) {
 		}
 
 
-		return $url;
+		return trailingslashit( $url );
 	}
 }
 
@@ -3091,5 +3091,19 @@ if ( ! function_exists( 'better_amp_min_suffix' ) ) {
 		}
 
 		return "$before$suffix$after";
+	}
+}
+
+if ( ! function_exists( 'better_amp_url_format' ) ) {
+
+	/**
+	 * Get the structure url of AMP pages permalink.
+	 *
+	 * @since 1.8.3
+	 * @return string start-point or end-pint
+	 */
+	function better_amp_url_format() {
+
+		return apply_filters( 'better-amp/url/format', 'start-point' );
 	}
 }

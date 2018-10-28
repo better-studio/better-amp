@@ -15,7 +15,7 @@ class Better_AMP_Content_Sanitizer {
 	 *
 	 * @since 1.0.0
 	 */
-	public static $enable_url_transform = TRUE;
+	public static $enable_url_transform = true;
 
 
 	/**
@@ -36,13 +36,13 @@ class Better_AMP_Content_Sanitizer {
 	 * @since 1.1
 	 */
 	public $general_attrs = array(
-		'class'  => TRUE,
-		'on'     => TRUE,
-		'id'     => TRUE,
-		'layout' => TRUE,
-		'width'  => TRUE,
-		'height' => TRUE,
-		'sizes'  => TRUE,
+		'class'  => true,
+		'on'     => true,
+		'id'     => true,
+		'layout' => true,
+		'width'  => true,
+		'height' => true,
+		'sizes'  => true,
 	);
 
 	/**
@@ -205,7 +205,7 @@ class Better_AMP_Content_Sanitizer {
 		// clone and re-add all the children just before current node.
 		if ( $node->hasChildNodes() && $node->parentNode ) {
 			foreach ( $node->childNodes as $child_node ) {
-				$new_child = $child_node->cloneNode( TRUE );
+				$new_child = $child_node->cloneNode( true );
 				$node->parentNode->insertBefore( $new_child, $node );
 			}
 		}
@@ -251,7 +251,7 @@ class Better_AMP_Content_Sanitizer {
 			return $value;
 		}
 
-		if ( FALSE !== filter_var( $value, FILTER_VALIDATE_INT ) ) {
+		if ( false !== filter_var( $value, FILTER_VALIDATE_INT ) ) {
 			return absint( $value );
 		}
 
@@ -304,9 +304,112 @@ class Better_AMP_Content_Sanitizer {
 			}
 		}
 
+
+		if ( ! better_amp_using_permalink_structure() ) {
+
+			return add_query_arg( Better_AMP::SLUG,true,$url );
+		}
+
+		if ( better_amp_url_format() === 'end-point' ) {
+
+			if ( $transformed = self::transform_to_end_point_amp( $url ) ) {
+
+				return $transformed;
+			}
+
+		} else {
+
+			if ( $transformed = self::transform_to_start_point_amp( $url ) ) {
+
+				return $transformed;
+			}
+		}
+
+		return $url;
+	}
+
+	/**
+	 * @param string $url
+	 *
+	 * @return bool
+	 */
+	protected static function transform_to_end_point_amp( $url ) {
+
+		if ( ! preg_match( '#^https?://w*\.?' . self::regex_url() . '/?#', $url ) ) {
+
+			return false;
+		}
+
+		if ( basename( $url ) === Better_AMP::SLUG ) {
+
+			return false;
+		}
+
+		return trailingslashit( $url ) . Better_AMP::SLUG . '/';
+	}
+
+
+	/**
+	 * Transform given url to AMP permalink on starting point.
+	 *
+	 * @param string $url
+	 *
+	 * @return bool|string url on success or false on failure.
+	 */
+	protected static function transform_to_start_point_amp( $url ) {
+
 		// check is url internal?
 		// todo support parked domains
-		$sitedomain = str_replace(
+
+		if ( ! preg_match( '#^https?://w*\.?' . self::regex_url() . '/?([^/]*)/?([^/]*)/?(.*?)$#', $url, $matched ) ) {
+
+			return false;
+		}
+
+		// If url was not amp
+		$exclude_sub_dirs = (array) apply_filters( 'better-amp/transformer/exclude-subdir', array() );
+
+		$sub_dir_excluded = in_array( $matched[1], $exclude_sub_dirs );
+		$first_valid_dir  = $sub_dir_excluded ? $matched[2] : $matched[1];
+
+		if ( $first_valid_dir === Better_AMP::SLUG ) { // It's Already AMP URL
+
+			return false;
+		}
+
+		if ( $matched[1] === 'wp-content' ) { // Do not convert link which is started with wp-content
+
+			return false;
+		}
+
+		$before_sp = '';
+		$path      = '/';
+
+		if ( $matched[1] ) {
+
+			$matched[0] = '';
+
+			if ( $sub_dir_excluded ) {
+				$before_sp = $matched[1];
+
+				$matched[1] = '';
+			}
+
+			$path = implode( '/', array_filter( $matched ) );
+		}
+
+		return better_amp_site_url( $path . ( substr( $url, - 1 ) === '/' ? '/' : '' ), $before_sp );
+	}
+
+
+	/**
+	 * @param string $delimiter
+	 *
+	 * @return string
+	 */
+	public static function regex_url( $delimiter = '#' ) {
+
+		$site_domain = str_replace(
 			array(
 				'http://www.',
 				'https://www.',
@@ -317,46 +420,8 @@ class Better_AMP_Content_Sanitizer {
 			home_url()
 		);
 
-		$sitedomain = rtrim( $sitedomain, '/' );
-
-		if ( preg_match( '#^https?://w*\.?' . preg_quote( $sitedomain, '#' ) . '/?([^/]*)/?([^/]*)/?(.*?)$#', $url, $matched ) ) {
-
-			// if url was not amp
-			$exclude_sub_dirs = (array) apply_filters( 'better-amp/transformer/exclude-subdir', array() );
-
-			$sub_dir_excluded = in_array( $matched[1], $exclude_sub_dirs );
-			$first_valid_dir  = $sub_dir_excluded ? $matched[2] : $matched[1];
-
-			if ( $first_valid_dir !== Better_AMP::STARTPOINT ) {
-
-				$before_sp = '';
-
-				if ( $matched[1] !== 'wp-content' ) { // do not convert link which is started with wp-content
-					if ( $matched[1] ) {
-
-						$matched[0] = '';
-
-						if ( $sub_dir_excluded ) {
-							$before_sp = $matched[1];
-
-							$matched[1] = '';
-						}
-
-						$path = implode( '/', array_filter( $matched ) );
-
-					} else {
-
-						$path = '/';
-					}
-
-					return better_amp_site_url( $path . ( substr( $url, - 1 ) === '/' ? '/' : '' ), $before_sp );
-				}
-			}
-		}
-
-		return $url;
+		return preg_quote( rtrim( $site_domain, '/' ), $delimiter );
 	}
-
 
 	/**
 	 * Convert amp $url to none-amp version if $url was internal
@@ -371,44 +436,79 @@ class Better_AMP_Content_Sanitizer {
 
 		if ( ! better_amp_using_permalink_structure() ) {
 
-			return remove_query_arg( Better_AMP::STARTPOINT, $url );
+			return remove_query_arg( Better_AMP::SLUG, $url );
 		}
 
-		// check is url internal?
-		// todo support parked domains
-		$sitedomain = str_replace(
-			array(
-				'http://www.',
-				'https://www.',
-				'http://',
-				'https://',
-			),
-			'',
-			home_url()
-		);
+		if ( better_amp_url_format() === 'end-point' ) {
 
-		$prefix     = better_amp_permalink_prefix();
-		$sitedomain = rtrim( $sitedomain, '/' );
+			if ( $transformed = self::remove_end_point_amp( $url ) ) {
 
-		if ( preg_match( '#^https?://w*\.?' . preg_quote( $sitedomain, '#' ) . '/?' . $prefix . '([^/]*)/?(.*?)$#', $url, $matched ) ) {
-
-			// if url was not amp
-			if ( $matched[1] === Better_AMP::STARTPOINT ) {
-
-				if ( $matched[1] ) {
-					$matched[0] = '';
-					unset( $matched[1] );
-					$path = implode( '/', $matched );
-				} else {
-					$path = '/';
-				}
-
-				return home_url( rtrim( $prefix, '/' ) . $path );
+				return $transformed;
 			}
 
+		} else {
+
+			if ( $transformed = self::remove_start_point_amp( $url ) ) {
+
+				return $transformed;
+			}
 		}
 
 		return $url;
+	}
+
+
+	/**
+	 * @param string $url
+	 *
+	 * @return bool|string none amp url on success or false on error.
+	 */
+	public static function remove_start_point_amp( $url ) {
+
+		$prefix = better_amp_permalink_prefix();
+
+		if ( ! preg_match( '#^https?://w*\.?' . self::regex_url() . '/?' . $prefix . '([^/]*)/?(.*?)$#', $url, $matched ) ) {
+
+			return false;
+		}
+
+		// if url was not amp
+		if ( $matched[1] !== Better_AMP::SLUG ) {
+
+			return false;
+		}
+
+		if ( $matched[1] ) {
+
+			$matched[0] = '';
+
+			unset( $matched[1] );
+			$path = implode( '/', $matched );
+		} else {
+			$path = '/';
+		}
+
+		return home_url( rtrim( $prefix, '/' ) . $path );
+	}
+
+	/**
+	 * @param string $url
+	 *
+	 * @return bool|string none amp url on success or false on error.
+	 */
+	public static function remove_end_point_amp( $url ) {
+
+		if ( ! preg_match( '#^https?://w*\.?' . self::regex_url() . '/?#', $url ) ) {
+
+			return false;
+		}
+
+		if ( dirname( $url ) === Better_AMP::SLUG ) {
+
+			return false;
+		}
+
+		return trailingslashit( dirname( $url ) );
 	}
 
 
@@ -541,7 +641,7 @@ class Better_AMP_Content_Sanitizer {
 	 */
 	public function sanitize_document() {
 
-		$prev_tag_name = FALSE;
+		$prev_tag_name = false;
 
 		$rules = array();
 
@@ -581,7 +681,7 @@ class Better_AMP_Content_Sanitizer {
 						$element_atts = self::get_node_attributes( $element );
 						$atts2remove  = $this->get_invalid_attrs( $element_atts, $element );
 						$new_atts     = array();
-						$mandatory    = FALSE;
+						$mandatory    = false;
 
 						foreach ( $atts2remove as $attr ) {
 							unset( $element_atts[ $attr ] );
@@ -648,7 +748,7 @@ class Better_AMP_Content_Sanitizer {
 								continue;
 							}
 
-							$mandatory = TRUE;
+							$mandatory = true;
 						}
 
 						/**
@@ -668,7 +768,7 @@ class Better_AMP_Content_Sanitizer {
 									$new_atts[ $atts['name'] ] = $atts['value'];
 								}
 							} else {
-								$mandatory = TRUE;
+								$mandatory = true;
 							}
 						}
 
@@ -677,7 +777,7 @@ class Better_AMP_Content_Sanitizer {
 						 */
 						if ( ! empty( $element_atts[ $atts['name'] ] ) ) {
 
-							$remove_element = FALSE;
+							$remove_element = false;
 							foreach ( array( 'value_regex', 'value_regex_case' ) as $regex_field ) {
 
 								if ( ! empty( $atts[ $regex_field ] ) ) {
@@ -688,7 +788,7 @@ class Better_AMP_Content_Sanitizer {
 
 
 										if ( $mandatory ) {
-											$remove_element = TRUE;
+											$remove_element = true;
 										} else {
 
 											$atts2remove[] = $atts['name'];
@@ -720,7 +820,7 @@ class Better_AMP_Content_Sanitizer {
 
 						if ( ! empty( $atts['value_url'] ) ) {
 
-							$val    = isset( $element_atts[ $atts['name'] ] ) ? $element_atts[ $atts['name'] ] : NULL;
+							$val    = isset( $element_atts[ $atts['name'] ] ) ? $element_atts[ $atts['name'] ] : null;
 							$parsed = $val ? parse_url( $val ) : array();
 
 
@@ -730,7 +830,7 @@ class Better_AMP_Content_Sanitizer {
 
 								if ( empty( $element_atts[ $atts['name'] ] ) ) { // is url relative ?
 									if ( $mandatory ) {
-										$remove_element = TRUE;
+										$remove_element = true;
 									} else {
 
 										$atts2remove[] = $atts['name'];
@@ -747,7 +847,7 @@ class Better_AMP_Content_Sanitizer {
 									if ( ! in_array( $parsed['scheme'], $atts['value_url']['allowed_protocol'] ) ) { // invalid url protocol
 
 										if ( $mandatory ) {
-											$remove_element = TRUE;
+											$remove_element = true;
 										} else {
 
 											$atts2remove[] = $atts['name'];
@@ -761,7 +861,7 @@ class Better_AMP_Content_Sanitizer {
 
 								if ( empty( $parsed['host'] ) ) { // is url relative ?
 									if ( $mandatory ) {
-										$remove_element = TRUE;
+										$remove_element = true;
 									} else {
 
 										$atts2remove[] = $atts['name'];
@@ -930,8 +1030,8 @@ class Better_AMP_Content_Sanitizer {
 				better_amp_enqueue_script( 'amp-form', 'https://cdn.ampproject.org/v0/amp-form-0.1.js"' );
 
 				$valid_target_values = array(
-					'_blank' => TRUE,
-					'_top'   => TRUE,
+					'_blank' => true,
+					'_top'   => true,
 				);
 
 				for ( $i = $elements->length - 1; $i >= 0; $i -- ) {
@@ -975,7 +1075,7 @@ class Better_AMP_Content_Sanitizer {
 
 					} else {
 
-						$action_xhr = add_query_arg( FALSE, FALSE ); // relative path to current page
+						$action_xhr = add_query_arg( false, false ); // relative path to current page
 					}
 
 					$action_attr_name = 'action-xhr';
@@ -1025,7 +1125,7 @@ class Better_AMP_Content_Sanitizer {
 
 				if ( $elements->length ) {
 
-					$enqueue = TRUE;
+					$enqueue = true;
 
 					/**
 					 * @var DOMElement $element
@@ -1068,7 +1168,7 @@ class Better_AMP_Content_Sanitizer {
 							if ( $enqueue ) {
 
 								better_amp_enqueue_script( $tag_info[0], $tag_info[1] );
-								$enqueue = FALSE;
+								$enqueue = false;
 							}
 						}
 					}
@@ -1146,8 +1246,8 @@ class Better_AMP_Content_Sanitizer {
 
 
 		$required_atts = array(
-			'width'  => FALSE,
-			'height' => FALSE,
+			'width'  => false,
+			'height' => false,
 		);
 
 		switch ( strtoupper( $layout ) ) {
@@ -1155,15 +1255,15 @@ class Better_AMP_Content_Sanitizer {
 			case 'FIXED-HEIGHT':
 
 				// The height attribute must be present. The width attribute must not be present or must be equal to auto.
-				$required_atts['height'] = TRUE;
+				$required_atts['height'] = true;
 				break;
 
 			case 'FIXED':
 			case 'RESPONSIVE':
 
 				// The width and height attributes must be present
-				$required_atts['width']  = TRUE;
-				$required_atts['height'] = TRUE;
+				$required_atts['width']  = true;
+				$required_atts['height'] = true;
 				break;
 
 
@@ -1241,7 +1341,7 @@ class Better_AMP_Content_Sanitizer {
 		foreach ( $rule['attrs'] as $d ) {
 
 			if ( isset( $d['name'] ) ) {
-				$results[ $d['name'] ] = TRUE;
+				$results[ $d['name'] ] = true;
 			}
 		}
 
@@ -1294,7 +1394,7 @@ class Better_AMP_Content_Sanitizer {
 
 			} else {
 
-				self::$none_amp_urls['general'][ $url ] = TRUE;
+				self::$none_amp_urls['general'][ $url ] = true;
 			}
 		}
 	}

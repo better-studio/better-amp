@@ -57,11 +57,16 @@ class Better_AMP {
 
 	/**
 	 * Default endpoint for AMP URL of site.
-	 * this cna can overridden by filter
 	 *
+	 * @since 1.9.0
+	 */
+	const SLUG = 'amp';
+
+
+	/**
 	 * @since 1.0.0
 	 */
-	const STARTPOINT = 'amp';
+	const STARTPOINT = self::SLUG;
 
 
 	/**
@@ -198,7 +203,7 @@ class Better_AMP {
 	 */
 	protected function load_text_domain() {
 
-		load_plugin_textdomain( 'better-amp', FALSE, plugin_basename( BETTER_AMP_PATH ) . '/languages' );
+		load_plugin_textdomain( 'better-amp', false, plugin_basename( BETTER_AMP_PATH ) . '/languages' );
 	}
 
 
@@ -265,7 +270,7 @@ class Better_AMP {
 
 		register_activation_hook( __FILE__, array( $this, 'install' ) );
 
-		add_action( 'template_redirect', array( $this, 'redirect_amp_endpoint_url' ) );
+		add_action( 'template_redirect', array( $this, 'redirect_to_amp_url' ) );
 		add_filter( 'redirect_canonical', array( $this, '_fix_prevent_extra_redirect_single_pagination' ) );
 
 		add_action( 'request', array( $this, 'fix_search_page_queries' ) );
@@ -290,10 +295,10 @@ class Better_AMP {
 	 * @since 1.3.0
 	 * @return mixed
 	 */
-	public static function get_option( $option, $default = FALSE ) {
+	public static function get_option( $option, $default = false ) {
 
-		$tmp                           = isset( $GLOBALS['_amp_bypass_option'] ) ? $GLOBALS['_amp_bypass_option'] : FALSE;
-		$GLOBALS['_amp_bypass_option'] = TRUE;
+		$tmp                           = isset( $GLOBALS['_amp_bypass_option'] ) ? $GLOBALS['_amp_bypass_option'] : false;
+		$GLOBALS['_amp_bypass_option'] = true;
 		$results                       = get_option( $option, $default );
 		$GLOBALS['_amp_bypass_option'] = $tmp;
 
@@ -322,7 +327,7 @@ class Better_AMP {
 	public function _fix_prevent_extra_redirect_single_pagination( $redirect ) {
 
 		if ( $redirect && is_better_amp() && get_query_var( 'page' ) > 1 ) {
-			return FALSE;
+			return false;
 		}
 
 		return $redirect;
@@ -355,7 +360,7 @@ class Better_AMP {
 
 		$this->add_rewrite();
 
-		set_transient( 'better-amp-flush-rules', TRUE );
+		set_transient( 'better-amp-flush-rules', true );
 	}
 
 
@@ -366,15 +371,32 @@ class Better_AMP {
 	 *
 	 * @since 1.0.0
 	 */
-	public function redirect_amp_endpoint_url() {
+	public function redirect_to_amp_url() {
 
 		if ( ! better_amp_using_permalink_structure() ) {
 			return;
 		}
 
+		if ( better_amp_url_format() === 'start-point' ) {
+
+			$this->redirect_to_start_point_amp();
+
+		} else {
+
+			$this->redirect_to_end_point_amp();
+		}
+	}
+
+	/**
+	 * Redirect end-point amp urls to start-point
+	 *
+	 * @since 1.9.0
+	 */
+	public function redirect_to_start_point_amp() {
+
 		$amp_qv = defined( 'AMP_QUERY_VAR' ) ? AMP_QUERY_VAR : 'amp';
 
-		if ( get_query_var( $amp_qv, FALSE ) === FALSE ) {
+		if ( get_query_var( $amp_qv, false ) === false ) {
 
 			if ( ! is_404() ) { # /amp at the end of some urls cause 404 error
 				return;
@@ -383,8 +405,8 @@ class Better_AMP {
 
 		$path        = bf_get_wp_installation_slug();
 		$request_url = str_replace( $path, '', $_SERVER['REQUEST_URI'] );
+		$url_prefix  = preg_quote( better_amp_permalink_prefix(), '#' );
 
-		$url_prefix = preg_quote( better_amp_permalink_prefix(), '#' );
 
 		preg_match( "#^/*$url_prefix(.*?)/$amp_qv/*$#", $request_url, $automattic_amp_match );
 
@@ -411,9 +433,7 @@ class Better_AMP {
 			}
 		}
 
-
 		if ( ! empty( $automattic_amp_match[1] ) ) {
-
 
 			$new_amp_url = Better_AMP_Content_Sanitizer::transform_to_amp_url( home_url( $automattic_amp_match[1] ) );
 			$new_amp_url = trailingslashit( $new_amp_url );
@@ -426,6 +446,32 @@ class Better_AMP {
 		}
 	}
 
+	/**
+	 * Redirect start-point amp urls to end-point
+	 *
+	 * @since 1.9.0
+	 */
+	public function redirect_to_end_point_amp() {
+
+		$request_url = str_replace( bf_get_wp_installation_slug(), '', $_SERVER['REQUEST_URI'] );
+
+		if ( ! preg_match( '#^/?([^/]+)(.+)#', $request_url, $match ) ) {
+			return;
+		}
+
+		if ( $match[1] !== Better_AMP::SLUG ) {
+			return;
+		}
+
+		$new_amp_url = Better_AMP_Content_Sanitizer::transform_to_amp_url( home_url( $match[2] ) );
+		$new_amp_url = trailingslashit( $new_amp_url );
+
+		if ( $new_amp_url && trim( $match[2], '/' ) !== '' ) {
+
+			wp_redirect( $new_amp_url, 301 );
+			exit;
+		}
+	}
 
 	/**
 	 * Check AMP version of the posts exists
@@ -444,8 +490,8 @@ class Better_AMP {
 				array(
 					'disabled_post_types' => array(),
 					'disabled_taxonomies' => array(),
-					'disabled_homepage'   => FALSE,
-					'disabled_search'     => FALSE,
+					'disabled_homepage'   => false,
+					'disabled_search'     => false,
 				)
 			);
 		}
@@ -465,14 +511,14 @@ class Better_AMP {
 
 		if ( $post_id ) {
 
-			if ( get_post_meta( $post_id, 'disable-better-amp', TRUE ) || isset( $this->excluded_posts_id[ $post_id ] ) ) {
+			if ( get_post_meta( $post_id, 'disable-better-amp', true ) || isset( $this->excluded_posts_id[ $post_id ] ) ) {
 
-				return FALSE;
+				return false;
 			}
 		}
 
 		if ( empty( $filters ) ) {
-			return TRUE;
+			return true;
 		}
 
 		if ( is_home() || is_front_page() ) {
@@ -503,7 +549,7 @@ class Better_AMP {
 
 			} else {
 
-				return FALSE;
+				return false;
 			}
 
 			return ! in_array( $post_type, $filters['disabled_post_types'] );
@@ -514,7 +560,7 @@ class Better_AMP {
 			return ! in_array( get_queried_object()->taxonomy, $filters['disabled_taxonomies'] );
 		}
 
-		return TRUE;
+		return true;
 	}
 
 
@@ -595,7 +641,7 @@ class Better_AMP {
 			// WooCommerce didn't change main query in "shop" page
 			add_action( 'pre_get_posts', array( $this, '_fix_woocommerce_shop_page_query' ), $priority + 1 );
 
-			$this->excluded_posts_id[ wc_get_page_id( 'checkout' ) ] = TRUE;
+			$this->excluded_posts_id[ wc_get_page_id( 'checkout' ) ] = true;
 		}
 
 		// BetterStudio themes compatibility
@@ -622,10 +668,10 @@ class Better_AMP {
 			$q->set( 'pagename', '' );
 
 			// Fix conditional Functions
-			$q->is_archive           = TRUE;
-			$q->is_post_type_archive = TRUE;
-			$q->is_singular          = FALSE;
-			$q->is_page              = FALSE;
+			$q->is_archive           = true;
+			$q->is_post_type_archive = true;
+			$q->is_singular          = false;
+			$q->is_page              = false;
 		}
 	}
 
@@ -644,7 +690,6 @@ class Better_AMP {
 		unset( $fields['mega_menu'] );
 		$walker->set_mega_menu_fields_id( $fields );
 	}
-
 
 	/**
 	 * Callback: Add rewrite rules
@@ -719,7 +764,7 @@ class Better_AMP {
 
 		$template_name = 'woocommerce/' . ltrim( $template_name, '/' );
 
-		if ( $new_path = better_amp_locate_template( $template_name, FALSE, FALSE ) ) {
+		if ( $new_path = better_amp_locate_template( $template_name, false, false ) ) {
 			return $new_path;
 		}
 
@@ -840,7 +885,7 @@ class Better_AMP {
 	 *
 	 * @since 1.0.0
 	 */
-	public function render_content( Better_AMP_HTML_Util $instance, $sanitize = FALSE ) {
+	public function render_content( Better_AMP_HTML_Util $instance, $sanitize = false ) {
 
 		$this->call_components_method( 'render', $instance );
 
@@ -951,7 +996,7 @@ class Better_AMP {
 	 * @since 1.0.0
 	 *
 	 */
-	public function call_components_method( $method_name, $param = NULL ) {
+	public function call_components_method( $method_name, $param = null ) {
 
 		global $better_amp_registered_components;
 
@@ -963,7 +1008,7 @@ class Better_AMP {
 		$args = func_get_args();
 		$args = array_slice( $args, 1 );
 		if ( ! isset( $args[0] ) ) {
-			$args[0] = NULL;
+			$args[0] = null;
 		}
 
 		// iterate registered components and call method on them
@@ -1147,17 +1192,17 @@ class Better_AMP {
 			 * Convert output to valid amp html
 			 */
 			$instance = new Better_AMP_HTML_Util();
-			$instance->loadHTML( '<!DOCTYPE html><html><head><meta http-equiv="content-type" content="text/html; charset=utf-8">' . $content . '</body></html>', NULL, FALSE );
+			$instance->loadHTML( '<!DOCTYPE html><html><head><meta http-equiv="content-type" content="text/html; charset=utf-8">' . $content . '</body></html>', null, false );
 
 			preg_match( '#(<\s*body[^>]*>)#isx', $content, $match );
 			$prepend .= isset( $match[1] ) ? $match[1] : '<body>'; // open body tag
 
-			$this->render_content( $instance, TRUE ); // Convert HTML top amp html
+			$this->render_content( $instance, true ); // Convert HTML top amp html
 
 			// @see Better_AMP_Component::enqueue_amp_tags_script
 			$this->call_components_method( 'enqueue_amp_tags_script', $instance );
 
-			$content = $instance->get_content( TRUE );
+			$content = $instance->get_content( true );
 			// End convert output to valid amp html
 		}
 
@@ -1222,7 +1267,7 @@ class Better_AMP {
 					<?php _e( 'Disable amp version', 'better-amp' ) ?>
 				</label>
 				<input type="checkbox" name="better-amp-enable" id="better-amp-enable"
-				       value="1" <?php checked( TRUE, get_post_meta( $post->ID, 'disable-better-amp', TRUE ) ) ?>>
+				       value="1" <?php checked( true, get_post_meta( $post->ID, 'disable-better-amp', true ) ) ?>>
 			</p>
 		</div>
 		<?php
@@ -1337,11 +1382,11 @@ class Better_AMP {
 		if ( defined( 'WP_ROCKET_VERSION' ) ) {
 
 			if ( ! defined( 'DONOTMINIFYCSS' ) ) {
-				define( 'DONOTMINIFYCSS', TRUE );
+				define( 'DONOTMINIFYCSS', true );
 			}
 
 			if ( ! defined( 'DONOTMINIFYJS' ) ) {
-				define( 'DONOTMINIFYJS', TRUE );
+				define( 'DONOTMINIFYJS', true );
 			}
 
 			// Disable WP Rocket lazy load
@@ -1517,7 +1562,7 @@ class Better_AMP {
 	public function _return_false_in_amp( $current ) {
 
 		if ( is_better_amp() ) {
-			return FALSE;
+			return false;
 		}
 
 		return $current;
@@ -1671,7 +1716,7 @@ class Better_AMP {
 
 		if ( defined( 'WP_CACHE' ) && WP_CACHE ) {
 
-			return TRUE;
+			return true;
 		}
 
 		// Fix for "WP Fastest Cache" plugin
@@ -1680,7 +1725,7 @@ class Better_AMP {
 			return isset( $plugins[ WP_PLUGIN_DIR . '/wp-fastest-cache/wpFastestCache.php' ] );
 		}
 
-		return FALSE;
+		return false;
 	}
 
 
@@ -1696,14 +1741,14 @@ class Better_AMP {
 		}
 
 
-		if ( ! apply_filters( 'better-amp/template/auto-redirect', FALSE ) ) {
+		if ( ! apply_filters( 'better-amp/template/auto-redirect', false ) ) {
 			return;
 		}
 
 		if ( ! empty( $_GET['bamp-skip-redirect'] ) || ! empty( $_COOKIE['bamp-skip-redirect'] ) ) {
 
 			if ( ! isset( $_COOKIE['bamp-skip-redirect'] ) ) {
-				setcookie( 'bamp-skip-redirect', TRUE, time() + DAY_IN_SECONDS, '/' );
+				setcookie( 'bamp-skip-redirect', true, time() + DAY_IN_SECONDS, '/' );
 			}
 
 			return;
