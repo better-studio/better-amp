@@ -919,6 +919,7 @@ function better_amp_customize_register( $wp_customizer ) {
 	$wp_customizer->add_control( 'better-amp-url-struct', array(
 		'label'       => __( 'AMP URL Format', 'better-amp' ),
 		'section'     => 'better-amp-advanced-section',
+		'description'      => __( 'Start Point: yoursite.com/amp/post/ <br>End Point: yoursite.com/post/amp/', 'better-amp' ),
 		'priority'    => 20,
 		'type'        => 'select',
 		'choices'     => array(
