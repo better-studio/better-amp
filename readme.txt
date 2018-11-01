@@ -51,6 +51,16 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 
 == Changelog ==
 
+= 1.9.0 =
+- Added: Option to move /amp/ to start or end of URL's in AMP version.
+- Added: Squirrly SEO Plugin Compatibility
+- Added: 'none' choice to disabled post types & taxonomies
+
+- Fixed: Issue on url transformer.
+- Fixed: Too many redirection issue.
+
+- Devs: "better-amp/style-files/{$file}" added for developers.
+
 = 1.8.2 =
 - Fixed: Small code issue fixed.
 
