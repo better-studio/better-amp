@@ -307,7 +307,7 @@ class Better_AMP_Content_Sanitizer {
 
 		if ( ! better_amp_using_permalink_structure() ) {
 
-			return add_query_arg( Better_AMP::SLUG,true,$url );
+			return add_query_arg( Better_AMP::SLUG, true, $url );
 		}
 
 		if ( better_amp_url_format() === 'end-point' ) {
@@ -503,12 +503,18 @@ class Better_AMP_Content_Sanitizer {
 			return false;
 		}
 
-		if ( dirname( $url ) === Better_AMP::SLUG ) {
+		$parsed = parse_url( $url );
+
+		if ( empty( $parsed['path'] ) ) {
+			return false;
+		}
+
+		if ( basename( $parsed['path'] ) !== Better_AMP::SLUG ) {
 
 			return false;
 		}
 
-		return trailingslashit( dirname( $url ) );
+		return trailingslashit( sprintf( '%s://%s%s', $parsed['scheme'], $parsed['host'], dirname( $parsed['path'] ) ) );
 	}
 
 
