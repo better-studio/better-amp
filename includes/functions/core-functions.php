@@ -20,6 +20,7 @@ if ( ! function_exists( 'is_better_amp' ) ) {
 	function is_better_amp( $wp_query = null ) {
 
 		if ( $wp_query instanceof WP_Query ) {
+
 			return false !== $wp_query->get( Better_AMP::STARTPOINT, false );
 		}
 
@@ -29,19 +30,22 @@ if ( ! function_exists( 'is_better_amp' ) ) {
 
 			// check the $wp_query
 			if ( is_null( $wp_query ) ) {
+
 				return false;
 			}
 
 			return false !== $wp_query->get( Better_AMP::STARTPOINT, false );
+
 
 		} elseif ( better_amp_using_permalink_structure() ) {
 
 			$path   = trim( dirname( $_SERVER['PHP_SELF'] ), '/' );
 			$amp_qv = defined( 'AMP_QUERY_VAR' ) ? AMP_QUERY_VAR : 'amp';
 
-			return preg_match( "#^$path/*(.*?)/$amp_qv/*$#", $_SERVER['REQUEST_URI'] )
-			       ||
-			       preg_match( "#^$path/*$amp_qv/*#", $_SERVER['REQUEST_URI'] );
+			return preg_match( "#^/?$path/*(.*?)/$amp_qv/*$#", $_SERVER['REQUEST_URI'] )
+			          ||
+			          preg_match( "#^/?$path/*$amp_qv/*#", $_SERVER['REQUEST_URI'] );
+
 		} else {
 
 			return ! empty( $_GET[ Better_AMP::STARTPOINT ] );
