@@ -1175,8 +1175,7 @@ if ( ! function_exists( 'better_amp_get_search_page_url' ) ) {
 			$url = add_query_arg( Better_AMP::STARTPOINT, true, home_url( $path ) );
 		}
 
-
-		return trailingslashit( $url );
+		return $url;
 	}
 }
 
