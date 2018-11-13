@@ -51,6 +51,12 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 
 == Changelog ==
 
+= 1.9.1 =
+- Improved: The endpoint URL feature improved.
+- Fixed: Issue on search page and some other pages in the endpoint AMP flag fixed.
+- Fixed: Conflict with the Amazon Affiliate Links plugin.
+
+
 = 1.9.0 =
 - Added: Option to move /amp/ to start or end of URL's in AMP version.
 - Added: Squirrly SEO Plugin Compatibility
