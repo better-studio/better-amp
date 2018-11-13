@@ -340,12 +340,25 @@ class Better_AMP_Content_Sanitizer {
 			return false;
 		}
 
-		if ( basename( $url ) === Better_AMP::SLUG ) {
+		$parsed = parse_url( $url );
+		$path   = isset( $parsed['path'] ) ? $parsed['path'] : '/';
+		$query  = isset( $parsed['query'] ) ? $parsed['query'] : '';
+
+		if ( basename( $path ) === Better_AMP::SLUG ) {
 
 			return false;
 		}
 
-		return trailingslashit( $url ) . Better_AMP::SLUG . '/';
+
+		$url = sprintf( '%s://%s/%s', $parsed['scheme'], $parsed['host'], ltrim( $parsed['path'], '/' ) );
+		$url = trailingslashit( $url ) . Better_AMP::SLUG . '/';
+
+		if ( $query ) {
+			$url .= '?';
+			$url .= $parsed['query'];
+		}
+
+		return $url;
 	}
 
 

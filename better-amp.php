@@ -427,6 +427,7 @@ class Better_AMP {
 
 			if ( $redirect_url ) {
 
+
 				// todo: use Better_AMP_Content_Sanitizer::transform_to_amp_url
 				wp_redirect( $redirect_url );
 				exit;
@@ -453,18 +454,24 @@ class Better_AMP {
 	 */
 	public function redirect_to_end_point_amp() {
 
-		$request_url = str_replace( bf_get_wp_installation_slug(), '', $_SERVER['REQUEST_URI'] );
+		$url         = parse_url( $_SERVER['REQUEST_URI'] );
+		$request_url = str_replace( bf_get_wp_installation_slug(), '', $url['path'] );
 
 		if ( ! preg_match( '#^/?([^/]+)(.+)#', $request_url, $match ) ) {
 			return;
 		}
 
+		$url_path = $match[2];
+
 		if ( $match[1] !== Better_AMP::SLUG ) {
 			return;
 		}
 
-		$new_amp_url = Better_AMP_Content_Sanitizer::transform_to_amp_url( home_url( $match[2] ) );
-		$new_amp_url = trailingslashit( $new_amp_url );
+		if ( ! empty( $url['query'] ) ) {
+			$url_path = trailingslashit( $url_path ) . '?' . $url['query'];
+		}
+
+		$new_amp_url = Better_AMP_Content_Sanitizer::transform_to_amp_url( home_url( $url_path ) );
 
 		if ( $new_amp_url && trim( $match[2], '/' ) !== '' ) {
 
