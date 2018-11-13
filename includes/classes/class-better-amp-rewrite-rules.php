@@ -30,16 +30,16 @@ class Better_AMP_Rewrite_Rules {
 	 * @var array
 	 */
 	protected $exclude_extra_permastructs = array(
-		'category'          => TRUE,
-		'post_tag'          => TRUE,
-		'post_format'       => TRUE,
+		'category'          => true,
+		'post_tag'          => true,
+		'post_format'       => true,
 
 		# Woocommerce
-		'product_variation' => TRUE,
-		'shop_order_refund' => TRUE,
+		'product_variation' => true,
+		'shop_order_refund' => true,
 
 		# Visual Composer
-		'vc_grid_item'      => TRUE,
+		'vc_grid_item'      => true,
 	);
 
 	/**
@@ -89,7 +89,7 @@ class Better_AMP_Rewrite_Rules {
 
 		$post_type_archive_ep_mask = EP_ROOT; // i'm not sure!
 
-		foreach ( get_post_types( array( '_builtin' => FALSE ) ) as $post_type ) {
+		foreach ( get_post_types( array( '_builtin' => false ) ) as $post_type ) {
 
 			if ( isset( $wp_rewrite->extra_rules_top[ $post_type . '/?$' ] ) ) {
 
@@ -181,7 +181,7 @@ class Better_AMP_Rewrite_Rules {
 	public function set_exclude_extra_permastructs( $permastructname ) {
 
 		foreach ( (array) $permastructname as $name ) {
-			$this->exclude_extra_permastructs[ $name ] = TRUE;
+			$this->exclude_extra_permastructs[ $name ] = true;
 		}
 	}
 
@@ -197,7 +197,7 @@ class Better_AMP_Rewrite_Rules {
 
 		$this->exclude_extra_permastructs = array();
 
-		return TRUE;
+		return true;
 	}
 
 
@@ -213,6 +213,7 @@ class Better_AMP_Rewrite_Rules {
 	 * @return int
 	 */
 	protected function get_current_sp_mask() {
+
 		global $wp_rewrite;
 
 		$current_filter = current_filter();
@@ -376,7 +377,7 @@ class Better_AMP_Rewrite_Rules {
 							$startpint_query = $this->increase_pattern_preg_index( $query ) . $sp[1] . $wp_rewrite->preg_index( 1 );
 						}
 
-						if ( $url_prefix && preg_match("#^($url_prefix)(.+)$#",$regex,$match) ) {
+						if ( $url_prefix && preg_match( "#^($url_prefix)(.+)$#", $regex, $match ) ) {
 
 							$results[ $match[1] . $spregex . ltrim( $match[2], '/' ) ] = $startpint_query;
 
@@ -434,12 +435,12 @@ class Better_AMP_Rewrite_Rules {
 	 *
 	 * @since 1.0.0
 	 */
-	public function add_startpint( $name, $places, $query_var = TRUE, $single_match = TRUE ) {
+	public function add_startpint( $name, $places, $query_var = true, $single_match = true ) {
 
 		global $wp;
 
 		// For backward compatibility, if null has explicitly been passed as `$query_var`, assume `true`.
-		if ( TRUE === $query_var || NULL === func_get_arg( 2 ) ) {
+		if ( true === $query_var || null === func_get_arg( 2 ) ) {
 			$query_var = $name;
 		}
 
@@ -475,7 +476,7 @@ $GLOBALS['better_amp_rewrite_rules'] = new Better_AMP_Rewrite_Rules();
  *
  * @since 1.0.0
  */
-function better_amp_add_rewrite_startpoint( $name, $places, $query_var = TRUE, $single_match = TRUE ) {
+function better_amp_add_rewrite_startpoint( $name, $places, $query_var = true, $single_match = true ) {
 
 	global $better_amp_rewrite_rules;
 
