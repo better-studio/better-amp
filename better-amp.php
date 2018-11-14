@@ -394,6 +394,12 @@ class Better_AMP {
 	 */
 	public function redirect_to_start_point_amp() {
 
+		// Disable functionality in customizer preview
+		if ( function_exists( 'is_customize_preview' ) && is_customize_preview() ) {
+
+			return ;
+		}
+
 		$amp_qv = defined( 'AMP_QUERY_VAR' ) ? AMP_QUERY_VAR : 'amp';
 
 		if ( get_query_var( $amp_qv, false ) === false ) {
@@ -452,6 +458,12 @@ class Better_AMP {
 	 * @since 1.9.0
 	 */
 	public function redirect_to_end_point_amp() {
+
+		// Disable functionality in customizer preview
+		if ( function_exists( 'is_customize_preview' ) && is_customize_preview() ) {
+
+			return ;
+		}
 
 		$request_url = str_replace( bf_get_wp_installation_slug(), '', $_SERVER['REQUEST_URI'] );
 
