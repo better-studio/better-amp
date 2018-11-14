@@ -459,7 +459,21 @@ class Better_AMP {
 			return;
 		}
 
-		if ( $match[1] !== Better_AMP::SLUG ) {
+		$slug = Better_AMP::SLUG;
+
+		if ( $match[1] !== $slug ) {
+			return;
+		}
+
+		/**
+		 * Skip redirection for amp pages because it looks like like start-point!
+		 *
+		 * EX:
+		 *  amp/page/2   ✔
+		 *  /page/2/amp  ✘
+		 */
+		if ( preg_match( "#$slug/page/?([0-9]{1,})/?$#", $request_url ) ) {
+
 			return;
 		}
 
