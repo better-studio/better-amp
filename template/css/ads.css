@@ -13,9 +13,6 @@ BetterAMP ads style for BetterAds
 /**
  * 1. =>Base & Helpers
  **************************************************************/
-.bsac .bsac-container{
-    overflow: hidden;
-}
 .bsac-clearfix:before,
 .bsac-clearfix:after{
     content: "";
@@ -74,7 +71,22 @@ BetterAMP ads style for BetterAds
     float: right;
     margin-left: 20px;
 }
-
+@media only screen and (max-width : 780px) {
+    .bsac.bsac-full-width.bsac-full-width {
+        margin-left: calc(50% - 50vw);
+        margin-right: calc(50% - 50vw);
+        width: auto;
+        max-width: 1000%;
+    }
+}
+@media only screen and (min-width : 780px) {
+    .bsac.bsac-full-width.bsac-full-width {
+        margin-left: -15px;
+        margin-right: -15px;
+        width: auto;
+        max-width: 1000%;
+    }
+}
 
 /**
  * 3. =>Ad Container
