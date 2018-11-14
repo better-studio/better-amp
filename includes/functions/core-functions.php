@@ -712,28 +712,6 @@ if ( ! function_exists( 'better_amp_wp_amp_compatibility_constants' ) ) {
 	}
 }
 
-
-if ( ! function_exists( 'better_amp_wp_amp_compatibility_functions' ) ) {
-
-	/**
-	 * Define is WP-AMP function for compatibility reason.
-	 *
-	 * @since 1.8.0
-	 */
-
-	function better_amp_wp_amp_compatibility_functions() {
-
-		if ( function_exists( 'is_amp_endpoint' ) ) {
-			return;
-		}
-
-		function is_amp_endpoint() {
-
-			return is_better_amp();
-		}
-	}
-}
-
 if ( ! function_exists( 'better_amp_permalink_prefix' ) ) {
 	/**
 	 * Get permalink structure prefix which is fixed in all urls.
