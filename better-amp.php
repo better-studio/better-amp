@@ -427,7 +427,6 @@ class Better_AMP {
 
 			if ( $redirect_url ) {
 
-
 				// todo: use Better_AMP_Content_Sanitizer::transform_to_amp_url
 				wp_redirect( $redirect_url );
 				exit;
@@ -454,24 +453,32 @@ class Better_AMP {
 	 */
 	public function redirect_to_end_point_amp() {
 
-		$url         = parse_url( $_SERVER['REQUEST_URI'] );
-		$request_url = str_replace( bf_get_wp_installation_slug(), '', $url['path'] );
+		$request_url = str_replace( bf_get_wp_installation_slug(), '', $_SERVER['REQUEST_URI'] );
 
 		if ( ! preg_match( '#^/?([^/]+)(.+)#', $request_url, $match ) ) {
 			return;
 		}
 
-		$url_path = $match[2];
+		$slug = Better_AMP::SLUG;
 
-		if ( $match[1] !== Better_AMP::SLUG ) {
+		if ( $match[1] !== $slug ) {
 			return;
 		}
 
-		if ( ! empty( $url['query'] ) ) {
-			$url_path = trailingslashit( $url_path ) . '?' . $url['query'];
+		/**
+		 * Skip redirection for amp pages because it looks like like start-point!
+		 *
+		 * EX:
+		 *  amp/page/2   ✔
+		 *  /page/2/amp  ✘
+		 */
+		if ( preg_match( "#$slug/page/?([0-9]{1,})/?$#", $request_url ) ) {
+
+			return;
 		}
 
-		$new_amp_url = Better_AMP_Content_Sanitizer::transform_to_amp_url( home_url( $url_path ) );
+		$new_amp_url = Better_AMP_Content_Sanitizer::transform_to_amp_url( home_url( $match[2] ) );
+		$new_amp_url = trailingslashit( $new_amp_url );
 
 		if ( $new_amp_url && trim( $match[2], '/' ) !== '' ) {
 
