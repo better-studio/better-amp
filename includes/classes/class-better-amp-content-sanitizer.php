@@ -350,7 +350,7 @@ class Better_AMP_Content_Sanitizer {
 		}
 
 
-		$url = sprintf( '%s://%s/%s', $parsed['scheme'], $parsed['host'], ltrim( $parsed['path'], '/' ) );
+		$url = sprintf( '%s://%s/%s', $parsed['scheme'], $parsed['host'], ltrim( $path, '/' ) );
 		$url = trailingslashit( $url ) . Better_AMP::SLUG . '/';
 
 		if ( $query ) {
