@@ -719,7 +719,7 @@ class Better_AMP {
 		 * automattic amp compatibility
 		 */
 		$amp_qv = defined( 'AMP_QUERY_VAR' ) ? AMP_QUERY_VAR : 'amp';
-		add_rewrite_endpoint( $amp_qv, EP_PERMALINK );
+		add_rewrite_endpoint( $amp_qv, EP_ALL );
 	}
 
 
