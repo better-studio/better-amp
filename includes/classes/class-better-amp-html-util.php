@@ -1,5 +1,6 @@
 <?php
 
+
 /**
  * DOMDocument Helper class
  *
@@ -18,7 +19,7 @@ class Better_AMP_HTML_Util extends DOMDocument {
 	 *
 	 * @since 1.0.0
 	 */
-	public function __construct( $html = '', $encoding = 'UTF-8', $version = NULL ) {
+	public function __construct( $html = '', $encoding = 'UTF-8', $version = null ) {
 
 		parent::__construct( $version, $encoding );
 
@@ -88,6 +89,7 @@ class Better_AMP_HTML_Util extends DOMDocument {
 	 * @return \DOMNode
 	 */
 	public function get_body_node() {
+
 		return $this->getElementsByTagName( 'body' )->item( 0 );
 	}
 
@@ -100,7 +102,7 @@ class Better_AMP_HTML_Util extends DOMDocument {
 	 *
 	 * @return string body tag inner HTML
 	 */
-	public function get_content( $body_element = TRUE ) {
+	public function get_content( $body_element = true ) {
 
 		if ( $body_element ) {
 
@@ -182,6 +184,7 @@ class Better_AMP_HTML_Util extends DOMDocument {
 
 	/**
 	 * Load HTML from a string
+	 *
 	 * @link  http://php.net/manual/domdocument.loadhtml.ph
 	 *
 	 * @param string   $html          The HTML string
@@ -192,9 +195,9 @@ class Better_AMP_HTML_Util extends DOMDocument {
 	 * @since 1.0.0
 	 *
 	 */
-	public function loadHTML( $html, $options = NULL, $wrap_body_tag = TRUE ) {
+	public function loadHTML( $html, $options = null, $wrap_body_tag = true ) {
 
-		$prev = libxml_use_internal_errors( TRUE );
+		$prev = libxml_use_internal_errors( true );
 
 		if ( $wrap_body_tag ) {
 			parent::loadHTML( '<!DOCTYPE html><html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"></head><body>' . $html . '</body></html>' );
@@ -230,6 +233,7 @@ class Better_AMP_HTML_Util extends DOMDocument {
 	 * @return bool
 	 */
 	public static function is_node_empty( $node ) {
+
 		return 0 === $node->childNodes->length && empty( $node->textContent );
 	}
 
@@ -247,7 +251,7 @@ class Better_AMP_HTML_Util extends DOMDocument {
 	public static function child( $node, $tag_name, $required_atts = array() ) {
 
 		if ( empty( $node->childNodes ) ) {
-			return FALSE;
+			return false;
 		}
 
 		$tag_name = strtolower( $tag_name );
@@ -270,7 +274,7 @@ class Better_AMP_HTML_Util extends DOMDocument {
 			}
 		}
 
-		return FALSE;
+		return false;
 	}
 
 
@@ -285,17 +289,18 @@ class Better_AMP_HTML_Util extends DOMDocument {
 	 * @since 1.1
 	 */
 	public static function renameElement( $element, $newName ) {
+
 		$newElement    = $element->ownerDocument->createElement( $newName );
 		$parentElement = $element->parentNode;
 		$parentElement->insertBefore( $newElement, $element );
 
 		$childNodes = $element->childNodes;
-		while ( $childNodes->length > 0 ) {
+		while( $childNodes->length > 0 ) {
 			$newElement->appendChild( $childNodes->item( 0 ) );
 		}
 
 		$attributes = $element->attributes;
-		while ( $attributes->length > 0 ) {
+		while( $attributes->length > 0 ) {
 			$attribute = $attributes->item( 0 );
 			if ( ! is_null( $attribute->namespaceURI ) ) {
 				$newElement->setAttributeNS( 'http://www.w3.org/2000/xmlns/',
@@ -307,4 +312,50 @@ class Better_AMP_HTML_Util extends DOMDocument {
 
 		$parentElement->removeChild( $element );
 	}
+
+
+	/**
+	 * Append given HTML into the element.
+	 *
+	 * @param DOMElement $element
+	 * @param string     $html
+	 *
+	 * @since 1.9.3
+	 */
+	public static function set_inner_HTML( $element, $html ) {
+
+		$fragment = $element->ownerDocument->createDocumentFragment();
+		$fragment->appendXML( $html );
+
+		while( $element->hasChildNodes() ) {
+			$element->removeChild( $element->firstChild );
+		}
+
+		$element->appendChild( $fragment );
+	}
+
+
+	/**
+	 * Replace element with given html.
+	 *
+	 * @param DOMElement $element
+	 * @param string     $html
+	 *
+	 * @since 1.9.3
+	 */
+	public static function set_outer_HTML( $element, $html ) {
+
+		$fragment = $element->ownerDocument->createDocumentFragment();
+		$fragment->appendXML( $html );
+
+		if ( $element->parentNode ) {
+			$element->parentNode->appendChild( $fragment );
+		}
+
+		while( $element->parentNode && $element->parentNode->hasChildNodes() ) {
+
+			$element->parentNode->removeChild( $element->parentNode->firstChild );
+		}
+	}
+
 }

@@ -1,5 +1,6 @@
 <?php
 
+
 /**
  * amp-img Component
  *
@@ -31,7 +32,7 @@ class Better_AMP_iFrame_Component implements Better_AMP_Component_Interface {
 	 *
 	 * @var bool
 	 */
-	public $enable_enqueue_scripts = FALSE;
+	public $enable_enqueue_scripts = false;
 
 
 	/**
@@ -42,6 +43,7 @@ class Better_AMP_iFrame_Component implements Better_AMP_Component_Interface {
 	 * @return array
 	 */
 	public function config() {
+
 		return array(
 			'scripts' => array(
 				'amp-iframe' => 'https://cdn.ampproject.org/v0/amp-iframe-0.1.js'
@@ -51,7 +53,7 @@ class Better_AMP_iFrame_Component implements Better_AMP_Component_Interface {
 
 	public function head() {
 
-		add_filter( 'embed_oembed_html', array( $this, 'amp_embeded' ), 8, 2 );
+		add_filter( 'embed_oembed_html', array( $this, 'amp_embedded' ), 8, 2 );
 
 		add_action( 'wp_video_shortcode', array( $this, 'wp_video_shortcode' ), 8, 2 );
 	}
@@ -61,17 +63,19 @@ class Better_AMP_iFrame_Component implements Better_AMP_Component_Interface {
 	 *
 	 * @param string $html
 	 * @param string $url
+	 * @param array  $options
 	 *
 	 * @since 1.2.1
 	 * @return string
 	 */
-	public function amp_embeded( $html, $url ) {
+	public function amp_embedded( $html, $url, $options = array() ) {
 
 		if ( ! preg_match( '#https?://(?:www|m)?\.?([^\.]+)#', $url, $matched ) ) {
 			return $html;
 		}
 
 		$provider = $matched[1];
+
 		if ( ! in_array( $provider, $this->support_sites ) ) {
 			return $html;
 		}
@@ -81,16 +85,27 @@ class Better_AMP_iFrame_Component implements Better_AMP_Component_Interface {
 
 			case 'youtube':
 
+				$video_id = false;
+
 				if ( preg_match( '#https?://(?:(?:m|www)\.)?youtube\.com/watch\?(.*)#i', $url, $matched ) ) {
 
 					parse_str( $matched[1], $vars );
 
 					if ( ! empty( $vars['v'] ) ) {
 
-						$dim = $this->get_iframe_dimension( $html );
-
-						return $this->amp_youtube_html( $vars['v'], $dim[0], $dim[1] );
+						$video_id = $vars['v'];
 					}
+
+				} elseif ( preg_match( '#https?://(?:(?:m|www)\.)?youtube\.com/embed/([^\/]+)#i', $url, $matched ) ) {
+
+					$video_id = $matched[1];
+				}
+
+				if ( $video_id ) {
+
+					$dim = $this->get_iframe_dimension( $html, 'height', 'width', $options );
+
+					return $this->amp_youtube_html( $video_id, $dim[0], $dim[1] );
 				}
 				break;
 
@@ -99,7 +114,7 @@ class Better_AMP_iFrame_Component implements Better_AMP_Component_Interface {
 				if ( preg_match( '#https?://(?:www\.)?twitter\.com/\w{1,15}/status(?:es)?/(.*)#i', $url, $matched ) ) {
 
 					$tweet_id = array_pop( $matched );
-					$width    = $this->get_iframe_dimension( $html, FALSE, 'data-width' );
+					$width    = $this->get_iframe_dimension( $html, false, 'data-width', $options );
 
 					return $this->amp_twitter_html( $tweet_id, $width );
 				}
@@ -115,7 +130,7 @@ class Better_AMP_iFrame_Component implements Better_AMP_Component_Interface {
 
 				if ( preg_match( '#https?://www\.facebook\.com/.*/videos/.*#i', $url ) ) {
 
-					return $this->amp_facebook_html( $url, TRUE );
+					return $this->amp_facebook_html( $url, true );
 				}
 				break;
 
@@ -124,7 +139,7 @@ class Better_AMP_iFrame_Component implements Better_AMP_Component_Interface {
 				if ( preg_match( '#https?://(?:.+\.)?vimeo\.com/.*?(\d+)$#i', $url, $matched ) ) {
 
 					$video_id = array_pop( $matched );
-					$dim      = $this->get_iframe_dimension( $html );
+					$dim      = $this->get_iframe_dimension( $html, 'height', 'width', $options );
 
 					return $this->amp_vimeo_html( $video_id, $dim[0], $dim[1] );
 				}
@@ -136,7 +151,7 @@ class Better_AMP_iFrame_Component implements Better_AMP_Component_Interface {
 
 					if ( $track_id = $this->get_soundcloud_track_id( $html ) ) {
 
-						$dim = $this->get_iframe_dimension( $html, 'height', FALSE );
+						$dim = $this->get_iframe_dimension( $html, 'height', false, $options );
 
 						return $this->amp_soundcloud_html( $track_id, $dim[0] );
 					}
@@ -150,7 +165,7 @@ class Better_AMP_iFrame_Component implements Better_AMP_Component_Interface {
 
 					$vine_id = $matched[1];
 
-					$dim = $this->get_iframe_dimension( $html );
+					$dim = $this->get_iframe_dimension( $html, 'height', 'width', $options );
 
 
 					return $this->amp_vine_html( $vine_id, $dim[0], $dim[1] );
@@ -195,7 +210,7 @@ class Better_AMP_iFrame_Component implements Better_AMP_Component_Interface {
 			return array_pop( $match );
 		}
 
-		return FALSE;
+		return false;
 	}
 
 	/**
@@ -204,32 +219,32 @@ class Better_AMP_iFrame_Component implements Better_AMP_Component_Interface {
 	 * @param string $string
 	 * @param string $height_attr
 	 * @param string $width_attr
+	 * @param array  $defaults
 	 *
 	 * @return array
 	 * @since 1.2.1
 	 */
-	public function get_iframe_dimension( $string, $height_attr = 'height', $width_attr = 'width' ) {
+	public function get_iframe_dimension( $string, $height_attr = 'height', $width_attr = 'width', $defaults = array() ) {
 
-		$width = 0;
+		$width = !empty( $defaults['width'] ) ? $defaults['width'] : 480;
 
 		if ( $width_attr ) {
 
-			if ( ! ( $width = $this->get_html_attr( $string, $width_attr ) ) ) {
+			if ( $_width = $this->get_html_attr( $string, $width_attr ) ) {
 
-				$width = 480; // Default value
+				$width = $_width;
 			}
 		}
 
-		$height = 0;
+		$height = !empty( $defaults['height'] ) ? $defaults['height'] : 480;
 
 		if ( $height_attr ) {
 
-			if ( ! ( $height = $this->get_html_attr( $string, $height_attr ) ) ) {
+			if ( $_height = $this->get_html_attr( $string, $height_attr ) ) {
 
-				$height = 480; // Default value
+				$height = $_height;
 			}
 		}
-
 
 		return array( $height, $width );
 	}
@@ -261,7 +276,7 @@ class Better_AMP_iFrame_Component implements Better_AMP_Component_Interface {
 	 * @return string
 	 * @since 1.2.1
 	 */
-	public function amp_facebook_html( $url, $is_video = FALSE ) {
+	public function amp_facebook_html( $url, $is_video = false ) {
 
 		better_amp_enqueue_script( 'amp-facebook', 'https://cdn.ampproject.org/v0/amp-facebook-0.1.js' );
 
@@ -381,7 +396,7 @@ class Better_AMP_iFrame_Component implements Better_AMP_Component_Interface {
 			}
 		}
 
-		return FALSE;
+		return false;
 	}
 
 
@@ -403,7 +418,7 @@ class Better_AMP_iFrame_Component implements Better_AMP_Component_Interface {
 		 * @var DOMElement $element
 		 */
 		if ( $nodes_count = $elements->length ) {
-			$this->enable_enqueue_scripts = TRUE;
+			$this->enable_enqueue_scripts = true;
 
 			for ( $i = $nodes_count - 1; $i >= 0; $i -- ) {
 				$element = $elements->item( $i );
@@ -411,7 +426,14 @@ class Better_AMP_iFrame_Component implements Better_AMP_Component_Interface {
 				$attributes = $instance->filter_attributes( $instance->get_node_attributes( $element ) );
 				$attributes = $this->filter_attributes( $attributes );
 
-				$instance->replace_node( $element, 'amp-iframe', $attributes );
+				if ( ! empty( $attributes['src'] ) && ( $embedded = $this->amp_embedded( '', $attributes['src'], $attributes ) ) ) {
+
+					$instance->set_outer_HTML( $element, $embedded );
+
+				} else {
+
+					$instance->replace_node( $element, 'amp-iframe', $attributes );
+				}
 			}
 		}
 
@@ -470,7 +492,7 @@ class Better_AMP_iFrame_Component implements Better_AMP_Component_Interface {
 				case 'frameborder':
 					if ( $value === 'no' ) {
 						$value = '0';
-					} else if ( '0' !== $value && '1' !== $value ) {
+					} elseif ( '0' !== $value && '1' !== $value ) {
 						$value = '0';
 					}
 
@@ -539,7 +561,7 @@ class Better_AMP_iFrame_Component implements Better_AMP_Component_Interface {
 
 			$url = trim( $atts['src'] );
 
-			if ( $_output = $this->amp_embeded( '', $url ) ) {
+			if ( $_output = $this->amp_embedded( '', $url ) ) {
 
 				return $_output;
 			}
@@ -559,6 +581,7 @@ class Better_AMP_iFrame_Component implements Better_AMP_Component_Interface {
 		return $output;
 	}
 }
+
 
 // Register component class
 better_amp_register_component( 'Better_AMP_iFrame_Component' );
