@@ -51,6 +51,12 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 
 == Changelog ==
 
+= 1.9.2 =
+- Fixed: 404 pages in end-point URL's.
+- Improved: BetterAMP and Better Ads Manager compatibility improved.
+- Improved: URLs code improved.
+
+
 = 1.9.1 =
 - Improved: The endpoint URL feature improved.
 - Fixed: Issue on search page and some other pages in the endpoint AMP flag fixed.
