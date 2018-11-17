@@ -3,7 +3,7 @@ Contributors: betterstudio
 Donate link: http://betterstudio.com/
 Tags: amp,accelerated mobile pages, mobile theme, google amp
 Requires at least: 3.0
-Tested up to: 4.9.5
+Tested up to: 5.0
 Stable tag: 4.9.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -50,6 +50,14 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 5. Page (Contact page) + 404 page
 
 == Changelog ==
+
+= 1.9.3 =
+- Fixed: Footer copyright text is disable by default and needs activate by user. WP plugins violation fix.
+- Fixed: Theme color print issue.
+- Fixed: Single 404 error on %category%/%postname% permalink.
+- Fixed: Redirection issue on customizer preview
+- Improve: Replace  embedded video with proper amp tag.
+
 
 = 1.9.2 =
 - Fixed: 404 pages in end-point URL's.

@@ -41,7 +41,9 @@ better_amp_show_ad_location( 'amp_footer_before' );
 			<?php
 		endif;
 
-		echo better_amp_get_theme_mod( 'better-amp-footer-copyright-text' );
+		if ( better_amp_get_theme_mod( 'better-amp-footer-copyright-show' ) ) {
+			echo better_amp_get_theme_mod( 'better-amp-footer-copyright-text' );
+		}
 
 		?>
 	</div>
