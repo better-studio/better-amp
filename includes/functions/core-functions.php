@@ -39,7 +39,7 @@ if ( ! function_exists( 'is_better_amp' ) ) {
 
 		} elseif ( better_amp_using_permalink_structure() ) {
 
-			$path   = trim( dirname( $_SERVER['PHP_SELF'] ), '/' );
+			$path   = trim( dirname( $_SERVER['SCRIPT_NAME'] ), '/' );
 			$amp_qv = defined( 'AMP_QUERY_VAR' ) ? AMP_QUERY_VAR : 'amp';
 
 			return preg_match( "#^/?$path/*(.*?)/$amp_qv/*$#", $_SERVER['REQUEST_URI'] )
