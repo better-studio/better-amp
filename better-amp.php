@@ -778,7 +778,7 @@ class Better_AMP {
 			);
 		}
 
-		return  ;
+		return $rules;
 	}
 
 	/**
