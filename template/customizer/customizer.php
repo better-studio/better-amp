@@ -378,6 +378,15 @@ function better_amp_customize_register( $wp_customizer ) {
 	/**
 	 * 3.1 Footer copyright text
 	 */
+	$wp_customizer->add_setting( 'better-amp-footer-copyright-show', array(
+		'default'   => better_amp_get_default_theme_setting( 'better-amp-footer-copyright-show' ),
+		'transport' => 'postMessage',
+	) );
+	$wp_customizer->add_control( new AMP_Customize_Switch_Control( $wp_customizer, 'better-amp-footer-copyright-show', array(
+		'label'    => __( 'Show Footer Copyright?', 'better-amp' ),
+		'section'  => 'better-amp-footer-section',
+		'priority' => 17,
+	) ) );
 	$wp_customizer->add_setting( 'better-amp-footer-copyright-text', array(
 		'default'   => better_amp_get_default_theme_setting( 'better-amp-footer-copyright-text' ),
 		'transport' => 'postMessage',
