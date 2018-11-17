@@ -397,7 +397,7 @@ class Better_AMP {
 		// Disable functionality in customizer preview
 		if ( function_exists( 'is_customize_preview' ) && is_customize_preview() ) {
 
-			return ;
+			return;
 		}
 
 		$amp_qv = defined( 'AMP_QUERY_VAR' ) ? AMP_QUERY_VAR : 'amp';
@@ -462,7 +462,7 @@ class Better_AMP {
 		// Disable functionality in customizer preview
 		if ( function_exists( 'is_customize_preview' ) && is_customize_preview() ) {
 
-			return ;
+			return;
 		}
 
 		$request_url = str_replace( bf_get_wp_installation_slug(), '', $_SERVER['REQUEST_URI'] );
@@ -731,7 +731,10 @@ class Better_AMP {
 		 * automattic amp compatibility
 		 */
 		$amp_qv = defined( 'AMP_QUERY_VAR' ) ? AMP_QUERY_VAR : 'amp';
+
 		add_rewrite_endpoint( $amp_qv, EP_ALL );
+
+		add_filter( 'rewrite_rules_array', array( $this, 'fix_end_point_rewrites' ), 99 );
 	}
 
 
@@ -747,6 +750,36 @@ class Better_AMP {
 		add_rewrite_rule( self::STARTPOINT . '/?$', "index.php?amp=index", 'top' );
 	}
 
+
+	/**
+	 * Change WP rewrite rules priority to works properly with end-point URL structure.
+	 *
+	 * @param array $rules The compiled array of rewrite rules.
+	 *
+	 * @hooked rewrite_rules_array
+	 *
+	 * @since  1.9.3
+	 * @return array
+	 */
+	public function fix_end_point_rewrites( $rules ) {
+
+		$low_priority_rules = array();
+
+		if ( stristr( get_option( 'permalink_structure' ), '%category%/%postname%' ) ) {
+
+			$low_priority_rules['.?.+?/([^/]+)/amp(/(.*))?/?$'] = '';
+		}
+
+		if ( $low_priority_rules ) {
+
+			return array_merge(
+				array_diff_key( $rules, $low_priority_rules ),
+				array_intersect_key( $rules, $low_priority_rules )
+			);
+		}
+
+		return  ;
+	}
 
 	/**
 	 * Callback: Include AMP template file in AMP pages
