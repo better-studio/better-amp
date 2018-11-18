@@ -767,10 +767,13 @@ class Better_AMP {
 
 		if ( stristr( get_option( 'permalink_structure' ), '%category%/%postname%' ) ) {
 
-			$low_priority_rules['.?.+?/([^/]+)/amp(/(.*))?/?$'] = '';
+			$low_priority_rules[] = '.?.+?/([^/]+)/' . self::STARTPOINT . '(/(.*))?/?$';
+			$low_priority_rules[] = self::STARTPOINT . '(/(.*))?/?$';
 		}
 
 		if ( $low_priority_rules ) {
+
+			$low_priority_rules = array_flip( array_unique( $low_priority_rules ) );
 
 			return array_merge(
 				array_diff_key( $rules, $low_priority_rules ),
