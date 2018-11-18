@@ -369,24 +369,31 @@ class Better_AMP_Rewrite_Rules {
 			if ( ! isset( $vars['feed'] ) ) { //skip feeds regex
 
 				foreach ( $startpints as $spregex => $sp ) {
-					if ( $sp[0] & $current_SP ) {
 
-						if ( $sp[2] ) {
-							$startpint_query = $query . $sp[1] . '1';
-						} else {
-							$startpint_query = $this->increase_pattern_preg_index( $query ) . $sp[1] . $wp_rewrite->preg_index( 1 );
-						}
-
-						if ( $url_prefix && preg_match( "#^($url_prefix)(.+)$#", $regex, $match ) ) {
-
-							$results[ $match[1] . $spregex . ltrim( $match[2], '/' ) ] = $startpint_query;
-
-						} else {
-
-							$results[ $spregex . ltrim( $regex, '/' ) ] = $startpint_query;
-						}
-
+					// skip duplicated items
+					if ( preg_match( '/' . preg_quote( $sp[1] ) . '/', $query ) ) {
+						continue;
 					}
+
+					if ( ! ( $sp[0] & $current_SP ) ) {
+						continue;
+					}
+
+					if ( $sp[2] ) {
+						$startpint_query = $query . $sp[1] . '1';
+					} else {
+						$startpint_query = $this->increase_pattern_preg_index( $query ) . $sp[1] . $wp_rewrite->preg_index( 1 );
+					}
+
+					if ( $url_prefix && preg_match( "#^($url_prefix)(.+)$#", $regex, $match ) ) {
+
+						$results[ $match[1] . $spregex . ltrim( $match[2], '/' ) ] = $startpint_query;
+
+					} else {
+
+						$results[ $spregex . ltrim( $regex, '/' ) ] = $startpint_query;
+					}
+
 				}
 			}
 
