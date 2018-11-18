@@ -56,6 +56,7 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 - Fixed: Theme color print issue.
 - Fixed: Single 404 error on %category%/%postname% permalink.
 - Fixed: Redirection issue on customizer preview
+- Fixed: Wrong AMP page determination in some CGI web servers
 - Improve: Replace  embedded video with proper amp tag.
 
 
