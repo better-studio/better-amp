@@ -85,7 +85,6 @@ class Better_Amp_Redirect_Router {
 		$this->query_var   = defined( 'AMP_QUERY_VAR' ) ? AMP_QUERY_VAR : Better_AMP::SLUG;
 		$this->request_url = str_replace( bf_get_wp_installation_slug(), '', $_SERVER['REQUEST_URI'] );
 
-
 		if ( better_amp_url_format() === 'start-point' ) {
 
 			$new_amp_url = $this->transform_to_start_point_url();
@@ -94,7 +93,6 @@ class Better_Amp_Redirect_Router {
 
 			$new_amp_url = $this->transform_to_end_point_url();
 		}
-
 
 		if ( $this->can_redirect_url( $new_amp_url ) ) {
 
@@ -114,7 +112,7 @@ class Better_Amp_Redirect_Router {
 	 */
 	protected function can_redirect_url( $url ) {
 
-		return ! empty( $url ) && trim( str_replace( site_url(), '', $url ), '/' ) !== trim( $this->request_url, '/' );
+		return ! empty( $url ) && trim( str_replace( home_url(), '', $url ), '/' ) !== trim( $this->request_url, '/' );
 	}
 
 	/**
@@ -148,11 +146,14 @@ class Better_Amp_Redirect_Router {
 			return '';
 		}
 
-		return trailingslashit(
-			Better_AMP_Content_Sanitizer::transform_to_amp_url(
-				home_url( $match[2] )
-			)
-		);
+		if ( trim( $match[2], '/' ) !== '' ) {
+
+			return trailingslashit(
+				Better_AMP_Content_Sanitizer::transform_to_amp_url(
+					home_url( $match[2] )
+				)
+			);
+		}
 	}
 
 	/**
@@ -181,7 +182,6 @@ class Better_Amp_Redirect_Router {
 			} elseif ( preg_match( "#^/*{$this->query_var}/+(.*?)/*$#", $this->request_url, $matched ) ) {
 
 				return home_url( $matched[1] );
-
 			}
 
 			return better_amp_get_canonical_url();
