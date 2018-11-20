@@ -74,17 +74,13 @@ class Better_AMP_Better_Rewrite_Rules {
 	 */
 	public function fix_end_point_rewrites( $rules ) {
 
-		$low_priority_rules = array();
+		$low_priority_rules = array(
+			Better_AMP::STARTPOINT . '(/(.*))?/?$'
+		);
 
 		if ( stristr( get_option( 'permalink_structure' ), '%category%/%postname%' ) ) {
 
 			$low_priority_rules[] = '.?.+?/([^/]+)/' . Better_AMP::STARTPOINT . '(/(.*))?/?$';
-			$low_priority_rules[] = Better_AMP::STARTPOINT . '(/(.*))?/?$';
-		}
-
-		if ( ! $low_priority_rules ) {
-
-			return $rules;
 		}
 
 		$low_priority_rules = array_flip( array_unique( $low_priority_rules ) );
@@ -142,7 +138,7 @@ class Better_AMP_Better_Rewrite_Rules {
 				continue;
 			}
 
-			$high_level_rules[ substr( $match, 0,- 17 ) . '/' . $amp_qv . '/([0-9]+)/?$' ] = $query . '&' . $amp_qv . '=';
+			$high_level_rules[ substr( $match, 0, - 17 ) . '/' . $amp_qv . '/([0-9]+)/?$' ] = $query . '&' . $amp_qv . '=';
 		}
 
 		return array_merge( $high_level_rules, $rules );
