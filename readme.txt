@@ -51,6 +51,14 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 
 == Changelog ==
 
+= 1.9.4 =
+- Fixed: AMP archive wrong redirect.
+- Fixed: Wrong “View Desktop Version” button url.
+- Fixed: Determinate page as a category!
+- Fixed: 404 Error on the paginated post
+- Improved: Redirection for single paginated post to prevent 404 error.
+
+
 = 1.9.3 =
 - Fixed: Footer copyright text is disable by default and needs activate by user. WP plugins violation fix.
 - Fixed: Theme color print issue.
