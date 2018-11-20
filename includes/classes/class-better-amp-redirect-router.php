@@ -215,6 +215,10 @@ class Better_Amp_Redirect_Router {
 	 */
 	protected function single_post_pagination_amp_url() {
 
+		if ( is_archive() ) {
+			return '';
+		}
+
 		global $wp_rewrite;
 
 		$single_post_format = str_replace( $wp_rewrite->rewritecode, $wp_rewrite->rewritereplace, get_option( 'permalink_structure' ) );
@@ -222,7 +226,6 @@ class Better_Amp_Redirect_Router {
 		$test_pattern = '(' . $single_post_format . ')'; // Capture as the first item $match[1]
 		$test_pattern .= '(\d+)/+';                     //  Capture as the last item array_pop( $match )
 		$test_pattern .= $this->query_var . '/?';
-
 
 		if ( preg_match( "#^$test_pattern$#", $this->request_url, $match ) ) {
 
