@@ -524,12 +524,48 @@ class Better_AMP_Content_Sanitizer {
 
 		if ( basename( $parsed['path'] ) !== Better_AMP::SLUG ) {
 
-			return false;
+			return self::single_post_pagination_none_amp_url( $parsed['path'] );
 		}
 
 		return trailingslashit( sprintf( '%s://%s%s', $parsed['scheme'], $parsed['host'], dirname( $parsed['path'] ) ) );
 	}
 
+	/**
+	 * Convert the following url.
+	 *
+	 *  [single post]/[page-number]/amp
+	 *
+	 * to
+	 *
+	 *  [single post]/amp/[page-number]
+	 *
+	 *
+	 * @since 1.0.
+	 *
+	 * @param string $url_path
+	 *
+	 * @return string|bool.
+	 */
+	protected static function single_post_pagination_none_amp_url( $url_path ) {
+
+		global $wp_rewrite;
+
+		$single_post_format = str_replace( $wp_rewrite->rewritecode, $wp_rewrite->rewritereplace, get_option( 'permalink_structure' ) );
+		//
+		$test_pattern = '(' . $single_post_format . ')'; // Capture as the first item $match[1]
+		$test_pattern .= Better_AMP::SLUG;
+		$test_pattern .= '/+(\d+)/?';                    //  Capture as the last item array_pop( $match )
+
+		if ( preg_match( "#^$test_pattern$#", $url_path, $match ) ) {
+
+			$page_number          = array_pop( $match );
+			$none_amp_request_url = $match[1];
+
+			return home_url( $none_amp_request_url . $page_number );
+		}
+
+		return false;
+	}
 
 	/**
 	 * Replace internal links with amp version just in href attribute

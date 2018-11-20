@@ -467,53 +467,8 @@ function better_amp_guess_none_amp_url( $args = array() ) {
 		return home_url( remove_query_arg( 'amp' ) );
 	}
 
-	if ( ! isset( $_SERVER['SCRIPT_FILENAME'] ) ) { // todo: fix missing SCRIPT_FILENAME in cron
-		return '';
-	}
-
-	$abspath_fix         = str_replace( '\\', '/', ABSPATH );
-	$script_filename_dir = dirname( $_SERVER['SCRIPT_FILENAME'] );
-
-	if ( $script_filename_dir . '/' == $abspath_fix ) {
-		// Strip off any file/query params in the path
-		$path = preg_replace( '#/[^/]*$#i', '', $_SERVER['PHP_SELF'] );
-
-	} else {
-		if ( false !== strpos( $_SERVER['SCRIPT_FILENAME'], $abspath_fix ) ) {
-			// Request is hitting a file inside ABSPATH
-			$directory = str_replace( ABSPATH, '', $script_filename_dir );
-			// Strip off the sub directory, and any file/query params
-			$path = preg_replace( '#/' . preg_quote( $directory, '#' ) . '/[^/]*$#i', '', $_SERVER['REQUEST_URI'] );
-		} elseif ( false !== strpos( $abspath_fix, $script_filename_dir ) ) {
-			// Request is hitting a file above ABSPATH
-			$subdirectory = substr( $abspath_fix, strpos( $abspath_fix, $script_filename_dir ) + strlen( $script_filename_dir ) );
-			// Strip off any file/query params from the path, appending the sub directory to the install
-			$path = preg_replace( '#/[^/]*$#i', '', $_SERVER['REQUEST_URI'] ) . $subdirectory;
-		} else {
-			$path = $_SERVER['REQUEST_URI'];
-		}
-	}
-
-	$amp_qv = Better_AMP::STARTPOINT;
-
-	/**
-	 * Fix For Multisite Installation
-	 */
-	if ( is_multisite() && ! is_main_site() ) {
-		$current_site_url = get_site_url();
-		$append_path      = str_replace( get_site_url( get_current_site()->blog_id ), '', $current_site_url );
-
-		if ( $append_path !== $current_site_url ) {
-			$path .= $append_path;
-		}
-	}
-
-	if ( preg_match( "#^$path/*$amp_qv/+(.*?)$#", $_SERVER['REQUEST_URI'], $matched ) ) {
-
-		$none_amp_url = site_url( $matched[1] );
-	} else {
-		$none_amp_url = site_url();
-	}
+	$current_url  = home_url( add_query_arg( false, false ) );
+	$none_amp_url = Better_AMP_Content_Sanitizer::transform_to_none_amp_url( $current_url );
 
 	// Change query args from outside
 	if ( isset( $args['query-args'] ) && is_array( $args['query-args'] ) ) {
