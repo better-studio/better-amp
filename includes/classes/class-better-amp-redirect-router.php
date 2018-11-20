@@ -133,7 +133,7 @@ class Better_Amp_Redirect_Router {
 
 		if ( $match[1] !== $slug ) {
 
-			return ;
+			return $this->single_post_pagination_amp_url();
 		}
 
 		/**
@@ -194,6 +194,42 @@ class Better_Amp_Redirect_Router {
 					home_url( $automattic_amp_match[1] )
 				)
 			);
+		}
+
+		return '';
+	}
+
+
+	/**
+	 * Convert the following url.
+	 *
+	 *  [single post]/[page-number]/amp
+	 *
+	 * to
+	 *
+	 *  [single post]/amp/[page-number]
+	 *
+	 *
+	 * @since 1.0.
+	 * @return string.
+	 */
+	protected function single_post_pagination_amp_url() {
+
+		global $wp_rewrite;
+
+		$single_post_format = str_replace( $wp_rewrite->rewritecode, $wp_rewrite->rewritereplace, get_option( 'permalink_structure' ) );
+		//
+		$test_pattern = '(' . $single_post_format . ')'; // Capture as the first item $match[1]
+		$test_pattern .= '(\d+)/+';                     //  Capture as the last item array_pop( $match )
+		$test_pattern .= $this->query_var . '/?';
+
+
+		if ( preg_match( "#^$test_pattern$#", $this->request_url, $match ) ) {
+
+			$page_number          = array_pop( $match );
+			$none_amp_request_url = $match[1];
+
+			return home_url( $none_amp_request_url . $this->query_var . '/' . $page_number );
 		}
 
 		return '';
