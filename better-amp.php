@@ -269,10 +269,8 @@ class Better_AMP {
 
 		register_activation_hook( __FILE__, array( $this, 'install' ) );
 
-		add_action( 'template_redirect', array( $this, 'redirect_to_amp_url' ) );
-		add_filter( 'redirect_canonical', array( $this, '_fix_prevent_extra_redirect_single_pagination' ) );
-
 		add_action( 'request', array( $this, 'fix_search_page_queries' ) );
+		add_filter( 'redirect_canonical', array( $this, '_fix_prevent_extra_redirect_single_pagination' ) );
 
 		// Auto Redirect Mobile Users
 		add_action( 'template_redirect', array( $this, 'auto_redirect_to_amp' ), 1 );
@@ -283,8 +281,10 @@ class Better_AMP {
 		$this->fix_front_page_display_options();
 
 
-		// Fire the module
+		// Fire the modules
 		Better_AMP_Better_Rewrite_Rules::Run();
+		Better_Amp_Redirect_Router::Run();
+
 	} // apply_hooks
 
 
@@ -365,141 +365,6 @@ class Better_AMP {
 		set_transient( 'better-amp-flush-rules', true );
 	}
 
-
-	/**
-	 * "Automattic AMP" plugin compatibility
-	 *
-	 * Redirect AMP urls with amp endpoint to new amp url
-	 *
-	 * @since 1.0.0
-	 */
-	public function redirect_to_amp_url() {
-
-		if ( ! better_amp_using_permalink_structure() ) {
-			return;
-		}
-
-		if ( better_amp_url_format() === 'start-point' ) {
-
-			$this->redirect_to_start_point_amp();
-
-		} else {
-
-			$this->redirect_to_end_point_amp();
-		}
-	}
-
-	/**
-	 * Redirect end-point amp urls to start-point
-	 *
-	 * @since 1.9.0
-	 */
-	public function redirect_to_start_point_amp() {
-
-		// Disable functionality in customizer preview
-		if ( function_exists( 'is_customize_preview' ) && is_customize_preview() ) {
-
-			return;
-		}
-
-		$amp_qv = defined( 'AMP_QUERY_VAR' ) ? AMP_QUERY_VAR : 'amp';
-
-		if ( get_query_var( $amp_qv, false ) === false ) {
-
-			if ( ! is_404() ) { # /amp at the end of some urls cause 404 error
-				return;
-			}
-		}
-
-		$path        = bf_get_wp_installation_slug();
-		$request_url = str_replace( $path, '', $_SERVER['REQUEST_URI'] );
-		$url_prefix  = preg_quote( better_amp_permalink_prefix(), '#' );
-
-
-		preg_match( "#^/*$url_prefix(.*?)/$amp_qv/*$#", $request_url, $automattic_amp_match );
-
-		if ( ! $this->amp_version_exists() ) {
-
-			if ( ! empty( $automattic_amp_match[1] ) ) {
-
-				$redirect_url = home_url( $automattic_amp_match[1] );
-
-			} elseif ( preg_match( "#^/*$amp_qv/+(.*?)/*$#", $request_url, $matched ) ) {
-
-				$redirect_url = home_url( $matched[1] );
-
-			} else {
-
-				$redirect_url = better_amp_get_canonical_url();
-			}
-
-			if ( $redirect_url ) {
-
-				// todo: use Better_AMP_Content_Sanitizer::transform_to_amp_url
-				wp_redirect( $redirect_url );
-				exit;
-			}
-		}
-
-		if ( ! empty( $automattic_amp_match[1] ) ) {
-
-			$new_amp_url = Better_AMP_Content_Sanitizer::transform_to_amp_url( home_url( $automattic_amp_match[1] ) );
-			$new_amp_url = trailingslashit( $new_amp_url );
-
-			if ( $new_amp_url && trim( str_replace( site_url(), '', $new_amp_url ), '/' ) !== trim( $request_url, '/' ) ) {
-
-				wp_redirect( $new_amp_url, 301 );
-				exit;
-			}
-		}
-	}
-
-	/**
-	 * Redirect start-point amp urls to end-point
-	 *
-	 * @since 1.9.0
-	 */
-	public function redirect_to_end_point_amp() {
-
-		// Disable functionality in customizer preview
-		if ( function_exists( 'is_customize_preview' ) && is_customize_preview() ) {
-
-			return;
-		}
-
-		$request_url = str_replace( bf_get_wp_installation_slug(), '', $_SERVER['REQUEST_URI'] );
-
-		if ( ! preg_match( '#^/?([^/]+)(.+)#', $request_url, $match ) ) {
-			return;
-		}
-
-		$slug = Better_AMP::SLUG;
-
-		if ( $match[1] !== $slug ) {
-			return;
-		}
-
-		/**
-		 * Skip redirection for amp pages because it looks like like start-point!
-		 *
-		 * EX:
-		 *  amp/page/2   ✔
-		 *  /page/2/amp  ✘
-		 */
-		if ( preg_match( "#$slug/page/?([0-9]{1,})/?$#", $request_url ) ) {
-
-			return;
-		}
-
-		$new_amp_url = Better_AMP_Content_Sanitizer::transform_to_amp_url( home_url( $match[2] ) );
-		$new_amp_url = trailingslashit( $new_amp_url );
-
-		if ( $new_amp_url && trim( $match[2], '/' ) !== '' ) {
-
-			wp_redirect( $new_amp_url, 301 );
-			exit;
-		}
-	}
 
 	/**
 	 * Check AMP version of the posts exists
