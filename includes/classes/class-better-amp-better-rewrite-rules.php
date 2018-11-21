@@ -59,6 +59,7 @@ class Better_AMP_Better_Rewrite_Rules {
 		add_filter( 'rewrite_rules_array', array( $this, 'append_high_level_rules' ), 1000 );
 
 		add_filter( 'rewrite_rules_array', array( $this, 'fix_end_point_rewrites' ), 100 );
+		add_filter( 'category_rewrite_rules', array( $this, 'append_category_missing_rules' ), 100 );
 	}
 
 
@@ -142,5 +143,33 @@ class Better_AMP_Better_Rewrite_Rules {
 		}
 
 		return array_merge( $high_level_rules, $rules );
+	}
+
+	/**
+	 * Append some rewrite rules that add_rewrite_endpoint should do that
+	 *
+	 * todo: add support for custom taxonomies
+	 *
+	 * @param array $rules
+	 *
+	 * @since 1.9.5
+	 * @return array
+	 */
+	public function append_category_missing_rules( $rules ) {
+
+		global $wp_rewrite;
+
+		$pattern = trim(
+			str_replace( $wp_rewrite->rewritecode, $wp_rewrite->rewritereplace, $wp_rewrite->get_category_permastruct() ),
+			'/'
+		);
+		$pattern .= '/' . Better_AMP::SLUG;
+		$pattern .= '/page/?([0-9]{1,})/?$';
+
+		$rules = array_merge( array(
+			$pattern => $wp_rewrite->index . '?category_name=$matches[1]&paged=$matches[2]&' . Better_AMP::SLUG . '='
+		), $rules );
+
+		return $rules;
 	}
 }
