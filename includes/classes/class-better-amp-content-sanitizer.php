@@ -548,6 +548,11 @@ class Better_AMP_Content_Sanitizer {
 				return $transformed;
 			}
 
+			if ( $transformed = self::pagination_none_amp_url( $parsed['path'] ) ) {
+
+				return $transformed;
+			}
+
 			return $default;
 		}
 
@@ -586,6 +591,25 @@ class Better_AMP_Content_Sanitizer {
 			$none_amp_request_url = $match[1];
 
 			return home_url( $none_amp_request_url . $page_number );
+		}
+
+		return false;
+	}
+
+
+	/**
+	 * Remove AMP end-point in paginated pages.
+	 *
+	 * @param string $url_path
+	 *
+	 * @since 1.9.5
+	 * @return bool|string
+	 */
+	public static function pagination_none_amp_url( $url_path ) {
+
+		if ( preg_match( '#(.+)/' . Better_AMP::SLUG . '(/page/\d+/?)#', $url_path, $match ) ) {
+
+			return home_url( $match[1] . $match[2] );
 		}
 
 		return false;

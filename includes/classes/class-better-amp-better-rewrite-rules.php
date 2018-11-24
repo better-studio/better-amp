@@ -60,8 +60,9 @@ class Better_AMP_Better_Rewrite_Rules {
 
 		add_filter( 'rewrite_rules_array', array( $this, 'fix_end_point_rewrites' ), 100 );
 		add_filter( 'category_rewrite_rules', array( $this, 'append_category_missing_rules' ), 100 );
-	}
 
+		add_action( 'init', array( $this, 'append_rewrite_rules_filters' ) );
+	}
 
 	/**
 	 * Change WP rewrite rules priority to works properly with end-point URL structure.
@@ -171,5 +172,77 @@ class Better_AMP_Better_Rewrite_Rules {
 		), $rules );
 
 		return $rules;
+	}
+
+	/**
+	 * Add some filters to generate rules for custom taxonomies.
+	 *
+	 * @since 1.9.5
+	 */
+	public function append_rewrite_rules_filters() {
+
+		global $wp_rewrite;
+
+
+		if ( ! isset( $wp_rewrite->extra_permastructs ) ) {
+			return;
+		}
+
+		$skip     = array( 'post_tag', 'post_format', 'category' );
+		$callback = array( $this, 'append_missing_taxonomy_permastructs' );
+
+		foreach ( $wp_rewrite->extra_permastructs as $permastructname => $_ ) {
+
+			if ( in_array( $permastructname, $skip ) ) {
+				continue;
+			}
+
+			if ( ! taxonomy_exists( $permastructname ) ) {
+				continue;
+			}
+
+			add_filter( $permastructname . '_rewrite_rules', $callback );
+		}
+	}
+
+
+	/**
+	 * Append AMP rewrite rules for custom taxonomies.
+	 *
+	 * @param array $rules
+	 *
+	 * @since 1.9.5
+	 * @return array
+	 */
+	public function append_missing_taxonomy_permastructs( $rules ) {
+
+		$amp_rules = array();
+		$next_page = '/page/?([0-9]{1,})/';
+
+		foreach ( $rules as $match => $query ) {
+
+			// Do not generate amp end-point rule for feeds
+			if ( strstr( $query, '&feed=' ) ) {
+				continue;
+			}
+
+			$e = explode( $next_page, $match );
+
+			if ( isset( $e[1] ) ) {
+
+				$pattern = $e[0] . '/' . BETTER_AMP::SLUG . $next_page . $e[1];
+
+				$amp_rules[ $pattern ] = $query . '&' . BETTER_AMP::SLUG . '=';
+
+			} elseif ( substr( $match, - 3 ) === '/?$' ) {
+
+				$pattern = substr( $match, 0, - 3 );
+				$pattern .= '/' . BETTER_AMP::SLUG . '/?$';
+
+				$amp_rules[ $pattern ] = $query . '&' . BETTER_AMP::SLUG . '=';
+			}
+		}
+
+		return array_merge( $amp_rules, $rules );
 	}
 }
