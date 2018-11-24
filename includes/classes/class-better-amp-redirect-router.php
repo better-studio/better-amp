@@ -8,7 +8,7 @@ class Better_Amp_Redirect_Router {
 	 *
 	 * @var self
 	 *
-	 * @since 1.9.5
+	 * @since 1.9.4
 	 */
 	protected static $instance;
 
@@ -18,7 +18,7 @@ class Better_Amp_Redirect_Router {
 	 *
 	 * @var string
 	 *
-	 * @since 1.9.5
+	 * @since 1.9.4
 	 */
 	protected $query_var;
 
@@ -28,7 +28,7 @@ class Better_Amp_Redirect_Router {
 	 *
 	 * @var string
 	 *
-	 * @since 1.9.5
+	 * @since 1.9.4
 	 */
 	protected $request_url;
 
@@ -36,7 +36,7 @@ class Better_Amp_Redirect_Router {
 	/**
 	 * Get singleton instance of the class.
 	 *
-	 * @since 1.9.5
+	 * @since 1.9.4
 	 * @return self
 	 */
 	public static function Run() {
@@ -54,7 +54,7 @@ class Better_Amp_Redirect_Router {
 	/**
 	 * Initialize the module.
 	 *
-	 * @since 1.9.5
+	 * @since 1.9.4
 	 */
 	public function init() {
 
@@ -108,7 +108,7 @@ class Better_Amp_Redirect_Router {
 	/**
 	 * Whether to check ability to redirect user to given url.
 	 *
-	 * @since 1.9.5
+	 * @since 1.9.4
 	 *
 	 * @param $url
 	 *

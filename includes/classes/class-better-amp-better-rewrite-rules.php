@@ -152,7 +152,7 @@ class Better_AMP_Better_Rewrite_Rules {
 	 *
 	 * @param array $rules
 	 *
-	 * @since 1.9.5
+	 * @since 1.9.4
 	 * @return array
 	 */
 	public function append_category_missing_rules( $rules ) {
