@@ -85,18 +85,22 @@ class Better_Amp_Redirect_Router {
 		$this->query_var   = defined( 'AMP_QUERY_VAR' ) ? AMP_QUERY_VAR : Better_AMP::SLUG;
 		$this->request_url = str_replace( bf_get_wp_installation_slug(), '', $_SERVER['REQUEST_URI'] );
 
-		if ( better_amp_url_format() === 'start-point' ) {
+		if ( ! Better_AMP::get_instance()->amp_version_exists() ) {
 
-			$new_amp_url = $this->transform_to_start_point_url();
+			$new_url = Better_AMP_Content_Sanitizer::transform_to_none_amp_url( better_amp_get_canonical_url(), true );
+
+		} elseif ( better_amp_url_format() === 'start-point' ) {
+
+			$new_url = $this->transform_to_start_point_url();
 
 		} else {
 
-			$new_amp_url = $this->transform_to_end_point_url();
+			$new_url = $this->transform_to_end_point_url();
 		}
 
-		if ( $this->can_redirect_url( $new_amp_url ) ) {
+		if ( $this->can_redirect_url( $new_url ) ) {
 
-			wp_redirect( $new_amp_url, 301 );
+			wp_redirect( $new_url, 301 );
 			exit;
 		}
 	}

@@ -440,16 +440,25 @@ class Better_AMP_Content_Sanitizer {
 	 * Convert amp $url to none-amp version if $url was internal
 	 *
 	 * @param string $url
-	 *
-	 * @since 1.0.0
+	 * @param bool   $strict
 	 *
 	 * @return string transformed none-amp url on success or passed $url otherwise.
+	 * @since 1.0.0
+	 *
 	 */
-	public static function transform_to_none_amp_url( $url ) {
+	public static function transform_to_none_amp_url( $url, $strict = false ) {
 
 		if ( ! better_amp_using_permalink_structure() ) {
 
 			return remove_query_arg( Better_AMP::SLUG, $url );
+		}
+
+		if ( $strict ) {
+
+			$url = self::remove_end_point_amp( $url, $url );
+			$url = self::remove_start_point_amp( $url, $url );
+
+			return $url;
 		}
 
 		if ( better_amp_url_format() === 'end-point' ) {
@@ -473,22 +482,27 @@ class Better_AMP_Content_Sanitizer {
 
 	/**
 	 * @param string $url
+	 * @param mixed  $default
 	 *
 	 * @return bool|string none amp url on success or false on error.
 	 */
-	public static function remove_start_point_amp( $url ) {
+	public static function remove_start_point_amp( $url, $default = false ) {
+
+		if ( empty( $url ) ) {
+			return $default;
+		}
 
 		$prefix = better_amp_permalink_prefix();
 
 		if ( ! preg_match( '#^https?://w*\.?' . self::regex_url() . '/?' . $prefix . '([^/]*)/?(.*?)$#', $url, $matched ) ) {
 
-			return false;
+			return $default;
 		}
 
 		// if url was not amp
 		if ( $matched[1] !== Better_AMP::SLUG ) {
 
-			return false;
+			return $default;
 		}
 
 		if ( $matched[1] ) {
@@ -506,25 +520,35 @@ class Better_AMP_Content_Sanitizer {
 
 	/**
 	 * @param string $url
+	 * @param mixed  $default
 	 *
-	 * @return bool|string none amp url on success or false on error.
+	 * @return mixed none amp url on success or $default on error.
 	 */
-	public static function remove_end_point_amp( $url ) {
+	public static function remove_end_point_amp( $url, $default = false ) {
+
+		if ( empty( $url ) ) {
+			return $default;
+		}
 
 		if ( ! preg_match( '#^https?://w*\.?' . self::regex_url() . '/?#', $url ) ) {
 
-			return false;
+			return $default;
 		}
 
 		$parsed = parse_url( $url );
 
 		if ( empty( $parsed['path'] ) ) {
-			return false;
+			return $default;
 		}
 
 		if ( basename( $parsed['path'] ) !== Better_AMP::SLUG ) {
 
-			return self::single_post_pagination_none_amp_url( $parsed['path'] );
+			if ( $transformed = self::single_post_pagination_none_amp_url( $parsed['path'] ) ) {
+
+				return $transformed;
+			}
+
+			return $default;
 		}
 
 		return trailingslashit( sprintf( '%s://%s%s', $parsed['scheme'], $parsed['host'], dirname( $parsed['path'] ) ) );
