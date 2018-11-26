@@ -85,28 +85,13 @@ class Better_AMP_iFrame_Component implements Better_AMP_Component_Interface {
 
 			case 'youtube':
 
-				$video_id = false;
-
-				if ( preg_match( '#https?://(?:(?:m|www)\.)?youtube\.com/watch\?(.*)#i', $url, $matched ) ) {
-
-					parse_str( $matched[1], $vars );
-
-					if ( ! empty( $vars['v'] ) ) {
-
-						$video_id = $vars['v'];
-					}
-
-				} elseif ( preg_match( '#https?://(?:(?:m|www)\.)?youtube\.com/embed/([^\/]+)#i', $url, $matched ) ) {
-
-					$video_id = $matched[1];
-				}
-
-				if ( $video_id ) {
+				if ( $video_id = self::extract_youtube_video_id( $url ) ) {
 
 					$dim = $this->get_iframe_dimension( $html, 'height', 'width', $options );
 
 					return $this->amp_youtube_html( $video_id, $dim[0], $dim[1] );
 				}
+
 				break;
 
 			case 'twitter':
@@ -579,6 +564,39 @@ class Better_AMP_iFrame_Component implements Better_AMP_Component_Interface {
 		}
 
 		return $output;
+	}
+
+	/**
+	 * Grab the video ID from given youtube URL.
+	 *
+	 * @param string $url
+	 *
+	 * @since 1.9.5
+	 * @return string video id on success or empty string on failure.
+	 */
+	public static function extract_youtube_video_id( $url ) {
+
+		$video_id = '';
+
+		if ( preg_match( '#https?://(?:(?:m|www)\.)?youtube\.com/watch\?(.*)#i', $url, $matched ) ) {
+
+			parse_str( $matched[1], $vars );
+
+			if ( ! empty( $vars['v'] ) ) {
+
+				$video_id = $vars['v'];
+			}
+
+		} elseif ( preg_match( '#https?://(?:(?:m|www)\.)?youtube\.com/embed/([^\/\?\&]+)#i', $url, $matched ) ) {
+
+			$video_id = $matched[1];
+
+		} elseif ( preg_match( '#https?://(?:(?:m|www)\.)?youtu\.be/([^\/\?\&]+)#i', $url, $matched ) ) {
+
+			$video_id = $matched[1];
+		}
+
+		return $video_id;
 	}
 }
 
