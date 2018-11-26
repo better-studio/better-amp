@@ -11,7 +11,8 @@
     border: 1px solid #dcdcdc;
     position: relative;
 }
-.archive-page-header .pre-title{
+.archive-page-header .pre-title,
+.archive-page-header .archive-description{
     font-size: 14px;
     margin-bottom: 3px;
     font-weight: 400;
