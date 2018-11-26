@@ -24,5 +24,9 @@ if ( ! empty( $title['pre_title'] ) ) {
 
 	echo '<h1 class="archive-title">', $title['icon'], $title['title'], '</h1>';
 
+	if ( ! empty( $title['description'] ) ) {
+
+		echo '<div class="archive-description">', $title['description'], '</div>';
+	}
 	?>
 </header>

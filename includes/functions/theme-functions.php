@@ -2031,107 +2031,153 @@ if ( ! function_exists( 'better_amp_get_archive_title_fields' ) ) {
 	 */
 	function better_amp_get_archive_title_fields() {
 
-		$icon      = '';
-		$pre_title = '';
-		$title     = '';
+		$icon        = '';
+		$pre_title   = '';
+		$title       = '';
+		$description = '';
 
 		if ( function_exists( 'is_woocommerce' ) && is_woocommerce() ) {
 
 			if ( is_product_category() ) {
-				$icon      = '<i class="fa fa-shopping-basket"></i>';
-				$pre_title = better_amp_translation_get( 'browsing_product_category' );
-				$title     = single_term_title( '', false );
+
+				$icon        = '<i class="fa fa-shopping-basket"></i>';
+				$pre_title   = better_amp_translation_get( 'browsing_product_category' );
+				$title       = single_term_title( '', false );
+				$description = term_description( get_queried_object() );
+
 			} elseif ( is_product_tag() ) {
-				$icon      = '<i class="fa fa-shopping-basket"></i>';
-				$pre_title = better_amp_translation_get( 'browsing_product_tag' );
-				$title     = single_term_title( '', false );
+
+				$icon        = '<i class="fa fa-shopping-basket"></i>';
+				$pre_title   = better_amp_translation_get( 'browsing_product_tag' );
+				$title       = single_term_title( '', false );
+				$description = term_description( get_queried_object() );
+
 			} else {
+
 				$icon      = '<i class="fa fa-truck"></i>';
 				$pre_title = better_amp_translation_get( 'browsing' );
 				$title     = better_amp_translation_get( 'product-shop' );
 			}
 
 		} elseif ( is_category() ) {
-			$icon      = '<i class="fa fa-folder"></i>';
-			$pre_title = better_amp_translation_get( 'browsing_category' );
-			$title     = single_cat_title( '', false );
+
+			$icon        = '<i class="fa fa-folder"></i>';
+			$pre_title   = better_amp_translation_get( 'browsing_category' );
+			$title       = single_cat_title( '', false );
+			$description = category_description();
+
 		} elseif ( is_tag() ) {
-			$icon      = '<i class="fa fa-tag"></i>';
-			$pre_title = better_amp_translation_get( 'browsing_tag' );
-			$title     = single_tag_title( '', false );
+
+			$icon        = '<i class="fa fa-tag"></i>';
+			$pre_title   = better_amp_translation_get( 'browsing_tag' );
+			$title       = single_tag_title( '', false );
+			$description = tag_description();
+
 		} elseif ( is_author() ) {
-			$icon      = '<i class="fa fa-user-circle"></i>';
-			$pre_title = better_amp_translation_get( 'browsing_author' );
-			$title     = '<span class="vcard">' . get_the_author() . '</span>';
+
+			$icon        = '<i class="fa fa-user-circle"></i>';
+			$pre_title   = better_amp_translation_get( 'browsing_author' );
+			$title       = '<span class="vcard">' . get_the_author() . '</span>';
+			$description = get_the_author_meta( 'description' );
+
 		} elseif ( is_year() ) {
+
 			$icon      = '<i class="fa fa-calendar"></i>';
 			$pre_title = better_amp_translation_get( 'browsing_yearly' );
 			$title     = get_the_date( _x( 'Y', 'yearly archives date format', 'better-amp' ) );
+
 		} elseif ( is_month() ) {
+
 			$icon      = '<i class="fa fa-calendar"></i>';
 			$pre_title = better_amp_translation_get( 'browsing_monthly' );
 			$title     = get_the_date( _x( 'F Y', 'monthly archives date format', 'better-amp' ) );
+
 		} elseif ( is_day() ) {
+
 			$icon      = '<i class="fa fa-calendar"></i>';
 			$pre_title = better_amp_translation_get( 'browsing_daily' );
 			$title     = get_the_date( _x( 'F j, Y', 'daily archives date format', 'better-amp' ) );
+
 		} elseif ( is_tax( 'post_format' ) ) {
+
 			if ( is_tax( 'post_format', 'post-format-aside' ) ) {
+
 				$icon      = '<i class="fa fa-pencil"></i>';
 				$pre_title = better_amp_translation_get( 'browsing_archive' );
 				$title     = better_amp_translation_get( 'asides' );
+
 			} elseif ( is_tax( 'post_format', 'post-format-gallery' ) ) {
+
 				$icon      = '<i class="fa fa-camera"></i>';
 				$pre_title = better_amp_translation_get( 'browsing_archive' );
 				$title     = better_amp_translation_get( 'galleries' );
+
 			} elseif ( is_tax( 'post_format', 'post-format-image' ) ) {
+
 				$icon      = '<i class="fa fa-camera"></i>';
 				$pre_title = better_amp_translation_get( 'browsing_archive' );
 				$title     = better_amp_translation_get( 'images' );
+
 			} elseif ( is_tax( 'post_format', 'post-format-video' ) ) {
+
 				$icon      = '<i class="fa fa-video-camera"></i>';
 				$pre_title = better_amp_translation_get( 'browsing_archive' );
 				$title     = better_amp_translation_get( 'videos' );
+
 			} elseif ( is_tax( 'post_format', 'post-format-quote' ) ) {
+
 				$icon      = '<i class="fa fa-quote-' . better_amp_direction() . '"></i>';
 				$pre_title = better_amp_translation_get( 'browsing_archive' );
 				$title     = better_amp_translation_get( 'quotes' );
+
 			} elseif ( is_tax( 'post_format', 'post-format-link' ) ) {
+
 				$icon      = '<i class="fa fa-link"></i>';
 				$pre_title = better_amp_translation_get( 'browsing_archive' );
 				$title     = better_amp_translation_get( 'links' );
+
 			} elseif ( is_tax( 'post_format', 'post-format-status' ) ) {
+
 				$icon      = '<i class="fa fa-refresh"></i>';
 				$pre_title = better_amp_translation_get( 'browsing_archive' );
 				$title     = better_amp_translation_get( 'statuses' );
+
 			} elseif ( is_tax( 'post_format', 'post-format-audio' ) ) {
+
 				$icon      = '<i class="fa fa-music"></i>';
 				$pre_title = better_amp_translation_get( 'browsing_archive' );
 				$title     = better_amp_translation_get( 'audio' );
+
 			} elseif ( is_tax( 'post_format', 'post-format-chat' ) ) {
+
 				$icon      = '<i class="fa fa-coffee"></i>';
 				$pre_title = better_amp_translation_get( 'browsing_archive' );
 				$title     = better_amp_translation_get( 'chats' );
 			}
+
 		} elseif ( is_post_type_archive() ) {
-			$icon      = '<i class="fa fa-archive"></i>';
-			$pre_title = better_amp_translation_get( 'browsing_archive' );
-			$title     = post_type_archive_title( '', false );
+
+			$icon        = '<i class="fa fa-archive"></i>';
+			$pre_title   = better_amp_translation_get( 'browsing_archive' );
+			$title       = post_type_archive_title( '', false );
+			$description = function_exists( 'get_the_post_type_description' ) ?
+				get_the_post_type_description() : '';
 		} elseif ( is_tax() ) {
 
-			$tax = get_taxonomy( get_queried_object()->taxonomy );
+			$tax         = get_taxonomy( get_queried_object()->taxonomy );
+			$icon        = '<i class="fa fa-archive"></i>';
+			$pre_title   = better_amp_translation_get( 'browsing_archive' );
+			$title       = sprintf( __( '%1$s: %2$s', 'beetter-amp' ), $tax->labels->singular_name, single_term_title( '', false ) );
+			$description = term_description();
 
-			$icon      = '<i class="fa fa-archive"></i>';
-			$pre_title = better_amp_translation_get( 'browsing_archive' );
-			$title     = sprintf( __( '%1$s: %2$s', 'beetter-amp' ), $tax->labels->singular_name, single_term_title( '', false ) );
 		} else {
+
 			$icon      = '<i class="fa fa-archive"></i>';
 			$pre_title = better_amp_translation_get( 'browsing' );
 			$title     = better_amp_translation_get( 'archive' );
 		}
 
-
-		return compact( 'icon', 'pre_title', 'title' );
+		return compact( 'icon', 'pre_title', 'title', 'description' );
 	}
 }
 
