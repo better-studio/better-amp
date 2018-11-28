@@ -51,6 +51,16 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 
 == Changelog ==
 
+= 1.9.5 =
+- Added: Category description support in archive page (all taxonomies)
+
+- Improved: Do not view amp when it’s not enabled.
+- Improved: Added support for custom taxonomies in end-point.
+
+- Fixed: Youtube embedded video with short link youtu.be
+- Fixed: WooCommerce tag archive page header style.
+
+
 = 1.9.4 =
 - Fixed: AMP archive wrong redirect.
 - Fixed: Wrong “View Desktop Version” button url.
