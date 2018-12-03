@@ -1006,7 +1006,9 @@ if ( ! function_exists( 'better_amp_get_canonical_url' ) ) {
 	 */
 	function better_amp_get_canonical_url() {
 
-		return home_url( add_query_arg( false, false ) );
+		$parse = parse_url( home_url() );
+
+		return sprintf( '%s://%s%s', $parse['scheme'], $parse['host'], add_query_arg( false, false ) );
 	}
 }
 
