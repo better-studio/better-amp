@@ -282,7 +282,6 @@ class Better_AMP {
 
 
 		// Fire the modules
-		Better_AMP_Better_Rewrite_Rules::Run();
 		Better_Amp_Redirect_Router::Run();
 
 	} // apply_hooks
@@ -595,11 +594,11 @@ class Better_AMP {
 		better_amp_add_rewrite_startpoint( self::STARTPOINT, EP_ALL );
 
 		/**
-		 * automattic amp compatibility
+		 * Automattic amp compatibility
 		 */
 		$amp_qv = defined( 'AMP_QUERY_VAR' ) ? AMP_QUERY_VAR : self::STARTPOINT;
 
-		add_rewrite_endpoint( $amp_qv, EP_ALL );
+		better_amp_add_rewrite_endpoint( $amp_qv, EP_ALL );
 	}
 
 
