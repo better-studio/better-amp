@@ -40,6 +40,9 @@ body.body {
 .amp-image-tag {
     max-width: 100%;
 }
+.aligncenter .amp-image-tag{
+    margin: 0 auto;
+}
 b, strong, .bold {
     font-weight: 700;
 }
