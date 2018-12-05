@@ -139,6 +139,27 @@ class Better_AMP_HTML_Util extends DOMDocument {
 		return $attributes;
 	}
 
+	/**
+	 * Get an attribute of an element.
+	 *
+	 * @param DOMElement $node
+	 * @param string     $tag_name
+	 * @param string     $attribute
+	 *
+	 * @since 1.9.6
+	 *
+	 * @return string|null string on success
+	 */
+	public static function get_child_tag_attribute( $node, $tag_name, $attribute ) {
+
+		if ( $child = self::child( $node, $tag_name, array( $attribute ) ) ) {
+
+			if ( $attr = $child->attributes->getNamedItem( $attribute ) ) {
+
+				return $attr->value;
+			}
+		}
+	}
 
 	/**
 	 * Replace node with new node

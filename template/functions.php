@@ -1040,3 +1040,59 @@ if ( ! function_exists( 'better_amp_set_url_format' ) ) {
 	}
 }
 
+
+add_filter( 'the_content', 'better_amp_do_block_styles', 2 );
+
+if ( ! function_exists( 'better_amp_do_block_styles' ) ) {
+
+	/**
+	 * Enqueue gutenberg block styles.
+	 *
+	 * @param string $content
+	 *
+	 * @since 1.9.6
+	 * @return string
+	 */
+	function better_amp_do_block_styles( $content ) {
+
+		global $wp_query;
+
+		if ( ! is_better_amp() || ! $wp_query || ! $wp_query->is_main_query() ) {
+
+			return $content;
+		}
+
+		$blocks_list = array(
+			'button',
+			'columns',
+			'cover',
+			'file',
+			'gallery',
+			'image',
+			'latest-comments',
+			'list',
+			'quote',
+			'separator',
+			'table',
+			'verse',
+		);
+
+		if ( preg_match_all(
+			'/<!--\s+(?<closer>\/)?wp:(?:<namespace>[a-z][a-z0-9_-]*\/)?(?<name>[a-z][a-z0-9_-]*)\s+(?:<attrs>{(?:(?:[^}]+|}+(?=})|(?!}\s+\/?-->).)*+)?}\s+)?(?<void>\/)?-->/s',
+			$content,
+			$matches
+		) ) {
+
+			foreach ( array_unique( $matches[2] ) as $block ) {
+
+				if ( in_array( $block, $blocks_list ) ) {
+
+					better_amp_enqueue_block_style( 'block-' . $block, 'css/block/' . $block, false );
+				}
+			}
+		}
+
+		return $content;
+	}
+}
+

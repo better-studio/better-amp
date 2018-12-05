@@ -1207,6 +1207,7 @@ class Better_AMP_Content_Sanitizer {
 			}
 
 
+
 			/**
 			 * Replace audio/video tag with amp-audio/video
 			 */
@@ -1239,33 +1240,21 @@ class Better_AMP_Content_Sanitizer {
 
 						if ( $element->parentNode->tagName !== 'noscript' ) {
 
-							$attr_id = 'src';
-							$source  = Better_AMP_HTML_Util::child( $element, 'source', array( $attr_id ) );
+							if ( ! $source = $element->getAttribute( 'src' ) ) {
 
-							if ( ! $source ) {
-								$attr_id = 'href';
-								$source  = Better_AMP_HTML_Util::child( $element, 'a', array( $attr_id ) );
+								if ( ! $source = Better_AMP_HTML_Util::get_child_tag_attribute( $element, 'source', 'src' ) ) {
+
+									$source = Better_AMP_HTML_Util::get_child_tag_attribute( $element, 'a', 'href' );
+								}
 							}
 
-							if ( ! $source ) {
-								continue;
-							}
-
-							$src_attr = $source->attributes->getNamedItem( $attr_id );
-
-							if ( ! $src_attr || empty( $src_attr->value ) ) {
+							if ( empty( $source ) || ! preg_match( '#^\s*https://#', $source ) ) {
 
 								self::remove_element( $element );
 								continue;
 							}
 
-							if ( ! preg_match( '#^\s*https://#', $src_attr->value ) ) {
-
-								self::remove_element( $element );
-								continue;
-							}
-
-							$element->setAttribute( 'src', $src_attr->value );
+							$element->setAttribute( 'src', $source );
 							Better_AMP_HTML_Util::renameElement( $element, $tag_info[0] );
 
 							if ( $enqueue ) {
