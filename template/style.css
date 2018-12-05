@@ -454,3 +454,8 @@ body.sticky-nav{
 .bs-shortcode .section-heading .other-link{
     display: none;
 }
+.entry-content table {
+    border: 1px solid #ddd;
+    margin-bottom: 30px;
+    width: 100%;
+}
