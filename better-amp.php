@@ -1,10 +1,10 @@
 <?php
 /*
 Plugin Name: Better AMP - WordPress Complete AMP
-Plugin URI: http://demo.betterstudio.com/publisher/amp-demo/
+Plugin URI: https://betterstudio.com/wp-plugins/better-amp/
 Description: Add FULL AMP support to your WordPress site.
 Author: Better Studio
-Version: 1.9.6-RC1
+Version: 1.9.6
 Author URI: http://betterstudio.com
 */
 
@@ -52,7 +52,7 @@ class Better_AMP {
 	 *
 	 * @since 1.0.0
 	 */
-	const VERSION = '1.9.6-RC1';
+	const VERSION = '1.9.6';
 
 
 	/**

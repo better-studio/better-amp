@@ -51,6 +51,16 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 
 == Changelog ==
 
+= 1.9.6 =
+- Added: Complete Gutenberg blocks style support.
+
+- Improved: The AMP url codes rewrite from scratch to works bug free.
+- Improved: Tabs style improved.
+
+- Fixed: canonical url determination
+- Fixed: Video and Audio tag transform to amp-vdieo and amp-audio.
+
+
 = 1.9.5 =
 - Added: Category description support in archive page (all taxonomies)
 
