@@ -82,8 +82,10 @@ class Better_Amp_Redirect_Router {
 			return;
 		}
 
+		list( $req_uri ) = explode( '?', $_SERVER['REQUEST_URI'] );
+
 		$this->query_var   = defined( 'AMP_QUERY_VAR' ) ? AMP_QUERY_VAR : Better_AMP::SLUG;
-		$this->request_url = str_replace( bf_get_wp_installation_slug(), '', $_SERVER['REQUEST_URI'] );
+		$this->request_url = str_replace( bf_get_wp_installation_slug(), '', $req_uri );
 
 		if ( ! Better_AMP::get_instance()->amp_version_exists() ) {
 
