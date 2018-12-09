@@ -406,7 +406,12 @@ class Better_AMP_iFrame_Component implements Better_AMP_Component_Interface {
 			$this->enable_enqueue_scripts = true;
 
 			for ( $i = $nodes_count - 1; $i >= 0; $i -- ) {
-				$element = $elements->item( $i );
+
+				if ( ! $element = $elements->item( $i ) ) {
+
+					continue;
+				}
+
 
 				$attributes = $instance->filter_attributes( $instance->get_node_attributes( $element ) );
 				$attributes = $this->filter_attributes( $attributes );
