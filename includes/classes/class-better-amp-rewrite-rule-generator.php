@@ -522,7 +522,7 @@ class Better_AMP_Rewrite_Rule_Generator {
 					continue;
 				}
 
-				if ( strstr( $rule[0], '[^/]+' ) || substr( $rule[0], 0, 6 ) === '(.+?)/' ) {
+				if ( strstr( $rule[0], '[^/]+' ) || substr( $rule[0], 0, 6 ) === '(.+?)/' || strstr($rule[0],']+)') ) {
 
 					$results[ $rule[0] ] = $rule[1];
 
