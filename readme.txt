@@ -51,6 +51,12 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 
 == Changelog ==
 
+= 1.9.7 = 15 Dec 2018
+- Fixed: 404 when /%year%/%monthnum%/%day%/%postname%/
+- Foxed: Notice on trying to get property of non-object
+- Fixed: Paginated search result view in end-point url format.
+
+
 = 1.9.6 =
 - Added: Complete Gutenberg blocks style support.
 
