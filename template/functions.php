@@ -197,6 +197,7 @@ function better_amp_get_default_theme_setting( $setting_id, $setting_index = '' 
 		'better-amp-on-home'                       => true,
 		'better-amp-on-search'                     => true,
 		'better-amp-url-struct'                    => 'start-point',
+		'better-amp-excluded-url-struct'           => '',
 	);
 
 	if ( $setting_index ) {
@@ -1037,6 +1038,25 @@ if ( ! function_exists( 'better_amp_set_url_format' ) ) {
 	function better_amp_set_url_format( $default ) {
 
 		return better_amp_get_option( 'better-amp-url-struct', $default );
+	}
+}
+
+
+add_filter( 'better-amp/url/excluded', 'better_amp_set_excluded_url_format' );
+
+if ( ! function_exists( 'better_amp_set_excluded_url_format' ) ) {
+
+	/**
+	 * Set the urls list which is not available in AMP version.
+	 *
+	 * @hooked better-amp/url/excluded
+	 *
+	 * @since  1.9.8
+	 * @return array
+	 */
+	function better_amp_set_excluded_url_format() {
+
+		return explode( "\n", better_amp_get_option( 'better-amp-excluded-url-struct', '' ) );
 	}
 }
 

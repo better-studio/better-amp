@@ -375,6 +375,11 @@ class Better_AMP {
 
 		static $filters;
 
+		if ( $this->is_amp_excluded_by_url() ) {
+
+			return false;
+		}
+
 		if ( ! isset( $filters ) ) {
 
 			$filters = wp_parse_args(
@@ -455,6 +460,38 @@ class Better_AMP {
 		return true;
 	}
 
+
+	/**
+	 * Whether to check if current page has been marked as none-AMP version?
+	 *
+	 * @since 1.9.8
+	 *
+	 * @return bool
+	 */
+	protected function is_amp_excluded_by_url() {
+
+		if ( ! $excluded_patterns = better_amp_excluded_urls_format() ) {
+			return false;
+		}
+
+		// Get current page
+		$current_path = trim( str_replace( home_url(), '', better_amp_guess_none_amp_url() ), '/' );
+
+		foreach ( $excluded_patterns as $url_format ) {
+
+			$url_format = trim( $url_format, '/' ); // throw surrounded slash away
+			// Format given url to valid PCRE regex
+			$pattern = better_amp_transpile_text_to_pattern( $url_format, '#' );
+			$pattern = '#^/?' . $pattern . '/*$#i';
+
+			// Check if the given url is match with current page url path
+			if ( preg_match( $pattern, $current_path ) ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
 
 	/**
 	 * Callback: Prevent third party codes to change the main query on AMP version

@@ -1026,6 +1026,18 @@ function better_amp_customize_register( $wp_customizer ) {
 		'label'    => __( 'Enable on search results', 'better-amp' ),
 	) ) );
 
+	$wp_customizer->add_setting( 'better-amp-excluded-url-struct', array(
+		'default' => better_amp_get_default_theme_setting( 'better-amp-excluded-url-struct' ),
+	) );
+
+	$wp_customizer->add_control( 'better-amp-excluded-url-struct', array(
+		'label'       => __( 'Exclude AMP by URL', 'better-amp' ),
+		'section'     => 'better-amp-filter-section',
+		'description' => __( 'Disable AMP version by the page URL. <hr> for instance /product/* will disable all amp pages starting with product in the URL.<br/> You can use <strong>*</strong> to include all characters except slash and You can also add multiple URL\s in multiple lines.', 'better-amp' ),
+		'priority'    => 30,
+		'type'        => 'textarea',
+	) );
+
 
 }
 

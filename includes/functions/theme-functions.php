@@ -3094,3 +3094,17 @@ if ( ! function_exists( 'better_amp_url_format' ) ) {
 		return apply_filters( 'better-amp/url/format', 'start-point' );
 	}
 }
+
+if ( ! function_exists( 'better_amp_excluded_urls_format' ) ) {
+
+	/**
+	 * Get list of url paths which is not available in AMP version.
+	 *
+	 * @since 1.9.8
+	 * @return array
+	 */
+	function better_amp_excluded_urls_format() {
+
+		return apply_filters( 'better-amp/url/excluded', array() );
+	}
+}

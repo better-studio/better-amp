@@ -162,6 +162,28 @@ if ( ! function_exists( 'bf_remove_class_action' ) ) {
 	 * @return bool               Whether the function is removed.
 	 */
 	function bf_remove_class_action( $tag, $class_name = '', $method_name = '', $priority = 10 ) {
+
 		return bf_remove_class_filter( $tag, $class_name, $method_name, $priority );
+	}
+}
+
+if ( ! function_exists( 'better_amp_transpile_text_to_pattern' ) ) {
+
+	/**
+	 * Transpile the given string to valid PCRE pattern.
+	 *
+	 * @param string $text      The formatted text.
+	 * @param string $delimiter Pattern delimiter.
+	 *
+	 * @since 1.9.8
+	 * @return string
+	 */
+	function better_amp_transpile_text_to_pattern( $text, $delimiter = '#' ) {
+
+		$pattern = preg_replace( '/ ( (?<!\\\) \* ) /x', '@@CAPTURE@@', $text );
+		$pattern = preg_quote( $pattern, $delimiter );
+		$pattern = str_replace( '@@CAPTURE@@', '[^/]+', $pattern );
+
+		return $pattern;
 	}
 }
