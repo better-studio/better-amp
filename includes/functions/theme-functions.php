@@ -1061,20 +1061,31 @@ if ( ! function_exists( 'better_amp_get_search_page_url' ) ) {
 	/**
 	 * Get AMP index page url
 	 *
-	 * @param string $path      Optional. Path relative to the site URL. Default empty.
+	 * @param string $path            Optional. Path relative to the site URL. Default empty.
 	 * @param string $before_sp .     Custom string to append before amp start point. Default empty.
+	 * @param bool   $front_page_url  Optional. see the following comment.
 	 *
 	 * @return string
 	 * @since 1.0.0
 	 *
 	 */
-	function better_amp_site_url( $path = '', $before_sp = '' ) {
+	function better_amp_site_url( $path = '', $before_sp = '', $front_page_url = false ) {
 
 		if ( better_amp_using_permalink_structure() ) {
 
 			$url_prefix = better_amp_permalink_prefix();
 
-			$url = trailingslashit( home_url( $url_prefix ) );
+			/**
+			 * Prepend permalink structure prefix before amp cause 404 error in search page
+			 * So we added $front_page_url parameter to bypass this functionality.
+			 *
+			 * @see     better_amp_permalink_prefix
+			 * @see     better_amp_get_search_page_url
+			 *
+			 * @example when structure is /topics/%post_id%/%postname/ and $front_page_url = false
+			 * Then the search page will be /topics/amp/?s which cause 404 error
+			 */
+			$url = trailingslashit( home_url( $front_page_url ? '' : $url_prefix ) );
 			$url .= $before_sp ? trailingslashit( $before_sp ) : '';
 			$url .= Better_AMP::STARTPOINT;
 
@@ -1767,7 +1778,14 @@ if ( ! function_exists( 'better_amp_get_search_page_url' ) ) {
 	 */
 	function better_amp_get_search_page_url() {
 
-		return esc_url( add_query_arg( 's', '', better_amp_site_url() ) );
+		/**
+		 * The s query var must always add to AMP front-page url. for more information see the following function.
+		 *
+		 * @see better_amp_site_url
+		 */
+		$front_page_url = true;
+
+		return esc_url( add_query_arg( 's', '', better_amp_site_url( '', '', $front_page_url ) ) );
 	}
 }
 
