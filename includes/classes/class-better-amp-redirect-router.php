@@ -118,6 +118,8 @@ class Better_Amp_Redirect_Router {
 	 */
 	protected function can_redirect_url( $url ) {
 
+		list( $url ) = explode( '?', $url );
+
 		return ! empty( $url ) && trim( str_replace( home_url(), '', $url ), '/' ) !== trim( $this->request_url, '/' );
 	}
 
