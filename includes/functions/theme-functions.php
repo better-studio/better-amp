@@ -1069,11 +1069,15 @@ if ( ! function_exists( 'better_amp_get_search_page_url' ) ) {
 	 * @since 1.0.0
 	 *
 	 */
-	function better_amp_site_url( $path = '', $before_sp = '', $front_page_url = false ) {
+	function better_amp_site_url( $path = '', $before_sp = '', $front_page_url = null ) {
 
 		if ( better_amp_using_permalink_structure() ) {
 
 			$url_prefix = better_amp_permalink_prefix();
+
+			if(!isset($front_page_url)) {
+				$front_page_url = $path === '';
+			}
 
 			/**
 			 * Prepend permalink structure prefix before amp cause 404 error in search page
