@@ -479,6 +479,10 @@ class Better_AMP {
 
 		foreach ( $excluded_patterns as $url_format ) {
 
+			if ( empty( $url_format ) ) {
+				continue;
+			}
+
 			$url_format = trim( $url_format, '/' ); // throw surrounded slash away
 			// Format given url to valid PCRE regex
 			$pattern = better_amp_transpile_text_to_pattern( $url_format, '#' );

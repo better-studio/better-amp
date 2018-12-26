@@ -1051,12 +1051,19 @@ if ( ! function_exists( 'better_amp_set_excluded_url_format' ) ) {
 	 *
 	 * @hooked better-amp/url/excluded
 	 *
+	 * @param array $default
+	 *
 	 * @since  1.9.8
 	 * @return array
 	 */
-	function better_amp_set_excluded_url_format() {
+	function better_amp_set_excluded_url_format( $default ) {
 
-		return explode( "\n", better_amp_get_option( 'better-amp-excluded-url-struct', '' ) );
+		if ( $excluded = trim( better_amp_get_option( 'better-amp-excluded-url-struct', '' ) ) ) {
+
+			return explode( "\n", $excluded );
+		}
+
+		return $default;
 	}
 }
 
