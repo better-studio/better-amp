@@ -51,6 +51,10 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 
 == Changelog ==
 
+= 1.9.9 = 26 Dec 2018
+- Fixed: AMP Homepage redirects to non-AMP version.
+
+
 = 1.9.8 = 25 Dec 2018
 - Fixed: Too many redirects on search page.
 - Fixed: The home page incorrect url.
