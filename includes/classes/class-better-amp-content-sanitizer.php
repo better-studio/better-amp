@@ -448,35 +448,24 @@ class Better_AMP_Content_Sanitizer {
 	 */
 	public static function transform_to_none_amp_url( $url, $strict = false ) {
 
-		if ( ! better_amp_using_permalink_structure() ) {
+		if ( better_amp_using_permalink_structure() ) {
 
-			return remove_query_arg( Better_AMP::SLUG, $url );
-		}
+			if ( $strict ) {
 
-		if ( $strict ) {
+				$url = self::remove_end_point_amp( $url, $url );
+				$url = self::remove_start_point_amp( $url, $url );
 
-			$url = self::remove_end_point_amp( $url, $url );
-			$url = self::remove_start_point_amp( $url, $url );
+			} elseif ( better_amp_url_format() === 'end-point' ) {
 
-			return $url;
-		}
+				$url = self::remove_end_point_amp( $url, $url );
 
-		if ( better_amp_url_format() === 'end-point' ) {
+			} else {
 
-			if ( $transformed = self::remove_end_point_amp( $url ) ) {
-
-				return $transformed;
-			}
-
-		} else {
-
-			if ( $transformed = self::remove_start_point_amp( $url ) ) {
-
-				return $transformed;
+				$url = self::remove_start_point_amp( $url, $url );
 			}
 		}
 
-		return $url;
+		return remove_query_arg( Better_AMP::SLUG, $url );
 	}
 
 
@@ -1205,7 +1194,6 @@ class Better_AMP_Content_Sanitizer {
 					//@todo sanitize input elements
 				}
 			}
-
 
 
 			/**
