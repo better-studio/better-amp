@@ -51,6 +51,11 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 
 == Changelog ==
 
+= 1.9.10 = 5 Jan 2018
+- Fixed: Always remove AMP query var when transforming URL to non-AMP.
+- Fixed: Wrap text in a pre tags (BetterAMP)
+
+
 = 1.9.9 = 26 Dec 2018
 - Fixed: AMP Homepage redirects to non-AMP version.
 
