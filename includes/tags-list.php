@@ -14,6 +14,7 @@ $tags = array(
 	'amp-brightcove'            => '',
 	'amp-carousel'              => '',
 	'amp-dailymotion'           => '',
+	'amp-embed'                 => '',
 	'amp-experiment'            => '',
 	'amp-facebook'              => '',
 	'amp-fit-text'              => '',
