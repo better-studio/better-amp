@@ -467,7 +467,7 @@ function better_amp_guess_none_amp_url( $args = array() ) {
 		return home_url( remove_query_arg( 'amp' ) );
 	}
 
-	$current_url  = home_url( add_query_arg( false, false ) );
+	$current_url = better_amp_get_canonical_url();
 	$none_amp_url = Better_AMP_Content_Sanitizer::transform_to_none_amp_url( $current_url );
 
 	// Change query args from outside
