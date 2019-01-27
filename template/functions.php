@@ -80,6 +80,9 @@ function better_amp_custom_styles() {
 	a{
 	color: <?php echo $theme_color ?>;
 	}
+	.btn {
+		background: <?php echo $theme_color ?>;
+	}
 
 
 	/*
