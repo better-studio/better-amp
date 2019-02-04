@@ -57,6 +57,8 @@ class Better_AMP_Styles extends WP_Styles {
 
 		$this->print_inline_styles();
 
+		remove_filter( 'style_loader_tag', array( 'Jetpack', 'maybe_inline_style' ) );
+
 		parent::do_items( $handles, $group );
 	}
 
