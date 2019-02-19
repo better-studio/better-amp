@@ -1061,21 +1061,39 @@ if ( ! function_exists( 'better_amp_get_search_page_url' ) ) {
 	/**
 	 * Get AMP index page url
 	 *
-	 * @param string $path            Optional. Path relative to the site URL. Default empty.
-	 * @param string $before_sp .     Custom string to append before amp start point. Default empty.
-	 * @param bool   $front_page_url  Optional. see the following comment.
+	 * @param string $path                       Optional. Path relative to the site URL. Default empty.
+	 * @param string $before_sp                  .     Custom string to append before amp start point. Default empty.
+	 * @param bool   $front_page_url             Optional. see the following comment.
 	 *
-	 * @return string
+	 * @global array $better_amp_post_type_slugs list of custom post type rewrite slug @see better_amp_collect_post_type_slugs
+	 *
 	 * @since 1.0.0
-	 *
+	 * @return string
 	 */
 	function better_amp_site_url( $path = '', $before_sp = '', $front_page_url = null ) {
 
 		if ( better_amp_using_permalink_structure() ) {
 
-			$url_prefix = better_amp_permalink_prefix();
+			/**
+			 * Do not append permalink structure prefix on custom post type urls because The prefix
+			 * is just for default WordPress post type (post) and it can not stay before custom post type urls.
+			 *
+			 * @since 1.9.11
+			 */
+			if ( $url_prefix = better_amp_permalink_prefix() ) {
 
-			if(!isset($front_page_url)) {
+				global $better_amp_post_type_slugs;
+
+				// Grab all characters unit first slash
+				$maybe_post_slug_slug = substr( $path, 0, strpos( $path, '/' ) );
+
+				if ( $better_amp_post_type_slugs && in_array( $maybe_post_slug_slug, $better_amp_post_type_slugs ) ) { // is it a custom post type single permalink ?
+
+					$url_prefix = '';
+				}
+			}
+
+			if ( ! isset( $front_page_url ) ) {
 				$front_page_url = $path === '';
 			}
 
@@ -3106,5 +3124,31 @@ if ( ! function_exists( 'better_amp_excluded_urls_format' ) ) {
 	function better_amp_excluded_urls_format() {
 
 		return apply_filters( 'better-amp/url/excluded', array() );
+	}
+}
+
+
+add_action( 'registered_post_type', 'better_amp_collect_post_type_slugs', 8, 2 );
+
+if ( ! function_exists( 'better_amp_collect_post_type_slugs' ) ) {
+
+	/**
+	 * Collect list of custom post type rewrite slug.
+	 *
+	 * @param string       $post_type
+	 * @param WP_Post_Type $post_type_object
+	 *
+	 * @since 1.9.11
+	 *
+	 * @see   better_amp_site_url
+	 */
+	function better_amp_collect_post_type_slugs( $post_type, $post_type_object ) {
+
+		global $better_amp_post_type_slugs;
+
+		if ( ! empty( $post_type_object->rewrite['slug'] ) ) {
+
+			$better_amp_post_type_slugs[ $post_type ] = $post_type_object->rewrite['slug'];
+		}
 	}
 }
