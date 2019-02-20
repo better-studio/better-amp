@@ -51,6 +51,16 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 
 == Changelog ==
 
+= 1.9.11 = 25 Feb 2019
+- Added: AMP-Embed to valid tags.
+- Added: Buttons style added.
+
+- Fixed: Undefined index in JetPack.
+- Fixed: “View Desktop Version” Wrong link on WordPress Directory Installation
+- Fixed: DOMElement::setAttribute(): string is not in UTF-8
+- Fixed: 404 error on some pages with end-point
+
+
 = 1.9.10 = 5 Jan 2019
 - Fixed: Always remove AMP query var when transforming URL to non-AMP.
 - Fixed: Wrap text in a pre tags (BetterAMP)
