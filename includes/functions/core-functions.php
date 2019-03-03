@@ -649,7 +649,7 @@ if ( ! function_exists( 'bf_get_wp_installation_slug' ) ) {
 			// Strip off any file/query params from the path, appending the sub directory to the install
 			$path = preg_replace( '#/[^/]*$#i', '', $_SERVER['REQUEST_URI'] ) . $subdirectory;
 		} else {
-			$path = $_SERVER['REQUEST_URI'];
+			$path = '';
 		}
 
 		/**
