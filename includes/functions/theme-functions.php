@@ -1008,7 +1008,14 @@ if ( ! function_exists( 'better_amp_get_canonical_url' ) ) {
 
 		$parse = parse_url( home_url() );
 
-		return sprintf( '%s://%s%s', $parse['scheme'], $parse['host'], add_query_arg( false, false ) );
+		list( $url, ) = explode( '?', $_SERVER['REQUEST_URI'] );
+
+		$valid_queries = array_intersect_key( $_GET, array(
+			Better_AMP::STARTPOINT => '',
+			'bamp-skip-redirect'   => '',
+		) );
+
+		return sprintf( '%s://%s%s', $parse['scheme'], $parse['host'], add_query_arg( $valid_queries, $url ) );
 	}
 }
 
