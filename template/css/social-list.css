@@ -165,3 +165,9 @@ ul.social-list{
 .social-list .social-item.whatsapp a:hover {
     background-color: #00c462;
 }
+.social-list .social-item.instagram a {
+    background-color: #e1306c;
+}
+.social-list .social-item.instagram a:hover {
+    background-color: #c13584;
+}

@@ -339,6 +339,15 @@ function better_amp_customize_register( $wp_customizer ) {
 		'priority' => 24,
 	) );
 
+	$wp_customizer->add_setting( 'better-amp-instagram', array(
+		'default'   => '#',
+		'transport' => 'postMessage',
+	) );
+	$wp_customizer->add_control( 'better-amp-instagram', array(
+		'label'    => __( 'Instagram', 'better-amp' ),
+		'section'  => 'better-amp-sidebar-section',
+		'priority' => 24,
+	) );
 
 	/**
 	 * 2.5 Copyright text
