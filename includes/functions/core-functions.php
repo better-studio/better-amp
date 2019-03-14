@@ -36,15 +36,31 @@ if ( ! function_exists( 'is_better_amp' ) ) {
 
 			return false !== $wp_query->get( Better_AMP::STARTPOINT, false );
 
-
 		} elseif ( better_amp_using_permalink_structure() ) {
 
-			$path   = trim( dirname( $_SERVER['SCRIPT_NAME'] ), '/' );
+			$path = trim( dirname( $_SERVER['SCRIPT_NAME'] ), '/' );
+
+			/**
+			 * WPML Compatibility
+			 *
+			 * Append the language code after the path string when
+			 *
+			 * use 'Different languages in directories' wpml setting
+			 */
+			if ( function_exists( 'wpml_get_setting_filter' ) &&
+			     wpml_get_setting_filter( false, 'language_negotiation_type' ) ) {
+
+				if ( $current_lang = apply_filters( 'wpml_current_language', false ) ) {
+
+					$path .= "/$current_lang";
+				}
+			}
+
 			$amp_qv = defined( 'AMP_QUERY_VAR' ) ? AMP_QUERY_VAR : 'amp';
 
 			return preg_match( "#^/?$path/*(.*?)/$amp_qv/*$#", $_SERVER['REQUEST_URI'] )
-			          ||
-			          preg_match( "#^/?$path/*$amp_qv/*#", $_SERVER['REQUEST_URI'] );
+			       ||
+			       preg_match( "#^/?$path/*$amp_qv/*#", $_SERVER['REQUEST_URI'] );
 
 		} else {
 
@@ -633,7 +649,7 @@ if ( ! function_exists( 'bf_get_wp_installation_slug' ) ) {
 			// Strip off any file/query params from the path, appending the sub directory to the install
 			$path = preg_replace( '#/[^/]*$#i', '', $_SERVER['REQUEST_URI'] ) . $subdirectory;
 		} else {
-			$path = $_SERVER['REQUEST_URI'];
+			$path = '';
 		}
 
 		/**
