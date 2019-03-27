@@ -335,7 +335,12 @@ class Better_AMP_Content_Sanitizer {
 	 */
 	protected static function transform_to_end_point_amp( $url ) {
 
-		if ( ! preg_match( '#^https?://w*\.?' . self::regex_url() . '/?#', $url ) ) {
+		if ( ! preg_match( '#^https?://w*\.?' . self::regex_url() . '/?([^/]*)#', $url, $matched ) ) {
+
+			return false;
+		}
+
+		if ( $matched[1] === 'wp-content' ) { // Do not convert link  when started with wp-content
 
 			return false;
 		}
