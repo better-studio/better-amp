@@ -59,7 +59,9 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 - Fixed: “View Desktop Version” Wrong link on WordPress Directory Installation
 - Fixed: DOMElement::setAttribute(): string is not in UTF-8
 - Fixed: 404 error on some pages with end-point
-
+- Fixed: Wrong AMP pages redirect on WPML.
+- Fixed: Wrong false result on is_better_amp() early calls, when WPML with ‘Different languages in directories’ setting enabled
+- Fixed: Wrong wp directory installation detection
 
 = 1.9.10 = 5 Jan 2019
 - Fixed: Always remove AMP query var when transforming URL to non-AMP.
