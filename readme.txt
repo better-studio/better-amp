@@ -63,7 +63,7 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 - Fixed: Wrong false result on is_better_amp() early calls, when WPML with ‘Different languages in directories’ setting enabled
 - Fixed: Wrong wp directory installation detection
 - Fixed: Do not convert link  when started with wp-content
-- Fixed: Some start-point AMP URL issues
+- Fixed: Some end-point AMP URL issues
 - Fixed: Some start-point AMP URL issues
 
 = 1.9.10 = 5 Jan 2019
