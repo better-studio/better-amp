@@ -1069,7 +1069,7 @@ if ( ! function_exists( 'better_amp_get_search_page_url' ) ) {
 	 * Get AMP index page url
 	 *
 	 * @param string $path                       Optional. Path relative to the site URL. Default empty.
-	 * @param string $before_sp                  .     Custom string to append before amp start point. Default empty.
+	 * @param string $before_sp                  Custom string to append before amp start point. Default empty.
 	 * @param bool   $front_page_url             Optional. see the following comment.
 	 *
 	 * @global array $better_amp_post_type_slugs list of custom post type rewrite slug @see better_amp_collect_post_type_slugs
@@ -1079,7 +1079,7 @@ if ( ! function_exists( 'better_amp_get_search_page_url' ) ) {
 	 */
 	function better_amp_site_url( $path = '', $before_sp = '', $front_page_url = null ) {
 
-		if ( better_amp_using_permalink_structure() ) {
+		if ( $structure = better_amp_using_permalink_structure() ) {
 
 			/**
 			 * Do not append permalink structure prefix on custom post type urls because The prefix
@@ -1091,7 +1091,7 @@ if ( ! function_exists( 'better_amp_get_search_page_url' ) ) {
 
 				global $better_amp_post_type_slugs;
 
-				// Grab all characters unit first slash
+				// Grab all characters until first slash
 				$maybe_post_slug_slug = substr( $path, 0, strpos( $path, '/' ) );
 
 				if ( $better_amp_post_type_slugs && in_array( $maybe_post_slug_slug, $better_amp_post_type_slugs ) ) { // is it a custom post type single permalink ?
@@ -1104,6 +1104,12 @@ if ( ! function_exists( 'better_amp_get_search_page_url' ) ) {
 				$front_page_url = $path === '';
 			}
 
+			if ( ! empty( $path ) && $url_prefix && preg_match( '#^' . preg_quote( $url_prefix, '#' ) . '(.+)$#i', $path, $match ) ) {
+
+				$path      = $match[1];
+				$before_sp = str_replace( $match[1], '', $match[0] ) . $before_sp;
+			}
+
 			/**
 			 * Prepend permalink structure prefix before amp cause 404 error in search page
 			 * So we added $front_page_url parameter to bypass this functionality.
@@ -1111,23 +1117,16 @@ if ( ! function_exists( 'better_amp_get_search_page_url' ) ) {
 			 * @see     better_amp_permalink_prefix
 			 * @see     better_amp_get_search_page_url
 			 *
-			 * @example when structure is /topics/%post_id%/%postname/ and $front_page_url = false
+			 * @example when structure is /topics/%post_id%/%postname%/ and $front_page_url = false
 			 * Then the search page will be /topics/amp/?s which cause 404 error
 			 */
 			$url = trailingslashit( home_url( $front_page_url ? '' : $url_prefix ) );
 			$url .= $before_sp ? trailingslashit( $before_sp ) : '';
 			$url .= Better_AMP::STARTPOINT;
 
-
-			if ( ! empty( $path ) && $url_prefix && preg_match( '#^' . preg_quote( $url_prefix, '#' ) . '(.+)$#i', $path, $match ) ) {
-
-				$path = rtrim( $match[1], '/' );
-			}
-
 			if ( $path ) {
 
-				$path = ltrim( $path, '/' );
-				$url  .= "/$path";
+				$url .= '/' . ltrim( $path, '/' );
 			}
 
 		} else {
