@@ -706,12 +706,10 @@ if ( ! function_exists( 'better_amp_using_permalink_structure' ) ) {
 	 * Is custom permalink activated for this WP installation?
 	 *
 	 * @since 1.8.1
-	 * @return bool true if custom permalink activatived.
+	 * @return string  Custom structure	if custom permalink activated.
 	 */
 	function better_amp_using_permalink_structure() {
 
-		return (bool) get_option( 'permalink_structure' );
-
-
+		return get_option( 'permalink_structure' );
 	}
 }
