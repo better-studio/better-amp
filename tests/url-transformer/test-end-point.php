@@ -290,7 +290,7 @@ class Test_End_Point_URL_Transformer extends AMP_Test {
 	/**
 	 * @test
 	 */
-	public function convert_paginated_archive() {
+	public function convert_paginated_urls() {
 
 		$this->set_permalink_structure( '/%postname%/' );
 
@@ -300,5 +300,6 @@ class Test_End_Point_URL_Transformer extends AMP_Test {
 
 		$this->set_permalink_structure( '/topic/%postname%/' );
 		$this->assertEquals( site_url( '/topic/category/uncategorized/amp/page/2/' ), $this->convert( site_url( '/topic/category/uncategorized/page/2/' ) ) );
+		$this->assertEquals( site_url( '/topic/slug/amp/comment-page-2/' ), $this->convert( site_url( '/topic/slug/comment-page-2/' ) ) );
 	}
 }

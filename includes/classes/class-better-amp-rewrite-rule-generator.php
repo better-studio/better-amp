@@ -200,13 +200,18 @@ class Better_AMP_Rewrite_Rule_Generator {
 
 			list( $before, $after ) = explode( 'page/?([0-9]{1,})', $regex );
 
-			$match = $before . $ep[1] .'/page/?([0-9]{1,})' . $after;
+			$match = $before . $ep[1] . '/page/?([0-9]{1,})' . $after;
+
+		} elseif ( strstr( $regex, '/comment-page-([0-9]{1,})' ) ) {
+
+			list( $before, $after ) = explode( 'comment-page-([0-9]{1,})', $regex );
+
+			$match = $before . $ep[1] . '/comment-page-([0-9]{1,})' . $after;
 
 		} else {
 
 			$match = rtrim( $match, '/' ) . '/' . $ep[1] . '/?$';
 		}
-
 
 		return array( $match, $query );
 	}

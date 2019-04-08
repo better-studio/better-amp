@@ -364,9 +364,9 @@ class Better_AMP_Content_Sanitizer {
 
 		$url = sprintf( '%s://%s/%s', $parsed['scheme'], $parsed['host'], ltrim( $path, '/' ) );
 
-		if ( preg_match( '#(.*?)/page/(\d+)/*$#', $url, $matched ) ) {
+		if ( preg_match( '#(.*?)/(page/(\d+)|comment-page-([0-9]{1,}))/*$#', $url, $matched ) ) {
 
-			$url = trailingslashit( $matched[1] ) . Better_AMP::SLUG . '/page/' . $matched[2];
+			$url = trailingslashit( $matched[1] ) . Better_AMP::SLUG . '/' . $matched[2];
 		} else {
 
 			$url = trailingslashit( $url ) . Better_AMP::SLUG;

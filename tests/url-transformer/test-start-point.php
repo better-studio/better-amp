@@ -301,15 +301,17 @@ class Test_Start_Point_URL_Transformer extends AMP_Test {
 	/**
 	 * @test
 	 */
-	public function convert_paginated_archive() {
+	public function convert_paginated_urls() {
 
 		$this->set_permalink_structure( '/%postname%/' );
 
 		$this->assertEquals( site_url( '/amp/author/admin/page/2/' ), $this->convert( site_url( '/author/admin/page/2/' ) ) );
 		$this->assertEquals( site_url( '/amp/category/uncategorized/page/2/' ), $this->convert( site_url( '/category/uncategorized/page/2/' ) ) );
+		$this->assertEquals( site_url( '/amp/slug/comment-page-2/' ), $this->convert( site_url( '/slug/comment-page-2/' ) ) );
 
 
 		$this->set_permalink_structure( '/topic/%postname%/' );
 		$this->assertEquals( site_url( '/topic/amp/category/uncategorized/page/2/' ), $this->convert( site_url( '/topic/category/uncategorized/page/2/' ) ) );
+		$this->assertEquals( site_url( '/topic/amp/slug/comment-page-2/' ), $this->convert( site_url( '/topic/slug/comment-page-2/' ) ) );
 	}
 }
