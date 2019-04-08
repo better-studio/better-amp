@@ -225,16 +225,16 @@ class Better_AMP {
 	protected function apply_hooks() {
 
 		// Registers the AMP rewrite rules
-		add_filter( 'init', array( $this, 'add_rewrite' ) );
-		add_filter( 'init', array( $this, 'append_index_rewrite_rule' ) );
+		add_action( 'init', array( $this, 'add_rewrite' ) );
+		add_action( 'init', array( $this, 'append_index_rewrite_rule' ) );
 
-		add_filter( 'template_redirect', array( $this, 'plugins_compatibility' ) );
+		add_action( 'template_redirect', array( $this, 'plugins_compatibility' ) );
 
 		// Initialize AMP components
-		add_filter( 'init', array( $this, 'include_components' ) );
+		add_action( 'init', array( $this, 'include_components' ) );
 
 		// Changes page template file with AMP template file
-		add_action( 'template_include', array( $this, 'include_template_file' ), 9999 );
+		add_filter( 'template_include', array( $this, 'include_template_file' ), 9999 );
 
 		// override template file
 		add_filter( 'comments_template', array( $this, 'override_comments_template' ), 9999 );
@@ -269,7 +269,7 @@ class Better_AMP {
 
 		register_activation_hook( __FILE__, array( $this, 'install' ) );
 
-		add_action( 'request', array( $this, 'fix_search_page_queries' ) );
+		add_filter( 'request', array( $this, 'fix_search_page_queries' ) );
 		add_filter( 'redirect_canonical', array( $this, '_fix_prevent_extra_redirect_single_pagination' ) );
 
 		// Auto Redirect Mobile Users
@@ -279,7 +279,6 @@ class Better_AMP {
 		add_action( 'template_redirect', 'Better_AMP::init_json_ld', 1 );
 
 		$this->fix_front_page_display_options();
-
 
 		// Fire the modules
 		Better_Amp_Redirect_Router::Run();
@@ -312,8 +311,8 @@ class Better_AMP {
 	 */
 	public function fix_front_page_display_options() {
 
-		add_action( 'pre_option_page_on_front', array( $this, '_return_zero_in_amp' ) );
-		add_action( 'pre_option_show_on_front', array( $this, '_fix_show_on_front' ) );
+		add_filter( 'pre_option_page_on_front', array( $this, '_return_zero_in_amp' ) );
+		add_filter( 'pre_option_show_on_front', array( $this, '_fix_show_on_front' ) );
 	}
 
 
@@ -788,9 +787,7 @@ class Better_AMP {
 			}
 
 			apply_filters( 'better-amp/template/init', $theme_root );
-
 		}
-
 	}
 
 
