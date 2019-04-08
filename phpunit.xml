@@ -1,0 +1,21 @@
+<phpunit bootstrap="tests/bootstrap.php" colors="true"
+
+         convertErrorsToExceptions="true" convertNoticesToExceptions="true" convertWarningsToExceptions="true">
+    <testsuites>
+
+        <testsuite name="Test DC Website">
+
+            <directory prefix="test-" suffix=".php">./tests/</directory>
+            <exclude>tests/vendor</exclude>
+
+        </testsuite>
+
+    </testsuites>
+
+    <php>
+        <includePath>.</includePath>
+
+        <env name="stage" value="development"/>
+        <env name="db" value="amp-test"/>
+    </php>
+</phpunit>
