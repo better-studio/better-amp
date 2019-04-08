@@ -356,7 +356,16 @@ class Better_AMP_Content_Sanitizer {
 
 
 		$url = sprintf( '%s://%s/%s', $parsed['scheme'], $parsed['host'], ltrim( $path, '/' ) );
-		$url = trailingslashit( $url ) . Better_AMP::SLUG . '/';
+
+		if ( preg_match( '#(.*?)/page/(\d+)/*$#', $url, $matched ) ) {
+
+			$url = trailingslashit( $matched[1] ) . Better_AMP::SLUG . '/page/' . $matched[2];
+		} else {
+
+			$url = trailingslashit( $url ) . Better_AMP::SLUG;
+		}
+
+		$url .= $trailing_slash ? '/' : '';
 
 		if ( $query ) {
 			$url .= '?';
