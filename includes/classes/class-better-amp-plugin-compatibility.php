@@ -33,6 +33,8 @@ class Better_AMP_Plugin_Compatibility {
 
 		add_action( 'init', array( __CLASS__, 'fix_wpml_template_hooks' ) );
 
+		add_action( 'init', array( __CLASS__, 'wp_init' ) );
+
 		if ( ! is_better_amp() ) {
 			return;
 		}
@@ -155,6 +157,35 @@ class Better_AMP_Plugin_Compatibility {
 		remove_action( 'init', 'wpspgrpro_init_minify_html', 1 );
 	}
 
+
+	public static function wp_init() {
+
+		if ( class_exists( 'wpForo' ) ) {
+
+			add_filter( 'better-amp/amp-version-exists', array( __CLASS__, 'wpforo_amp_exists' ) );
+		}
+	}
+
+
+	/**
+	 * wpforo plugin compatibility.
+	 *
+	 *
+	 * @link https://wordpress.org/plugins/wpforo/
+	 *
+	 * @param bool $exists
+	 *
+	 * @return bool
+	 */
+	public static function wpforo_amp_exists( $exists ) {
+
+		if ( ! $exists || is_wpforo_page() ) {
+
+			return false;
+		}
+
+		return $exists;
+	}
 
 	/**
 	 * Convert Plug plugin

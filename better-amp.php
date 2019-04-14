@@ -376,7 +376,7 @@ class Better_AMP {
 
 		if ( $this->is_amp_excluded_by_url() ) {
 
-			return false;
+			return apply_filters( 'better-amp/amp-version-exists', false );
 		}
 
 		if ( ! isset( $filters ) ) {
@@ -409,26 +409,26 @@ class Better_AMP {
 
 			if ( get_post_meta( $post_id, 'disable-better-amp', true ) || isset( $this->excluded_posts_id[ $post_id ] ) ) {
 
-				return false;
+				return apply_filters( 'better-amp/amp-version-exists', false );
 			}
 		}
 
 		if ( empty( $filters ) ) {
-			return true;
+			return apply_filters( 'better-amp/amp-version-exists', true );
 		}
 
 		if ( is_home() || is_front_page() ) {
 
-			return ! $filters['disabled_homepage'];
+			return apply_filters( 'better-amp/amp-version-exists', ! $filters['disabled_homepage'] );
 		}
 
 		if ( is_search() ) {
-			return ! $filters['disabled_search'];
+			return apply_filters( 'better-amp/amp-version-exists', ! $filters['disabled_search'] );
 		}
 
 		if ( is_singular() ) {
 
-			return ! in_array( get_queried_object()->post_type, $filters['disabled_post_types'] );
+			return apply_filters( 'better-amp/amp-version-exists', ! in_array( get_queried_object()->post_type, $filters['disabled_post_types'] ) );
 		}
 
 		if ( is_post_type_archive() ) {
@@ -445,18 +445,19 @@ class Better_AMP {
 
 			} else {
 
-				return false;
+				return apply_filters( 'better-amp/amp-version-exists', false );
 			}
 
-			return ! in_array( $post_type, $filters['disabled_post_types'] );
+			return apply_filters( 'better-amp/amp-version-exists', ! in_array( $post_type, $filters['disabled_post_types'] ) );
+
 		}
 
 		if ( is_tax() || is_category() || is_tag() ) {
 
-			return ! in_array( get_queried_object()->taxonomy, $filters['disabled_taxonomies'] );
+			return apply_filters( 'better-amp/amp-version-exists', ! in_array( get_queried_object()->taxonomy, $filters['disabled_taxonomies'] ) );
 		}
 
-		return true;
+		return apply_filters( 'better-amp/amp-version-exists', true );
 	}
 
 
