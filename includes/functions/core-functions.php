@@ -577,12 +577,13 @@ function better_amp_css_sanitizer( $css ) {
 	);
 
 	$pattern = '/((?:' . implode( '|', $invalid_properties ) . ')\s* :[^;]+ ;? \n*\t* )+/xs';
-	$func    = create_function( '$var', 'return substr( $var[1], - 1 ) === \'}\' ? \'}\' : \'\';' );
-	$css     = preg_replace_callback( $pattern, $func, $css );
+	$css     = preg_replace_callback( $pattern, function ( $var ) {
+
+		return substr( $var[1], - 1 ) === '}' ? '}' : '';
+	}, $css );
 
 	return $css;
 }
-
 
 /**
  * Converts parsed URL to printable link
