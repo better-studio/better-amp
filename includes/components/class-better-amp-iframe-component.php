@@ -521,6 +521,10 @@ class Better_AMP_iFrame_Component implements Better_AMP_Component_Interface {
 			}
 		}
 
+		if ( isset( $attributes['width'] ) ) {
+			$results['width'] = $attributes['width'];
+		}
+
 		return $results;
 	}
 
