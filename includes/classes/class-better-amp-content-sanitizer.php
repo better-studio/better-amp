@@ -936,7 +936,7 @@ class Better_AMP_Content_Sanitizer {
 
 						if ( ! empty( $atts['value_url'] ) ) {
 
-							$val    = isset( $element_atts[ $atts['name'] ] ) ? htmlentities( $element_atts[ $atts['name'] ] ) : null;
+							$val    = isset( $element_atts[ $atts['name'] ] ) ? wp_check_invalid_utf8( $element_atts[ $atts['name'] ] ) : null;
 							$parsed = $val ? parse_url( $val ) : array();
 
 
