@@ -527,8 +527,8 @@ class Better_AMP_Rewrite_Rule_Generator {
 					continue;
 				}
 
-
-				if ( strstr( $regex, '(.?.+?)(?:/([0-9]+))?' ) ) {
+				if ( strstr( $regex, '(.?.+?)(?:/([0-9]+))?' ) &&
+				     ! $this->numeric_permalink_structure() ) {
 
 					$this->top_level_rules[ $rule[0] ] = $rule[1];
 
@@ -628,6 +628,26 @@ class Better_AMP_Rewrite_Rule_Generator {
 		}
 
 		return $url_prefix;
+	}
+
+	/**
+	 * Dose permalink structure contian any numberic rewrite tag like: %year%, %monthnum%, %day%, ...
+	 *
+	 * @return bool
+	 */
+	protected function numeric_permalink_structure() {
+
+		global $wp_rewrite;
+
+		static $result;
+
+		if ( ! isset( $result ) ) {
+
+			$permalink_structure = str_replace( $wp_rewrite->rewritecode, $wp_rewrite->rewritereplace, get_option( 'permalink_structure' ) );
+			$result              = strstr( $permalink_structure, '([0-9]' ) !== false;
+		}
+
+		return $result;
 	}
 }
 
