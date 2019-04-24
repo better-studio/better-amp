@@ -27,9 +27,13 @@ better_amp_enqueue_block_style( 'sidebar' );
 				<?php echo $site_branding['name']; // escaped before ?>
 			</div>
 
-			<div class="brand-description">
-				<?php echo $site_branding['description']; // escaped before ?>
-			</div>
+			<?php if ( better_amp_get_theme_mod( 'better-amp-tagline-show' ) ) { ?>
+
+				<div class="brand-description">
+					<?php echo $site_branding['description']; // escaped before ?>
+				</div>
+
+			<?php } ?>
 
 		</div>
 

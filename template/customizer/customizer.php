@@ -257,6 +257,20 @@ function better_amp_customize_register( $wp_customizer ) {
 		) );
 	}
 
+	/**
+	 * 2.4 Show Site Tagline
+	 */
+	$wp_customizer->add_setting( 'better-amp-tagline-show', array(
+		'transport' => 'postMessage',
+		'default'   => better_amp_get_default_theme_setting( 'better-amp-tagline-show' ),
+	) );
+	$wp_customizer->add_control( new AMP_Customize_Switch_Control( $wp_customizer, 'better-amp-tagline-show', array(
+		'label'    => __( 'Show Tagline', 'better-amp' ),
+		'section'  => 'better-amp-sidebar-section',
+		'priority' => 13,
+	) ) );
+
+
 	$wp_customizer->add_setting( 'better-amp-sidebar-logo-img', array(
 		'default'   => better_amp_get_default_theme_setting( 'better-amp-sidebar-logo-img' ),
 		'transport' => 'postMessage',
@@ -295,7 +309,7 @@ function better_amp_customize_register( $wp_customizer ) {
 
 
 	/**
-	 * 2.4 Social icons
+	 * 2.5 Social icons
 	 */
 	$wp_customizer->add_setting( 'better-amp-sidebar-divider-2', array() );
 	$wp_customizer->add_control( new AMP_Customize_Divider_Control( $wp_customizer, 'better-amp-sidebar-divider-2', array(
@@ -341,7 +355,7 @@ function better_amp_customize_register( $wp_customizer ) {
 
 
 	/**
-	 * 2.5 Copyright text
+	 * 2.6 Copyright text
 	 */
 	$wp_customizer->add_setting( 'better-amp-sidebar-footer-text', array(
 		'default'   => better_amp_get_default_theme_setting( 'better-amp-sidebar-footer-text' ),

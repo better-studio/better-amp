@@ -81,7 +81,7 @@ function better_amp_custom_styles() {
 	color: <?php echo $theme_color ?>;
 	}
 	.btn {
-		background: <?php echo $theme_color ?>;
+	background: <?php echo $theme_color ?>;
 	}
 
 
@@ -133,6 +133,7 @@ function better_amp_get_default_theme_setting( $setting_id, $setting_index = '' 
 		'better-amp-header-sticky'                 => true,
 		//
 		'better-amp-sidebar-show'                  => true,
+		'better-amp-tagline-show'                  => true,
 		'better-amp-sidebar-logo-text'             => '',
 		'better-amp-sidebar-logo-img'              => '',
 		'better-amp-facebook'                      => '#',

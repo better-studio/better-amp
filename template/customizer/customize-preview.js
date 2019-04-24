@@ -37,6 +37,14 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         });
 
+
+        c('better-amp-tagline-show', function (value) {
+            value.bind(function (to) {
+                $(".brand-description")[to === '0' ? 'hide' : 'show']();
+                openSidebar();
+            });
+        });
+
         c('better-amp-sidebar-logo-img', function (value) {
             value.bind(openSidebar);
         });
