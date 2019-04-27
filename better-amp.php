@@ -802,6 +802,7 @@ class Better_AMP {
 
 		include BETTER_AMP_INC . 'components/class-better-amp-img-component.php';
 		include BETTER_AMP_INC . 'components/class-better-amp-iframe-component.php';
+		include BETTER_AMP_INC . 'components/class-better-amp-instagram-component.php';
 		include BETTER_AMP_INC . 'components/class-better-amp-carousel-component.php';
 
 	}
