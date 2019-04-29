@@ -146,6 +146,7 @@ class Better_AMP_Plugin_Compatibility {
 		 */
 		add_action( 'template_redirect', array( __CLASS__, 'squirrly_seo' ) );
 
+		add_action( 'wpbuddy/rich_snippets/frontend/init', array( __CLASS__, 'rich_snippets' ) );
 	}
 
 
@@ -384,6 +385,25 @@ class Better_AMP_Plugin_Compatibility {
 		remove_filter( 'sq_canonical', array( $object, 'packCanonical' ), 99 );
 
 		add_action( 'sq_canonical', array( __class__, 'return_rel_canonical' ), 99 );
+	}
+
+	/**
+	 * Snip - The Rich Snippets & Structured Data Plugin Compatibility
+	 *
+	 * @param Frontend_Controller $instance
+	 *
+	 * @since 1.9.12
+	 */
+	public static function rich_snippets( $instance ) {
+
+		if ( get_option( 'wpb_rs/settings/snippets_in_footer', true ) ) {
+
+			add_action( 'better-amp/template/footer', array( $instance, 'print_snippets' ) );
+
+		} else {
+
+			add_action( 'better-amp/template/head', array( $instance, 'print_snippets' ) );
+		}
 	}
 
 	public static function return_rel_canonical() {

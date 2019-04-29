@@ -1104,11 +1104,18 @@ class Better_AMP_Content_Sanitizer {
 					for ( $i = $elements->length - 1; $i >= 0; $i -- ) {
 						$element = $elements->item( $i );
 
-						if ( $tag_name === 'script' && $element->parentNode->tagName === 'amp-analytics' ) {
+						if ( $tag_name === 'script' ) {
 
 							$atts = self::get_node_attributes( $element );
 
-							if ( isset( $atts['type'] ) && $atts['type'] === 'application/json' ) {
+							if ( $element->parentNode->tagName === 'amp-analytics' ) {
+
+								if ( isset( $atts['type'] ) && $atts['type'] === 'application/json' ) {
+									continue;
+								}
+
+							} elseif ( isset( $atts['type'] ) && 'application/ld+json' === $atts['type'] ) {
+
 								continue;
 							}
 						}
