@@ -3,8 +3,8 @@ Contributors: betterstudio
 Donate link: http://betterstudio.com/
 Tags: amp,accelerated mobile pages, mobile theme, google amp
 Requires at least: 3.0
-Tested up to: 5.0
-Stable tag: 4.9.5
+Tested up to: 5.1.1
+Stable tag: 5.1.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -50,6 +50,15 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 5. Page (Contact page) + 404 page
 
 == Changelog ==
+
+= 1.9.12 = 4 May 2019
+- Added: Show/Hide Tagline Feature
+- Added: Support for instagram embedded code
+- Added: Snip Plugin Compatibility
+
+- Fixed: Wrong link url with special characters
+- Fixed: Box ratio of Youtube and iFrame video
+
 
 = 1.9.11 = 15 Apr 2019
 - Added: AMP-Embed to valid tags.
