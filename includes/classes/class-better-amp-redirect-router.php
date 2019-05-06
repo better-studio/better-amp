@@ -120,7 +120,7 @@ class Better_Amp_Redirect_Router {
 
 		list( $url ) = explode( '?', $url );
 
-		return ! empty( $url ) && trim( str_replace( home_url(), '', $url ), '/' ) !== trim( $this->request_url, '/' );
+		return ! empty( $url ) && trim( str_replace( get_option( 'home' ), '', $url ), '/' ) !== trim( $this->request_url, '/' );
 	}
 
 	/**
