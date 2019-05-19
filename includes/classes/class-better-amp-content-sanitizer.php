@@ -1244,6 +1244,7 @@ class Better_AMP_Content_Sanitizer {
 
 			);
 			foreach ( $replaceTags as $tag_name => $tag_info ) {
+
 				$elements = $body->getElementsByTagName( $tag_name );
 
 				if ( $elements->length ) {
@@ -1257,30 +1258,54 @@ class Better_AMP_Content_Sanitizer {
 
 						$element = $elements->item( $i );
 
-						if ( $element->parentNode->tagName !== 'noscript' ) {
+						if ( $element->parentNode->tagName === 'noscript' ) {
+							continue;
+						}
 
-							if ( ! $source = $element->getAttribute( 'src' ) ) {
 
-								if ( ! $source = Better_AMP_HTML_Util::get_child_tag_attribute( $element, 'source', 'src' ) ) {
+						if ( ! $source = $element->getAttribute( 'src' ) ) {
 
-									$source = Better_AMP_HTML_Util::get_child_tag_attribute( $element, 'a', 'href' );
-								}
+							if ( ! $source = Better_AMP_HTML_Util::get_child_tag_attribute( $element, 'source', 'src' ) ) {
+
+								$source = Better_AMP_HTML_Util::get_child_tag_attribute( $element, 'a', 'href' );
 							}
+						}
 
-							if ( empty( $source ) || ! preg_match( '#^\s*https://#', $source ) ) {
+						if ( empty( $source ) || ! preg_match( '#^\s*https://#', $source ) ) {
 
-								self::remove_element( $element );
-								continue;
-							}
+							self::remove_element( $element );
+							continue;
+						}
 
-							$element->setAttribute( 'src', $source );
-							Better_AMP_HTML_Util::renameElement( $element, $tag_info[0] );
 
-							if ( $enqueue ) {
+						$element->setAttribute( 'src', $source );
 
-								better_amp_enqueue_script( $tag_info[0], $tag_info[1] );
-								$enqueue = false;
-							}
+						// Fix width
+
+						if ( preg_match( '/(\d+)\%/', $element->getAttribute( 'width' ), $match ) ) {
+
+							$content_width = 780;//$GLOBALS['content_width'];
+							$element->setAttribute(
+								'width',
+								floor( $content_width * $match[1] / 100 )
+							);
+						}
+
+						// Fix height
+						if ( 'auto' === $element->getAttribute( 'height' ) ) {
+							$element->setAttribute(
+								'height',
+								floor( $element->getAttribute( 'width' ) * 0.85 )
+							);
+						}
+
+
+						Better_AMP_HTML_Util::renameElement( $element, $tag_info[0] );
+
+						if ( $enqueue ) {
+
+							better_amp_enqueue_script( $tag_info[0], $tag_info[1] );
+							$enqueue = false;
 						}
 					}
 				}
