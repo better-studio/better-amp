@@ -1562,6 +1562,10 @@ class Better_AMP {
 
 		$post_id = isset( $post->ID ) ? $post->ID : $post;
 
+		if ( 'page' == $this->get_option( 'show_on_front' ) && $post_id == $this->get_option( 'page_on_front' ) ) {
+			$url = home_url( '/' );
+		}
+
 		if ( isset( $this->excluded_posts_id[ $post_id ] ) ) {
 			return $url;
 		}
