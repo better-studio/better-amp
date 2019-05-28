@@ -199,7 +199,29 @@ class Better_AMP_HTML_Util extends DOMDocument {
 			$attributes['height'] = Better_AMP_Content_Sanitizer::sanitize_dimension( $attributes['height'], 'height' );
 		}
 
+		if ( empty( $attributes['src'] ) ) {
+
+			if ( ! empty( $attributes['data-src'] ) && $this->is_valid_url( $attributes['data-src'] ) ) {
+
+				$attributes['src'] = $attributes['data-src'];
+			}
+		}
+
 		return $attributes;
+	}
+
+
+	/**
+	 * Is given url valid?
+	 *
+	 * @param string $url
+	 *
+	 * @since 1.9.13
+	 * @return bool
+	 */
+	public function is_valid_url( $url ) {
+
+		return preg_match( '#^(?: https?:)?// (?: w{3}.)? (.*?)/*$#ix', $url );
 	}
 
 
