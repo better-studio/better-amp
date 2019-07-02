@@ -352,24 +352,53 @@ class Better_AMP_IMG_Component extends Better_AMP_Component_Base implements Bett
 	 */
 	public function get_image_dimension( $url ) {
 
-		if ( ! ( $url = $this->normalize_url( $url ) ) ) {
-			return FALSE;
+		$hash_key = 'better_amp_dimension_' . md5( $url );
+
+		if ( $dimension = get_transient( $hash_key ) ) {
+
+			return $dimension;
 		}
 
-		$url_hash = md5( $url );
+		if ( $normalize_url = $this->normalize_url( $url ) ) {
 
-		if ( ! ( $dimension = get_transient( 'better_amp_dimension_' . $url_hash ) ) ) {
-			if ( $dimension = $this->fetch_image_dimension( $url ) ) {
-				set_transient( 'better_amp_dimension_' . $url_hash, $dimension, HOUR_IN_SECONDS );
-			} else {
-				$dimension = array(
-					650, // fallback for width
-					400, // fallback for height
-				);
+			$dimension = $this->fetch_image_dimension( $normalize_url );
+
+		} elseif ( $this->is_data_url( $url ) ) {
+
+			if ( $size = @getimagesize( $url ) ) {
+
+				$dimension = [ $size[0], $size[1] ];
 			}
 		}
 
+
+		if ( $dimension ) {
+
+			set_transient( $hash_key, $dimension, HOUR_IN_SECONDS );
+
+		} else {
+
+			$dimension = array(
+				650, // fallback for width
+				400, // fallback for height
+			);
+		}
+
 		return $dimension;
+	}
+
+
+	/**
+	 * Is url a data url?
+	 *
+	 * @param string $url The url to check.
+	 *
+	 * @since 1.9.13
+	 * @return bool true on success.
+	 */
+	public function is_data_url( $url ) {
+
+		return (bool) preg_match( '#^\s*data\:.+#', $url );
 	}
 
 
