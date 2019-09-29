@@ -1164,7 +1164,7 @@ class Better_AMP_Content_Sanitizer {
 
 					$element_atts = self::get_node_attributes( $element );
 
-					if ( ! empty( $element_atts['action'] ) ) {
+					if ( isset( $element_atts['action'] ) ) {
 
 						$element->removeAttribute( 'action' );
 						$action = $element_atts['action'];
