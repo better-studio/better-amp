@@ -711,6 +711,6 @@ if ( ! function_exists( 'better_amp_using_permalink_structure' ) ) {
 	 */
 	function better_amp_using_permalink_structure() {
 
-		return get_option( 'permalink_structure' );
+		return apply_filters( 'better-amp/url/custom-permalink-structure', get_option( 'permalink_structure' ) );
 	}
 }
