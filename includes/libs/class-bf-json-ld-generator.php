@@ -518,7 +518,7 @@ class BF_Json_LD_Generator {
 					// Change to product to be valid!
 					//
 					$schema['name']         = $schema['headline'];
-					$schema['thumbnailUrl'] = $schema['image'] ? $schema['image']['url'] : '';
+					$schema['thumbnailUrl'] = ! empty( $schema['image']['url'] ) ? $schema['image']['url'] : '';
 					$schema['uploadDate']   = $schema['datePublished'];
 					unset(
 						$schema['headline'],
