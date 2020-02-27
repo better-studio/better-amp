@@ -202,10 +202,15 @@ class FastImage {
 
 
 	private function getByte() {
-		$c = $this->getChars( 1 );
-		$b = unpack( "C", $c );
 
-		return reset( $b );
+		if ( $c = $this->getChars( 1 ) ) {
+
+			$b = unpack( "C", $c );
+
+			return reset( $b );
+		}
+
+		return false;
 	}
 
 
