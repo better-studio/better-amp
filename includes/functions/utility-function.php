@@ -192,3 +192,37 @@ if ( ! function_exists( 'better_amp_transpile_text_to_pattern' ) ) {
 		return $pattern;
 	}
 }
+
+if ( ! function_exists( 'mb_parse_url' ) ) {
+
+
+	/**
+	 * Parse a URL and return its components.
+	 *
+	 * @param string $url
+	 * @param int    $component
+	 *
+	 * @since 1.9.13
+	 * @return array|string|false
+	 */
+	function mb_parse_url( $url, $component = - 1 ) {
+
+		$encodedUrl = preg_replace_callback( '%[^:/@?&=#]+%usD', function ( $matches ) {
+			return urlencode( $matches[0] );
+		}, $url );
+
+		$parts = parse_url( $encodedUrl, $component );
+
+		if ( $parts === false ) {
+
+			throw new \InvalidArgumentException( 'Malformed URL: ' . $url );
+		}
+
+		if ( ! empty( $parts ) && is_array( $parts ) ) {
+
+			$parts = array_map( 'urldecode', $parts );
+		}
+
+		return $parts;
+	}
+}

@@ -346,7 +346,7 @@ class Better_AMP_Content_Sanitizer {
 			return false;
 		}
 
-		$parsed = parse_url( $url );
+		$parsed = mb_parse_url( $url );
 		$path   = isset( $parsed['path'] ) ? $parsed['path'] : '/';
 		$query  = isset( $parsed['query'] ) ? $parsed['query'] : '';
 
@@ -548,7 +548,7 @@ class Better_AMP_Content_Sanitizer {
 			return $default;
 		}
 
-		$parsed = parse_url( $url );
+		$parsed = mb_parse_url( $url );
 
 		if ( empty( $parsed['path'] ) ) {
 			return $default;
@@ -937,7 +937,7 @@ class Better_AMP_Content_Sanitizer {
 						if ( ! empty( $atts['value_url'] ) ) {
 
 							$val    = isset( $element_atts[ $atts['name'] ] ) ? wp_check_invalid_utf8( $element_atts[ $atts['name'] ] ) : null;
-							$parsed = $val ? parse_url( $val ) : array();
+							$parsed = $val ? mb_parse_url( $val ) : array();
 
 
 							// check empty url value
@@ -1179,7 +1179,7 @@ class Better_AMP_Content_Sanitizer {
 
 					if ( $action ) {
 
-						$parsed_action = parse_url( $action );
+						$parsed_action = mb_parse_url( $action );
 						if ( ! isset( $parsed_action['schema'] ) && ! empty( $parsed_action['path'] ) ) {
 
 							$action_xhr = $parsed_action['path'];
@@ -1329,10 +1329,10 @@ class Better_AMP_Content_Sanitizer {
 		static $current_url_parsed;
 
 		if ( ! $current_url_parsed ) {
-			$current_url_parsed = parse_url( site_url() );
+			$current_url_parsed = mb_parse_url( site_url() );
 		}
 
-		$parsed_url = parse_url( $url );
+		$parsed_url = mb_parse_url( $url );
 
 		if ( ! isset( $parsed_url['host'] ) || $parsed_url['host'] === $current_url_parsed['host'] ) {
 

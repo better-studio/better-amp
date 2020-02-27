@@ -1006,7 +1006,7 @@ if ( ! function_exists( 'better_amp_get_canonical_url' ) ) {
 	 */
 	function better_amp_get_canonical_url() {
 
-		$parse = parse_url( home_url() );
+		$parse = mb_parse_url( home_url() );
 
 		list( $url, ) = explode( '?', $_SERVER['REQUEST_URI'] );
 

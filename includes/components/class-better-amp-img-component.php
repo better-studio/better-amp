@@ -426,7 +426,7 @@ class Better_AMP_IMG_Component extends Better_AMP_Component_Base implements Bett
 			return set_url_scheme( $url, 'http' );
 		}
 
-		$parsed = parse_url( $url );
+		$parsed = mb_parse_url( $url );
 
 		if ( ! isset( $parsed['host'] ) ) {
 
