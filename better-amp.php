@@ -1107,7 +1107,7 @@ class Better_AMP {
 
 	/**
 	 * Callback: Fire better_amp_head() and print buffered output
-	 * Action  : better-amp/template/head
+	 * Action  : better-amp/template/footer
 	 *
 	 * @see   buffer_better_amp_head_start
 	 *
