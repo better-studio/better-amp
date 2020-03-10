@@ -134,6 +134,7 @@ class Better_AMP_Component extends Better_AMP_Component_Base {
 			$this->component->config(),
 			array(
 				'shortcodes' => array(),
+				'blocks'     => array(),
 				'scripts'    => array(),
 			)
 		);
@@ -156,6 +157,10 @@ class Better_AMP_Component extends Better_AMP_Component_Base {
 			add_shortcode( $shortcode, $callback );
 		}
 
+		foreach ( $config['blocks'] as $name => $render_callback ) {
+
+			register_block_type( $name, compact( 'render_callback' ) );
+		}
 	}
 
 

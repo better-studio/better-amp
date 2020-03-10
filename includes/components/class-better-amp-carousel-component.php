@@ -36,6 +36,9 @@ class Better_AMP_Carousel_Component extends Better_AMP_Component_Base implements
 				'gallery'           => array( $this, 'handle_gallery' ),
 				'better-amp-slider' => array( $this, 'handle_slider' ),
 			),
+			'blocks' => array(
+				'core/gallery'           => array( $this, 'handle_gallery' ),
+			),
 			'scripts'    => array(
 				'amp-carousel' => 'https://cdn.ampproject.org/v0/amp-carousel-0.1.js'
 			)
