@@ -1143,6 +1143,29 @@ class Better_AMP_Content_Sanitizer {
 			}
 
 			/**
+			 * Sanitize hyperlinks
+			 *
+			 * @var DOMNodeList $elements
+			 */
+
+			$elements = $body->getElementsByTagName( 'a' );
+
+			if ( $elements->length ) {
+
+				for ( $i = $elements->length - 1; $i >= 0; $i -- ) {
+
+					$element = $elements->item( $i );
+
+					if ( ! $this->is_valid_url( $element->getAttribute( 'href' ) ) ) {
+
+						$this->remove_element_attributes( $element );
+
+						Better_AMP_HTML_Util::renameElement( $element, 'span' );
+					}
+				}
+			}
+
+			/**
 			 * Sanitize Form Tag
 			 */
 
@@ -1494,11 +1517,14 @@ class Better_AMP_Content_Sanitizer {
 
 		for ( $i = 0; $i < $length; $i ++ ) {
 
-			$element = $elements->item( $i );
-
-			$attributes = Better_AMP_HTML_Util::get_node_attributes( $element );
-			$this->dom->remove_attributes( $element, array_keys( $attributes ) ); // Remove invalid attributes
+			$this->remove_element_attributes( $elements->item( $i ) );
 		}
+	}
+
+	protected function remove_element_attributes( $element ) {
+
+		$attributes = Better_AMP_HTML_Util::get_node_attributes( $element );
+		$this->dom->remove_attributes( $element, array_keys( $attributes ) ); // Remove invalid attributes
 	}
 
 
@@ -1533,5 +1559,22 @@ class Better_AMP_Content_Sanitizer {
 				self::$none_amp_urls['general'][ $url ] = true;
 			}
 		}
+	}
+
+	/**
+	 * Is the given url valid?
+	 *
+	 * @param string $url
+	 *
+	 * @return bool true when valid.
+	 */
+	public static function is_valid_url( $url ) {
+
+		if ( preg_match( '#^(?:https?\:)?//(.+)#', $url, $match ) ) {
+
+			return ! ! filter_var( 'https://' . $match[1], FILTER_VALIDATE_URL );
+		}
+
+		return true;
 	}
 }
