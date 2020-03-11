@@ -1255,7 +1255,7 @@ class Better_AMP_Content_Sanitizer {
 			 * Replace audio/video tag with amp-audio/video
 			 */
 
-			$replaceTags = array(
+			$replaceTags   = array(
 
 				'audio' => array(
 					'amp-audio',
@@ -1267,6 +1267,9 @@ class Better_AMP_Content_Sanitizer {
 				)
 
 			);
+			$content_width = 780;//$GLOBALS['content_width'];
+
+
 			foreach ( $replaceTags as $tag_name => $tag_info ) {
 
 				$elements = $body->getElementsByTagName( $tag_name );
@@ -1304,25 +1307,38 @@ class Better_AMP_Content_Sanitizer {
 
 						$element->setAttribute( 'src', $source );
 
-						// Fix width
 
-						if ( preg_match( '/(\d+)\%/', $element->getAttribute( 'width' ), $match ) ) {
+						if ( $tag_name === 'video' ) {
+							$width = $element->getAttribute( 'width' );
 
-							$content_width = 780;//$GLOBALS['content_width'];
-							$element->setAttribute(
-								'width',
-								floor( $content_width * $match[1] / 100 )
-							);
+							if ( empty( $width ) ) {
+
+								$element->setAttribute(
+									'width',
+									$content_width
+								);
+							}
+
+
+							if ( preg_match( '/(\d+)\%/', $width, $match ) ) {
+
+								$element->setAttribute(
+									'width',
+									floor( $content_width * $match[1] / 100 )
+								);
+							}
+
+							// Fix height
+							$height = $element->getAttribute( 'height' );
+
+							if ( 'auto' === $height || empty( $height ) ) {
+								$element->setAttribute(
+									'height',
+									floor( $element->getAttribute( 'width' ) * 0.85 )
+								);
+							}
+
 						}
-
-						// Fix height
-						if ( 'auto' === $element->getAttribute( 'height' ) ) {
-							$element->setAttribute(
-								'height',
-								floor( $element->getAttribute( 'width' ) * 0.85 )
-							);
-						}
-
 
 						Better_AMP_HTML_Util::renameElement( $element, $tag_info[0] );
 
