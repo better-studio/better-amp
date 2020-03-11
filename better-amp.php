@@ -87,17 +87,6 @@ class Better_AMP {
 
 
 	/**
-	 * Store better_amp_head action callbacks
-	 *
-	 * @see   collect_and_remove_better_amp_head_actions
-	 * @var array
-	 *
-	 * @since 1.0.0
-	 */
-	private $_head_actions;
-
-
-	/**
 	 * Store array of posts id to exlucde transform permalinks to amp
 	 *
 	 * Array structure: array {
@@ -107,7 +96,6 @@ class Better_AMP {
 	 *
 	 * @see   transform_post_link_to_amp
 	 *
-	 * @since 1.1
 	 * @var array
 	 */
 	public $excluded_posts_id = array();
@@ -115,8 +103,7 @@ class Better_AMP {
 	/**
 	 * Get live instance of Better AMP
 	 *
-	 * @since 1.0.0
-	 *
+	 * @since 1.1
 	 * @return self
 	 */
 	public static function get_instance() {
@@ -256,8 +243,8 @@ class Better_AMP {
 		add_action( 'better-amp/template/head', array( $this, 'trigger_component_head' ), 0 );
 
 		// Collect all output to can enqueue only needed scripts and styles in pages.
-		add_action( 'better-amp/template/head', array( $this, 'buffer_better_amp_head_start' ), 1 );
-		add_action( 'better-amp/template/footer', array( $this, 'buffer_better_amp_head_end' ), 999 );
+		add_filter( 'template_include', array( $this, 'buffer_better_amp_start' ), 1 );
+		add_action( 'better-amp/template/footer', array( $this, 'buffer_better_amp_end' ), 999 );
 
 		// Collect and rollback all main query posts to disable thirdparty codes to change main query!
 		// action after 1000 priority can work
@@ -525,12 +512,13 @@ class Better_AMP {
 	/**
 	 * Rollback the main query vars.
 	 *
+	 * @param WP_Query $wp_query
+	 *
+	 * @since 1.0.0
+	 *
 	 * @see   isolate_pre_get_posts_end for more documentation
 	 *
 	 * Action: pre_get_posts
-	 * @since 1.0.0
-	 *
-	 * @param WP_Query $wp_query
 	 */
 	public function isolate_pre_get_posts_end( &$wp_query ) {
 
@@ -1072,81 +1060,67 @@ class Better_AMP {
 	 * Callback: Starts the collecting output to enable components to add style into head
 	 * Print theme completely then fire better_amp_head() callbacks and append it before </head>
 	 *
-	 * Action  : better-amp/template/head
+	 * Action  : template_include
 	 *
-	 * @see   buffer_better_amp_head_end
-	 *
-	 * @since 1.0.0
-	 */
-	public function buffer_better_amp_head_start() {
-
-		remove_action( current_action(), array( $this, __FUNCTION__ ), 1 );
-
-		$this->collect_and_remove_better_amp_head_actions();
-
-		ob_start();
-
-	}
-
-
-	/**
-	 * Collect better_amp_head actions and remove those actions
-	 *
-	 * @see   better_amp_head
+	 * @param string $template
 	 *
 	 * @since 1.0.0
+	 * @return string
+	 * @see   buffer_better_amp_end
+	 *
 	 */
-	public function collect_and_remove_better_amp_head_actions() {
+	public function buffer_better_amp_start( $template ) {
 
-		$actions = &$GLOBALS['wp_filter']['better-amp/template/head'];
+		if ( is_better_amp() ) {
 
-		$this->_head_actions = $actions;
-		$actions             = array();
+			ob_start();
+		}
+
+		return $template;
 	}
-
 
 	/**
 	 * Callback: Fire better_amp_head() and print buffered output
 	 * Action  : better-amp/template/footer
 	 *
-	 * @see   buffer_better_amp_head_start
-	 *
 	 * @since 1.0.0
+	 * @see   buffer_better_amp_start
+	 *
 	 */
-	public function buffer_better_amp_head_end() {
+	public function buffer_better_amp_end() {
 
 		$content = ob_get_clean();
-		$prepend = '';
 
 		if ( ! better_amp_is_customize_preview() ) {
-
-			$prepend .= '</head>';
 
 			/**
 			 * Convert output to valid amp html
 			 */
 			$instance = new Better_AMP_HTML_Util();
-			$instance->loadHTML( '<!DOCTYPE html><html><head><meta http-equiv="content-type" content="text/html; charset=utf-8">' . $content . '</body></html>', null, false );
-
-			preg_match( '#(<\s*body[^>]*>)#isx', $content, $match );
-			$prepend .= isset( $match[1] ) ? $match[1] : '<body>'; // open body tag
+			$instance->loadHTML( $content . '</body></html>', null, false );
 
 			$this->render_content( $instance, true ); // Convert HTML top amp html
 
 			// @see Better_AMP_Component::enqueue_amp_tags_script
 			$this->call_components_method( 'enqueue_amp_tags_script', $instance );
-
-			$content = $instance->get_content( true );
-
-			// End convert output to valid amp html
+			$content  = $instance->saveHTML();
+			$instance = null;
 		}
 
-		$GLOBALS['wp_filter']['better-amp/template/head'] = $this->_head_actions;
-		$this->_head_actions                              = array();
 
-		do_action( 'better-amp/template/head' );
+		if ( ! preg_match( '#^(.*?)(<\s*\/\s*head[^>]*> .+) $#isx', $content, $match ) ) {
 
-		echo $prepend, $content;
+			echo $content;
+
+			return;
+		}
+
+		$content = null;
+		echo $match[1]; // markup upto </head> tag
+
+		do_action( 'better-amp/template/head-deferred' );
+
+		echo $match[2]; // markup </head> and <body>
 	}
 
 

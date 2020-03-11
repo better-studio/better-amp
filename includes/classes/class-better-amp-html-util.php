@@ -80,7 +80,6 @@ class Better_AMP_HTML_Util extends DOMDocument {
 		return $node;
 	}
 
-
 	/**
 	 * Returns body
 	 *
@@ -91,6 +90,18 @@ class Better_AMP_HTML_Util extends DOMDocument {
 	public function get_body_node() {
 
 		return $this->getElementsByTagName( 'body' )->item( 0 );
+	}
+
+	/**
+	 * Returns body
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return \DOMNode
+	 */
+	public function get_head_node() {
+
+		return $this->getElementsByTagName( 'head' )->item( 0 );
 	}
 
 	/**

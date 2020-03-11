@@ -1,13 +1,12 @@
 <?php
 
-add_action( 'better-amp/template/head', 'better_amp_enqueue_scripts' );
-add_action( 'better-amp/template/head', 'better_amp_print_styles' );
-add_action( 'better-amp/template/head', 'better_amp_print_scripts' );
-add_action( 'better-amp/template/head', 'better_amp_enqueue_boilerplate_style' );
+add_action( 'better-amp/template/head-deferred', 'better_amp_enqueue_scripts' );
+add_action( 'better-amp/template/head-deferred', 'better_amp_print_styles' );
+add_action( 'better-amp/template/head-deferred', 'better_amp_print_scripts' );
+add_action( 'better-amp/template/head-deferred', 'better_amp_enqueue_boilerplate_style' );
+
 add_action( 'better-amp/template/head', 'wp_site_icon' );
-
 add_action( 'better-amp/template/head', 'better_amp_print_rel_canonical' );
-
 add_action( 'better-amp/template/head', '_wp_render_title_tag' );
 
 //add_action( 'better-amp/template/enqueue-scripts', 'better_amp_enqueue_rtl_style', 999 );

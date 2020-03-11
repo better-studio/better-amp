@@ -1079,10 +1079,28 @@ class Better_AMP_Content_Sanitizer {
 			}
 		}
 
-		$body = $this->dom->get_body_node();
+		if ( $head = $this->dom->get_head_node() ) {
 
-		if ( $body ) {
+			/**
+			 * Remove extra style tags and collect their contents
+			 */
+			$elements = $head->getElementsByTagName( 'style' );
 
+			if ( $elements->length ) {
+
+				for ( $i = $elements->length - 1; $i >= 0; $i -- ) {
+
+					$element = $elements->item( $i );
+
+					$style = preg_replace( '/\s*!\s*important/', '', $element->nodeValue ); // Remove !important
+					better_amp_add_inline_style( $style );
+
+					self::remove_element( $element );
+				}
+			}
+		}
+
+		if ( $body = $this->dom->get_body_node() ) {
 
 			/**
 			 * Remove all extra tags
@@ -1122,23 +1140,6 @@ class Better_AMP_Content_Sanitizer {
 
 						self::remove_element( $element );
 					}
-				}
-			}
-
-			/**
-			 * Remove extra style tags and collect their contents
-			 */
-			$elements = $body->getElementsByTagName( 'style' );
-
-			if ( $elements->length ) {
-
-				for ( $i = $elements->length - 1; $i >= 0; $i -- ) {
-					$element = $elements->item( $i );
-
-					$style = preg_replace( '/\s*!\s*important/', '', $element->nodeValue ); // Remove !important
-					better_amp_add_inline_style( $style );
-
-					self::remove_element( $element );
 				}
 			}
 
