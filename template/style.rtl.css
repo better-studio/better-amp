@@ -21,7 +21,7 @@ blockquote:before {
     direction: rtl;
 }
 
-amp-carousel{
+.post-content amp-carousel{
     direction: ltr;
 }
 
