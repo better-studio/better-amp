@@ -51,6 +51,23 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 
 == Changelog ==
 
+= 1.10.0 = 17 Mar 2020
+- Added: Support for image with data: URI
+- Added: Filter for Custom Permalink Structure.
+- Added: Add: Support for Gallery Block.
+
+- Improved: Playbuzz partial support.
+- Improved: Height & width attribute sanitization for amp-video, audio tags.
+- Improved: Auto change invalid a tags to span tag in AMP.
+- Improved: Sanitize whole site html not just body.
+- Improved: Validate video tag with no height&width attribute.
+
+- Fixed: AMP Carousel (Slider) Issue on RTL styles fixed.
+- Fixed: Fix: Wrong page url when page_on_front is on
+- Fixed: Undefined index: image issue
+- Fixed: unpack(): Type C: not enough input
+- Fixed: DOMElement::setAttribute(): string is not in UTF-8.
+
 = 1.9.12 = 4 May 2019
 - Added: Show/Hide Tagline Feature
 - Added: Support for instagram embedded code

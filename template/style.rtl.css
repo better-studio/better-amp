@@ -21,6 +21,9 @@ blockquote:before {
     direction: rtl;
 }
 
+.post-content amp-carousel{
+    direction: ltr;
+}
 
 /*
  * => Header and Navigation
