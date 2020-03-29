@@ -147,6 +147,13 @@ class Better_AMP_Plugin_Compatibility {
 		add_action( 'template_redirect', array( __CLASS__, 'squirrly_seo' ) );
 
 		add_action( 'wpbuddy/rich_snippets/frontend/init', array( __CLASS__, 'rich_snippets' ) );
+
+		/**
+		 * SG Optimizer Plugin Compatibility.
+		 *
+		 * @link https://wordpress.org/plugins/sg-cachepress/
+		 */
+		add_filter('pre_option_siteground_optimizer_combine_google_fonts', '__return_zero');
 	}
 
 
