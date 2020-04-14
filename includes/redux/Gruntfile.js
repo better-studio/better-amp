@@ -107,11 +107,13 @@ module.exports = function( grunt ) {
             // JavaScript linting with JSHint.
             jshint: {
                 options: {
-                    jshintrc: '.jshintrc'
+                    jshintrc: '.jshintrc',
+                    reporterOutput: ''
                 },
                 files: [
                     //'Gruntfile.js',
-                    //'ReduxCore/assets/js/import_export/import_export.js',
+                    //'ReduxCore/assecd ..
+                    //ts/js/import_export/import_export.js',
                     'ReduxCore/assets/js/media/media.js',
                     'ReduxCore/inc/fields/ace_editor/field_ace_editor.js',
                     'ReduxCore/inc/fields/background/field_background.js',
@@ -152,7 +154,7 @@ module.exports = function( grunt ) {
                 },
                 php: {
                     files: ['ReduxCore/**/*.php'],
-                    tasks: ['phplint:core']
+                    //tasks: ['phplint:core']
                 },
                 css: {
                     files: ['ReduxCore/**/*.less'],
@@ -263,28 +265,28 @@ module.exports = function( grunt ) {
                 }
             },
 
-            phpdocumentor: {
-                options: {
-                    directory: 'ReduxCore/',
-                    target: 'docs/'
-                },
-                generate: {}
-            },
-
-            phplint: {
-                options: {
-                    swapPath: './'
-                },
-                core: ["ReduxCore/**/*.php"],
-                plugin: ["class-redux-plugin.php", "index.php", "redux-framework.php"]
-            },
+//            phpdocumentor: {
+//                options: {
+//                    directory: 'ReduxCore/',
+//                    target: 'docs/'
+//                },
+//                generate: {}
+//            },
+//
+//            phplint: {
+//                options: {
+//                    swapPath: './'
+//                },
+//                core: ["ReduxCore/**/*.php"],
+//                plugin: ["class-redux-plugin.php", "index.php", "redux-framework.php"]
+//            },
 
             sass: {
                 fields: {
                     options: {
                         sourcemap: 'none',
                         style: 'compressed',
-                        noCache: true,
+                        noCache: true
                     },
 
                     files: [{
@@ -389,10 +391,8 @@ module.exports = function( grunt ) {
     grunt.loadNpmTasks( 'grunt-contrib-watch' );
     grunt.loadNpmTasks( 'grunt-contrib-cssmin' );
     grunt.loadNpmTasks( 'grunt-contrib-concat' );
-    grunt.loadNpmTasks( 'grunt-phpdocumentor' );
     grunt.loadNpmTasks( 'grunt-gh-pages' );
-    grunt.loadNpmTasks( "grunt-phplint" );
-    //grunt.loadNpmTasks( 'grunt-recess' );
+    //grunt.loadNpmTasks( "grunt-phplint" );
 
     grunt.registerTask(
         'langUpdate', [
@@ -420,7 +420,7 @@ module.exports = function( grunt ) {
             'cssmin'
         ]
     );
-    grunt.registerTask( 'travis', ['jshint', 'lintPHP'] );
+    //grunt.registerTask( 'travis', ['jshint', 'lintPHP'] );
 
     // this would be run by typing "grunt test" on the command line
     grunt.registerTask( 'testJS', ['jshint', 'concat:core', 'concat:vendor'] );
@@ -428,7 +428,7 @@ module.exports = function( grunt ) {
     grunt.registerTask( 'watchUI', ['watch:ui'] );
     grunt.registerTask( 'watchPHP', ['watch:php', 'phplint:core', 'phplint:plugin'] );
 
-    grunt.registerTask( "lintPHP", ["phplint:plugin", "phplint:core"] );
+    //grunt.registerTask( "lintPHP", ["phplint:plugin", "phplint:core"] );
     grunt.registerTask( "compileSCSS", ["sass:admin", "sass:fields", "sass:extensions", "sass:vendor", "sass:welcome"] );
     grunt.registerTask(
         'compileJS',

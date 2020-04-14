@@ -69,7 +69,7 @@
             // Please update the build number with each push, no matter how small.
             // This will make for easier support when we ask users what version they are using.
 
-            public static $_version = '3.6.7.13';
+            public static $_version = '3.6.18';
             public static $_dir;
             public static $_url;
             public static $_upload_dir;
@@ -178,7 +178,9 @@
             public $reload_fields = array();
             public $omit_share_icons = false;
             public $omit_admin_items = false;
-
+            public $apiHasRun = false;
+            public $transients;
+            
             /**
              * Class Constructor. Defines the args for the theme options class
              *
@@ -195,7 +197,7 @@
                 if ( isset ( $_POST ) && isset ( $_POST['action'] ) && $_POST['action'] == 'heartbeat' ) {
 
                     // Hook, for purists.
-                    if ( ! has_action( 'redux/ajax/heartbeat' ) ) {
+                    if ( has_action( 'redux/ajax/heartbeat' ) ) {
                         do_action( 'redux/ajax/heartbeat', $this );
                     }
 
@@ -806,7 +808,7 @@
                         }
                     } else if ( $this->args['database'] === 'network' ) {
                         // Strip those slashes!
-                        $value = json_decode( stripslashes( json_encode( $value ) ), true );
+                        //$value = json_decode( stripslashes( json_encode( $value ) ), true );
                         update_site_option( $this->args['opt_name'], $value );
                     } else {
                         update_option( $this->args['opt_name'], $value );
@@ -858,7 +860,7 @@
                     $result = get_theme_mods();
                 } else if ( $this->args['database'] === 'network' ) {
                     $result = get_site_option( $this->args['opt_name'], array() );
-                    $result = json_decode( stripslashes( json_encode( $result ) ), true );
+                    //$result = json_decode( stripslashes( json_encode( $result ) ), true );
                 } else {
                     $result = get_option( $this->args['opt_name'], array() );
                 }
@@ -909,14 +911,7 @@
                  */
                 $data = apply_filters( "redux/options/{$this->args['opt_name']}/data/$type", $data );
 
-                $argsKey = "";
-                foreach ( $args as $key => $value ) {
-                    if ( ! is_array( $value ) ) {
-                        $argsKey .= $value . "-";
-                    } else {
-                        $argsKey .= implode( "-", $value );
-                    }
-                }
+                $argsKey = md5( serialize( $args ) );
 
                 if ( empty ( $data ) && isset ( $this->wp_data[ $type . $argsKey ] ) ) {
                     $data = $this->wp_data[ $type . $argsKey ];
@@ -1441,39 +1436,30 @@
                     );
 
                     if ( true === $this->args['allow_sub_menu'] ) {
-                        if ( ! isset ( $section['type'] ) || $section['type'] != 'divide' ) {
-                            foreach ( $this->sections as $k => $section ) {
-                                $canBeSubSection = ( $k > 0 && ( ! isset ( $this->sections[ ( $k ) ]['type'] ) || $this->sections[ ( $k ) ]['type'] != "divide" ) ) ? true : false;
-
-                                if ( ! isset ( $section['title'] ) || ( $canBeSubSection && ( isset ( $section['subsection'] ) && $section['subsection'] == true ) ) ) {
-                                    continue;
-                                }
-
-                                if ( isset ( $section['submenu'] ) && $section['submenu'] == false ) {
-                                    continue;
-                                }
-
-                                if ( isset ( $section['customizer_only'] ) && $section['customizer_only'] == true ) {
-                                    continue;
-                                }
-
-                                if ( isset ( $section['hidden'] ) && $section['hidden'] == true ) {
-                                    continue;
-                                }
-
-                                if ( isset( $section['permissions'] ) && ! self::current_user_can( $section['permissions'] ) ) {
-                                    continue;
-                                }
-
-                                // ONLY for non-wp.org themes OR plugins. Theme-Check alert shown if used and IS theme.
-                                call_user_func( 'add_submenu_page', $this->args['page_slug'], $section['title'], $section['title'], $this->args['page_permissions'], $this->args['page_slug'] . '&tab=' . $k,
-                                    //create_function( '$a', "return null;" )
-                                    '__return_null' );
+                        foreach ( $this->sections as $k => $section ) {
+                            $canBeSubSection = ( $k > 0 && ( ! isset ( $this->sections[ ( $k ) ]['type'] ) || $this->sections[ ( $k ) ]['type'] != "divide" ) ) ? true : false;
+                            if ( ! isset ( $section['title'] ) || ( $canBeSubSection && ( isset ( $section['subsection'] ) && $section['subsection'] == true ) ) ) {
+                                continue;
                             }
-
-                            // Remove parent submenu item instead of adding null item.
-                            remove_submenu_page( $this->args['page_slug'], $this->args['page_slug'] );
+                            if ( isset ( $section['submenu'] ) && $section['submenu'] == false ) {
+                                continue;
+                            }
+                            if ( isset ( $section['customizer_only'] ) && $section['customizer_only'] == true ) {
+                                continue;
+                            }
+                            if ( isset ( $section['hidden'] ) && $section['hidden'] == true ) {
+                                continue;
+                            }
+                            if ( isset( $section['permissions'] ) && ! self::current_user_can( $section['permissions'] ) ) {
+                                continue;
+                            }
+                            // ONLY for non-wp.org themes OR plugins. Theme-Check alert shown if used and IS theme.
+                            call_user_func( 'add_submenu_page', $this->args['page_slug'], $section['title'], $section['title'], $this->args['page_permissions'], $this->args['page_slug'] . '&tab=' . $k,
+                                //create_function( '$a', "return null;" )
+                                '__return_null' );
                         }
+                        // Remove parent submenu item instead of adding null item.
+                        remove_submenu_page( $this->args['page_slug'], $this->args['page_slug'] );
                     }
                 }
 
@@ -1491,9 +1477,6 @@
              */
             public function _admin_bar_menu() {
                 global $menu, $submenu, $wp_admin_bar;
-
-                $ct         = wp_get_theme();
-                $theme_data = $ct;
 
                 if ( ! is_super_admin() || ! is_admin_bar_showing() || ! $this->args['admin_bar'] || $this->args['menu_type'] == 'hidden' ) {
                     return;
@@ -1569,7 +1552,6 @@
                     $nodeargs = array(
                         'id'    => $this->args["page_slug"],
                         'title' => $title,
-                        // $theme_data->get( 'Name' ) . " " . __( 'Options', 'redux-framework-demo' ),
                         'href'  => admin_url( 'admin.php?page=' . $this->args["page_slug"] ),
                         'meta'  => array()
                     );
@@ -2782,7 +2764,7 @@
                     //exit();
                 }
 
-                $this->set_transients( $this->transients );
+                $this->set_transients();
 
                 return $plugin_options;
             }
@@ -2859,7 +2841,7 @@
                                 }
                             }
 
-                            if ( $do_reload || ( isset ( $values['defaults'] ) && ! empty ( $values['defaults'] ) ) || ( isset ( $values['defaults-section'] ) && ! empty ( $values['defaults-section'] ) ) ) {
+                    if ( $do_reload || ( isset ( $values['defaults'] ) && ! empty ( $values['defaults'] ) ) || ( isset ( $values['defaults-section'] ) && ! empty ( $values['defaults-section'] ) ) || ( isset ( $values['import_code'] ) && ! empty ($values['import_code']) ) || ( isset ( $values['import_link'] ) && ! empty ($values['import_link']) ) ) {
                                 echo json_encode( array( 'status' => 'success', 'action' => 'reload' ) );
                                 die ();
                             }
@@ -3618,7 +3600,7 @@
                 if ( ! empty ( $field['required'] ) ) {
                     if ( isset ( $field['required'][0] ) ) {
                         if ( ! is_array( $field['required'][0] ) && count( $field['required'] ) == 3 ) {
-                            $parentValue = $GLOBALS[ $this->args['global_variable'] ][ $field['required'][0] ];
+                            $parentValue = isset($GLOBALS[ $this->args['global_variable'] ][ $field['required'][0] ]) ? $GLOBALS[ $this->args['global_variable'] ][ $field['required'][0] ] : '';
                             $checkValue  = $field['required'][2];
                             $operation   = $field['required'][1];
                             $return      = $this->compareValueDependencies( $parentValue, $checkValue, $operation );
@@ -3977,8 +3959,6 @@
              * @return  array $merged
              */
             function redux_array_merge_recursive_distinct( array $array1, array $array2 ) {
-                $merged = array();
-                
                 $merged = $array1;
 
                 foreach ( $array2 as $key => $value ) {
@@ -4133,7 +4113,6 @@
              */
             public static function user_can( $user, $capabilities, $object_id = null ) {
                 static $depth = 0;
-                $args = array();
                 
                 if ( $depth >= 30 ) {
                     return false;
@@ -4262,5 +4241,7 @@
          *
          * @param null
          */
-        do_action( 'redux/init', ReduxFramework::init() );
+        ReduxFramework::init();
+        do_action( 'redux/init' );
+        
     } // class_exists('ReduxFramework')

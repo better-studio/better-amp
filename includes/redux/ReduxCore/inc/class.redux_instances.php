@@ -24,6 +24,12 @@
          */
         private static $instances;
 
+        
+        /**
+         * @var array
+         */
+        private $options = array();        
+        
         /**
          * Get Instance
          * Get ReduxFrameworkInstances instance
@@ -64,7 +70,7 @@
             add_action( 'wp_ajax_' . $hash, array( $this, 'tracking_arg' ) );
 
             if (!class_exists('Redux_Tracking') || !method_exists('Redux_Tracking', 'trackingObject')) {
-                $hash = md5( md5( AUTH_KEY . SECURE_AUTH_KEY . '-redux' ) . '-support' );
+                $hash = md5( md5( Redux_Helpers::get_auth_key_secret_key() . '-redux' ) . '-support' );
                 add_action( 'wp_ajax_nopriv_' . $hash, array( $this, 'support_args' ) );
                 add_action( 'wp_ajax_' . $hash, array( $this, 'support_args' ) );
             }
@@ -73,7 +79,7 @@
         }
 
         function tracking_arg() {
-            echo md5( AUTH_KEY . SECURE_AUTH_KEY . '-redux' );
+            echo md5( Redux_Helpers::get_auth_key_secret_key() . '-redux' );
             die();
         }
 
@@ -121,8 +127,8 @@
                 if ( isset( $array ) ) {
                     if ( isset( $array->extensions ) && is_array( $array->extensions ) && ! empty( $array->extensions ) ) {
                         foreach ( $array->extensions as $key => $extension ) {
-                            if ( isset( $extension->$version ) ) {
-                                $array->extensions[ $key ] = $extension->$version;
+                            if ( isset( $extension->version ) ) {
+                                $array->extensions[ $key ] = $extension->version;
                             } else {
                                 $array->extensions[ $key ] = true;
                             }
@@ -148,7 +154,7 @@
                         $array['instances'][] = $opt_name;
                     }
                 }
-                $array['key'] = md5( AUTH_KEY . SECURE_AUTH_KEY );
+                $array['key'] = md5( Redux_Helpers::get_auth_key_secret_key() );
             }
 
             echo @json_encode( $array, true );

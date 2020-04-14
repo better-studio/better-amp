@@ -1,7 +1,58 @@
 # Redux Framework Changelog
 
+## 3.6.18
+* Fixed:    PHP 7.x warning about defines.
+
+## 3.6.17
+* Added:    Redux API disable_demo to disable the plugin demo notice.
+
+## 3.6.15
+* Fixed:    Redux API setSections would hang up when several sections with no ID share the same title.
+
+## 3.6.14
+* Fixed:    #3583:  Import failing when max_input_vars exceeded.  Function moved to ajax_save to avoid this issue.
+
+## 3.6.13
+* Skipping.  I'm superstitious! - kp
+
+## 3.6.12.2
+* Fixed:    #3586:  Database not saving properly in 'network' mode.  Thanks @Tofandel.
+* Fixed:    #3584:  Improved fox for #3580.  Thanks @Enchiridion.
+
+## 3.6.12.1
+* Fixed:    #3580 - 'tax_query' array in args for WordPress data arg throwing a string conversation error.
+
+## 3.6.12
+* Fixed:    #3577 - Added isset to REMOTE_ADDR check to prevent error.
+
+## 3.6.11
+* Fixed:    #3561, #3562 - Not all selectors in async typography were properly formed, causing them not to render properly on screen.
+
+## 3.6.10
+* Updated   Google font update.
+* Updated:  #3447 - Updated RTL CSS.  Thanks @Abolfazlrt.
+* Fixed:    Duplicate ID warnings.
+* Fixed:    http warnings in https environments.
+* Fixed:    #3539 - Checkbox label not appearing unless 'desc' was set. Thanks @Enchiridion.
+* Fixed:    #3547 - ace_editor not rendering properly within a subsection. Thanks @Tofandel.
+* Fixed:    #3534 - Fix invalid CSS in asycn_typography (trailing commas).  Thanks @ksere
+* Fixed:    Spacing between Save and Reset buttons.
+* Added:    #3285 - dir and url filters for customizer extension.  Thanks @aaronhuisinga.
+            add_filter ("redux/extension/customizer/dir", $dir)
+            add_filter ("redux/extension/customizer/url", $url)
+
+## 3.6.9
+* Fixed:    Bypassing a WP bug where the gallery field would show a spinner on first open with no selected images.
+* Fixed:    #3512 - Image select in tile mode not highlighting default.
+
+## 3.6.8
+* New:      Added values to media field return array: (title, caption, alt, description).
+
+## 3.6.7.14
+* Fixed:    Error in AJAX save due to incorrect object reference in redux.js.
+
 ## 3.6.7.13
-* Fixed:  Removed unused set_transient in welcome routine.  It was causing slow queries.
+* Fixed:    Removed unused set_transient in welcome routine.  It was causing slow queries.
 
 ## 3.6.7.12
 * Updated:  Google Font update.

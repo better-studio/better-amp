@@ -103,8 +103,7 @@
                 },
                 error: function( response ) {
                     if ( !window.console ) console = {};
-                    console.log = console.log || function( name, data ) {
-                        };
+                    console.log = console.log || function( name, data ) {};
                     console.log( redux.ajax.console );
                     console.log( response.responseText );
                     jQuery( '.redux-action_bar input' ).removeAttr( 'disabled' );
@@ -169,7 +168,7 @@
         );
 
         // Save button clicked
-        $( '.redux-action_bar input' ).on(
+        $( '.redux-action_bar input, #redux-import-action input' ).on(
             'click', function( e ) {
                 if ( $( this ).attr( 'name' ) == redux.args.opt_name + '[defaults]' ) {
                     // Defaults button clicked
@@ -181,11 +180,15 @@
                     if ( !confirm( redux.args.reset_section_confirm ) ) {
                         return false;
                     }
+                } else if ( $( this ).attr( 'name' ) == 'import' ) {
+                    if ( !confirm( redux.args.import_section_confirm ) ) {
+                        return false;
+                    }                    
                 }
 
                 window.onbeforeunload = null;
 
-                if ( redux.optName.args.ajax_save === true ) {
+                if ( redux.args.ajax_save === true ) {
                     $.redux.ajax_save( $( this ) );
                     e.preventDefault();
                 } else {
@@ -193,32 +196,6 @@
                 }
             }
         );
-        //
-        //// Default button clicked
-        //$( 'input[name="' + redux.args.opt_name + '[defaults]"]' ).click(
-        //    function() {
-        //        if ( !confirm( redux.args.reset_confirm ) ) {
-        //            return false;
-        //        }
-        //        window.onbeforeunload = null;
-        //    }
-        //);
-
-
-        //$( 'input[name="' + redux.args.opt_name + '[defaults-section]"]' ).click(
-        //    function() {
-        //        if ( !confirm( redux.args.reset_section_confirm ) ) {
-        //            return false;
-        //        }
-        //
-        //        window.onbeforeunload = null;
-        //    }
-        //);
-        //$( '.redux-save' ).click(
-        //    function() {
-        //        window.onbeforeunload = null;
-        //    }
-        //);
 
         $( '.expand_options' ).click(
             function( e ) {
@@ -619,7 +596,7 @@
             return;
         }
 
-        var tab = decodeURI( (new RegExp( 'tab' + '=' + '(.+?)(&|$)' ).exec( location.search ) || [, ''])[1] );
+        var tab = decodeURI( (new RegExp( 'tab' + '=' + '(.+?)(&|$)' ).exec( location.search ) || ['', ''])[1] );
 
         if ( tab !== "" ) {
             if ( $.cookie( "redux_current_tab_get" ) !== tab ) {
@@ -659,7 +636,8 @@
 
                 var type = $( this ).attr( 'data-type' );
                 //console.log(type);
-                if ( typeof redux.field_objects != 'undefined' && redux.field_objects[type] && redux.field_objects[type] ) {
+                //if ( typeof redux.field_objects != 'undefined' && redux.field_objects[type] && redux.field_objects[type] ) {
+                if ( type in redux.field_objects && typeof redux.field_objects[type].init == 'function' ) {
                     redux.field_objects[type].init();
                 }
                 if ( !redux.customizer && $( this ).hasClass( 'redux_remove_th' ) ) {
