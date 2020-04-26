@@ -51,7 +51,7 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 
 == Changelog ==
 
-= 1.10.0 = 17 Mar 2020
+= 1.10.0 = 26 Apr 2020
 - Added: Support for image with data: URI
 - Added: Filter for Custom Permalink Structure.
 - Added: Add: Support for Gallery Block.
@@ -67,6 +67,7 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 - Fixed: Undefined index: image issue
 - Fixed: unpack(): Type C: not enough input
 - Fixed: DOMElement::setAttribute(): string is not in UTF-8.
+- Fixed: Some socia share icons like Twitter are not showing.
 
 = 1.9.12 = 4 May 2019
 - Added: Show/Hide Tagline Feature
