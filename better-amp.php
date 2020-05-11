@@ -1362,27 +1362,6 @@ class Better_AMP {
 			remove_filter( 'widget_text', 'do_shortcode' );
 		}
 
-
-		/***
-		 * Yoast SEO
-		 * https://wordpress.org/plugins/wordpress-seo/
-		 */
-		if ( defined( 'WPSEO_VERSION' ) ) {
-
-			if ( class_exists( 'WPSEO_OpenGraph' ) ) {
-				add_action( 'better-amp/template/head', array( $this, 'yoast_seo_metatags_compatibility' ) );
-			}
-
-			if ( is_home() && ! better_amp_is_static_home_page() && self::get_option( 'show_on_front' ) === 'page' ) {
-				add_filter( 'pre_get_document_title', 'Better_AMP::yoast_seo_homepage_title', 99 );
-			}
-
-			if ( is_home() ) {
-				add_filter( 'better-framework/json-ld/website/', 'Better_AMP::yoast_seo_homepage_json_ld' );
-			}
-		}
-
-
 		/***
 		 * Ultimate Tweaker
 		 * https://ultimate-tweaker.com/
@@ -1403,62 +1382,6 @@ class Better_AMP {
 		}
 
 	}
-
-
-	/**
-	 * Sync none-amp homepage title with amp version
-	 *
-	 * @param string $title
-	 *
-	 * @since 1.3.0
-	 * @return string
-	 */
-	public static function yoast_seo_homepage_title( $title ) {
-
-		if ( ( $post_id = self::get_option( 'page_on_front' ) ) && is_callable( 'WPSEO_Frontend::get_instance' ) ) {
-
-			$post = get_post( $post_id );
-
-			if ( $post instanceof WP_Post ) {
-
-				$wp_seo = WPSEO_Frontend::get_instance();
-
-				if ( $new_title = $wp_seo->get_content_title( $post ) ) {
-					return $new_title;
-				}
-			}
-		}
-
-		return $title;
-	}
-
-
-	/**
-	 * Sync json-ld data with yoast seo plugin
-	 *
-	 * @param array $data
-	 *
-	 * @since 1.3.0
-	 * @return array
-	 */
-	public static function yoast_seo_homepage_json_ld( $data ) {
-
-		if ( is_callable( 'WPSEO_Options::get_options' ) ) {
-
-			$options = WPSEO_Options::get_options( array( 'wpseo', 'wpseo_social' ) );
-
-			if ( ! empty( $options['website_name'] ) ) {
-				$data['name'] = $options['website_name'];
-			}
-			if ( ! empty( $options['alternate_website_name'] ) ) {
-				$data['alternateName'] = $options['alternate_website_name'];
-				unset( $data['description'] );
-			}
-		}
-
-		return $data;
-	}
-
 
 	/**
 	 * Just return false in amp version
@@ -1735,23 +1658,5 @@ class Better_AMP {
 		}
 
 		return $config;
-	}
-
-
-	/**
-	 * Prints meta tags with using Yoast SEO Open Graph feature.
-	 */
-	public function yoast_seo_metatags_compatibility() {
-
-		//
-		// Remove canonical from in Yoast to generate correct canonical
-		//
-		bf_remove_class_action( 'wpseo_head', 'WPSEO_Frontend', 'canonical', 20 );
-
-
-		//
-		// Yoast SEO meta
-		//
-		do_action( 'wpseo_head' );
 	}
 }

@@ -64,9 +64,9 @@ class Better_AMP_Plugin_Compatibility {
 		 */
 		if ( class_exists( 'Abovethefold' ) ) {
 			if ( ! defined( 'DONOTABTF' ) ) {
-				define( 'DONOTABTF', TRUE );
+				define( 'DONOTABTF', true );
 			}
-			$GLOBALS['Abovethefold']->disable = TRUE;
+			$GLOBALS['Abovethefold']->disable = true;
 
 			bf_remove_class_action( 'init', 'Abovethefold_Optimization', 'html_output_hook', 99999 );
 			bf_remove_class_action( 'wp_head', 'Abovethefold_Optimization', 'header', 1 );
@@ -93,7 +93,7 @@ class Better_AMP_Plugin_Compatibility {
 		}
 
 
-		self::$plugins = NULL; // Clear memory
+		self::$plugins = null; // Clear memory
 
 		add_action( 'plugins_loaded', 'Better_AMP_Plugin_Compatibility::plugins_loaded' );
 
@@ -153,7 +153,42 @@ class Better_AMP_Plugin_Compatibility {
 		 *
 		 * @link https://wordpress.org/plugins/sg-cachepress/
 		 */
-		add_filter('pre_option_siteground_optimizer_combine_google_fonts', '__return_zero');
+		add_filter( 'pre_option_siteground_optimizer_combine_google_fonts', '__return_zero' );
+
+
+		/***
+		 * Yoast SEO compatibility
+		 *
+		 * @link https://wordpress.org/plugins/wordpress-seo/
+		 */
+		add_action( 'template_redirect', [ __CLASS__, 'yoast_compatibility' ] );
+	}
+
+	/***
+	 * Yoast SEO compatibility
+	 */
+	public static function yoast_compatibility() {
+
+		if ( ! defined( 'WPSEO_VERSION' ) ) {
+
+			return;
+		}
+
+
+		if ( class_exists( 'WPSEO_OpenGraph' ) ) {
+
+			add_action( 'better-amp/template/head', array( __CLASS__, 'yoast_seo_metatags_compatibility' ) );
+		}
+
+		if ( is_home() && ! better_amp_is_static_home_page() && self::get_option( 'show_on_front' ) === 'page' ) {
+
+			add_filter( 'pre_get_document_title', [ __CLASS__, 'yoast_seo_homepage_title' ], 99 );
+		}
+
+		if ( is_home() ) {
+
+			add_filter( 'better-framework/json-ld/website/', [ __CLASS__, 'yoast_seo_homepage_json_ld' ] );
+		}
 	}
 
 
@@ -419,6 +454,76 @@ class Better_AMP_Plugin_Compatibility {
 
 			return '<link rel="canonical" href="' . $canonical . '"/>';
 		}
+	}
+
+	/**
+	 * Prints meta tags with using Yoast SEO Open Graph feature.
+	 */
+	public static function yoast_seo_metatags_compatibility() {
+
+		//
+		// Remove canonical from in Yoast to generate correct canonical
+		//
+		bf_remove_class_action( 'wpseo_head', 'WPSEO_Frontend', 'canonical', 20 );
+
+		//
+		// Yoast SEO meta
+		//
+		do_action( 'wpseo_head' );
+	}
+
+	/**
+	 * Sync none-amp homepage title with amp version
+	 *
+	 * @param string $title
+	 *
+	 * @since 1.3.0
+	 * @return string
+	 */
+	public static function yoast_seo_homepage_title( $title ) {
+
+		if ( ( $post_id = Better_AMP::get_option( 'page_on_front' ) ) && is_callable( 'WPSEO_Frontend::get_instance' ) ) {
+
+			$post = get_post( $post_id );
+
+			if ( $post instanceof WP_Post ) {
+
+				$wp_seo = WPSEO_Frontend::get_instance();
+
+				if ( $new_title = $wp_seo->get_content_title( $post ) ) {
+
+					return $new_title;
+				}
+			}
+		}
+
+		return $title;
+	}
+
+	/**
+	 * Sync json-ld data with yoast seo plugin
+	 *
+	 * @param array $data
+	 *
+	 * @since 1.3.0
+	 * @return array
+	 */
+	public static function yoast_seo_homepage_json_ld( $data ) {
+
+		if ( is_callable( 'WPSEO_Options::get_options' ) ) {
+
+			$options = WPSEO_Options::get_options( array( 'wpseo', 'wpseo_social' ) );
+
+			if ( ! empty( $options['website_name'] ) ) {
+				$data['name'] = $options['website_name'];
+			}
+			if ( ! empty( $options['alternate_website_name'] ) ) {
+				$data['alternateName'] = $options['alternate_website_name'];
+				unset( $data['description'] );
+			}
+		}
+
+		return $data;
 	}
 }
 
