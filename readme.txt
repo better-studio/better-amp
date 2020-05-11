@@ -3,8 +3,8 @@ Contributors: betterstudio
 Donate link: http://betterstudio.com/
 Tags: amp,accelerated mobile pages, mobile theme, google amp
 Requires at least: 3.0
-Tested up to: 5.1.1
-Stable tag: 5.1.1
+Tested up to: 5.4.0
+Stable tag: 5.4.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -51,7 +51,7 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 
 == Changelog ==
 
-= 1.10.0 = 17 Mar 2020
+= 1.10.0 = 26 Apr 2020
 - Added: Support for image with data: URI
 - Added: Filter for Custom Permalink Structure.
 - Added: Add: Support for Gallery Block.
@@ -67,6 +67,7 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 - Fixed: Undefined index: image issue
 - Fixed: unpack(): Type C: not enough input
 - Fixed: DOMElement::setAttribute(): string is not in UTF-8.
+- Fixed: Some socia share icons like Twitter are not showing.
 
 = 1.9.12 = 4 May 2019
 - Added: Show/Hide Tagline Feature
