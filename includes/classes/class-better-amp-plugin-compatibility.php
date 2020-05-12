@@ -466,10 +466,31 @@ class Better_AMP_Plugin_Compatibility {
 		//
 		bf_remove_class_action( 'wpseo_head', 'WPSEO_Frontend', 'canonical', 20 );
 
+		add_filter( 'wpseo_frontend_presenter_classes', [ __CLASS__, 'remove_canonical_presenter_classe' ], 120 );
+
 		//
 		// Yoast SEO meta
 		//
 		do_action( 'wpseo_head' );
+	}
+
+	/**
+	 * Remove canonical to prevent duplicate canonical tag on the page.
+	 *
+	 * @param array $presenters
+	 *
+	 * @return array
+	 */
+	public static function remove_canonical_presenter_classe( $presenters ) {
+
+		$index = array_search( 'Yoast\WP\SEO\Presenters\Canonical_Presenter', $presenters );
+
+		if ( $index !== false ) {
+
+			unset( $presenters[ $index ] );
+		}
+
+		return $presenters;
 	}
 
 	/**
