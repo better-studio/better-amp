@@ -180,7 +180,7 @@ class Better_AMP_Plugin_Compatibility {
 			add_action( 'better-amp/template/head', array( __CLASS__, 'yoast_seo_metatags_compatibility' ) );
 		}
 
-		if ( is_home() && ! better_amp_is_static_home_page() && self::get_option( 'show_on_front' ) === 'page' ) {
+		if ( is_home() && ! better_amp_is_static_home_page() && Better_AMP::get_option( 'show_on_front' ) === 'page' ) {
 
 			add_filter( 'pre_get_document_title', [ __CLASS__, 'yoast_seo_homepage_title' ], 99 );
 		}
