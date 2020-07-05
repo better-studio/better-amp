@@ -61,6 +61,7 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 - Improved: Auto change invalid a tags to span tag in AMP.
 - Improved: Sanitize whole site html not just body.
 - Improved: Validate video tag with no height&width attribute.
+- Improved: Yoast SEO v14 compatibility.
 
 - Fixed: AMP Carousel (Slider) Issue on RTL styles fixed.
 - Fixed: Fix: Wrong page url when page_on_front is on
