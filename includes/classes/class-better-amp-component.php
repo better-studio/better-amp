@@ -159,6 +159,8 @@ class Better_AMP_Component extends Better_AMP_Component_Base {
 
 		foreach ( $config['blocks'] as $name => $render_callback ) {
 
+			unregister_block_type( $name );
+
 			register_block_type( $name, compact( 'render_callback' ) );
 		}
 	}
