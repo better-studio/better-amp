@@ -466,7 +466,7 @@ class Better_AMP_Plugin_Compatibility {
 		//
 		bf_remove_class_action( 'wpseo_head', 'WPSEO_Frontend', 'canonical', 20 );
 
-		add_filter( 'wpseo_frontend_presenter_classes', [ __CLASS__, 'remove_canonical_presenter_classe' ], 120 );
+		add_filter( 'wpseo_frontend_presenter_classes', [ __CLASS__, 'remove_canonical_presenter_class' ], 120 );
 
 		//
 		// Yoast SEO meta
@@ -481,7 +481,7 @@ class Better_AMP_Plugin_Compatibility {
 	 *
 	 * @return array
 	 */
-	public static function remove_canonical_presenter_classe( $presenters ) {
+	public static function remove_canonical_presenter_class( $presenters ) {
 
 		$index = array_search( 'Yoast\WP\SEO\Presenters\Canonical_Presenter', $presenters );
 
@@ -555,7 +555,7 @@ class Better_AMP_Plugin_Compatibility {
  */
 if ( is_better_amp() && ! class_exists( 'Speed_Booster_Pack_Core' ) ) {
 	/**
-	 * Disables plugin fucntionality by overriding "Speed_Booster_Pack_Core" class
+	 * Disables plugin functionality by overriding "Speed_Booster_Pack_Core" class
 	 */
 	class Speed_Booster_Pack_Core {
 
