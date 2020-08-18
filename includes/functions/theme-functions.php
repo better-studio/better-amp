@@ -2732,7 +2732,7 @@ if ( ! function_exists( 'better_amp_social_share_get_li' ) ) {
 				$title = __( 'VK', 'better-amp' );
 				$icon  = '<i class="fa fa-vk"></i>';
 				break;
-
+			
 			default:
 				return '';
 		}

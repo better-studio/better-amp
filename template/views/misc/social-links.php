@@ -7,7 +7,7 @@ better_amp_enqueue_block_style( 'social-list' );
 	<ul class="social-list clearfix">
 		<?php
 
-		foreach ( array( 'facebook', 'twitter', 'google_plus' ) as $k ) :
+		foreach ( array( 'facebook', 'twitter', 'google_plus', 'instagram' ) as $k ) :
 
 			$theme_mod = 'better-amp-' . $k;
 
