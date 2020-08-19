@@ -1183,7 +1183,10 @@ class Better_AMP_Content_Sanitizer {
 
 				for ( $i = $elements->length - 1; $i >= 0; $i -- ) {
 
-					$action  = '';
+					$action = '';
+					/**
+					 * @var DOMElement $element
+					 */
 					$element = $elements->item( $i );
 
 					$element_atts = self::get_node_attributes( $element );
@@ -1245,8 +1248,18 @@ class Better_AMP_Content_Sanitizer {
 
 						$element->setAttribute( 'target', '_top' );
 					}
+					
+					$inputs = $element->getElementsByTagName( 'input' );
 
-					//@todo sanitize input elements
+					for ( $j = $inputs->length - 1; $j >= 0; $j -- ) {
+
+						$input       = $inputs->item( $j );
+						$input_attrs = self::get_node_attributes( $input );
+
+						isset( $input_attrs['autocapitalize'] ) && $input->removeAttribute( 'autocapitalize' );
+						isset( $input_attrs['autocorrect'] ) && $input->removeAttribute( 'autocorrect' );
+						isset( $input_attrs['x-autocompletetype'] ) && $input->removeAttribute( 'x-autocompletetype' );
+					}
 				}
 			}
 
