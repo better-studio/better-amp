@@ -3,8 +3,8 @@
 better_amp_enqueue_block_style( 'social-list' );
 
 ?>
-<div class="social-list-wrapper">
-	<ul class="social-list clearfix">
+<div class="amp-social-list-wrapper">
+	<ul class="amp-social-list clearfix">
 		<?php
 
 		foreach ( array( 'facebook', 'twitter', 'google_plus' ) as $k ) :

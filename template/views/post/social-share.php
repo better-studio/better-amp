@@ -33,7 +33,7 @@ unset( $active_sites['rand'] );
 	</style>
 <?php } ?>
 
-<div class="social-list-wrapper share-list post-social-list">
+<div class="amp-social-list-wrapper share-list post-social-list">
 	<?php
 
 	if ( $show_count || $in_customizer ) {
@@ -54,7 +54,7 @@ unset( $active_sites['rand'] );
 		} ?>
 	</span>
 
-	<ul class="social-list clearfix">
+	<ul class="amp-social-list clearfix">
 		<?php
 
 		foreach ( $active_sites as $site_key => $active ) {
