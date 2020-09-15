@@ -270,6 +270,8 @@ class Better_AMP {
 		// Fire the modules
 		Better_Amp_Redirect_Router::Run();
 
+		Better_AMP_Custom_Script::Run();
+
 	} // apply_hooks
 
 

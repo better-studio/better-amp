@@ -226,3 +226,60 @@ if ( ! function_exists( 'mb_parse_url' ) ) {
 		return $parts;
 	}
 }
+
+
+if ( ! function_exists( 'better_amp_custom_script' ) ) {
+
+	/**
+	 * Add AMP custom script file.
+	 *
+	 * @param string $id
+	 * @param string $url
+	 * @param string $local_file
+	 *
+	 * @since 1.11.0
+	 * @return bool true on success or false otherwise.
+	 */
+	function better_amp_custom_script( $id, $url, $local_file = '' ) {
+
+		return Better_AMP_Custom_Script::Run()->add( $id, $url, $local_file );
+	}
+}
+
+
+if ( ! function_exists( 'better_amp_custom_inline_script' ) ) {
+
+	/**
+	 * Add inline AMP custom script.
+	 *
+	 * @param string $id
+	 * @param string $script
+	 *
+	 * @since 1.11.0
+	 * @return bool true on success or false otherwise.
+	 */
+	function better_amp_custom_inline_script( $id, $script ) {
+
+		return Better_AMP_Custom_Script::Run()->add_inline( $id, $script );
+	}
+}
+
+
+if ( ! function_exists( 'better_amp_shortcode_script' ) ) {
+
+	/**
+	 * Link an script to a WordPress shortcode.
+	 *
+	 * @param string          $id
+	 * @param string[]|string $shortcode_tags
+	 *
+	 * @since 1.11.0
+	 */
+	function better_amp_shortcode_script( $id, $shortcode_tags ) {
+
+		foreach ( (array) $shortcode_tags as $shortcode_tag ) {
+
+			Better_AMP_Custom_Script::Run()->map_shortcode( $id, $shortcode_tag );
+		}
+	}
+}

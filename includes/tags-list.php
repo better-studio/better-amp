@@ -52,6 +52,7 @@ $tags = array(
 	'button'                    => '',
 	'amp-pixel'                 => '',
 	'amp-auto-ads'              => '',
+	'amp-script'                => '',
 	# HTML Tags
 	'a'                         => '',
 	'abbr'                      => '',
