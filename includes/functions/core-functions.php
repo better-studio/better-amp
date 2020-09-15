@@ -714,3 +714,58 @@ if ( ! function_exists( 'better_amp_using_permalink_structure' ) ) {
 		return apply_filters( 'better-amp/url/custom-permalink-structure', get_option( 'permalink_structure' ) );
 	}
 }
+
+if ( ! function_exists( 'better_amp_file_system_instance' ) ) {
+
+	/**
+	 * Get WP FileSystem Object.
+	 *
+	 * @global WP_Filesystem_Base $wp_filesystem WordPress Filesystem Class
+	 *
+	 * @since 1.11.0
+	 * @return WP_Filesystem_Base
+	 *
+	 */
+	function better_amp_file_system_instance() {
+
+		global $wp_filesystem;
+
+		if ( ! $wp_filesystem instanceof WP_Filesystem_Base ) {
+
+			if ( ! function_exists( 'WP_Filesystem' ) ) {
+				require_once ABSPATH . '/wp-admin/includes/file.php';
+			}
+
+			$credentials['hostname'] = defined( 'FTP_HOST' ) ? FTP_HOST : '';
+			$credentials['username'] = defined( 'FTP_USER' ) ? FTP_USER : '';
+			$credentials['password'] = defined( 'FTP_PASS' ) ? FTP_PASS : '';
+
+			WP_Filesystem( $credentials, WP_CONTENT_DIR, false );
+		}
+
+		return $wp_filesystem;
+	}
+}
+
+
+if ( ! function_exists( 'better_amp_file_get_contents' ) ) {
+
+	/**
+	 * Reads entire file into a string.
+	 *
+	 * @param string $file_path Name of the file to read
+	 *
+	 * @since 1.11.0
+	 * @return string|bool Read data on success, false on failure.
+	 */
+	function better_amp_file_get_contents( $file_path ) {
+
+		if ( empty( $file_path ) ) {
+			return false;
+		}
+
+		$instance = better_amp_file_system_instance();
+
+		return $instance->get_contents( $file_path );
+	}
+}

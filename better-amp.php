@@ -1534,7 +1534,7 @@ class Better_AMP {
 			return;
 		}
 
-		$script = file_get_contents( better_amp_min_suffix( BETTER_AMP_PATH . 'js/mobile_redirect', '.js' ) );
+		$script = better_amp_file_get_contents( better_amp_min_suffix( BETTER_AMP_PATH . 'js/mobile_redirect', '.js' ) );
 		$script = str_replace( '%%amp_permalink%%', $amp_permalink, $script );
 
 		?>
