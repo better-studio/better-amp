@@ -51,6 +51,14 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 
 == Changelog ==
 
+= 1.11.0 = 15 Dec 2020
+- Added: AMP Custom Script code support added.
+- Added: PHP v8 compatibility added.
+
+- Fixed: Social List Conflict with Better Social Counter.
+- Fixed: Use wp WP_Filesystem_Base API instead of file_get_contents.
+
+
 = 1.10.0 = 26 Apr 2020
 - Added: Support for image with data: URI
 - Added: Filter for Custom Permalink Structure.
