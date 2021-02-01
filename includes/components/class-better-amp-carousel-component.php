@@ -40,7 +40,7 @@ class Better_AMP_Carousel_Component extends Better_AMP_Component_Base implements
 				'core/gallery'           => array( $this, 'handle_gallery' ),
 			),
 			'scripts'    => array(
-				'amp-carousel' => 'https://cdn.ampproject.org/v0/amp-carousel-0.1.js'
+				'amp-carousel' => 'https://cdn.ampproject.org/v0/amp-carousel-0.2.js'
 			)
 		);
 	}
