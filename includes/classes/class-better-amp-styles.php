@@ -30,7 +30,7 @@ class Better_AMP_Styles extends WP_Styles {
 	 *
 	 * @return void
 	 */
-	public function add_inline_style( $handle = '', $code ) {
+	public function add_inline_style( $handle, $code ) {
 
 		if ( empty( $handle ) ) {
 			$this->inline_styles[] = $code;
