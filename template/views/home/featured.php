@@ -13,7 +13,7 @@ $featured_query = new WP_Query( apply_filters( 'better-amp/home/featured', $feat
 better_amp_set_query( $featured_query );
 
 // Enqueue AMP carousel script
-better_amp_enqueue_script( 'amp-carousel', 'https://cdn.ampproject.org/v0/amp-carousel-0.1.js' );
+better_amp_enqueue_script( 'amp-carousel', 'https://cdn.ampproject.org/v0/amp-carousel-0.2.js' );
 
 ?>
 	<amp-carousel class="amp-slider amp-featured-slider" layout="responsive"

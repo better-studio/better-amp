@@ -1,6 +1,6 @@
 <?php
 // Enqueue AMP carousel script
-better_amp_enqueue_script( 'amp-carousel', 'https://cdn.ampproject.org/v0/amp-carousel-0.1.js' );
+better_amp_enqueue_script( 'amp-carousel', 'https://cdn.ampproject.org/v0/amp-carousel-0.2.js' );
 
 $query_args = better_amp_related_posts_query_args( better_amp_get_theme_mod( 'better-amp-post-related-count' ), better_amp_get_theme_mod( 'better-amp-post-related-algorithm' ), get_the_ID() );
 
