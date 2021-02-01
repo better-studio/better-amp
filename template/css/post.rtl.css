@@ -10,7 +10,7 @@
 /*
  * => Carousel Style
  */
-.carousel .carousel-item {
+.carousel:not(.related-posts-wrapper) .carousel-item {
     margin-left: 20px;
     margin-right: auto;
 }
