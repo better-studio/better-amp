@@ -505,30 +505,58 @@ class Better_AMP_Content_Sanitizer {
 			return $default;
 		}
 
-		$prefix = better_amp_permalink_prefix();
+		$amp_slug = '';
+		$url_path = '/';
 
-		if ( ! preg_match( '#^https?://w*\.?' . self::regex_url() . '/?' . $prefix . '([^/]*)/?(.*?)$#', $url, $matched ) ) {
+		if ( preg_match( static::amp_single_url_regex(), $url, $matched ) ) {
 
-			return $default;
+			$amp_slug = $matched[2];
+			$url_path = $matched[1] . $matched[3];
+
+		} else if ( preg_match( static::amp_taxonomy_url_regex(), $url, $matched ) ) {
+
+			$amp_slug = $matched[1];
+			$url_path = $matched[2];
 		}
 
-		// if url was not amp
-		if ( $matched[1] !== Better_AMP::SLUG ) {
+		if ( $amp_slug ) {
 
-			return $default;
+			return $amp_slug === Better_AMP::SLUG ? home_url( $url_path ) : $default;
 		}
 
-		if ( $matched[1] ) {
+		return home_url('/');
+	}
 
-			$matched[0] = '';
 
-			unset( $matched[1] );
-			$path = implode( '/', $matched );
-		} else {
-			$path = '/';
+	/**
+	 * @since 1.12.0
+	 * @return string
+	 */
+	protected static function amp_taxonomy_url_regex() {
+
+		$test_formats = [];
+
+		foreach ( better_amp_taxonomies_prefix() as $term_prefix ) {
+
+			if ( ! $term_prefix ) {
+
+				continue;
+			}
+
+			$term_prefix    = preg_quote( $term_prefix, '#' );
+			$test_formats[] = "([^/]*)/($term_prefix/.+)";
 		}
 
-		return home_url( rtrim( $prefix, '/' ) . $path );
+		return sprintf( '#^https?://w*\.?%s/?(?:%s)$#i', self::regex_url(), implode( '|', $test_formats ) );
+	}
+
+	/**
+	 * @since 1.12.0
+	 * @return string
+	 */
+	protected static function amp_single_url_regex() {
+
+		return sprintf( '#^https?://w*\.?%s/(%s)([^/]*)/?(.*?)$#i', self::regex_url(), better_amp_permalink_prefix() );
 	}
 
 	/**

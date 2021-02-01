@@ -701,6 +701,25 @@ if ( ! function_exists( 'better_amp_permalink_prefix' ) ) {
 	}
 }
 
+if ( ! function_exists( 'better_amp_taxonomies_prefix' ) ) {
+	/**
+	 * Get taxonomies permalink prefix which is fixed in all urls.
+	 *
+	 * @since 1.12.0
+	 *
+	 * @return string[]
+	 */
+	function better_amp_taxonomies_prefix() {
+		global $wp_taxonomies;
+
+		return array_filter( array_map( function ( $taxonomy ) {
+
+			return $taxonomy->rewrite['slug'] ?? false;
+
+		}, $wp_taxonomies ) );
+	}
+}
+
 if ( ! function_exists( 'better_amp_using_permalink_structure' ) ) {
 
 	/**
