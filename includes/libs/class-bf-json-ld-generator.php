@@ -12,9 +12,9 @@
  *  Copyright © 2017 Better Studio
  *
  *
- *  Our portfolio is here: http://themeforest.net/user/Better-Studio/portfolio
+ *  Our portfolio is here: https://betterstudio.com/
  *
- *  \--> BetterStudio, 2017 <--/
+ *  \--> BetterStudio, 2018 <--/
  */
 
 
@@ -32,9 +32,10 @@ class BF_Json_LD_Generator {
 	 * @var array
 	 */
 	protected static $config = array(
-		'active'         => TRUE,
+		'active'         => true,
 		'media_field_id' => '_featured_embed_code', // BS Media Meta ID
 		'logo'           => '',                     // Logo for organization
+		'posts_type'     => 'BlogPosting',          // Default posts schema type
 	);
 
 
@@ -67,6 +68,9 @@ class BF_Json_LD_Generator {
 
 		// Prepare data
 		add_action( 'template_redirect', 'BF_Json_LD_Generator::prepare_data' );
+
+		// Remove YoastSEO JSON-LD to prevent plugin conflict
+		add_action( 'wpseo_json_ld', 'BF_Json_LD_Generator::plugins_conflict', 1 );
 	}
 
 
@@ -85,7 +89,7 @@ class BF_Json_LD_Generator {
 				continue;
 			}
 
-			$filter = sprintf( 'better-framework/json-ld/%s/', $generator['type'] );
+			$filter = sprintf( 'better-framework/json-ld/%s', $generator['type'] );
 
 			if ( ! $data = apply_filters( $filter, call_user_func( $generator['callback'] ) ) ) {
 				continue;
@@ -93,6 +97,17 @@ class BF_Json_LD_Generator {
 
 			echo '<script type="application/ld+json">', wp_json_encode( $data, JSON_PRETTY_PRINT ), '</script>', PHP_EOL;
 		}
+	}
+
+
+	/**
+	 * remove YoastSEO JSON-LD to prevent plugin conflict
+	 *
+	 * @since 2.10.0
+	 */
+	public static function plugins_conflict() {
+
+		bf_remove_class_action( 'wpseo_json_ld', 'WPSEO_JSON_LD', 'website', 10 );
 	}
 
 
@@ -141,7 +156,7 @@ class BF_Json_LD_Generator {
 
 			if ( function_exists( 'is_product' ) && is_product() ) {
 				$type = 'product';
-			} else if ( is_page() ) {
+			} elseif ( is_page() ) {
 				$type = 'page';
 			}
 
@@ -180,7 +195,7 @@ class BF_Json_LD_Generator {
 		     ! function_exists( 'better_reviews_is_review_active' ) ||
 		     ! function_exists( 'better_reviews_get_total_rate' )
 		) {
-			return FALSE;
+			return false;
 		}
 
 		return better_reviews_is_review_active();
@@ -194,15 +209,8 @@ class BF_Json_LD_Generator {
 	 * @return string
 	 */
 	public static function get_the_author() {
-		global $post;
 
-		$display_name = get_the_author_meta( 'display_name', $post->post_author );
-
-		if ( $display_name && $display_name !== get_the_author_meta( 'login', $post->post_author ) ) {
-			return $display_name;
-		}
-
-		return '';
+		return get_the_author();
 	}
 
 
@@ -256,19 +264,24 @@ class BF_Json_LD_Generator {
 	 */
 	public static function generate_organization_schema() {
 
-		return array(
-			"@context"    => "http://schema.org/",
-			'@type'       => 'organization',
-			'@id'         => '#organization',
-			//
-			'logo'        => array(
+		$data = array(
+			"@context" => "http://schema.org/",
+			'@type'    => 'Organization',
+			'@id'      => '#organization',
+		);
+
+		if ( ! empty( self::$config['logo'] ) ) {
+			$data['logo'] = array(
 				'@type' => 'ImageObject',
 				'url'   => self::$config['logo'],
-			),
-			'url'         => get_bloginfo( 'url' ),
-			'name'        => get_bloginfo( 'name' ),
-			'description' => self::esc_text( get_bloginfo( 'description' ) ),
-		);
+			);
+		}
+
+		$data['url']         = home_url( '/' );
+		$data['name']        = get_bloginfo( 'name' );
+		$data['description'] = self::esc_text( get_bloginfo( 'description' ) );
+
+		return $data;
 	}
 
 
@@ -280,21 +293,24 @@ class BF_Json_LD_Generator {
 	 */
 	public static function generate_website_schema() {
 
-		return array(
-			"@context"        => "http://schema.org/",
-			'@type'           => 'WebSite',
-			'@id'             => '#website',
+		$data = array(
+			"@context"      => "http://schema.org/",
+			'@type'         => 'WebSite',
 			//
-			'url'             => get_bloginfo( 'url' ),
-			'name'            => get_bloginfo( 'name' ),
-			'description'     => self::esc_text( get_bloginfo( 'description' ) ),
-			//
-			'potentialAction' => array(
+			'name'          => get_bloginfo( 'name' ),
+			'alternateName' => self::esc_text( get_bloginfo( 'description' ) ),
+			'url'           => home_url( '/' ),
+		);
+
+		if ( is_home() || is_front_page() ) {
+			$data['potentialAction'] = array(
 				'@type'       => 'SearchAction',
 				'target'      => get_search_link() . '{search_term}',
 				'query-input' => 'required name=search_term'
-			),
-		);
+			);
+		}
+
+		return $data;
 	}
 
 
@@ -305,7 +321,8 @@ class BF_Json_LD_Generator {
 	 * @return array
 	 */
 	public static function generate_page_schema() {
-		return self::get_singular_schema( 'WebPage', array( 'add_date' => FALSE ) );
+
+		return self::get_singular_schema( 'WebPage', array( 'add_date' => false ) );
 	}
 
 
@@ -313,15 +330,18 @@ class BF_Json_LD_Generator {
 	 * Generate WooCommerce Schema
 	 *
 	 * @since 2.10.0
-	 * @return array
-	 *
 	 *
 	 * @check http://jsonld.com/product/
+	 * @return array
 	 */
 	public static function generate_product_schema() {
 
+		if ( class_exists( '\WC_Structured_Data' ) ) {
+			return [];
+		}
+
 		$product = wc_get_product();
-		$schema  = self::get_singular_schema( 'Product', FALSE );
+		$schema  = self::get_singular_schema( 'Product', false );
 
 		//
 		// Change to product to be valid!
@@ -367,7 +387,8 @@ class BF_Json_LD_Generator {
 	 * @return array
 	 */
 	public static function generate_single_schema() {
-		return self::get_singular_schema( 'BlogPosting' );
+
+		return self::get_singular_schema( self::$config['posts_type'] );
 	}
 
 
@@ -381,38 +402,32 @@ class BF_Json_LD_Generator {
 	 *
 	 * @return array
 	 */
-	public static function get_singular_schema( $type = 'BlogPosting', $args = array() ) {
+	public static function get_singular_schema( $type = '', $args = array() ) {
 
 		global $post;
 
+		if ( empty( $type ) ) {
+			$type = self::$config['posts_type'];
+		}
+
 		if ( ! isset( $args['add_search'] ) ) {
-			$args['add_search'] = TRUE;
+			$args['add_search'] = true;
 		}
 
 		if ( ! isset( $args['add_date'] ) ) {
-			$args['add_date'] = TRUE;
+			$args['add_date'] = true;
 		}
 
 		if ( ! isset( $args['add_image'] ) ) {
-			$args['add_image'] = TRUE;
+			$args['add_image'] = true;
 		}
-
 
 		$permalink = get_permalink( $post->ID );
 
 		$schema = array(
-			"@context"         => "http://schema.org/",
-			'@type'            => $type,
-			//
-			'url'              => $permalink,
-			'headline'         => $post->post_title,
-			'publisher'        => array(
-				'@id' => '#organization',
-			),
-			'mainEntityOfPage' => array(
-				'@type' => 'WebPage',
-				'@id'   => $permalink,
-			),
+			"@context" => "http://schema.org/",
+			'@type'    => ucfirst( $type ),
+			'headline' => $post->post_title,
 		);
 
 
@@ -430,14 +445,25 @@ class BF_Json_LD_Generator {
 		// Add date
 		//
 		if ( $args['add_date'] ) {
-			$schema['datePublished'] = get_the_date( 'Y-m-d' );
+			$schema['datePublished'] = get_post_time( 'Y-m-d', false, $post, false );
 			$schema['dateModified']  = get_post_modified_time( 'Y-m-d' );
-
-			// No need if it was not modified!
-			if ( $schema['datePublished'] == $schema['dateModified'] ) {
-				unset( $schema['dateModified'] );
-			}
 		}
+
+
+		//
+		// Author
+		//
+		$author = get_the_author_meta( 'display_name', $post->post_author );
+
+		$schema['author'] = array(
+			'@type' => 'Person',
+			'@id'   => '#person-' . $author,
+			'name'  => $author,
+		);
+
+		$author = sanitize_html_class( $author );
+
+		$schema['author']['@id'] = '#person-' . $author;
 
 
 		//
@@ -464,23 +490,6 @@ class BF_Json_LD_Generator {
 
 
 		//
-		// Author
-		//
-		if ( $author = self::get_the_author() ) {
-
-			$schema['author'] = array(
-				'@type' => 'Person',
-				'@id'   => '#person-' . $author,
-				'name'  => $author,
-			);
-
-			$author = sanitize_html_class( $author );
-
-			$schema['author']['@id'] = '#person-' . $author;
-		}
-
-
-		//
 		// Change type to advanced format
 		//
 		if ( 'post' === $post->post_type ) {
@@ -496,7 +505,7 @@ class BF_Json_LD_Generator {
 					$schema['@type'] = 'AudioObject';
 
 					// Add media
-					if ( $media = get_post_meta( $post->ID, self::$config['media_field_id'], TRUE ) ) {
+					if ( $media = get_post_meta( $post->ID, self::$config['media_field_id'], true ) ) {
 						$schema['contentUrl'] = $media;
 					}
 
@@ -510,7 +519,7 @@ class BF_Json_LD_Generator {
 					$schema['@type'] = 'VideoObject';
 
 					// Add media
-					if ( $media = get_post_meta( $post->ID, self::$config['media_field_id'], TRUE ) ) {
+					if ( $media = get_post_meta( $post->ID, self::$config['media_field_id'], true ) ) {
 						$schema['contentUrl'] = $media;
 					}
 
@@ -518,11 +527,12 @@ class BF_Json_LD_Generator {
 					// Change to product to be valid!
 					//
 					$schema['name']         = $schema['headline'];
-					$schema['thumbnailUrl'] = ! empty( $schema['image']['url'] ) ? $schema['image']['url'] : '';
+					$schema['thumbnailUrl'] = empty( $schema['image']['url'] ) ? '' : $schema['image']['url'];
 					$schema['uploadDate']   = $schema['datePublished'];
 					unset(
 						$schema['headline'],
 						$schema['datePublished'],
+						$schema['dateModified'],
 						$schema['image']
 					);
 
@@ -559,56 +569,23 @@ class BF_Json_LD_Generator {
 		if ( self::is_review_active() ) {
 
 			$rating_value = better_reviews_get_total_rate();
-			$criteria     = get_post_meta( $post->ID, '_bs_review_criteria', TRUE );
+			$criteria     = get_post_meta( $post->ID, '_bs_review_criteria', true );
 
 			if ( $rating_value && $criteria ) {
 
-				$type = Better_Reviews::get_meta( '_bs_review_rating_type' );
-
-				if ( $type === 'points' ) {
-					$worst = 0;
-					$best  = 10;
-				} else {
-					$worst = 0;
-					$best  = 100;
-				}
-
-
-				$schema['aggregateRating'] = array(
-					'@type'       => 'AggregateRating',
+				$worst                  = 0;
+				$best                   = 100;
+				$schema['itemReviewed'] = array(
+					'@type' => 'Thing',
+					'name'  => bf_get_post_meta( '_bs_review_heading' ) ? bf_get_post_meta( '_bs_review_heading' ) : get_the_title(),
+				);
+				$schema['reviewRating'] = array(
+					'@type'       => 'Rating',
 					'ratingValue' => $rating_value,
-					'reviewCount' => count( $criteria ),
 					'worstRating' => $worst,
 					'bestRating'  => $best,
 				);
-
-
-				//
-				// Add criteria
-				//
-				foreach ( (array) $criteria as $_cr ) {
-
-					if ( empty( $_cr['rate'] ) || empty( $_cr['label'] ) ) {
-						continue;
-					}
-
-					$schema['review'][] = array(
-						'@type'        => 'Review',
-						'itemReviewed' => array(
-							'@id' => $permalink,
-						),
-						'name'         => $_cr['label'],
-						'author'       => array(
-							'@id' => '#person-' . $author,
-						),
-						'reviewRating' => array(
-							'@type'       => 'Rating',
-							'ratingValue' => $type != 'points' ? $_cr['rate'] * 10 : $_cr['rate'],
-							'worstRating' => $worst,
-							'bestRating'  => $best,
-						),
-					);
-				}
+				$schema['@type']        = 'Product';
 			}
 		}
 
@@ -616,7 +593,7 @@ class BF_Json_LD_Generator {
 		//
 		// Comments count
 		//
-		if ( $post->post_type != 'product' && $post->post_type != 'WebPage' && post_type_supports( $post->post_type, 'comments' ) ) {
+		if ( $post->post_type != 'product' && $post->post_type != 'page' && post_type_supports( $post->post_type, 'comments' ) ) {
 
 			$schema['interactionStatistic'][] = array(
 				'@type'                => 'InteractionCounter',
@@ -624,6 +601,20 @@ class BF_Json_LD_Generator {
 				'userInteractionCount' => get_comments_number( $post ),
 			);
 		}
+
+
+		//
+		// Publisher
+		//
+		$schema['publisher'] = array(
+			'@id' => '#organization',
+		);
+
+
+		//
+		// Current Web Page
+		//
+		$schema['mainEntityOfPage'] = $permalink;
 
 
 		//
@@ -636,7 +627,7 @@ class BF_Json_LD_Generator {
 				$search_link = trailingslashit( $search_link );
 			}
 
-			$schema['potentialAction']['comments'] = array(
+			$schema['potentialAction'] = array(
 				'@type'       => 'SearchAction',
 				'target'      => $search_link . '{search_term}',
 				'query-input' => 'required name=search_term'
@@ -646,5 +637,6 @@ class BF_Json_LD_Generator {
 		return array_filter( $schema );
 	}
 }
+
 
 BF_Json_LD_Generator::init();
