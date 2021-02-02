@@ -263,6 +263,10 @@ if ( ! class_exists( 'Redux_WordPress_Data', false ) ) {
 				case 'category':
 				case 'terms':
 				case 'term':
+					if ( isset( $args['taxonomies'] ) ) {
+						$args['taxonomy'] = $args['taxonomies'];
+						unset( $args['taxonomies'] );
+					}
 					$results = get_terms( $args );
 					$data    = $this->process_results( $results, 'term_id', 'name', $display_keys, $secondary_key );
 					break;
@@ -474,10 +478,9 @@ if ( ! class_exists( 'Redux_WordPress_Data', false ) ) {
 					break;
 
 				case 'callback':
-					if ( ! is_array( $args ) ) {
-						$args = array( $args );
+					if ( ! empty( $args ) ) {
+						$data = call_user_func( $args, $current_value );
 					}
-					$data = call_user_func( $args[0], $current_value );
 					break;
 			}
 
