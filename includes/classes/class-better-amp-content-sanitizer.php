@@ -1094,7 +1094,11 @@ class Better_AMP_Content_Sanitizer {
 							$new_atts['width'] = self::sanitize_dimension( $element_atts['width'], 'width' );
 						}
 
+						if ( isset( $rule['invalid_attrs'] ) ) {
+							$atts2remove = array_merge( $atts2remove, $rule['invalid_attrs'] );
+						}
 						if ( $atts2remove ) {
+
 							$atts2remove = array_diff( $atts2remove, $white_list_atts ); // Skip white list items
 							$this->dom->remove_attributes( $element, $atts2remove ); // Remove invalid attributes
 						}

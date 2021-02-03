@@ -307,6 +307,7 @@ $rules = array(
 				'name' => 'width',
 			),
 		),
+		'invalid_attrs' => [ 'height' ],
 	),
 	array(
 		'tag_name' => 'colgroup',
