@@ -4,8 +4,6 @@ add_filter( 'better-framework/panel/better_ads_manager/fields', 'better_amp_bett
 
 if ( ! function_exists( 'better_amp_better_ad_options' ) ) {
 	/**
-	 * ThemeName ads
-	 *
 	 * @param $fields
 	 *
 	 * @return array

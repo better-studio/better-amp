@@ -148,13 +148,9 @@ if ( ! function_exists( 'better_amp_get_view' ) ) {
 			ob_start();
 		}
 
-		//do_action( 'themename-theme-core/view/before/' . $file );
-
 		if ( ! empty( $template ) ) {
 			include $template;
 		}
-
-		//do_action( 'themename-theme-core/view/after/' . $file );
 
 		if ( $echo == false ) {
 			return ob_get_clean();
@@ -490,7 +486,6 @@ if ( ! function_exists( 'better_amp_get_query' ) ) {
 
 		global $better_amp_theme_core_query;
 
-		// Add default query to ThemeName query if its not added or default query is used.
 		if ( ! is_a( $better_amp_theme_core_query, 'WP_Query' ) ) {
 			global $wp_query;
 
