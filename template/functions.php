@@ -306,80 +306,142 @@ if ( ! function_exists( 'better_amp_translation_fields' ) ) {
 	 */
 	function better_amp_translation_fields( $fields = array() ) {
 
-		$fields['prev']                     = array(
+		$fields[]          = array(
+			'type'  => 'group_start',
+			'title' => 'Pagination',
+		);
+		$fields['prev']    = array(
 			'id'      => 'prev',
 			'type'    => 'text',
 			'title'   => 'Previous',
 			'default' => 'Previous'
 		);
-		$fields['next']                     = array(
+		$fields['next']    = array(
 			'id'      => 'next',
 			'type'    => 'text',
 			'title'   => 'Next',
 			'default' => 'Next'
 		);
-		$fields['page']                     = array(
+		$fields['page']    = array(
 			'id'      => 'page',
 			'type'    => 'text',
 			'title'   => 'Page',
 			'default' => 'Page'
 		);
-		$fields['page_of']                  = array(
+		$fields['page_of'] = array(
 			'id'       => 'page_of',
 			'type'     => 'text',
 			'title'    => 'of %d',
 			'default'  => 'of %d',
 			'subtitle' => __( '%d will be replace with page number.', 'better-amp' ),
 		);
-		$fields['by_on']                    = array(
-			'id'       => 'by_on',
-			'type'     => 'text',
-			'title'    => 'By %s1 on %s2',
-			'default'  => 'By %s1 on %s2',
-			'subtitle' => __( '%s1 is author name and %s2 is post publish date.', 'better-amp' ),
+		$fields[]          = array(
+			'type' => 'group_end',
+		);
 
+		$fields[]                = array(
+			'type'  => 'group_start',
+			'title' => 'Single & Comments',
 		);
-		$fields['browse_author_articles']   = array(
-			'id'      => 'browse_author_articles',
-			'type'    => 'text',
-			'title'   => 'Browse Author Articles',
-			'default' => 'Browse Author Articles',
-		);
-		$fields['comments']                 = array(
-			'id'      => 'comments',
-			'type'    => 'text',
-			'title'   => 'Comments',
-			'default' => 'Comments',
-		);
-		$fields['add_comment']              = array(
-			'id'      => 'add_comment',
-			'type'    => 'text',
-			'title'   => 'Add Comment',
-			'default' => 'Add Comment',
-		);
-		$fields['share']                    = array(
+		$fields['share']         = array(
 			'id'      => 'share',
 			'type'    => 'text',
 			'title'   => 'Share',
 			'default' => 'Share',
 		);
-		$fields['view_desktop']             = array(
-			'id'      => 'view_desktop',
-			'type'    => 'text',
-			'title'   => 'View Desktop Version',
-			'default' => 'View Desktop Version',
+		$fields['by_on']         = array(
+			'id'       => 'by_on',
+			'type'     => 'text',
+			'title'    => 'By %s1 on %s2',
+			'default'  => 'By %s1 on %s2',
+			'subtitle' => __( '%s1 is author name and %s2 is post publish date.', 'better-amp' ),
 		);
-		$fields['read_more']                = array(
-			'id'      => 'read_more',
+		$fields['related_posts'] = array(
+			'id'      => 'related_posts',
 			'type'    => 'text',
-			'title'   => 'Read more',
-			'default' => 'Read more',
+			'title'   => 'Related Posts',
+			'default' => 'Related Posts',
 		);
-		$fields['listing_2_date']           = array(
-			'id'      => 'listing_2_date',
+
+		$fields['tags'] = array(
+			'id'      => 'tags',
 			'type'    => 'text',
-			'title'   => 'Large Listing Date Format',
-			'default' => 'M d, Y',
+			'title'   => 'Tags:',
+			'default' => 'Tags:',
+		);
+		/**
+		 * Comments Texts
+		 */
+		$fields['comments_edit']        = array(
+			'id'      => 'comments_edit',
+			'type'    => 'text',
+			'title'   => 'Edit Comment',
+			'default' => 'Edit',
+		);
+		$fields['comments_reply']       = array(
+			'id'      => 'comments_reply',
+			'type'    => 'text',
+			'title'   => 'Reply',
+			'default' => 'Reply',
+		);
+		$fields['comments_reply_to']    = array(
+			'id'      => 'comments_reply_to',
+			'type'    => 'text',
+			'title'   => 'Reply To %s',
+			'default' => 'Reply To %s',
+		);
+		$fields['comments']             = array(
+			'id'      => 'comments',
+			'type'    => 'text',
+			'title'   => 'Comments',
+			'default' => 'Comments',
+		);
+		$fields['comment_previous']     = array(
+			'id'      => 'comment_previous',
+			'type'    => 'text',
+			'title'   => 'Previous',
+			'default' => 'Previous',
+		);
+		$fields['comment_next']         = array(
+			'id'      => 'comment_next',
+			'type'    => 'text',
+			'title'   => 'Next',
+			'default' => 'Next',
+		);
+		$fields['comment_page_numbers'] = array(
+			'id'      => 'comment_page_numbers',
+			'type'    => 'text',
+			'title'   => 'Page %1$s of %2$s',
+			'default' => 'Page %1$s of %2$s',
+		);
+
+
+		$fields['browse_author_articles'] = array(
+			'id'      => 'browse_author_articles',
+			'type'    => 'text',
+			'title'   => 'Browse Author Articles',
+			'default' => 'Browse Author Articles',
+		);
+		$fields['comments']               = array(
+			'id'      => 'comments',
+			'type'    => 'text',
+			'title'   => 'Comments',
+			'default' => 'Comments',
+		);
+		$fields['add_comment']            = array(
+			'id'      => 'add_comment',
+			'type'    => 'text',
+			'title'   => 'Add Comment',
+			'default' => 'Add Comment',
+		);
+
+		$fields[] = array(
+			'type' => 'group_end',
+		);
+		////////
+		$fields[]                           = array(
+			'type'  => 'group_start',
+			'title' => 'Search',
 		);
 		$fields['search_on_site']           = array(
 			'id'      => 'search_on_site',
@@ -399,23 +461,33 @@ if ( ! function_exists( 'better_amp_translation_fields' ) ) {
 			'title'   => 'Search button',
 			'default' => 'Search',
 		);
-		$fields['header']                   = array(
-			'id'      => 'header',
-			'type'    => 'text',
-			'title'   => 'Header',
-			'default' => 'Header',
+		$fields[]                           = array(
+			'type' => 'group_end',
 		);
-		$fields['tags']                     = array(
-			'id'      => 'tags',
-			'type'    => 'text',
-			'title'   => 'Tags:',
-			'default' => 'Tags:',
+
+		$fields[]                           = array(
+			'type'  => 'group_start',
+			'title' => 'Listing',
 		);
-		$fields['mr_404']                   = array(
-			'id'      => 'mr_404',
+		$fields['read_more']      = array(
+			'id'      => 'read_more',
 			'type'    => 'text',
-			'title'   => '404 Page Message',
-			'default' => 'Oops! That page cannot be found.',
+			'title'   => 'Read more',
+			'default' => 'Read more',
+		);
+		$fields['listing_2_date'] = array(
+			'id'      => 'listing_2_date',
+			'type'    => 'text',
+			'title'   => 'Large Listing Date Format',
+			'default' => 'M d, Y',
+		);
+
+		$fields[]                           = array(
+			'type' => 'group_end',
+		);
+		$fields[]                 = array(
+			'type'  => 'group_start',
+			'title' => 'Archive',
 		);
 
 		$fields['browsing']                  = array(
@@ -484,118 +556,19 @@ if ( ! function_exists( 'better_amp_translation_fields' ) ) {
 			'title'   => 'Browsing shop tag',
 			'default' => 'Browsing shop tag',
 		);
-		$fields['related_posts']             = array(
-			'id'      => 'related_posts',
-			'type'    => 'text',
-			'title'   => 'Related Posts',
-			'default' => 'Related Posts',
+		$fields[]                            = array(
+			'type' => 'group_end',
 		);
 
-		/**
-		 * Comments Texts
-		 */
-		$fields['comments_edit']        = array(
-			'id'      => 'comments_edit',
-			'type'    => 'text',
-			'title'   => 'Edit Comment',
-			'default' => 'Edit',
-		);
-		$fields['comments_reply']       = array(
-			'id'      => 'comments_reply',
-			'type'    => 'text',
-			'title'   => 'Reply',
-			'default' => 'Reply',
-		);
-		$fields['comments_reply_to']    = array(
-			'id'      => 'comments_reply_to',
-			'type'    => 'text',
-			'title'   => 'Reply To %s',
-			'default' => 'Reply To %s',
-		);
-		$fields['comments']             = array(
-			'id'      => 'comments',
-			'type'    => 'text',
-			'title'   => 'Comments',
-			'default' => 'Comments',
-		);
-		$fields['comment_previous']     = array(
-			'id'      => 'comment_previous',
-			'type'    => 'text',
-			'title'   => 'Previous',
-			'default' => 'Previous',
-		);
-		$fields['comment_next']         = array(
-			'id'      => 'comment_next',
-			'type'    => 'text',
-			'title'   => 'Next',
-			'default' => 'Next',
-		);
-		$fields['comment_page_numbers'] = array(
-			'id'      => 'comment_page_numbers',
-			'type'    => 'text',
-			'title'   => 'Page %1$s of %2$s',
-			'default' => 'Page %1$s of %2$s',
-		);
-
-
-		$fields['asides']    = array(
-			'id'      => 'asides',
-			'type'    => 'text',
-			'title'   => 'Asides',
-			'default' => 'Asides',
-		);
-		$fields['galleries'] = array(
-			'id'      => 'galleries',
-			'type'    => 'text',
-			'title'   => 'Galleries',
-			'default' => 'Galleries',
-		);
-		$fields['images']    = array(
-			'id'      => 'images',
-			'type'    => 'text',
-			'title'   => 'Images',
-			'default' => 'Images',
-		);
-		$fields['videos']    = array(
-			'id'      => 'videos',
-			'type'    => 'text',
-			'title'   => 'Videos',
-			'default' => 'Videos',
-		);
-		$fields['quotes']    = array(
-			'id'      => 'quotes',
-			'type'    => 'text',
-			'title'   => 'Quotes',
-			'default' => 'Quotes',
-		);
-		$fields['links']     = array(
-			'id'      => 'links',
-			'type'    => 'text',
-			'title'   => 'Links',
-			'default' => 'Links',
-		);
-		$fields['statuses']  = array(
-			'id'      => 'statuses',
-			'type'    => 'text',
-			'title'   => 'Statuses',
-			'default' => 'Statuses',
-		);
-		$fields['audio']     = array(
-			'id'      => 'audio',
-			'type'    => 'text',
-			'title'   => 'Audio',
-			'default' => 'Audio',
-		);
-		$fields['chats']     = array(
-			'id'      => 'chats',
-			'type'    => 'text',
-			'title'   => 'Chats',
-			'default' => 'Chats',
-		);
 
 		/**
 		 * Attachment Texts
 		 */
+
+		$fields[]                           = array(
+			'type'  => 'group_start',
+			'title' => 'Attachment',
+		);
 		$fields['attachment-return-to']     = array(
 			'id'      => 'attachment-return-to',
 			'type'    => 'text',
@@ -638,10 +611,19 @@ if ( ! function_exists( 'better_amp_translation_fields' ) ) {
 			'title'   => 'Previous  Attachment',
 			'default' => 'Previous',
 		);
+		$fields[]                           = array(
+			'type' => 'group_end',
+		);
 
 		/**
 		 * WooCommerce Texts
 		 */
+
+		$fields[] = array(
+			'type'  => 'group_start',
+			'title' => 'WooCommerce',
+		);
+
 		$fields['product-shop']    = array(
 			'id'      => 'product-shop',
 			'type'    => 'text',
@@ -671,6 +653,93 @@ if ( ! function_exists( 'better_amp_translation_fields' ) ) {
 			'type'    => 'text',
 			'title'   => 'Sale!',
 			'default' => 'Sale!',
+		);
+
+		$fields[] = array(
+			'type' => 'group_end',
+		);
+		$fields[] = array(
+			'type'  => 'group_start',
+			'title' => 'Miscellaneous',
+		);
+
+
+		$fields['header']         = array(
+			'id'      => 'header',
+			'type'    => 'text',
+			'title'   => 'Header',
+			'default' => 'Header',
+		);
+
+		$fields['view_desktop'] = array(
+			'id'      => 'view_desktop',
+			'type'    => 'text',
+			'title'   => 'View Desktop Version',
+			'default' => 'View Desktop Version',
+		);
+
+		$fields['mr_404'] = array(
+			'id'      => 'mr_404',
+			'type'    => 'text',
+			'title'   => '404 Page Message',
+			'default' => 'Oops! That page cannot be found.',
+		);
+		$fields['asides']       = array(
+			'id'      => 'asides',
+			'type'    => 'text',
+			'title'   => 'Asides',
+			'default' => 'Asides',
+		);
+		$fields['galleries']    = array(
+			'id'      => 'galleries',
+			'type'    => 'text',
+			'title'   => 'Galleries',
+			'default' => 'Galleries',
+		);
+		$fields['images']       = array(
+			'id'      => 'images',
+			'type'    => 'text',
+			'title'   => 'Images',
+			'default' => 'Images',
+		);
+		$fields['videos']       = array(
+			'id'      => 'videos',
+			'type'    => 'text',
+			'title'   => 'Videos',
+			'default' => 'Videos',
+		);
+		$fields['quotes']       = array(
+			'id'      => 'quotes',
+			'type'    => 'text',
+			'title'   => 'Quotes',
+			'default' => 'Quotes',
+		);
+		$fields['links']        = array(
+			'id'      => 'links',
+			'type'    => 'text',
+			'title'   => 'Links',
+			'default' => 'Links',
+		);
+		$fields['statuses']     = array(
+			'id'      => 'statuses',
+			'type'    => 'text',
+			'title'   => 'Statuses',
+			'default' => 'Statuses',
+		);
+		$fields['audio']        = array(
+			'id'      => 'audio',
+			'type'    => 'text',
+			'title'   => 'Audio',
+			'default' => 'Audio',
+		);
+		$fields['chats']        = array(
+			'id'      => 'chats',
+			'type'    => 'text',
+			'title'   => 'Chats',
+			'default' => 'Chats',
+		);
+		$fields[]               = array(
+			'type' => 'group_end',
 		);
 
 		return $fields;

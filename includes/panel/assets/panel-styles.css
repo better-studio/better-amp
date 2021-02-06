@@ -1,0 +1,480 @@
+#bf-panel {
+    font-size: 15px;
+    position: relative;
+}
+.bf-page-header {
+    background-color: #fff;
+    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
+    text-align: center;
+    border-bottom: 1px solid #e5e5e5;
+    -webkit-transition: all .3s ease;
+    -moz-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    transition: height .3s ease, padding-top .3s ease, padding-bottom .3s ease;
+}
+
+
+.bf-page-header .bf-page-header-inner {
+    padding: 45px 20px 25px 20px;
+    position: relative;
+}
+.bf-clearfix:before,
+.bf-clearfix:after {
+    content: "";
+    display: table;
+}
+
+.bf-clearfix:after {
+    clear: both;
+}
+
+
+.bf-page-header .page-title {
+    margin: 0 0 15px;
+    padding: 0;
+    font-size: 46px;
+    font-weight: 400;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    -webkit-transition: all .3s ease;
+    -moz-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    transition: all .3s ease;
+}
+
+.bf-page-header-wrapper {
+    position: relative;
+}
+
+.bf-page-header .page-desc {
+    -webkit-transition: all .3s ease;
+    -moz-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    transition: all .3s ease;
+}
+.bf-page-header .page-desc p {
+    margin: 0;
+    padding: 0;
+    font-size: 21px;
+    font-weight: 300;
+    line-height: 1.3;
+    color: #777;
+}
+.bf-page-header .reset-sec {
+    -webkit-transition: all .3s ease;
+    -moz-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    transition: all .3s ease;
+}
+
+#bf-panel .fright {
+    float: right;
+}
+
+#bf-panel .fleft {
+    float: left;
+}
+.bf-button {
+    border-radius: 0;
+    line-height: normal;
+    line-height: 32px;
+    display: inline-block;
+    border: 1px solid #E2DDDB;
+    background: #F5F5F5;
+    padding: 0 14px;
+    cursor: pointer;
+    font-weight: bold;
+    color: #4D4D4D;
+    outline: none;
+    -webkit-transition: all .3s ease;
+    -moz-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    transition: all .3s ease;
+    font-size: 13px;
+    text-decoration: none;
+}
+
+.bf-button:hover {
+    border: 1px solid #C0C0C0;
+    background: #F0F0F0;
+    color: #383838;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, .05);
+}
+
+.bf-button.bf-main-button {
+    background-color: #2d9ec7;
+    border-color: #0074a2;
+    color: #fff;
+}
+
+
+.bf-button i[class^="bsai-"] {
+    font-size: 16px;
+    margin-right: 4px;
+}
+
+.bf-page-header .bf-options-change-notice {
+    background: #f10f0f;
+    color: #fff;
+    white-space: normal;
+    padding: 0 5px;
+    margin: 0;
+    display: inline-block;
+    text-align: center;
+    line-height: 20px;
+    font-size: 12px;
+    position: absolute;
+    bottom: 25px;
+    left: 50%;
+    height: 20px;
+    width: 146px;
+    transform: translateX(-50%);
+    -webkit-backface-visibility: hidden;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.bf-page-header .bf-options-change-notice:before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    background: #fff;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 4px;
+}
+
+
+#bf-main {
+    background: #FFFFFF;
+    border: 1px solid #E2E2E2;
+    max-width: 1060px;
+    margin: 15px auto;
+    padding: 20px;
+    border-radius: 3px;
+}
+
+#bf-nav {
+    width: 25%;
+    float: left;
+}
+
+#bf-nav > ul {
+    margin-top: 0;
+    padding-bottom: 20px;
+}
+
+#bf-nav > ul > li {
+    margin: 0;
+}
+
+
+#bf-nav > ul > li:first-child a {
+    border-top: 1px solid #E8E8E8;
+}
+
+#bf-nav > ul > li a.active_tab {
+    background-color: #fff;
+    position: relative;
+}
+
+#bf-nav > ul > li.child_active > a:after,
+#bf-nav > ul > li a.active_tab:after {
+    content: " ";
+    right: -1px;
+    height: 100%;
+    width: 1px;
+    position: absolute;
+    pointer-events: none;
+    top: 0;
+    background-color: #fff;
+}
+
+#bf-nav > ul > li.child_active > a {
+    position: relative;
+    background-color: #0074a2;
+    color: white;
+}
+
+#bf-nav > ul > li > ul.sub-nav > li {
+    margin: 0;
+}
+
+#bf-nav > ul > li > ul.sub-nav > li a {
+    font-size: 13px;
+    line-height: 1.2;
+    padding: 8px 12px;
+
+}
+
+#bf-nav > ul > li > ul.sub-nav a {
+    background-color: #2E2E2E;
+}
+
+#bf-nav > ul > li.child_active > ul.sub-nav a.active_tab {
+    color: white;
+    font-weight: 600;
+}
+
+#bf-nav > ul > li.margin-top-10 {
+    margin-top: 10px;
+    border-top: 1px solid #E8E8E8;
+}
+
+#bf-nav > ul > li.margin-top-20 {
+    margin-top: 20px;
+    border-top: 1px solid #E8E8E8;
+}
+
+#bf-nav > ul > li.margin-top-30 {
+    border-top: 1px solid #E8E8E8;
+    margin-top: 30px;
+}
+
+#bf-nav > ul > li.margin-top-40 {
+    margin-top: 40px;
+    border-top: 1px solid #E8E8E8;
+}
+
+#bf-nav > ul > li.margin-top-50 {
+    margin-top: 50px;
+    border-top: 1px solid #E8E8E8;
+}
+
+#bf-nav > ul > li a {
+    position: relative;
+    display: block;
+    padding: 14px 0 14px 16px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 18px;
+    color: #444;
+    text-decoration: none;
+    outline: none;
+    background-color: #F9F9F9;
+    border-bottom: 1px solid #E8E8E8;
+    -webkit-transition: all .3s ease;
+    border-left: 1px solid #E8E8E8;
+    -moz-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    transition: all .3s ease;
+    box-shadow: none;
+}
+
+#bf-nav > ul > li a .bf-icon {
+    margin: 0 7px 0 0;
+    font-size: 18px;
+    vertical-align: middle;
+    line-height: 18px;
+}
+#bf-content {
+    padding: 15px;
+    width: 75%;
+    float: right;
+    min-height: 760px;
+    background-color: #fff;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border: 1px solid #E8E8E8;
+}
+
+.bf-loading-wrapper {
+    position: relative;
+}
+#bf_options_form,
+#bf-panel .group,
+.bf-loading-wrapper {
+    min-height:inherit;
+}
+
+.bf-section-container {
+    padding-right: 20px;
+    padding-left: 20px;
+}
+
+.bf-section-container.highlight-hover {
+    -webkit-transition: all .3s ease;
+    -moz-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    transition: all .3s ease;
+}
+
+.bf-section-container.highlight-hover:hover {
+    background-color: #FFFEE7;
+
+}
+.bf-section-container .bf-section {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #F4F3F3;
+}
+.bf-section-container.bf-admin-panel .bf-section .bf-heading {
+    width: 50%;
+    float: left;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 0 20px 0 0;
+}
+
+.bf-section-container.bf-admin-panel .bf-section .bf-heading h3 {
+    margin: 0 0 8px !important;
+    border-bottom: none;
+    font-weight: 600 !important;
+    padding: 0px !important;
+    font-size: 14px !important;
+    line-height: 1.4 !important;
+    cursor: default;
+    position: relative;
+    color: #222222;
+}
+
+.bf-section-container.bf-admin-panel .bf-section .bf-heading h3 label {
+    cursor: default;
+}
+
+
+.bf-section-container.bf-admin-panel .bf-section .bf-controls {
+    width: 50%;
+    float: right;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 0;
+}
+
+.bf-section-container .bf-section.full-width-controls .bf-explain,
+.bf-section-container .bf-section.full-width-controls .bf-heading,
+.bf-section-container .bf-section.full-width-controls .bf-controls {
+    width: 100% !important;
+}
+
+
+
+
+
+.bf-section-tree-select select,
+.bf-select-option-container select,
+.bf-section-container .bf-section .bf-controls textarea,
+.bf-section-container .bf-section .bf-controls input[type=text],
+.bf-section-container.bf-menus .bf-select-option-container select,
+.bf-section-container .bf-section .bf-controls select,
+.bf-section-container .bf-section .bf-controls .select-placeholder {
+    margin: 0;
+    box-shadow: none;
+    width: 100%;
+    margin: 0;
+    border: 1px solid #d6d6d6;
+    color: #333333;
+    padding: 3px 13px;
+    pearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -o-appearance: none;
+    border: 1px solid #d9d9d9;
+    box-sizing: border-box;
+    -webkit-box-sizing: none;
+    -moz-box-sizing: none;
+    -o-box-sizing: none;
+    display: block;
+    font-size: 13px;
+    outline: none;
+    overflow: ellipsis;
+    position: relative;
+    text-indent: 0.01px;
+    text-overflow: '';
+    -webkit-text-overflow: none;
+    -moz-text-overflow: none;
+    -o-text-overflow: none;
+    vertical-align: middle;
+    z-index: 1;
+    height: 34px;
+    -webkit-transition: all .3s ease;
+    -moz-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    transition: all .3s ease;
+    border-radius: 0;
+}
+.bf-section-container .bf-section .bf-controls input[type=text],
+.bf-section-container .bf-select-option-container,
+.bf-section-container .bf-ajax_select-field-container {
+    max-width: 370px;
+}
+
+
+.fields-group {
+    border: 1px solid #D3D3D3;
+    margin-bottom: 25px;
+    margin-top: 25px;
+}
+
+.fields-group:first-child {
+    margin-top: 4px;
+}
+
+.fields-group .fields-group-title-container {
+    background-color: #F5F5F5;
+    border-bottom: 1px solid #D3D3D3;
+    padding: 0;
+    position: relative;
+    height: 40px;
+    line-height: 40px;
+}
+
+.fields-group .fields-group-title-container .fields-group-title {
+    font-size: 15px;
+    color: #222222;
+    font-weight: bold;
+    display: block;
+    padding: 0 62px 0 20px;
+}
+
+.fields-group.collapsible .fields-group-title-container .fields-group-title {
+    cursor: pointer;
+}
+
+.fields-group.collapsible .fields-group-title-container .collapse-button {
+    width: 40px;
+    height: 100%;
+    line-height: 39px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    color: #7C7C7C;
+    display: inline-block;
+    padding: 0;
+    position: absolute;
+    right: -1px;
+    top: -1px;
+    border: 1px solid #d9d9d9;
+    -webkit-transition: all 0.2s ease;
+    -moz-transition: all 0.2s ease;
+    -ms-transition: all 0.2s ease;
+    -o-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.fields-group.collapsible .fields-group-title-container:hover .collapse-button {
+    color: #222222;
+}
+
+.fields-group.collapsible .bf-group-inner {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.fields-group.collapsible .bf-group-desc {
+    padding: 15px 20px;
+    color: #939393;
+    font-size: 13px;
+}
+
+.bf-group-inner .fields-group {
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 15px;
+}
