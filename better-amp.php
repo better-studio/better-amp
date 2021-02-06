@@ -159,9 +159,6 @@ class Better_AMP {
 		$this->admin_hooks();
 
 		$this->metaboxes();
-
-		$this->admin_init();
-
 	}
 
 
@@ -272,6 +269,7 @@ class Better_AMP {
 
 		Better_AMP_Custom_Script::Run();
 
+		Better_AMP_Panel::Run();
 	} // apply_hooks
 
 
@@ -1205,26 +1203,6 @@ class Better_AMP {
 
 			update_post_meta( $post_id, 'disable-better-amp', '1' );
 		}
-	}
-
-
-	/**
-	 * Admin functionality
-	 *
-	 * @since 1.0.0
-	 */
-	public function admin_init() {
-
-		if ( ! is_admin() ) {
-			return;
-		}
-
-		if ( ! class_exists( 'Redux' ) ) {
-
-			require_once BETTER_AMP_INC . 'redux/redux-framework.php';
-		}
-
-		require_once BETTER_AMP_INC . 'admin-fields.php';
 	}
 
 
