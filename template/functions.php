@@ -55,59 +55,21 @@ add_action( 'better-amp/template/enqueue-scripts', 'better_amp_custom_styles', 1
  */
 function better_amp_custom_styles() {
 
-	$theme_color = better_amp_get_theme_mod( 'better-amp-color-theme', false );
-
-	$text_color = better_amp_get_theme_mod( 'better-amp-color-text', false );
-
 	ob_start();
-
 	?>
-
-	/*
-	* => Theme Color
-	*/
-	.listing-item a.post-read-more:hover,
-	.post-terms.cats .term-type,
-	.post-terms a:hover,
-	.search-form .search-submit,
-	.better-amp-main-link a,
-	.sidebar-brand,
-	.site-header{
-	background:<?php echo $theme_color ?>;
+	:root{
+		--primary-color: <?php echo better_amp_get_theme_mod( 'better-amp-color-theme', false ) ?>;
+		--text-color: <?php echo better_amp_get_theme_mod( 'better-amp-color-text', false ) ?>;
+		--bg-color: <?php echo better_amp_get_theme_mod( 'better-amp-color-bg', false ) ?>;
+		--content-bg-color:<?php echo better_amp_get_theme_mod( 'better-amp-color-content-bg', false ) ?>;
+		--footer-bg-color:<?php echo better_amp_get_theme_mod( 'better-amp-color-footer-bg', false ) ?>;
+		--footer-nav-bg-color:<?php echo better_amp_get_theme_mod( 'better-amp-color-footer-nav-bg', false ) ?>;
 	}
-	.single-post .post-meta a,
-	.entry-content ul.bs-shortcode-list li:before,
-	a{
-	color: <?php echo $theme_color ?>;
-	}
-	.btn {
-	background: <?php echo $theme_color ?>;
-	}
-
-
-	/*
-	* => Other Colors
-	*/
-	body.body {
-	background:<?php echo better_amp_get_theme_mod( 'better-amp-color-bg', false ) ?>;
-	}
-	.better-amp-wrapper {
-	background:<?php echo better_amp_get_theme_mod( 'better-amp-color-content-bg', false ) ?>;
-	color: <?php echo $text_color ?>;
-	}
-	.better-amp-footer {
-	background:<?php echo better_amp_get_theme_mod( 'better-amp-color-footer-bg', false ) ?>;
-	}
-	.better-amp-footer-nav {
-	background:<?php echo better_amp_get_theme_mod( 'better-amp-color-footer-nav-bg', false ) ?>;
-	}
-
 	<?php
 
 	better_amp_add_inline_style( ob_get_clean(), 'theme_panel_color_fields' );
 
 	better_amp_add_inline_style( better_amp_get_theme_mod( 'better-amp-additional-css', false ), 'custom_codes_from_panel' );
-
 }
 
 

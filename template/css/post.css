@@ -41,6 +41,7 @@
     text-decoration: none;
     font-size: 14px;
     text-transform: capitalize;
+    color: var(--primary-color);
 }
 
 

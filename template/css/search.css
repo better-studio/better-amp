@@ -50,4 +50,5 @@ body.search-results .search-form.empty {
     line-height: 38px;
     padding: 0 22px;
     border-radius: 0 33px 33px 0;
+    background: var(--primary-color);
 }

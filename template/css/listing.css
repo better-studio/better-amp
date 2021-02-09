@@ -45,6 +45,7 @@
 .listing-item a.post-read-more:hover {
     border-color: transparent;
     color: #fff;
+    background: var(--primary-color);
 }
 .listing-item .post-excerpt {
     color: inherit;

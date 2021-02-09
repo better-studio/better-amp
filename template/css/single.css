@@ -206,6 +206,7 @@
     position: absolute;
     left: 0;
     top: 6px;
+    color: var(--primary-color);
 }
 .entry-content ul.bs-shortcode-list li:empty{
     display: none;
