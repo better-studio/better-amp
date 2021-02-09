@@ -3,3 +3,7 @@
     -moz-box-sizing: border-box;
     box-sizing: border-box;
 }
+amp-iframe {
+    max-width: 100%;
+    height: auto;
+}
