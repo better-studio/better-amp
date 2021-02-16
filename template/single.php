@@ -33,16 +33,16 @@ better_amp_the_post();
 				$meta_key = '_featured_embed_code';
 			}
 
-			$media_url = get_post_meta( get_the_ID(), $meta_key, TRUE );
+			$media_url = get_post_meta( get_the_ID(), $meta_key, true );
 		} else {
-			$media_url = FALSE;
+			$media_url = false;
 		}
 
 		if ( ! empty( $media_url ) ) {
 
 			$embeded = better_amp_auto_embed_content( $media_url );
 
-			$show_image_thumbnail = FALSE;
+			$show_image_thumbnail = false;
 
 			?>
 			<div
@@ -155,7 +155,7 @@ if ( better_amp_get_theme_mod( 'better-amp-post-show-comment' ) && ( comments_op
 
 			// disable auto redirect for this link
 			if ( better_amp_get_theme_mod( 'better-amp-mobile-auto-redirect' ) ) {
-				$link = add_query_arg( 'bamp-skip-redirect', TRUE, $link );
+				$link = add_query_arg( 'bamp-skip-redirect', true, $link );
 			}
 
 			?>
@@ -163,14 +163,20 @@ if ( better_amp_get_theme_mod( 'better-amp-post-show-comment' ) && ( comments_op
 			   class="button add-comment"><?php better_amp_translation_echo( 'add_comment' ); ?></a>
 		</div>
 
-		<ul class="comment-list">
-			<?php better_amp_list_comments(); ?>
-		</ul>
+		<?php
+
+		$comments = better_amp_list_comments( array( 'echo' => false ) );
+
+		if ( $comments ) {
+			echo "<ul class='comment-list'>{$comments}</ul>";
+		}
+
+		?>
 	</div>
 
 	<?php
 
-	if ( get_comment_pages_count() ) { ?>
+	if ( get_comment_pages_count() > 1 ) { ?>
 		<div class="comments-pagination pagination">
 			<?php better_amp_comments_paginate() ?>
 
