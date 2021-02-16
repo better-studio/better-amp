@@ -1,0 +1,41 @@
+/*
+ * => Archive Pages Header
+ */
+.archive-page-header{
+    padding: 15px 18px 11px;
+    margin: 0 0 15px;
+    background: #fff;
+    font-family: Roboto;
+    font-size: 25px;
+    font-weight: 500;
+    border: 1px solid #dcdcdc;
+    position: relative;
+}
+.archive-page-header .pre-title,
+.archive-page-header .archive-description{
+    font-size: 14px;
+    margin-bottom: 3px;
+    font-weight: 400;
+    color: #868686;
+}
+.archive-page-header .archive-title{
+    margin: 0;
+    font-size: 26px;
+    text-transform: capitalize;
+}
+.archive-page-header .archive-title .fa{
+    margin-right: 10px;
+}
+
+.archive-page-header h1 {
+    font-size: 30px;
+}
+
+.archive-page-header h1 .fa {
+    margin-right: 8px;
+}
+
+body.rtl .archive-page-header h1 .fa {
+    margin-left: 8px;
+    margin-right: 0;
+}

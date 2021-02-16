@@ -1,0 +1,163 @@
+/*
+
+BetterAMP ads style for BetterAds
+
+    1. =>Base & Helpers
+    2. =>Ads Container
+    3. =>Ad Container
+    4. =>Columns
+    5. =>Ad Locations
+
+*/
+
+/**
+ * 1. =>Base & Helpers
+ **************************************************************/
+.bsac-clearfix:before,
+.bsac-clearfix:after{
+    content: "";
+    display: table;
+}
+.bsac-clearfix:after{
+    clear: both;
+}
+.bsac-clearfix{
+    zoom: 1;
+}
+.bsac-caption {
+    display: block;
+    color: #bbbbbb;
+    font-size: 12px;
+    line-height: 24px;
+}
+.bsac-container.bsac-container a{
+    text-decoration: none;
+}
+.bsac-type-code br{
+    display: none;
+}
+.better-ads-post-top {
+    margin-bottom: 20px;
+}
+.better-ads-post-bottom {
+    margin-top: 20px;
+    margin-bottom: 0;
+}
+.bsac-empty-note{
+    display: none;
+}
+
+
+/**
+ * 2. =>Ads Container
+ **************************************************************/
+.bsac.bsac .bsac-type-image amp-img{
+    display: inline-block;
+}
+.bsac.bsac-align-center{
+    text-align: center;
+}
+.bsac.bsac-align-right{
+    text-align: right;
+}
+.bsac.bsac-align-left{
+    text-align: left;
+}
+.bsac.bsac-float-left{
+    float: left;
+    margin-right: 20px;
+}
+.bsac.bsac-float-right{
+    float: right;
+    margin-left: 20px;
+}
+@media only screen and (max-width : 780px) {
+    .bsac.bsac-full-width.bsac-full-width {
+        margin-left: calc(50% - 50vw);
+        margin-right: calc(50% - 50vw);
+        width: auto;
+        max-width: 1000%;
+    }
+}
+@media only screen and (min-width : 780px) {
+    .bsac.bsac-full-width.bsac-full-width {
+        margin-left: -15px;
+        margin-right: -15px;
+        width: auto;
+        max-width: 1000%;
+    }
+}
+
+/**
+ * 3. =>Ad Container
+ **************************************************************/
+.bsac .bsac-container{
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+}
+.bsac .bsac-container.bsac-type-code object,
+.bsac .bsac-container.bsac-type-code embed,
+.bsac .bsac-container.bsac-type-image img{
+    max-width: 100%;
+}
+.bsac .bsac-container.bsac-type-image .ad-caption{
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: inline-block;
+    width: 100%;
+    font-size: 12px;
+}
+
+
+/**
+ * 4. =>Columns
+ **************************************************************/
+
+/* 2 column */
+.bsac.bsac-column-2 .bsac-container{
+    float: left;
+    width: 50%;
+}
+.bsac.bsac-column-2 .bsac-container:nth-of-type(odd){
+    padding-right: 5px;
+    clear: left;
+}
+.bsac.bsac-column-2 .bsac-container:nth-of-type(even){
+    padding-left: 5px;
+}
+
+/* 3 column */
+.bsac.bsac-column-3 .bsac-container{
+    float: left;
+    width: 33.3333%;
+}
+.bsac.bsac-column-3 .bsac-container:nth-child( 3n-1 ){
+    padding: 0 3px;
+}
+.bsac.bsac-column-3 .bsac-container:nth-child( 3n-2 ){
+    padding-right: 6px;
+    clear: left;
+}
+.bsac.bsac-column-3 .bsac-container:nth-child( 3n+3  ){
+    padding-left: 6px;
+}
+
+
+/**
+ * 5. =>Ad Locations
+ **************************************************************/
+.bsac.location-amp_header_after{
+    padding-top: 20px;
+    margin-bottom: -15px;
+}
+.posts-listing.posts-listing-2 .bsac.location-amp_archive_after_x,
+.posts-listing.posts-listing-1 .bsac.location-amp_archive_after_x {
+    padding-top: 20px;
+}
+.posts-listing.posts-listing-2 .bsac.location-amp_archive_after_x + .listing-2-item,
+.posts-listing.posts-listing-1 .bsac.location-amp_archive_after_x + .listing-1-item{
+    border-top: 1px solid #e6e6e6;
+}

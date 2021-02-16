@@ -1,0 +1,23 @@
+.wp-block-table.has-fixed-layout {
+    table-layout: fixed;
+    width: 100%;
+}
+
+.wp-block-table.alignleft, .wp-block-table.aligncenter, .wp-block-table.alignright {
+    display: table;
+    width: auto;
+}
+
+.wp-block-table.is-style-stripes {
+    border-spacing: 0;
+    border-collapse: inherit;
+    border-bottom: 1px solid #f3f4f5;
+}
+
+.wp-block-table.is-style-stripes tr:nth-child(odd) {
+    background-color: #f3f4f5;
+}
+
+.wp-block-table.is-style-stripes td {
+    border-color: transparent;
+}

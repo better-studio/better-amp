@@ -1,0 +1,167 @@
+/*
+ * => Social List
+ */
+.amp-social-list-wrapper {
+    margin: 15px 0;
+}
+.amp-social-list-wrapper.share-list {
+    border: 1px solid #e2e2e2;
+    padding: 10px 10px 6px;
+}
+.amp-social-list-wrapper .number {
+    font-size: 12px;
+    font-weight: 700;
+    margin: 0 0 0 4px;
+    font-family: Arial,"Helvetica Neue",Helvetica,sans-serif;
+    display: inline-block;
+}
+.amp-social-list-wrapper .post-share-btn {
+    background: #fff;
+    border: 1px solid #e2e2e2;
+    line-height: 30px;
+    height: 30px;
+    display: inline-block;
+    padding: 0 10px;
+    border-radius: 30px;
+    font-size: 12px;
+    color: #4d4d4d;
+    margin-right: 8px;
+    margin-bottom: 4px;
+    vertical-align: top;
+}
+.amp-social-list-wrapper .post-share-btn .fa {
+    font-size: 14px;
+}
+.amp-social-list-wrapper .post-share-btn .text,
+.amp-social-list-wrapper .post-share-btn .number,
+.amp-social-list-wrapper .post-share-btn .fa {
+    line-height: 28px;
+    vertical-align: top;
+}
+.amp-social-list-wrapper .post-share-btn .text{
+    font-size: 12px;
+    margin-left: 3px;
+}
+ul.amp-social-list{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    font-size: 0;
+    vertical-align: top;
+}
+.amp-social-list li{
+    display: inline-block;
+    margin-right: 6px;
+    vertical-align: top;
+}
+.amp-social-list li:last-child {
+    margin-right: 0;
+}
+.amp-social-list .social-item a{
+    color: #fff;
+    min-width: 30px;
+    height: 30px;
+    overflow: hidden;
+    border-radius: 15px;
+    background: #bbbbbb;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 14px;
+    line-height: 28px;
+    margin-bottom: 5px;
+}
+.amp-social-list .social-item.has-count a {
+    padding: 0 10px 0 10px;
+}
+.amp-social-list .social-item.has-count .fa {
+    margin-right: 1px;
+}
+.amp-social-list .fa {
+    vertical-align: middle;
+}
+.amp-social-list .item-title {
+    display: none;
+}
+.amp-social-list .number:empty {
+    display: none;
+}
+.amp-social-list .social-item.facebook a {
+    background-color: #2d5f9a;
+}
+.amp-social-list .social-item.facebook a:hover {
+    background-color: #1b4a82;
+}
+.amp-social-list .social-item.twitter a {
+    background-color: #53c7ff;
+}
+.amp-social-list .social-item.twitter a:hover {
+    background-color: #369ed0;
+}
+.amp-social-list .social-item.google_plus a {
+    background-color: #d93b2b;
+}
+.amp-social-list .social-item.google_plus a:hover {
+    background-color: #b7291a;
+}
+.amp-social-list .social-item.pinterest a {
+    background-color: #a41719;
+}
+.amp-social-list .social-item.pinterest a:hover {
+    background-color: #8c0a0c;
+}
+.amp-social-list .social-item.linkedin a {
+    background-color: #005182;
+}
+.amp-social-list .social-item.linkedin a:hover {
+    background-color: #003b5f;
+}
+.amp-social-list .social-item.email a {
+    background-color: #444444;
+}
+.amp-social-list .social-item.email a:hover {
+    background-color: #2f2f2f;
+}
+.amp-social-list .social-item.tumblr a {
+    background-color: #3e5a70;
+}
+.amp-social-list .social-item.tumblr a:hover {
+    background-color: #426283;
+}
+.amp-social-list .social-item.telegram a {
+    background-color: #179cde;
+}
+.amp-social-list .social-item.telegram a:hover {
+    background-color: #0f8dde;
+}
+.amp-social-list .social-item.reddit a {
+    background-color: #ff4500;
+}
+.amp-social-list .social-item.reddit a:hover {
+    background-color: #dc3c01;
+}
+.amp-social-list .social-item.stumbleupon a {
+    background-color: #ee4813;
+}
+.amp-social-list .social-item.stumbleupon a:hover {
+    background-color: #ce3d0f;
+}
+.amp-social-list .social-item.vk a {
+    background-color: #4c75a3;
+}
+.amp-social-list .social-item.vk a:hover {
+    background-color: #3e5f84;
+}
+.amp-social-list .social-item.digg a {
+    background-color: #000;
+}
+.amp-social-list .social-item.digg a:hover {
+    background-color: #2f2f2f;
+}
+.amp-social-list .social-item.whatsapp a {
+    background-color: #00e676;
+}
+.amp-social-list .social-item.whatsapp a:hover {
+    background-color: #00c462;
+}

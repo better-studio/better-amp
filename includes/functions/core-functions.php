@@ -416,11 +416,7 @@ function better_amp_enqueue_block_style( $handle, $file = '', $rtl = true ) {
 		return true;
 	}
 
-	better_amp_enqueue_inline_style( better_amp_min_suffix( $file, '.css' ), $handle );
-
-	if ( $rtl && is_rtl() ) {
-		better_amp_enqueue_inline_style( better_amp_min_suffix( $file . '.rtl', '.css' ), $handle . '-rtl' );
-	}
+	better_amp_enqueue_inline_style( better_amp_min_suffix( $file . ( $rtl && is_rtl() ? '.rtl' : '' ), '.css' ), $handle );
 
 	return $printed_files[ $file ] = true;
 }

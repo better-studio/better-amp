@@ -26,7 +26,7 @@ function better_amp_enqueue_general_styles() {
 	better_amp_enqueue_style( 'font-awesome', 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' );
 	better_amp_enqueue_style( 'google-fonts', 'https://fonts.googleapis.com/css?family=Lato:400,600|Roboto:300,400,500,700' );
 
-	better_amp_enqueue_block_style( 'normalize', 'css/normalize', false ); // Normalize without RTL
+	better_amp_enqueue_block_style( 'normalize', 'css/normalize' ); // Normalize without RTL
 	better_amp_enqueue_block_style( 'style', 'style' );
 
 }
@@ -1149,7 +1149,7 @@ if ( ! function_exists( 'better_amp_do_block_styles' ) ) {
 
 				if ( in_array( $block, $blocks_list ) ) {
 
-					better_amp_enqueue_block_style( 'block-' . $block, 'css/block/' . $block, false );
+					better_amp_enqueue_block_style( 'block-' . $block, 'css/block/' . $block );
 				}
 			}
 		}
