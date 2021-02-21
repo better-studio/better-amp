@@ -28,12 +28,12 @@
   caption-side: bottom; }
 
 .wp-block-image .alignleft {
-  float: left;
-  margin-right: 1em; }
-
-.wp-block-image .alignright {
   float: right;
   margin-left: 1em; }
+
+.wp-block-image .alignright {
+  float: left;
+  margin-right: 1em; }
 
 .wp-block-image .aligncenter {
   margin-right: auto;

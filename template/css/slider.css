@@ -14,9 +14,6 @@
 /*
  * -> Featured Slider
  */
-.rtl .amp-featured-slider .content-holder {
-  direction: rtl; }
-
 .amp-featured-slider .img-holder {
   width: 100%; }
 

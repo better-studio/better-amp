@@ -365,14 +365,8 @@ body.sticky-nav {
 /*
  * => Comments Style
  */
-.comment-header {
-  margin-bottom: 14px; }
-
-.comment-header:last-child {
-  margin-bottom: 0; }
-
 .comment-list {
-  margin: 0;
+  margin: 14px 0 0 0;
   padding: 0; }
 
 .comment-list,

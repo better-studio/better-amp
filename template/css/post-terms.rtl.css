@@ -22,7 +22,7 @@
 .post-terms .term-type {
   margin-left: 6px;
   color: #ffffff;
-  background: #464646;
+  background: var(--primary-color);
   border-color: transparent;
   position: absolute;
   right: 0; }
