@@ -1177,6 +1177,7 @@ class Better_AMP {
 				</label>
 				<input type="checkbox" name="better-amp-enable" id="better-amp-enable"
 				       value="1" <?php checked( true, get_post_meta( $post->ID, 'disable-better-amp', true ) ) ?>>
+                <input type="hidden" name="better-amp-edit-post" value="1">
 			</p>
 		</div>
 		<?php
@@ -1192,7 +1193,7 @@ class Better_AMP {
 	 */
 	public function save_metaboxes( $post_id ) {
 
-		if ( $_SERVER['REQUEST_METHOD'] !== 'POST' ) {
+		if ( $_SERVER['REQUEST_METHOD'] !== 'POST' || empty( $_POST['better-amp-edit-post'] ) ) {
 			return;
 		}
 
