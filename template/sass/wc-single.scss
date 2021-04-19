@@ -1,0 +1,139 @@
+/*
+ * => Product Page
+ */
+.single-product .product-thumbnail{
+    font-size: 0;
+    margin-bottom: 10px;
+}
+.single-product .product-gallery{
+    margin-bottom: 10px;
+}
+.single-product .product-gallery .product-gallery-image{
+    width: 100px;
+    margin: 0 8px 8px 0;
+    font-size: 0;
+    float: left;
+}
+.single-product .post-title{
+    margin: 0 0 10px;
+}
+.single-product .woocommerce-product-rating{
+    display: inline-block;
+    float: right;
+    margin: 0;
+}
+.single-product .entry-content {
+    margin-bottom: 15px;
+}
+.single-product .product-accordion{
+    margin-bottom: 20px;
+}
+.single-product .product-accordion section,
+.single-product .product-accordion .accordion-title h6{
+    -webkit-transition: all .3s ease;
+    -moz-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    transition: all .3s ease;
+}
+.single-product .product-accordion .accordion-title{
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #f7f7f7;
+    border: 1px solid #e2e2e2;
+    border-radius: 3px;
+}
+.single-product .product-accordion .accordion-title:after {
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-family: 'FontAwesome';
+    font-size: 12px;
+    line-height: 42px;
+    content: '\f067';
+    color: #363636;
+    width: 46px;
+    text-align: center;
+    border-left: 1px solid #e2e2e2;
+}
+.single-product .product-accordion section[expanded] > .accordion-title:after {
+    content: '\f068';
+}
+.single-product .single_add_to_cart_button{
+    margin-bottom: 15px;
+}
+.single-product .social-list-wrapper{
+    padding: 0;
+    border: none;
+    margin: 0;
+}
+
+
+/**
+* -> Comments
+*/
+.woocommerce ol.commentlist {
+    margin: 0;
+    width: 100%;
+    background: 0 0;
+    list-style: none;
+    padding: 0;
+}
+.woocommerce ol.commentlist li {
+    padding: 0;
+    margin: 0 0 20px;
+    position: relative;
+    background: 0;
+    border: 0
+}
+.woocommerce ol.commentlist li .meta {
+    color: #777;
+    font-size: .75em
+}
+.woocommerce ol.commentlist li .avatar {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.woocommerce ol.commentlist li .comment-text {
+    margin: 0 0 0 80px;
+    border: 1px solid #e4e1e3;
+    border-radius: 4px;
+    padding: 1em 1em 0
+}
+.woocommerce ol.commentlist li .comment-text .rating{
+    float: right;
+    margin-right: 0;
+}
+.woocommerce ol.commentlist li .comment-text p {
+    margin: 0 0 1em
+}
+.woocommerce ol.commentlist li .comment-text p.meta {
+    font-size: 0
+}
+.woocommerce ol.commentlist li .comment-text p.meta strong {
+    display: block;
+    font-size: 15px;
+    color: #404040;
+}
+.woocommerce ol.commentlist li .comment-text p.meta time{
+    margin-bottom: 6px;
+    font-size: 12px;
+    color: #a2a2a2;
+    display: block;
+}
+.woocommerce ol.commentlist ul.children {
+    list-style: none;
+    margin: 20px 0 0 50px
+}
+.woocommerce ol.commentlist ul.children .star-rating {
+    display: none
+}
+.woocommerce ol.commentlist #respond {
+    border: 1px solid #e4e1e3;
+    border-radius: 4px;
+    padding: 1em 1em 0;
+    margin: 20px 0 0 50px
+}
+.woocommerce .commentlist > li:before {
+    content: ""
+}

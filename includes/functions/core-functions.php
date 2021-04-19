@@ -11,9 +11,9 @@ if ( ! function_exists( 'is_better_amp' ) ) {
 	/**
 	 * Detect is the query for an AMP page?
 	 *
-	 * @since 1.0.0
-	 *
 	 * @param null $wp_query
+	 *
+	 * @since 1.0.0
 	 *
 	 * @return bool true when amp page requested
 	 */
@@ -92,12 +92,12 @@ if ( ! function_exists( 'is_amp_endpoint' ) ) {
  * @type array   $scripts_url     component javascript URL. Example: https://cdn.ampproject.org/v0/..
  * }
  *
- * @global array $better_amp_registered_components
- *                                better-amp components information array
- *
  * @since 1.0.0
  *
  * @return bool|WP_Error true on success or WP_Error on failure.
+ * @global array $better_amp_registered_components
+ *                                better-amp components information array
+ *
  */
 function better_amp_register_component( $component_class, $settings = array() ) {
 
@@ -121,7 +121,7 @@ function better_amp_register_component( $component_class, $settings = array() ) 
 		$better_amp_registered_components[] = compact( 'component_class', 'settings' ); // maybe need add some extra indexes like __FILE__ in the future!
 
 		return true;
-	} catch( Exception $e ) {
+	} catch ( Exception $e ) {
 
 		return new WP_Error( 'error', $e->getMessage() );
 	}
@@ -131,11 +131,11 @@ function better_amp_register_component( $component_class, $settings = array() ) 
 /**
  * Initialize $better_amp_scripts if it has not been set.
  *
- * @global Better_AMP_Scripts $better_amp_scripts
- *
  * @since 1.0.0
  *
  * @return Better_AMP_Scripts Better_AMP_Scripts instance.
+ * @global Better_AMP_Scripts $better_amp_scripts
+ *
  */
 function better_amp_scripts() {
 
@@ -152,14 +152,14 @@ function better_amp_scripts() {
 /**
  * Enqueue a js file for amp version.
  *
- * @see   wp_enqueue_script
- *
  * @param string $handle
  * @param string $src
  * @param array  $deps
  * @param string $media
  *
  * @since 1.0.0
+ * @see   wp_enqueue_script
+ *
  */
 function better_amp_enqueue_script( $handle, $src = '', $deps = array(), $media = 'all' ) {
 
@@ -176,8 +176,8 @@ function better_amp_enqueue_script( $handle, $src = '', $deps = array(), $media 
 /**
  * Check whether a script has been added to the queue.
  *
- * @param   string $handle
- * @param string   $list
+ * @param string $handle
+ * @param string $list
  *
  * @since 1.0.0
  *
@@ -216,11 +216,11 @@ function better_amp_enqueue_scripts() {
 /**
  * Initialize $better_amp_styles if it has not been set.
  *
- * @global Better_AMP_Styles $better_amp_styles
- *
  * @since 1.0.0
  *
  * @return Better_AMP_Styles Better_AMP_Styles instance.
+ * @global Better_AMP_Styles $better_amp_styles
+ *
  */
 function better_amp_styles() {
 
@@ -237,8 +237,6 @@ function better_amp_styles() {
 /**
  * Enqueue a css file for amp version.
  *
- * @see   wp_enqueue_style
- *
  * @param string           $handle
  * @param string           $src
  * @param array            $deps
@@ -247,6 +245,8 @@ function better_amp_styles() {
  *
  *
  * @since 1.0.0
+ * @see   wp_enqueue_style
+ *
  */
 function better_amp_enqueue_style( $handle, $src = '', $deps = array(), $ver = false, $media = 'all' ) {
 
@@ -280,9 +280,9 @@ function better_amp_style_is( $handle, $list = 'enqueued' ) {
 /**
  * Handy function used to enqueue style and scripts of ads
  *
- * @since 1.1.0
- *
  * @param string $ad_type Ad type, needed to know the js should be printed or not
+ *
+ * @since 1.1.0
  *
  * @return void
  */
@@ -315,14 +315,14 @@ function better_amp_print_styles() {
 /**
  * Add extra CSS styles to a registered stylesheet.
  *
- * @see   wp_add_inline_style for more information
- *
  * @param string $handle Name of the stylesheet to add the extra styles to.
  * @param string $data   String containing the CSS styles to be added.
  *
  * @since 1.0.0
  *
  * @return bool True on success, false on failure.
+ * @see   wp_add_inline_style for more information
+ *
  */
 function better_amp_add_inline_style( $data, $handle = '' ) {
 
@@ -344,14 +344,14 @@ function better_amp_add_inline_style( $data, $handle = '' ) {
 /**
  * Add css file data as inline style
  *
- * @see   wp_add_inline_style for more information
- *
  * @param string $handle Name of the stylesheet to add the extra styles to.
  * @param string $file   css file path
  *
  * @since 1.0.0
  *
  * @return bool True on success, false on failure.
+ * @see   wp_add_inline_style for more information
+ *
  */
 function better_amp_enqueue_inline_style( $file, $handle = '' ) {
 
@@ -382,8 +382,6 @@ function better_amp_enqueue_inline_style( $file, $handle = '' ) {
 /**
  * Add css file data of block
  *
- * @see   wp_add_inline_style for more information
- *
  * @param string  $handle Name of the stylesheet to add the extra styles to.
  * @param string  $file   css file path
  * @param boolean $rtl    add rtl
@@ -391,6 +389,8 @@ function better_amp_enqueue_inline_style( $file, $handle = '' ) {
  * @since 1.0.0
  *
  * @return bool True on success, false on failure.
+ * @see   wp_add_inline_style for more information
+ *
  */
 function better_amp_enqueue_block_style( $handle, $file = '', $rtl = true ) {
 
@@ -416,11 +416,7 @@ function better_amp_enqueue_block_style( $handle, $file = '', $rtl = true ) {
 		return true;
 	}
 
-	better_amp_enqueue_inline_style( better_amp_min_suffix( $file, '.css' ), $handle );
-
-	if ( $rtl && is_rtl() ) {
-		better_amp_enqueue_inline_style( better_amp_min_suffix( $file . '.rtl', '.css' ), $handle . '-rtl' );
-	}
+	better_amp_enqueue_inline_style( better_amp_min_suffix( $file . ( $rtl && is_rtl() ? '.rtl' : '' ), '.css' ), $handle );
 
 	return $printed_files[ $file ] = true;
 }
@@ -470,9 +466,9 @@ function better_amp_customize_preview_init( $customize_manager ) {
 /**
  * Detects Non-AMP URL of current page
  *
- * @since 1.0.0
- *
  * @param array $args
+ *
+ * @since 1.0.0
  *
  * @return string
  */
@@ -483,7 +479,7 @@ function better_amp_guess_none_amp_url( $args = array() ) {
 		return home_url( remove_query_arg( 'amp' ) );
 	}
 
-	$current_url = better_amp_get_canonical_url();
+	$current_url  = better_amp_get_canonical_url();
 	$none_amp_url = Better_AMP_Content_Sanitizer::transform_to_none_amp_url( $current_url );
 
 	// Change query args from outside
@@ -543,9 +539,10 @@ if ( ! function_exists( 'better_amp_translation_echo' ) ) {
 	/**
 	 * Prints translation of text
 	 *
+	 * @param $key
+	 *
 	 * @since 1.0.0
 	 *
-	 * @param $key
 	 */
 	function better_amp_translation_echo( $key ) {
 
@@ -621,8 +618,8 @@ if ( ! function_exists( 'bf_get_wp_installation_slug' ) ) {
 	 *
 	 * @since 1.3.1
 	 *
-	 * @todo  remove this function after adding BF to better-amp
 	 * @return string
+	 * @todo  remove this function after adding BF to better-amp
 	 */
 	function bf_get_wp_installation_slug() {
 
@@ -726,7 +723,7 @@ if ( ! function_exists( 'better_amp_using_permalink_structure' ) ) {
 	 * Is custom permalink activated for this WP installation?
 	 *
 	 * @since 1.8.1
-	 * @return string  Custom structure	if custom permalink activated.
+	 * @return string  Custom structure    if custom permalink activated.
 	 */
 	function better_amp_using_permalink_structure() {
 
@@ -739,10 +736,10 @@ if ( ! function_exists( 'better_amp_file_system_instance' ) ) {
 	/**
 	 * Get WP FileSystem Object.
 	 *
-	 * @global WP_Filesystem_Base $wp_filesystem WordPress Filesystem Class
-	 *
 	 * @since 1.11.0
 	 * @return WP_Filesystem_Base
+	 *
+	 * @global WP_Filesystem_Base $wp_filesystem WordPress Filesystem Class
 	 *
 	 */
 	function better_amp_file_system_instance() {

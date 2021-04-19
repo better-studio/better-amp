@@ -51,6 +51,19 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 
 == Changelog ==
 
+= 1.12.0 = 21 Feb 2021
+- Improved: RTL Style created from scratch to be perfect.
+- Improved: Single posts design
+- Improved: Color styles of AMP theme are now using CSS varialbes.
+- Improved: Admin panel created from scrath to be 300% faster!
+            And redux framework removed.
+- Improved: JSON-LD  generator updated.
+- Improved: AMP Carousel component updated to v0.2 to fix the RTL issues.
+
+- Fixed: The attribute 'height' may not appear in tag 'table'.
+- Fixed: The video iframes wraps the layout that brings mobile usability issue.
+- Fixed: Wrong canonical url on start point mode when category base filled.
+
 = 1.11.0 = 15 Dec 2020
 - Added: AMP Custom Script code support added.
 - Added: PHP v8 compatibility added.

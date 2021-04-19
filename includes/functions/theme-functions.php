@@ -20,8 +20,6 @@ if ( ! function_exists( 'better_amp_locate_template' ) ) {
 	/**
 	 * Retrieve the name of the highest priority amp template file that exists.
 	 *
-	 * @see   locate_template for more doc
-	 *
 	 * @param string|array $template_names Template file(s) to search for, in order.
 	 * @param bool         $load           If true the template file will be loaded if it is found.
 	 * @param bool         $require_once   Whether to require_once or require. Default true. Has no effect if $load is false.
@@ -29,6 +27,8 @@ if ( ! function_exists( 'better_amp_locate_template' ) ) {
 	 * @since 1.0.0
 	 *
 	 * @return string The template filename if one is located.
+	 * @see   locate_template for more doc
+	 *
 	 */
 	function better_amp_locate_template( $template_names, $load = false, $require_once = true ) {
 
@@ -73,11 +73,11 @@ if ( ! function_exists( 'better_amp_load_templates' ) ) {
 	 * @param bool         $load
 	 * @param bool         $require_once
 	 *
-	 * @see   better_amp_locate_template for parameters documentation
-	 *
 	 * @since 1.0.0
 	 *
 	 * @return bool|string
+	 * @see   better_amp_locate_template for parameters documentation
+	 *
 	 */
 	function better_amp_load_templates( $templates, $theme_directory, $load = false, $require_once = true ) {
 
@@ -111,10 +111,10 @@ if ( ! function_exists( 'better_amp_get_view' ) ) {
 	 *
 	 * todo needs test
 	 *
-	 * @param   string $folder Folder name
-	 * @param   string $file   File name
-	 * @param   string $style  Style
-	 * @param   bool   $echo   Echo the result or not
+	 * @param string $folder Folder name
+	 * @param string $file   File name
+	 * @param string $style  Style
+	 * @param bool   $echo   Echo the result or not
 	 *
 	 * @since 1.0.0
 	 *
@@ -170,8 +170,8 @@ if ( ! function_exists( 'better_amp_get_prop' ) ) {
 	/**
 	 * Used to get a property value.
 	 *
-	 * @param   string $id
-	 * @param   mixed  $default
+	 * @param string $id
+	 * @param mixed  $default
 	 *
 	 * @since 1.0.0
 	 *
@@ -194,8 +194,8 @@ if ( ! function_exists( 'better_amp_echo_prop' ) ) {
 	/**
 	 * Used to print a property value.
 	 *
-	 * @param   string $id
-	 * @param   mixed  $default
+	 * @param string $id
+	 * @param mixed  $default
 	 *
 	 * @since 1.0.0
 	 *
@@ -239,7 +239,7 @@ if ( ! function_exists( 'better_amp_get_prop_thumbnail_size' ) ) {
 	/**
 	 * Used to get block thumbnail size property.
 	 *
-	 * @param   string $default
+	 * @param string $default
 	 *
 	 * @since 1.0.0
 	 *
@@ -262,8 +262,8 @@ if ( ! function_exists( 'better_amp_set_prop' ) ) {
 	/**
 	 * Used to set a block property value.
 	 *
-	 * @param   string $id
-	 * @param   mixed  $value
+	 * @param string $id
+	 * @param mixed  $value
 	 *
 	 * @since 1.0.0
 	 *
@@ -282,8 +282,8 @@ if ( ! function_exists( 'better_amp_set_prop_class' ) ) {
 	/**
 	 * Used to set a block class property value.
 	 *
-	 * @param   mixed $value
-	 * @param   bool  $clean
+	 * @param mixed $value
+	 * @param bool  $clean
 	 *
 	 * @since 1.0.0
 	 *
@@ -306,7 +306,7 @@ if ( ! function_exists( 'better_amp_set_prop_thumbnail_size' ) ) {
 	/**
 	 * Used to set a block property value.
 	 *
-	 * @param   mixed $value
+	 * @param mixed $value
 	 *
 	 * @since 1.0.0
 	 *
@@ -325,7 +325,7 @@ if ( ! function_exists( 'better_amp_unset_prop' ) ) {
 	/**
 	 * Used to remove a property from block property list.
 	 *
-	 * @param   string $id
+	 * @param string $id
 	 *
 	 * @since 1.0.0
 	 *
@@ -368,8 +368,8 @@ if ( ! function_exists( 'better_amp_set_global' ) ) {
 	/**
 	 * Used to set a global variable.
 	 *
-	 * @param   string $id
-	 * @param   mixed  $value
+	 * @param string $id
+	 * @param mixed  $value
 	 *
 	 * @since 1.0.0
 	 *
@@ -388,7 +388,7 @@ if ( ! function_exists( 'better_amp_unset_global' ) ) {
 	/**
 	 * Used to remove a global variable.
 	 *
-	 * @param   string $id
+	 * @param string $id
 	 *
 	 * @since 1.0.0
 	 *
@@ -407,8 +407,8 @@ if ( ! function_exists( 'better_amp_get_global' ) ) {
 	/**
 	 * Used to get a global value.
 	 *
-	 * @param   string $id
-	 * @param   mixed  $default
+	 * @param string $id
+	 * @param mixed  $default
 	 *
 	 * @since 1.0.0
 	 *
@@ -431,8 +431,8 @@ if ( ! function_exists( 'better_amp_echo_global' ) ) {
 	/**
 	 * Used to print a global value.
 	 *
-	 * @param   string $id
-	 * @param   mixed  $default
+	 * @param string $id
+	 * @param mixed  $default
 	 *
 	 * @since 1.0.0
 	 *
@@ -501,7 +501,7 @@ if ( ! function_exists( 'better_amp_set_query' ) ) {
 	/**
 	 * Used to get current query.
 	 *
-	 * @param   WP_Query $query
+	 * @param WP_Query $query
 	 *
 	 * @since 1.0.0
 	 *
@@ -519,7 +519,7 @@ if ( ! function_exists( 'better_amp_clear_query' ) ) {
 	/**
 	 * Used to get current query.
 	 *
-	 * @param   bool $reset_query
+	 * @param bool $reset_query
 	 *
 	 * @since 1.0.0
 	 *
@@ -594,10 +594,11 @@ if ( ! function_exists( 'better_amp_the_post_thumbnail' ) ) {
 	/**
 	 * Display the post thumbnail.
 	 *
-	 * @since 1.1.0
-	 *
 	 * @param string $size
 	 * @param string $attr
+	 *
+	 * @since 1.1.0
+	 *
 	 */
 	function better_amp_the_post_thumbnail( $size = 'post-thumbnail', $attr = '' ) {
 
@@ -994,10 +995,10 @@ if ( ! function_exists( 'better_amp_get_canonical_url' ) ) {
 	/**
 	 * Get the active page url
 	 *
-	 * @copyright we used WPSEO_Frontend::generate_canonical codes
-	 *
 	 * @since     1.0.0
 	 * @return string the url page on success or empty string otherwise.
+	 * @copyright we used WPSEO_Frontend::generate_canonical codes
+	 *
 	 */
 	function better_amp_get_canonical_url() {
 
@@ -1067,10 +1068,10 @@ if ( ! function_exists( 'better_amp_get_search_page_url' ) ) {
 	 * @param string $before_sp                  Custom string to append before amp start point. Default empty.
 	 * @param bool   $front_page_url             Optional. see the following comment.
 	 *
-	 * @global array $better_amp_post_type_slugs list of custom post type rewrite slug @see better_amp_collect_post_type_slugs
-	 *
 	 * @since 1.0.0
 	 * @return string
+	 * @global array $better_amp_post_type_slugs list of custom post type rewrite slug @see better_amp_collect_post_type_slugs
+	 *
 	 */
 	function better_amp_site_url( $path = '', $before_sp = '', $front_page_url = null ) {
 
@@ -1169,11 +1170,11 @@ if ( ! function_exists( 'better_amp_theme_set_menu_walker' ) ) {
 	 *
 	 * @param array $args Array of wp_nav_menu() arguments.
 	 *
+	 * @since  1.0.0
+	 * @return array modified $args
 	 * @see    Better_AMP_Menu_Walker
 	 * @see    default-filters.php file
 	 *
-	 * @since  1.0.0
-	 * @return array modified $args
 	 */
 	function better_amp_theme_set_menu_walker( $args ) {
 
@@ -1293,9 +1294,9 @@ if ( ! function_exists( 'better_amp_embed_template' ) ) {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @return string Full path to embed template file.
 	 * @see   get_embed_template
 	 *
-	 * @return string Full path to embed template file.
 	 */
 	function better_amp_embed_template() {
 
@@ -1325,11 +1326,11 @@ if ( ! function_exists( 'better_amp_404_template' ) ) {
 	/**
 	 * Retrieve path of 404 template in current or parent template.
 	 *
-	 * @see   get_404_template()
-	 *
 	 * @since 1.0.0
 	 *
 	 * @return string Full path to 404 template file.
+	 * @see   get_404_template()
+	 *
 	 */
 	function better_amp_404_template() {
 
@@ -1342,11 +1343,11 @@ if ( ! function_exists( 'better_amp_search_template' ) ) {
 	/**
 	 * Retrieve path of search template in current or parent template.
 	 *
-	 * @see   get_search_template()
-	 *
 	 * @since 1.0.0
 	 *
 	 * @return string Full path to search template file.
+	 * @see   get_search_template()
+	 *
 	 */
 	function better_amp_search_template() {
 
@@ -1359,11 +1360,11 @@ if ( ! function_exists( 'better_amp_front_page_template' ) ) {
 	/**
 	 * Retrieve path of front-page template in current or parent template.
 	 *
-	 * @see   get_front_page_template()
-	 *
 	 * @since 1.0.0
 	 *
 	 * @return string Full path to front page template file.
+	 * @see   get_front_page_template()
+	 *
 	 */
 	function better_amp_front_page_template() {
 
@@ -1394,11 +1395,11 @@ if ( ! function_exists( 'better_amp_home_template' ) ) {
 	/**
 	 * Retrieve path of home template in current or parent template.
 	 *
-	 * @see   get_home_template()
-	 *
 	 * @since 1.0.0
 	 *
 	 * @return string Full path to home template file.
+	 * @see   get_home_template()
+	 *
 	 */
 	function better_amp_home_template() {
 
@@ -1413,11 +1414,11 @@ if ( ! function_exists( 'better_amp_archive_template' ) ) {
 	/**
 	 * Retrieve path of archive template in current or parent template.
 	 *
-	 * @see   get_archive_template()
-	 *
 	 * @since 1.0.0
 	 *
 	 * @return string Full path to archive template file.
+	 * @see   get_archive_template()
+	 *
 	 */
 	function better_amp_archive_template() {
 
@@ -1441,12 +1442,12 @@ if ( ! function_exists( 'better_amp_post_type_archive_template' ) ) {
 	/**
 	 * Retrieve path of post type archive template in current or parent template.
 	 *
-	 * @see   better_amp_archive_template()
-	 * @see   get_post_type_archive_template()
-	 *
 	 * @since 1.0.0
 	 *
 	 * @return string Full path to archive template file.
+	 * @see   better_amp_archive_template()
+	 * @see   get_post_type_archive_template()
+	 *
 	 */
 	function better_amp_post_type_archive_template() {
 
@@ -1498,11 +1499,11 @@ if ( ! function_exists( 'better_amp_attachment_template' ) ) {
 	/**
 	 * Retrieve path of attachment template in current or parent template.
 	 *
-	 * @global array $posts
-	 *
 	 * @since 1.0.0
 	 *
 	 * @return string Full path to attachment template file.
+	 * @global array $posts
+	 *
 	 */
 	function better_amp_attachment_template() {
 
@@ -1563,11 +1564,11 @@ if ( ! function_exists( 'better_amp_page_template' ) ) {
 	/**
 	 * Retrieve path of page template in current or parent template.
 	 *
-	 * @see   get_page_template()
-	 *
 	 * @since 1.0.0
 	 *
 	 * @return string Full path to page template file.
+	 * @see   get_page_template()
+	 *
 	 */
 	function better_amp_page_template() {
 
@@ -1652,11 +1653,11 @@ if ( ! function_exists( 'better_amp_tag_template' ) ) {
 	/**
 	 * Retrieve path of tag template in current or parent template.
 	 *
-	 * @see   get_query_template()
-	 *
 	 * @since 1.0.0
 	 *
 	 * @return string Full path to tag template file.
+	 * @see   get_query_template()
+	 *
 	 */
 	function better_amp_tag_template() {
 
@@ -1769,12 +1770,12 @@ if ( ! function_exists( 'better_amp_template_part' ) ) {
 	/**
 	 * Load a template part into a template
 	 *
-	 * @see   get_template_part for more documentation
-	 *
 	 * @param string $slug The slug name for the generic template.
 	 * @param string $name The name of the specialised template.
 	 *
 	 * @since 1.0.0
+	 * @see   get_template_part for more documentation
+	 *
 	 */
 	function better_amp_template_part( $slug, $name = null ) {
 
@@ -1963,10 +1964,10 @@ if ( ! function_exists( 'better_amp_get_theme_mod' ) ) {
 	 * @param      $name
 	 * @param bool $check_customize_preview
 	 *
-	 * @todo  remove this function and use better_amp_get_option instead
 	 * @since 1.0.
 	 *
 	 * @return bool|string
+	 * @todo  remove this function and use better_amp_get_option instead
 	 */
 	function better_amp_get_theme_mod( $name, $check_customize_preview = true ) {
 
@@ -2229,9 +2230,10 @@ if ( ! function_exists( 'better_amp_post_classes' ) ) {
 	/**
 	 * Handy function to generate class attribute for posts
 	 *
+	 * @param string|array $append One or more classes to add to the class list.
+	 *
 	 * @since 1.0.0
 	 *
-	 * @param string|array $append One or more classes to add to the class list.
 	 */
 	function better_amp_post_classes( $append = '' ) {
 
@@ -2604,9 +2606,9 @@ if ( ! function_exists( 'better_amp_social_share_get_li' ) ) {
 	/**
 	 * Used for generating lis for social share list
 	 *
-	 * @param string  $id
-	 * @param    bool $show_title
-	 * @param    int  $count_label
+	 * @param string $id
+	 * @param bool   $show_title
+	 * @param int    $count_label
 	 *
 	 * @since 1.0.0
 	 *
@@ -2626,7 +2628,7 @@ if ( ! function_exists( 'better_amp_social_share_get_li' ) ) {
 
 		if ( is_null( $initialized ) ) {
 			$cur_page       = better_amp_social_share_guss_current_page();
-			$page_title     = rawurlencode( esc_attr( $cur_page['page_title'] ));
+			$page_title     = rawurlencode( esc_attr( $cur_page['page_title'] ) );
 			$page_permalink = urlencode( $cur_page['page_permalink'] );
 			$initialized    = true;
 		}
@@ -2778,9 +2780,10 @@ if ( ! function_exists( 'better_amp_customizer_hidden_attr' ) ) {
 	/**
 	 * Helper for customizer preview
 	 *
+	 * @param $theme_mod
+	 *
 	 * @since 1.0.0
 	 *
-	 * @param $theme_mod
 	 */
 	function better_amp_customizer_hidden_attr( $theme_mod ) {
 
@@ -2854,8 +2857,8 @@ if ( ! function_exists( 'better_amp_is_static_home_page' ) ) {
 	/**
 	 * Is current page static home page
 	 *
-	 * @return bool true on success or false on failure
 	 * @since 1.2.4
+	 * @return bool true on success or false on failure
 	 */
 	function better_amp_is_static_home_page() {
 
@@ -2880,15 +2883,15 @@ if ( ! function_exists( 'better_amp_list_comments' ) ) {
 	/**
 	 * List comments for a particular post.
 	 *
-	 * @see   wp_list_comments for more documentation
-	 *
 	 * @param string|array $args               wp_list_comments first argument
 	 * @param array        $comment_query_args comment query arguments
 	 *
-	 * @global WP_Query    $wp_query           Global WP_Query instance.
-	 * @return string|void
 	 * @since 1.5.0
 	 *
+	 * @return string|void
+	 * @see   wp_list_comments for more documentation
+	 *
+	 * @global WP_Query    $wp_query           Global WP_Query instance.
 	 */
 	function better_amp_list_comments( $args = array(), $comment_query_args = array() ) {
 
@@ -2914,10 +2917,11 @@ if ( ! function_exists( 'better_amp_list_comments' ) ) {
 		/**
 		 * Filters the comments array.
 		 *
-		 * @see comments_template
-		 *
 		 * @param array $comments Array of comments supplied to the comments template.
 		 * @param int   $post_ID  Post ID.
+		 *
+		 * @see comments_template
+		 *
 		 */
 		$comments_list = apply_filters( 'comments_array', $comments->comments, $post_id );
 
@@ -2933,9 +2937,9 @@ if ( ! function_exists( 'better_amp_comments_paginate' ) ) {
 	/**
 	 * Displays pagination links for the comments on the current post.
 	 *
-	 * @see   wp_list_comments for more documentation
-	 *
 	 * @since 1.5.0
+	 *
+	 * @see   wp_list_comments for more documentation
 	 *
 	 */
 	function better_amp_comments_paginate() {
@@ -2961,9 +2965,10 @@ if ( ! function_exists( 'better_amp_comment_item' ) ) {
 	/**
 	 * Load comment-item.php file in the current or parent template.
 	 *
+	 * @param WP_Comment_Query $comment
+	 *
 	 * @since 1.5.0
 	 *
-	 * @param WP_Comment_Query $comment
 	 */
 	function better_amp_comment_item( $comment ) {
 

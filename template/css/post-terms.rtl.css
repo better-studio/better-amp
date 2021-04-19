@@ -1,33 +1,58 @@
 /*
- * => Post Terms -> RTL
+ * => Post Terms
  */
 .post-terms {
-    padding-right: 48px;
-    padding-left: 0;
-}
+  margin: 0 0 10px;
+  position: relative;
+  padding-right: 48px;
+  clear: both; }
+
 .post-terms a,
 .post-terms .term-type {
-    margin-left: 4px;
-    margin-right: auto;
-}
+  display: inline-block;
+  line-height: 20px;
+  padding: 0 11px;
+  border: 1px solid #dcdcdc;
+  font-size: 12px;
+  text-decoration: none;
+  margin-left: 4px;
+  border-radius: 33px;
+  color: #464646; }
+
 .post-terms .term-type {
-    margin-left: 6px;
-    right: 0;
-    left: auto;
-    margin-right: auto;
-}
+  margin-left: 6px;
+  color: #ffffff;
+  background: var(--primary-color);
+  border-color: transparent;
+  position: absolute;
+  right: 0; }
+
+.post-terms.cats .term-type {
+  background: var(--primary-color); }
+
 .post-terms a {
-    margin: 0 0 4px 4px;
-}
+  margin: 0 0 4px 4px; }
+
+.post-terms a:hover {
+  color: #fff;
+  border-color: transparent;
+  background: var(--primary-color); }
+
 .post-terms a:last-child {
-    margin-left: 0;
-    margin-right: auto;
-}
+  margin-left: 0; }
+
+.post-terms .post-categories {
+  display: inline;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 0; }
+
+.post-terms .post-categories li {
+  display: inline; }
+
 .post-terms .post-categories li a {
-    margin-left: 4px;
-    margin-right: auto;
-}
+  margin-left: 4px; }
+
 .post-terms .post-categories li:last-child a {
-    margin-left: 0;
-    margin-right: auto;
-}
+  margin-left: 0; }
