@@ -215,7 +215,7 @@ if ( ! function_exists( 'mb_parse_url' ) ) {
 
 		if ( $parts === false ) {
 
-			throw new \InvalidArgumentException( 'Malformed URL: ' . $url );
+			return [];
 		}
 
 		if ( ! empty( $parts ) && is_array( $parts ) ) {
