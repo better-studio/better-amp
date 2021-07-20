@@ -348,6 +348,13 @@ class Better_AMP {
 		$this->add_rewrite();
 
 		set_transient( 'better-amp-flush-rules', true );
+
+		$this->include_template_functions_php();
+
+		if ( Better_AMP_Panel::Run()->is_fresh_install() ) {
+
+			Better_AMP_Panel::Run()->panel_reset();
+		}
 	}
 
 

@@ -53,7 +53,7 @@ class Better_AMP_Panel {
 	public function init() {
 
 		add_action( 'wp_ajax_better-amp-panel-save', [ $this, 'panel_save' ] );
-		add_action( 'wp_ajax_better-amp-panel-reset', [ $this, 'panel_reset' ] );
+		add_action( 'wp_ajax_better-amp-panel-reset', [ $this, 'ajax_panel_reset' ] );
 		add_action( 'wp_ajax_better-amp-panel-export', [ $this, 'panel_export' ] );
 		add_action( 'wp_ajax_better-amp-panel-import', [ $this, 'panel_import' ] );
 
@@ -148,6 +148,31 @@ class Better_AMP_Panel {
 	}
 
 	/**
+	 * Is option panel empty?
+	 *
+	 * @since 1.12.0
+	 * @return bool
+	 */
+	public function is_fresh_install() {
+
+		return ! get_option( $this->panel_id );
+	}
+
+	/**
+	 * Panel reset functionality.
+	 *
+	 * @hooked wp_ajax_better-amp-panel-reset
+	 *
+	 * @since  1.12.0
+	 */
+	public function ajax_panel_reset() {
+
+		$this->ajax_check();
+		$this->panel_reset();
+		wp_send_json_success();
+	}
+
+	/**
 	 * Panel reset functionality.
 	 *
 	 * @hooked wp_ajax_better-amp-panel-reset
@@ -156,11 +181,7 @@ class Better_AMP_Panel {
 	 */
 	public function panel_reset() {
 
-		$this->ajax_check();
-
-		update_option( $this->panel_id, $this->panel_stds() );
-
-		wp_send_json_success();
+		return update_option( $this->panel_id, $this->panel_stds() );
 	}
 
 
