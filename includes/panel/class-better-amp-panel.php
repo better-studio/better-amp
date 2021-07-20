@@ -52,10 +52,10 @@ class Better_AMP_Panel {
 	 */
 	public function init() {
 
-		add_action( 'wp_ajax_better-amp-panel-save', [ $this, 'panel_save' ] );
+		add_action( 'wp_ajax_better-amp-panel-save', [ $this, 'ajax_panel_save' ] );
 		add_action( 'wp_ajax_better-amp-panel-reset', [ $this, 'ajax_panel_reset' ] );
-		add_action( 'wp_ajax_better-amp-panel-export', [ $this, 'panel_export' ] );
-		add_action( 'wp_ajax_better-amp-panel-import', [ $this, 'panel_import' ] );
+		add_action( 'wp_ajax_better-amp-panel-export', [ $this, 'ajax_panel_export' ] );
+		add_action( 'wp_ajax_better-amp-panel-import', [ $this, 'ajax_panel_import' ] );
 
 		add_action( 'admin_menu', [ $this, 'setup_menu' ] );
 
@@ -128,7 +128,7 @@ class Better_AMP_Panel {
 	 *
 	 * @since  1.12.0
 	 */
-	public function panel_save() {
+	public function ajax_panel_save() {
 
 		$this->ajax_check();
 
@@ -192,7 +192,7 @@ class Better_AMP_Panel {
 	 *
 	 * @since  1.12.0
 	 */
-	public function panel_export() {
+	public function ajax_panel_export() {
 
 		$this->ajax_check();
 
@@ -208,7 +208,7 @@ class Better_AMP_Panel {
 	 *
 	 * @since  1.12.0
 	 */
-	public function panel_import() {
+	public function ajax_panel_import() {
 
 		$this->ajax_check();
 
