@@ -412,6 +412,7 @@ class Better_AMP_iFrame_Component implements Better_AMP_Component_Interface {
 					continue;
 				}
 
+				$this->sanitize( $element );
 
 				$attributes = $instance->filter_attributes( $instance->get_node_attributes( $element ) );
 				$attributes = $this->filter_attributes( $attributes );
@@ -429,7 +430,25 @@ class Better_AMP_iFrame_Component implements Better_AMP_Component_Interface {
 
 		return $instance;
 	}
+	
+	/**
+	 * Sanitize iframe element.
+	 *
+	 * @param DOMElement $element
+	 *
+	 * @since 1.12.1
+	 */
+	protected function sanitize( $element ) {
 
+		// FIX: remove aparat iframe extra tags
+		if ( preg_match( '/aparat/i', $element->parentNode->getAttribute( 'class' ) ) && $element->previousSibling ) {
+
+			if ( in_array( $element->previousSibling->tagName, [ 'div', 'span' ], true ) ) {
+
+				$element->previousSibling->remove();
+			}
+		}
+	}
 
 	/**
 	 * This is our workaround to enforce max sizing with layout=responsive.
