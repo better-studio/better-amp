@@ -1140,6 +1140,7 @@ class Better_AMP_Content_Sanitizer {
 
 			$extra_tags = array(
 				'script',
+				'style',
 				'svg',
 				'canvas',
 				'link',
