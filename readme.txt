@@ -14,7 +14,7 @@ Complete AMP solution for WordPress. It supports everything in WP.
 
 This plugin is most complete AMP ( Google Accelerated Mobile Pages) support for WordPress with supporting everything and created in speed mater and will load faster than all other AMP plugins.
 
-[Online Demo](http://demo.betterstudio.com/publisher/amp-demo/) | [Support](https://github.com/better-studio/better-amp/)
+[Online Demo](https://betterstudio.com/wp-plugins/better-amp/) | [Support](https://betterstudio.com/wp-plugins/better-amp/)
 
 All pages, posts, categories, tags, author page, search... are supported in BetterAMP and there is a lot of more options that you can use them in customizer with live preview.
 
@@ -50,6 +50,14 @@ Also BetterAMP supports the /amp/ in the end of url to cover "Automatic AMP" plu
 5. Page (Contact page) + 404 page
 
 == Changelog ==
+
+= 1.13.0 = 29 Jul 2021
+- Fixed: Wrong top gap on aparat embedded code.
+- Fixed: The parent tag of tag 'style amp-custom' can only be 'head'.
+- Fixed: Empty translation panel on fresh installations.
+- Fixed: Don't throw exception in mb_parse_url().
+- Fixed: Missing post settings on 'Quick Edit'.
+
 
 = 1.12.0 = 21 Feb 2021
 - Improved: RTL Style created from scratch to be perfect.
