@@ -237,6 +237,3 @@
 
 .entry-content ul.bs-shortcode-list.list-style-asterisk li:before {
   content: "\f069"; }
-.bs-highlight.bs-highlight-red {
-  background-color: #FFB6B6;
-}
