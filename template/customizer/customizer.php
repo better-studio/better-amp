@@ -839,6 +839,7 @@ function better_amp_customize_register( $wp_customizer ) {
 		'section'     => 'better-amp-analytic-section',
 		'priority'    => 24,
 		'description' => __( 'Insert google analytics account number.<br/> It’ll be in the format UA-XXXXXXXX-X', 'better-amp' ),
+		'description' => __( 'Insert google analytics account number.<br/> It’ll be in the format UA-XXXXXXXX-X or G-XXXXXXXX', 'better-amp' ),
 	) );
 
 
