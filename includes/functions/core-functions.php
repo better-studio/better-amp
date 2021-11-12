@@ -476,7 +476,11 @@ function better_amp_guess_none_amp_url( $args = array() ) {
 
 	if ( ! better_amp_using_permalink_structure() ) {
 
-		return home_url( remove_query_arg( 'amp' ) );
+		$without_permalink_structur_desktop_url = home_url( remove_query_arg( 'amp' ));
+
+		$without_permalink_structur_desktop_url = apply_filters('none_permalink_structur_better_amp_desktop_version_url',$without_permalink_structur_desktop_url);
+
+		return $without_permalink_structur_desktop_url;
 	}
 
 	$current_url  = better_amp_get_canonical_url();
@@ -489,6 +493,7 @@ function better_amp_guess_none_amp_url( $args = array() ) {
 		}
 	}
 
+	$none_amp_url = apply_filters('better_amp_desktop_version_url',$none_amp_url);
 	return $none_amp_url;
 }
 
