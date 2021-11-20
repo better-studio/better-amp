@@ -966,7 +966,8 @@ if ( ! function_exists( 'better_amp_rel_canonical_url' ) ) {
 			$canonical_url = better_amp_site_url();
 		}
 
-		return Better_AMP_Content_Sanitizer::transform_to_none_amp_url( $canonical_url );
+		$final_canonical = apply_filters('better-amp/includes/functions/canonical',Better_AMP_Content_Sanitizer::transform_to_none_amp_url( $canonical_url ));
+		return $final_canonical;
 	}
 }
 
